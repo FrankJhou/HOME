@@ -4,4 +4,5 @@
 ##
 - [Sally做的LORE](LORE.md)
 - [Game Design Document](gdd.md)
-- [Unit01 linear eauations](unit01-linear-equations-one-variable.html)
+- [Unit01 Linear Equations](unit01-linear-equations-one-variable.html)
+- [Unit02 Number properties](unit02-number-properties.html)
