@@ -1,6 +1,6 @@
-# 美股日誌 Journal
+# 國中數學
 
-> 這裡??
+> 這裡放國中數學相關
 ##
-- [LORE](LORE.md)
-- [GDD](gdd.md)
+- [Sally做的LORE](LORE.md)
+- [Jerry做的GDD](gdd.md)
