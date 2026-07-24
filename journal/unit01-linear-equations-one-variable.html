@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元1:一元一次方程式 | 國中數學 × 劍橋數學銜接 A-Level</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2430;
+    --paper:#f7f5ef;
+    --paper-raised:#ffffff;
+    --navy:#233a5e;
+    --navy-deep:#152641;
+    --teal:#0f6b72;
+    --amber:#b3792b;
+    --amber-soft:#f4e6d0;
+    --line:#dcd6c8;
+    --stage1:#3a6ea5;
+    --green:#3c8f7a;
+    --green-soft:#e1efe9;
+    --red:#a44a3f;
+    --red-soft:#f6e6e2;
+    --shadow: 0 1px 2px rgba(27,36,48,0.06), 0 8px 24px rgba(27,36,48,0.05);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans TC","Noto Sans",sans-serif;
+    line-height:1.8; -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background: var(--amber-soft); }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:
+      radial-gradient(1000px 460px at 10% -10%, rgba(58,110,165,0.16), transparent 60%),
+      var(--navy-deep);
+    color:#f2efe6; padding:56px 0 44px; position:relative;
+  }
+  .hero::after{ content:""; position:absolute; inset:auto 0 0 0; height:5px; background:var(--stage1); }
+  .breadcrumb{
+    font-family:"JetBrains Mono",monospace; font-size:12px; color:#9fb0c9;
+    letter-spacing:.05em; margin-bottom:16px;
+  }
+  .unit-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:"JetBrains Mono",monospace; font-size:12px;
+    color:var(--navy-deep); background:#cfe0f5;
+    padding:5px 12px; border-radius:999px; margin-bottom:16px;
+  }
+  .hero h1{
+    font-family:"Noto Serif TC",serif; font-weight:900;
+    font-size:clamp(26px,4.6vw,40px); margin:0 0 8px; line-height:1.3;
+  }
+  .hero .sub-en{
+    font-family:"JetBrains Mono",monospace; font-size:13.5px; color:#a9b8cc; margin:0 0 18px;
+  }
+  .hero .meta-row{ display:flex; flex-wrap:wrap; gap:10px 20px; font-size:13px; color:#cfd7e3; }
+  .hero .meta-row b{ color:#e7c281; font-weight:600; }
+
+  section{ padding:44px 0; }
+  section.tight{ padding-top:0; }
+  h2.section-title{
+    font-family:"Noto Serif TC",serif; font-weight:700;
+    font-size:clamp(20px,3vw,26px); color:var(--navy-deep); margin:0 0 4px;
+  }
+  .section-sub-en{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color:#8b8577; margin:0 0 20px; }
+
+  p{ font-size:15px; color:#2c3440; }
+  .en-note{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color:#8b8577; }
+
+  /* ---------- concept box ---------- */
+  .concept-box{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:22px 24px; box-shadow:var(--shadow); margin-bottom:18px;
+  }
+  .concept-box h3{
+    font-family:"Noto Serif TC",serif; font-size:17px; margin:0 0 10px; color:var(--navy-deep);
+    display:flex; align-items:center; gap:10px;
+  }
+  .concept-box h3 .icon-dot{ width:8px; height:8px; border-radius:50%; background:var(--stage1); flex-shrink:0; }
+
+  /* ---------- balance scale svg wrap ---------- */
+  .scale-strip{
+    display:flex; gap:14px; align-items:flex-start; overflow-x:auto;
+    padding: 10px 4px 18px;
+  }
+  .scale-panel{ flex:0 0 auto; text-align:center; }
+  .scale-panel .cap{ font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--teal); margin-top:6px; }
+  .scale-arrow{ align-self:center; font-size:20px; color:var(--amber); padding-top:60px; flex-shrink:0; }
+
+  /* ---------- property table ---------- */
+  table.prop-table{ width:100%; border-collapse:collapse; background:var(--paper-raised); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); }
+  table.prop-table thead th{
+    text-align:left; font-family:"JetBrains Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.05em;
+    color:#8b8577; background:#f1ede2; padding:11px 16px; border-bottom:1px solid var(--line);
+  }
+  table.prop-table td{ padding:13px 16px; font-size:14px; border-bottom:1px solid #ece7d9; vertical-align:top; }
+  table.prop-table tr:last-child td{ border-bottom:none; }
+  table.prop-table td.name{ font-weight:700; color:var(--navy-deep); width:22%; }
+  table.prop-table td .en{ display:block; font-family:"JetBrains Mono",monospace; font-size:11px; color:#8b8577; margin-top:2px; font-weight:400; }
+
+  /* ---------- worked example ---------- */
+  .example{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    box-shadow:var(--shadow); margin-bottom:20px; overflow:hidden;
+  }
+  .example-head{
+    background:var(--navy-deep); color:#f0ede3; padding:14px 20px;
+    font-family:"JetBrains Mono",monospace; font-size:13px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .example-head .eq{ font-size:16px; font-weight:600; color:#e7c281; }
+  .example-body{ padding:18px 22px; }
+  .step{ display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #ece7d9; align-items:flex-start; }
+  .step:last-child{ border-bottom:none; }
+  .step .step-num{
+    flex-shrink:0; width:22px; height:22px; border-radius:50%; background:var(--stage1);
+    color:#fff; font-size:11px; font-family:"JetBrains Mono",monospace;
+    display:flex; align-items:center; justify-content:center; margin-top:2px;
+  }
+  .step .step-text{ font-size:14.5px; }
+  .step .step-math{ font-family:"JetBrains Mono",monospace; color:var(--navy-deep); font-weight:600; }
+  .step .step-note{ font-size:12.5px; color:#8b8577; display:block; margin-top:2px; }
+
+  /* ---------- word problem cards ---------- */
+  .wp-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
+  .wp-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; box-shadow:var(--shadow);
+  }
+  .wp-card .wp-tag{
+    font-family:"JetBrains Mono",monospace; font-size:11px; text-transform:uppercase;
+    color:var(--teal); letter-spacing:.06em; display:block; margin-bottom:6px;
+  }
+  .wp-card h4{ margin:0 0 8px; font-size:15px; font-family:"Noto Serif TC",serif; color:var(--navy-deep); }
+  .wp-card p{ margin:0 0 10px; font-size:14px; }
+  details.ans{ margin-top:8px; }
+  details.ans summary{
+    cursor:pointer; font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--amber);
+    list-style:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  details.ans summary::-webkit-details-marker{ display:none; }
+  details.ans summary::before{ content:"▸"; transition:transform .15s ease; }
+  details.ans[open] summary::before{ transform:rotate(90deg); }
+  details.ans .ans-body{
+    margin-top:10px; padding:12px 14px; background:var(--amber-soft); border-radius:8px;
+    font-size:13.5px; color:#5a4423;
+  }
+
+  /* ---------- practice grid ---------- */
+  .practice-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .practice-item{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:10px;
+    padding:14px 16px; box-shadow:var(--shadow);
+  }
+  .practice-item .q-num{ font-family:"JetBrains Mono",monospace; color:var(--stage1); font-size:12px; margin-right:4px; }
+  .practice-item .q-text{ font-size:14.5px; font-family:"JetBrains Mono",monospace; color:var(--ink); }
+  .practice-item details.ans{ margin-top:8px; }
+
+  /* ---------- exam-style questions ---------- */
+  .exam-source-note{
+    background:var(--green-soft); border-left:3px solid var(--green); border-radius:6px;
+    padding:12px 16px; font-size:13px; color:#294a3f; margin-bottom:18px;
+  }
+  .exam-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; box-shadow:var(--shadow); margin-bottom:14px;
+  }
+  .exam-card .exam-tag{
+    font-family:"JetBrains Mono",monospace; font-size:11px; padding:3px 10px; border-radius:999px;
+    display:inline-block; margin-bottom:10px;
+  }
+  .exam-tag.tw{ background:#dce8f5; color:var(--stage1); }
+  .exam-tag.uk{ background:#e4dcf2; color:#6a4c93; }
+  .exam-card p{ margin:0 0 10px; }
+  .choices{ display:grid; grid-template-columns:repeat(2,1fr); gap:6px 16px; margin:10px 0; }
+  .choices span{ font-size:13.5px; font-family:"JetBrains Mono",monospace; }
+
+  /* ---------- review card ---------- */
+  .review-card{
+    background:var(--navy-deep); color:#e9e5d8; border-radius:14px; padding:28px 26px;
+  }
+  .review-card h2{ font-family:"Noto Serif TC",serif; color:#f2efe6; margin:0 0 16px; font-size:20px; }
+  .review-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .review-item{
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+    border-radius:10px; padding:14px 16px;
+  }
+  .review-item .rt{ font-family:"JetBrains Mono",monospace; font-size:11px; color:#e7c281; margin-bottom:6px; display:block; }
+  .review-item p{ margin:0; font-size:13.5px; color:#cfd7e3; }
+  .review-item p.en{ margin-top:6px; font-size:12px; color:#93a1b5; font-family:"JetBrains Mono",monospace; font-style:italic; }
+
+  .nav-footer{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:26px 0 50px; font-family:"JetBrains Mono",monospace; font-size:13px; color:#8b8577;
+  }
+  .nav-footer a{ color:var(--teal); text-decoration:none; }
+
+  @media (max-width:640px){
+    .practice-grid{ grid-template-columns:1fr; }
+    .review-grid{ grid-template-columns:1fr; }
+    .choices{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <p class="breadcrumb">學習路徑 / 第一階段:7年級 / 單元 01</p>
+    <span class="unit-badge">UNIT 01 · STAGE 1</span>
+    <h1>一元一次方程式</h1>
+    <p class="sub-en">Linear Equations in One Variable</p>
+    <div class="meta-row">
+      <span><b>台灣對應</b> 南一/翰林 1上 第X章</span>
+      <span><b>Cambridge</b> Stage 7 · Equations &amp; Formulae</span>
+      <span><b>A-Level 種子概念</b> 解方程式技巧鋪路</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ 1. 觀念導論 ============ -->
+  <section>
+    <h2 class="section-title">一、核心觀念</h2>
+    <p class="section-sub-en">Core Concept</p>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>什麼是「一元一次方程式」?</h3>
+      <p>
+        「一元」代表方程式中<b>只有一個未知數</b>(通常寫成 <span class="en-note">x</span>);「一次」代表這個未知數的<b>次方是 1</b>(沒有 x²、x³ 這種項)。
+        例如 <span class="en-note">2x + 5 = 17</span> 就是一個一元一次方程式——它只有一個未知數 x,而且 x 的次方是 1。
+      </p>
+      <p style="margin-top:10px;">
+        <span class="en-note">A linear equation in one variable contains only one unknown (usually written as <b>x</b>), and that unknown appears only to the first power (no x², x³, etc.). For example, <b>2x + 5 = 17</b> is a linear equation in one variable.</span>
+      </p>
+    </div>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>先從最簡單的例子開始:一台真的天平</h3>
+      <p>
+        想像你家有一台<b>真正的天平秤</b>。現在天平兩邊<b>一樣重</b>,所以指針停在正中間,保持水平。
+      </p>
+      <p>
+        假設左邊放了 <b>3 顆彈珠</b>,右邊也放了 <b>3 顆彈珠</b>——天平當然是平的,因為 3 = 3。
+      </p>
+      <p>
+        這時候,如果你偷偷在<b>左邊</b>多加了 2 顆彈珠,天平會立刻往左邊傾斜、失去平衡。
+        <b>除非</b>你也在<b>右邊加上 2 顆彈珠</b>,天平才會繼續保持水平(因為 3+2 = 3+2,也就是 5 = 5)。
+      </p>
+      <p style="margin-top:4px;">
+        <span class="en-note">Imagine a real balance scale. If both sides weigh the same, it stays level. If you secretly add 2 marbles to the left side, the scale tips — unless you also add 2 marbles to the right side.</span>
+      </p>
+      <p style="margin-top:10px;">
+        這就是整個單元最重要的一句話:<b>只要兩邊「同時」做一樣的事,天平就會繼續保持平衡。</b>
+        方程式其實就是一台「用文字和數字寫出來的天平」,等號(=)就是那根指針——代表左右兩邊現在的重量相等。
+      </p>
+      <p style="margin-top:6px;">
+        <span class="en-note">This is the golden rule of this whole unit: as long as you do the <b>same thing to both sides at the same time</b>, the balance stays level. An equation is just a balance scale written with numbers and letters, and the "=" sign is the pointer showing both sides currently weigh the same.</span>
+      </p>
+    </div>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>把方程式當成天平來解:2x + 5 = 17</h3>
+      <p>
+        現在把同樣的概念套用到方程式 <b>2x + 5 = 17</b> 上。你可以想像成一家<b>糖果店的秤重情境</b>:
+      </p>
+      <p>
+        天平<b>左邊</b>放了「兩包一樣重的糖果」(每包都不知道多重,所以用 x 公克表示,兩包就是 2x)和一個「5 公克的小砝碼」;
+        天平<b>右邊</b>放了一個「17 公克的砝碼」。因為題目說這個方程式成立,所以天平現在是平衡的。
+      </p>
+      <p>
+        我們的目標很簡單:<b>把左邊變成只剩一包糖果</b>,這樣就能知道「一包糖果(x)到底是幾公克」。
+        而唯一能做的事,就是前面學到的黃金規則——兩邊同時做一樣的操作。
+      </p>
+      <p style="margin-top:4px;">
+        <span class="en-note">Picture a candy shop scale: the left pan holds 2 identical bags of candy (each weighing x grams) plus a 5g weight; the right pan holds a 17g weight. Since the equation is true, the scale is balanced. Our goal: get the left side down to just 1 bag, so we know what x is.</span>
+      </p>
+
+      <div class="scale-strip">
+        <div class="scale-panel">
+          <svg width="250" height="150" viewBox="0 0 250 150" xmlns="http://www.w3.org/2000/svg">
+            <line x1="125" y1="30" x2="125" y2="120" stroke="#233a5e" stroke-width="4"/>
+            <polygon points="105,120 145,120 125,140" fill="#233a5e"/>
+            <line x1="25" y1="34" x2="225" y2="34" stroke="#233a5e" stroke-width="4"/>
+            <line x1="55" y1="34" x2="55" y2="58" stroke="#8b8577" stroke-width="1.5"/>
+            <line x1="195" y1="34" x2="195" y2="58" stroke="#8b8577" stroke-width="1.5"/>
+            <polygon points="15,58 95,58 86,76 24,76" fill="#dce8f5" stroke="#3a6ea5"/>
+            <polygon points="170,58 220,58 213,76 177,76" fill="#f4e6d0" stroke="#b3792b"/>
+            <rect x="20" y="40" width="16" height="16" rx="2" fill="#3a6ea5"/>
+            <text x="28" y="52" font-size="10" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">x</text>
+            <rect x="40" y="40" width="16" height="16" rx="2" fill="#3a6ea5"/>
+            <text x="48" y="52" font-size="10" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">x</text>
+            <circle cx="72" cy="48" r="9" fill="#b3792b"/>
+            <text x="72" y="52" font-size="9" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">5</text>
+            <text x="125" y="100" font-size="12" fill="#8b8577" text-anchor="middle" font-family="JetBrains Mono">2x + 5</text>
+            <circle cx="195" cy="50" r="11" fill="#a44a3f"/>
+            <text x="195" y="54" font-size="9" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">17</text>
+          </svg>
+          <p class="cap">① 現在平衡:2 包糖果 + 5g 砝碼 = 17g</p>
+        </div>
+        <div class="scale-arrow">→<br><span style="font-size:11px;font-family:'JetBrains Mono',monospace;">兩邊同時<br>拿掉 5g</span></div>
+        <div class="scale-panel">
+          <svg width="210" height="150" viewBox="0 0 210 150" xmlns="http://www.w3.org/2000/svg">
+            <line x1="105" y1="30" x2="105" y2="120" stroke="#233a5e" stroke-width="4"/>
+            <polygon points="85,120 125,120 105,140" fill="#233a5e"/>
+            <line x1="25" y1="34" x2="185" y2="34" stroke="#233a5e" stroke-width="4"/>
+            <line x1="40" y1="34" x2="40" y2="58" stroke="#8b8577" stroke-width="1.5"/>
+            <line x1="170" y1="34" x2="170" y2="58" stroke="#8b8577" stroke-width="1.5"/>
+            <polygon points="20,58 60,58 53,76 27,76" fill="#dce8f5" stroke="#3a6ea5"/>
+            <polygon points="150,58 190,58 183,76 157,76" fill="#e1efe9" stroke="#3c8f7a"/>
+            <rect x="26" y="42" width="16" height="16" rx="2" fill="#3a6ea5"/>
+            <text x="34" y="54" font-size="10" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">x</text>
+            <rect x="44" y="42" width="16" height="16" rx="2" fill="#3a6ea5"/>
+            <text x="52" y="54" font-size="10" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">x</text>
+            <text x="105" y="100" font-size="12" fill="#8b8577" text-anchor="middle" font-family="JetBrains Mono">2x</text>
+            <circle cx="170" cy="66" r="11" fill="#3c8f7a"/>
+            <text x="170" y="70" font-size="9" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">12</text>
+          </svg>
+          <p class="cap">② 還是平衡:2 包糖果 = 12g</p>
+        </div>
+        <div class="scale-arrow">→<br><span style="font-size:11px;font-family:'JetBrains Mono',monospace;">兩邊同時<br>平分成2份</span></div>
+        <div class="scale-panel">
+          <svg width="190" height="150" viewBox="0 0 190 150" xmlns="http://www.w3.org/2000/svg">
+            <line x1="95" y1="30" x2="95" y2="120" stroke="#233a5e" stroke-width="4"/>
+            <polygon points="75,120 115,120 95,140" fill="#233a5e"/>
+            <line x1="20" y1="34" x2="170" y2="34" stroke="#233a5e" stroke-width="4"/>
+            <line x1="35" y1="34" x2="35" y2="58" stroke="#8b8577" stroke-width="1.5"/>
+            <line x1="155" y1="34" x2="155" y2="58" stroke="#8b8577" stroke-width="1.5"/>
+            <polygon points="15,58 55,58 48,76 22,76" fill="#dce8f5" stroke="#3a6ea5"/>
+            <polygon points="135,58 175,58 168,76 142,76" fill="#e1efe9" stroke="#3c8f7a"/>
+            <rect x="27" y="42" width="16" height="16" rx="2" fill="#3a6ea5"/>
+            <text x="35" y="54" font-size="10" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">x</text>
+            <circle cx="155" cy="66" r="11" fill="#3c8f7a"/>
+            <text x="155" y="70" font-size="9" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">6</text>
+          </svg>
+          <p class="cap">③ 一包糖果 = 6g ✓</p>
+        </div>
+      </div>
+
+      <p style="margin-top:14px;">
+        <b>第一步:</b>右邊拿掉 5g 的話,天平會傾斜——所以左邊也要拿掉 5g,天平才會繼續平衡。這一步用掉的是「減法性質」:兩邊同時減去 5,變成 <span class="en-note">2x = 12</span>。<br>
+        <b>第二步:</b>現在左邊是「2包一樣重的糖果」,右邊是 12g。把兩邊都「平分成 2 份」(同時除以 2),就能知道<b>一包糖果</b>是幾公克——也就是 <span class="en-note">x = 6</span>。
+      </p>
+      <p style="margin-top:6px;">
+        <span class="en-note">Step 1 (Subtraction Property): remove 5g from both sides → 2x = 12. Step 2 (Division Property): split both sides into 2 equal groups → x = 6. One bag of candy weighs 6 grams.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 2. 等量公理 ============ -->
+  <section class="tight">
+    <h2 class="section-title">二、等量公理</h2>
+    <p class="section-sub-en">Properties of Equality — The Four Legal Moves</p>
+    <p style="margin-bottom:18px;">
+      解方程式時,只要對等號兩邊「同時做同一件事」,等式就會繼續成立——這就是上一節天平模型告訴我們的道理。
+      以下把這個道理拆成四種具體操作,每一種都附上「為什麼可以這樣做」的說明,而不只是死記公式。
+      <span class="en-note">Each property below explains not just <b>what</b> you can do, but <b>why</b> it keeps the equation balanced.</span>
+    </p>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>① 加法性質 <span class="en-note" style="margin-left:6px;">Addition Property</span></h3>
+      <p><b>內容:</b>等號兩邊同時加上同一個數,等式仍然成立。</p>
+      <p>
+        <b>為什麼可以這樣做:</b>想像天平兩邊本來就一樣重,如果你在兩邊<b>各放上同樣重的東西</b>,天平當然不會傾斜——兩邊只是一起變重了相同的量,彼此的差距完全沒有改變。
+      </p>
+      <p style="margin-top:4px;">
+        <span class="en-note">If both sides of a balance already weigh the same, adding the same extra weight to each side keeps it level — the gap between them never changes.</span>
+      </p>
+      <div class="step" style="margin-top:10px;">
+        <span class="step-num">例</span>
+        <span class="step-text"><span class="step-math">x − 3 = 5 → 兩邊同時 +3 → x = 8</span>
+        <span class="step-note">左邊本來因為「少了3」而比較輕,兩邊都加回3後,天平就恢復平衡</span></span>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>② 減法性質 <span class="en-note" style="margin-left:6px;">Subtraction Property</span></h3>
+      <p><b>內容:</b>等號兩邊同時減去同一個數,等式仍然成立。</p>
+      <p>
+        <b>為什麼可以這樣做:</b>就像兩個人原本口袋裡的錢一樣多,如果兩人都花掉<b>同樣的金額</b>,他們剩下的錢還是一樣多。減去同一個數,只是把兩邊「同時拿走一樣多」,平衡自然不會被打破。
+      </p>
+      <p style="margin-top:4px;">
+        <span class="en-note">If two people start with equal amounts of money and each spends the same amount, they still have equal amounts left. Subtracting the same number from both sides doesn't change the balance.</span>
+      </p>
+      <div class="step" style="margin-top:10px;">
+        <span class="step-num">例</span>
+        <span class="step-text"><span class="step-math">x + 4 = 9 → 兩邊同時 −4 → x = 5</span>
+        <span class="step-note">兩邊各拿掉4,天平仍然平衡</span></span>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>③ 乘法性質 <span class="en-note" style="margin-left:6px;">Multiplication Property</span></h3>
+      <p><b>內容:</b>等號兩邊同時乘上同一個「非零」數,等式仍然成立。</p>
+      <p>
+        <b>為什麼可以這樣做:</b>想像兩杯本來一樣多的果汁,如果你把兩杯<b>都變成 3 倍大</b>(例如各自倒入 3 個一樣的杯子),兩邊仍然一樣多,只是份量一起放大了相同的倍數。
+      </p>
+      <p style="margin-top:4px;">
+        <b>為什麼不能乘以 0:</b>如果兩邊都乘以 0,不管原本 x 是多少,兩邊都會變成 0——這樣 x 原本的資訊就整個消失了,方程式也失去意義。
+      </p>
+      <p style="margin-top:4px;">
+        <span class="en-note">If two equal cups of juice are both scaled up 3×, they stay equal. But multiplying both sides by 0 destroys all information about x — both sides become 0 no matter what x was.</span>
+      </p>
+      <div class="step" style="margin-top:10px;">
+        <span class="step-num">例</span>
+        <span class="step-text"><span class="step-math">x/3 = 4 → 兩邊同時 ×3 → x = 12</span>
+        <span class="step-note">兩邊一起放大3倍,比例關係不變</span></span>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>④ 除法性質 <span class="en-note" style="margin-left:6px;">Division Property</span></h3>
+      <p><b>內容:</b>等號兩邊同時除以同一個「非零」數,等式仍然成立。</p>
+      <p>
+        <b>為什麼可以這樣做:</b>想像兩堆本來一樣重的沙子,如果把兩堆都<b>平分成一樣的份數</b>(例如都分成5等份),每一份的重量彼此仍然相等。
+      </p>
+      <p style="margin-top:4px;">
+        <b>為什麼不能除以 0:</b>「除以0」在數學上根本沒有意義(你無法把東西分成「0等份」),所以這個操作永遠被禁止。
+      </p>
+      <p style="margin-top:4px;">
+        <span class="en-note">Splitting two equal piles of sand into the same number of equal groups keeps each group equal. Dividing by 0 is undefined — you can't split something into "0 parts."</span>
+      </p>
+      <div class="step" style="margin-top:10px;">
+        <span class="step-num">例</span>
+        <span class="step-text"><span class="step-math">5x = 20 → 兩邊同時 ÷5 → x = 4</span>
+        <span class="step-note">兩邊一起平分成5份,每份仍然相等</span></span>
+      </div>
+    </div>
+
+    <table class="prop-table" style="margin-top:6px;">
+      <thead><tr><th>快速對照 Quick Reference</th><th>操作</th><th>範例</th></tr></thead>
+      <tbody>
+        <tr><td class="name">加法性質<span class="en">Addition</span></td><td>兩邊 + 同一個數</td><td>x − 3 = 5 → x = 8</td></tr>
+        <tr><td class="name">減法性質<span class="en">Subtraction</span></td><td>兩邊 − 同一個數</td><td>x + 4 = 9 → x = 5</td></tr>
+        <tr><td class="name">乘法性質<span class="en">Multiplication</span></td><td>兩邊 × 同一個非零數</td><td>x/3 = 4 → x = 12</td></tr>
+        <tr><td class="name">除法性質<span class="en">Division</span></td><td>兩邊 ÷ 同一個非零數</td><td>5x = 20 → x = 4</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ 3. 例題精解 ============ -->
+  <section class="tight">
+    <h2 class="section-title">三、例題精解</h2>
+    <p class="section-sub-en">Worked Examples — Step by Step</p>
+
+    <div class="example">
+      <div class="example-head"><span>例題 1 · 基礎型</span><span class="eq">2x + 5 = 17</span></div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><span class="step-text"><span class="step-math">2x + 5 − 5 = 17 − 5</span><span class="step-note">兩邊同時減去 5(減法性質)</span></span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text"><span class="step-math">2x = 12</span><span class="step-note">化簡兩邊</span></span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text"><span class="step-math">2x ÷ 2 = 12 ÷ 2</span><span class="step-note">兩邊同時除以 2(除法性質)</span></span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text"><span class="step-math">x = 6</span><span class="step-note">檢驗:2(6)+5 = 17 ✓</span></span></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-head"><span>例題 2 · 含括號</span><span class="eq">3(x − 2) = x + 8</span></div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><span class="step-text"><span class="step-math">3x − 6 = x + 8</span><span class="step-note">先展開括號(分配律)</span></span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text"><span class="step-math">3x − x = 8 + 6</span><span class="step-note">把 x 項移到左邊、常數移到右邊(移項要變號)</span></span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text"><span class="step-math">2x = 14</span><span class="step-note">化簡</span></span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text"><span class="step-math">x = 7</span><span class="step-note">檢驗:3(7−2)=15,7+8=15 ✓</span></span></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-head"><span>例題 3 · 含分數</span><span class="eq">(x + 1)/3 − 1 = x/2</span></div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><span class="step-text"><span class="step-math">兩邊同乘以 6(3 和 2 的最小公倍數)</span><span class="step-note">消去分母,讓算式變乾淨</span></span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text"><span class="step-math">2(x + 1) − 6 = 3x</span><span class="step-note">6÷3=2,6÷2=3</span></span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text"><span class="step-math">2x + 2 − 6 = 3x</span><span class="step-note">展開括號</span></span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text"><span class="step-math">2x − 4 = 3x → −4 = x</span><span class="step-note">移項</span></span></div>
+        <div class="step"><span class="step-num">5</span><span class="step-text"><span class="step-math">x = −4</span><span class="step-note">檢驗:(−4+1)/3−1 = −2,(−4)/2 = −2 ✓</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. 應用題型 ============ -->
+  <section class="tight">
+    <h2 class="section-title">四、應用題常見類型</h2>
+    <p class="section-sub-en">Word Problem Types — Set Up the Equation First</p>
+    <p style="margin-bottom:16px;">應用題最重要的第一步,永遠是「設 x 代表什麼」,再把文字翻譯成方程式。以下是會考最常出現的五種題型:</p>
+
+    <div class="wp-grid">
+      <div class="wp-card">
+        <span class="wp-tag">類型 A · 年齡問題 Age Problem</span>
+        <h4>爸爸的年齡是小明的3倍,5年後爸爸年齡是小明的2倍多3歲,求小明現在幾歲?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">
+            設小明現在 x 歲,爸爸現在 3x 歲。<br>
+            5年後:3x + 5 = 2(x + 5) + 3<br>
+            展開:3x + 5 = 2x + 13 → x = 8<br>
+            <b>答:小明現在 8 歲(爸爸 24 歲)。</b>
+          </div>
+        </details>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-tag">類型 B · 追及問題 Catch-up Problem</span>
+        <h4>弟弟先出發,每分鐘走60公尺;哥哥慢5分鐘出發,每分鐘走80公尺,求哥哥出發後幾分鐘追上弟弟?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">
+            弟弟先走5分鐘,已領先 60×5 = 300 公尺。<br>
+            設哥哥走 t 分鐘追上弟弟:80t = 60(t + 5)<br>
+            80t = 60t + 300 → 20t = 300 → t = 15<br>
+            <b>答:哥哥出發後 15 分鐘追上弟弟。</b>
+          </div>
+        </details>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-tag">類型 C · 折扣問題 Discount Problem</span>
+        <h4>一件衣服打8折後售價960元,求原定價?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">
+            設原定價 x 元:0.8x = 960<br>
+            x = 960 ÷ 0.8 = 1200<br>
+            <b>答:原定價 1200 元。</b>
+          </div>
+        </details>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-tag">類型 D · 分配問題 Distribution Problem</span>
+        <h4>甲、乙兩人共有180元,甲比乙多20元,求兩人各有多少元?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">
+            設乙有 x 元,甲有 (x + 20) 元:x + (x + 20) = 180<br>
+            2x + 20 = 180 → 2x = 160 → x = 80<br>
+            <b>答:乙有 80 元,甲有 100 元。</b>
+          </div>
+        </details>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-tag">類型 E · 數字問題 Digit Problem</span>
+        <h4>一個兩位數,十位數字是個位數字的2倍;若兩數字對調,新數比原數小27,求原數?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">
+            設個位數字 x,十位數字 2x(2x ≤ 9):原數 = 21x,對調後 = 12x<br>
+            21x − 12x = 27 → 9x = 27 → x = 3<br>
+            <b>答:原數為 63(個位3、十位6)。</b>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. 基礎練習 ============ -->
+  <section class="tight">
+    <h2 class="section-title">五、基礎練習題</h2>
+    <p class="section-sub-en">Basic Practice — Solve for x</p>
+    <div class="practice-grid">
+      <div class="practice-item"><span class="q-num">1.</span><span class="q-text">x + 7 = 15</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 8</div></details></div>
+      <div class="practice-item"><span class="q-num">2.</span><span class="q-text">3x = 21</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 7</div></details></div>
+      <div class="practice-item"><span class="q-num">3.</span><span class="q-text">x − 9 = −4</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 5</div></details></div>
+      <div class="practice-item"><span class="q-num">4.</span><span class="q-text">x/4 = 6</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 24</div></details></div>
+      <div class="practice-item"><span class="q-num">5.</span><span class="q-text">2x + 3 = 11</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 4</div></details></div>
+      <div class="practice-item"><span class="q-num">6.</span><span class="q-text">5x − 2 = 18</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 4</div></details></div>
+      <div class="practice-item"><span class="q-num">7.</span><span class="q-text">4(x + 1) = 20</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 4</div></details></div>
+      <div class="practice-item"><span class="q-num">8.</span><span class="q-text">2x − 5 = 3x + 1</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = −6</div></details></div>
+      <div class="practice-item"><span class="q-num">9.</span><span class="q-text">x/2 + 3 = 9</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 12</div></details></div>
+      <div class="practice-item"><span class="q-num">10.</span><span class="q-text">6 − x = 2x − 3</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 3</div></details></div>
+    </div>
+  </section>
+
+  <!-- ============ 6. 進階練習 ============ -->
+  <section class="tight">
+    <h2 class="section-title">六、進階練習題(含應用題)</h2>
+    <p class="section-sub-en">Advanced Practice — Including Word Problems</p>
+    <div class="wp-grid">
+      <div class="wp-card"><span class="wp-tag">數字方程</span><h4>解方程式:(x − 1)/2 = (x + 5)/4</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">兩邊同乘4:2(x−1) = x+5 → 2x−2=x+5 → x=7</div></details></div>
+      <div class="wp-card"><span class="wp-tag">連續整數問題</span><h4>三個連續整數之和為72,求這三個數。</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">設三數為 n, n+1, n+2:3n+3=72 → n=23<br><b>答:23、24、25</b></div></details></div>
+      <div class="wp-card"><span class="wp-tag">工作分配問題</span><h4>甲單獨完成一件工作要x天,已知甲工作3天後,剩下的量乙可以用2天完成,且乙的工作效率是甲的1.5倍,求x。</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">
+          甲每天做 1/x,3天做了 3/x;剩下 1 − 3/x 由乙2天做完,乙每天做 1.5/x。<br>
+          2 × 1.5/x = 1 − 3/x → 3/x + 3/x = 1 → 6/x = 1 → x = 6<br>
+          <b>答:甲單獨需要 6 天。</b>
+        </div></details></div>
+      <div class="wp-card"><span class="wp-tag">比例混合問題</span><h4>某班男生比女生多8人,男生人數是女生人數的1.4倍,求全班共有多少人?</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">
+          設女生 x 人,男生 1.4x 人:1.4x − x = 8 → 0.4x = 8 → x = 20<br>
+          <b>答:女生20人、男生28人,全班共 48 人。</b>
+        </div></details></div>
+    </div>
+  </section>
+
+  <!-- ============ 7. 仿真模擬題 ============ -->
+  <section class="tight">
+    <h2 class="section-title">七、仿真模擬題</h2>
+    <p class="section-sub-en">Exam-Style Mock Questions — TW &amp; Cambridge/IGCSE Format</p>
+    <div class="exam-source-note">
+      <b>說明:</b>以下題目是依照台灣國中教育會考與 Cambridge/IGCSE 的<b>題型風格</b>自行設計的模擬題,並非逐字複製任何一年的真實考題,目的是讓你熟悉兩種考試系統的出題方式與作答習慣。
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag tw">仿會考 · 選擇題</span>
+      <p>若 3x − 7 = 2x + 5,則 x = ?</p>
+      <div class="choices"><span>(A) −12</span><span>(B) 12</span><span>(C) −2</span><span>(D) 2</span></div>
+      <details class="ans"><summary>看解答</summary><div class="ans-body">3x−2x = 5+7 → x = 12,選 (B)</div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag tw">仿會考 · 選擇題(應用)</span>
+      <p>小華買了6枝相同價格的筆,共花了150元。若每枝筆的價格為 x 元,下列何者正確表示這個關係?</p>
+      <div class="choices"><span>(A) 6x = 150</span><span>(B) x/6 = 150</span><span>(C) 6 + x = 150</span><span>(D) x − 6 = 150</span></div>
+      <details class="ans"><summary>看解答</summary><div class="ans-body">選 (A);解得 x = 25。</div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag tw">仿會考 · 非選擇題</span>
+      <p>解方程式 2(x + 3) = 4x − 2,並完整列出解題過程。</p>
+      <details class="ans"><summary>看解答</summary><div class="ans-body">
+        2x + 6 = 4x − 2 → 6 + 2 = 4x − 2x → 8 = 2x → <b>x = 4</b>
+      </div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag uk">仿 IGCSE · Structured Question</span>
+      <p><i>Solve the equation 5x − 3 = 2x + 12. Show your working.</i> [2 marks]</p>
+      <details class="ans"><summary>Show Solution</summary><div class="ans-body">
+        5x − 2x = 12 + 3 → 3x = 15 → <b>x = 5</b>
+      </div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag uk">仿 IGCSE · Word Problem</span>
+      <p><i>The sum of three consecutive integers is 72. Form an equation and solve it to find the three integers.</i></p>
+      <details class="ans"><summary>Show Solution</summary><div class="ans-body">
+        Let the integers be n, n+1, n+2. n + (n+1) + (n+2) = 72 → 3n + 3 = 72 → n = 23<br>
+        <b>The integers are 23, 24, and 25.</b>
+      </div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag uk">仿 IGCSE · Algebraic Fractions</span>
+      <p><i>Solve: (3x + 2)/4 = x − 1</i></p>
+      <details class="ans"><summary>Show Solution</summary><div class="ans-body">
+        3x + 2 = 4(x − 1) → 3x + 2 = 4x − 4 → 2 + 4 = 4x − 3x → <b>x = 6</b>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ============ 8. 重點整理 ============ -->
+  <section class="tight">
+    <div class="review-card">
+      <h2>重點整理小卡 <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#9fb0c9; font-weight:400;">Quick Review Card</span></h2>
+      <div class="review-grid">
+        <div class="review-item"><span class="rt">DEFINITION</span><p>一元一次方程式:只有一個未知數,且次方為1的方程式。</p><p class="en">A linear equation in one unknown, where the unknown is only to the first power.</p></div>
+        <div class="review-item"><span class="rt">FOUR MOVES</span><p>等量公理:加、減、乘、除同一個數(乘除不能是0)。</p><p class="en">Properties of equality: add, subtract, multiply, or divide both sides by the same number (never 0 for ×/÷).</p></div>
+        <div class="review-item"><span class="rt">HAS BRACKETS?</span><p>先展開括號(分配律),再移項化簡。</p><p class="en">If there are brackets, expand them first (distributive law), then simplify.</p></div>
+        <div class="review-item"><span class="rt">HAS FRACTIONS?</span><p>先找分母的最小公倍數,兩邊同乘,消去分母。</p><p class="en">If there are fractions, multiply both sides by the LCM of the denominators to clear them.</p></div>
+        <div class="review-item"><span class="rt">MOVING TERMS</span><p>移項時符號要改變(+變−,×變÷)。</p><p class="en">When a term crosses the equals sign, its operation flips (+ becomes −, × becomes ÷).</p></div>
+        <div class="review-item"><span class="rt">WORD PROBLEMS</span><p>第一步永遠是:設 x 代表什麼,再把文字翻譯成算式。</p><p class="en">Always start by defining what x represents, then translate the words into an equation.</p></div>
+        <div class="review-item"><span class="rt">ALWAYS CHECK</span><p>解出 x 後代回原式驗算,確保兩邊相等。</p><p class="en">After solving for x, substitute it back into the original equation to check both sides match.</p></div>
+        <div class="review-item"><span class="rt">COMMON TYPES</span><p>年齡、追及、折扣、分配、數字問題是會考最常見的五種應用題。</p><p class="en">Age, catch-up, discount, distribution, and digit problems are the 5 most common word-problem types.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav-footer">
+    <span>← 學習路徑目錄</span>
+    <span>下一單元:數的性質 →</span>
+  </div>
+
+</div>
+</body>
+</html>
