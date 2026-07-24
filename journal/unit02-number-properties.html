@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元2:數的性質 | 國中數學 × 劍橋數學銜接 A-Level</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2430;
+    --paper:#f7f5ef;
+    --paper-raised:#ffffff;
+    --navy:#233a5e;
+    --navy-deep:#152641;
+    --teal:#0f6b72;
+    --amber:#b3792b;
+    --amber-soft:#f4e6d0;
+    --line:#dcd6c8;
+    --stage1:#3a6ea5;
+    --green:#3c8f7a;
+    --green-soft:#e1efe9;
+    --red:#a44a3f;
+    --red-soft:#f6e6e2;
+    --shadow: 0 1px 2px rgba(27,36,48,0.06), 0 8px 24px rgba(27,36,48,0.05);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans TC","Noto Sans",sans-serif;
+    line-height:1.8; -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background: var(--amber-soft); }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:
+      radial-gradient(1000px 460px at 10% -10%, rgba(58,110,165,0.16), transparent 60%),
+      var(--navy-deep);
+    color:#f2efe6; padding:56px 0 44px; position:relative;
+  }
+  .hero::after{ content:""; position:absolute; inset:auto 0 0 0; height:5px; background:var(--stage1); }
+  .breadcrumb{
+    font-family:"JetBrains Mono",monospace; font-size:12px; color:#9fb0c9;
+    letter-spacing:.05em; margin-bottom:16px;
+  }
+  .unit-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:"JetBrains Mono",monospace; font-size:12px;
+    color:var(--navy-deep); background:#cfe0f5;
+    padding:5px 12px; border-radius:999px; margin-bottom:16px;
+  }
+  .hero h1{
+    font-family:"Noto Serif TC",serif; font-weight:900;
+    font-size:clamp(26px,4.6vw,40px); margin:0 0 8px; line-height:1.3;
+  }
+  .hero .sub-en{
+    font-family:"JetBrains Mono",monospace; font-size:13.5px; color:#a9b8cc; margin:0 0 18px;
+  }
+  .hero .meta-row{ display:flex; flex-wrap:wrap; gap:10px 20px; font-size:13px; color:#cfd7e3; }
+  .hero .meta-row b{ color:#e7c281; font-weight:600; }
+
+  section{ padding:44px 0; }
+  section.tight{ padding-top:0; }
+  h2.section-title{
+    font-family:"Noto Serif TC",serif; font-weight:700;
+    font-size:clamp(20px,3vw,26px); color:var(--navy-deep); margin:0 0 4px;
+  }
+  .section-sub-en{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color:#8b8577; margin:0 0 20px; }
+
+  p{ font-size:15px; color:#2c3440; }
+  .en-note{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color:#8b8577; }
+
+  /* ---------- concept box ---------- */
+  .concept-box{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:22px 24px; box-shadow:var(--shadow); margin-bottom:18px;
+  }
+  .concept-box h3{
+    font-family:"Noto Serif TC",serif; font-size:17px; margin:0 0 10px; color:var(--navy-deep);
+    display:flex; align-items:center; gap:10px;
+  }
+  .concept-box h3 .icon-dot{ width:8px; height:8px; border-radius:50%; background:var(--stage1); flex-shrink:0; }
+
+  /* ---------- definition grid ---------- */
+  .def-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:6px; }
+  .def-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px; box-shadow:var(--shadow);
+  }
+  .def-card .dt{ font-family:"Noto Serif TC",serif; font-weight:700; color:var(--navy-deep); font-size:15.5px; display:block; margin-bottom:4px; }
+  .def-card .dt .en{ font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--teal); font-weight:400; display:block; margin-top:2px; }
+  .def-card p{ margin:0; font-size:13.5px; }
+
+  /* ---------- factor tree ---------- */
+  .tree-wrap{ text-align:center; padding:14px 4px 6px; overflow-x:auto; }
+  .tree-wrap .cap{ font-family:"JetBrains Mono",monospace; font-size:13px; color:var(--teal); margin-top:8px; }
+
+  /* ---------- short division ladder ---------- */
+  .sd-wrap{ display:flex; justify-content:center; padding:14px 4px; }
+  table.sd-table{ border-collapse:collapse; font-family:"JetBrains Mono",monospace; font-size:16px; }
+  table.sd-table td{ padding:8px 20px; text-align:center; }
+  table.sd-table td.divisor{ border-right:2px solid var(--navy-deep); font-weight:700; color:var(--stage1); }
+  table.sd-table tr:not(:last-child) td:not(.divisor){ border-bottom:1px dashed var(--line); }
+  table.sd-table td.final{ color:var(--green); font-weight:700; }
+  .sd-result{ display:flex; gap:24px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
+  .sd-result .pill{
+    font-family:"JetBrains Mono",monospace; font-size:13px; padding:8px 16px; border-radius:999px;
+    background:var(--amber-soft); color:#7a5420;
+  }
+  .sd-result .pill.gcf{ background:var(--green-soft); color:#1d4a3d; }
+
+  /* ---------- divisibility table ---------- */
+  table.div-table{ width:100%; border-collapse:collapse; background:var(--paper-raised); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); }
+  table.div-table thead th{
+    text-align:left; font-family:"JetBrains Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.05em;
+    color:#8b8577; background:#f1ede2; padding:11px 16px; border-bottom:1px solid var(--line);
+  }
+  table.div-table td{ padding:11px 16px; font-size:14px; border-bottom:1px solid #ece7d9; vertical-align:top; }
+  table.div-table tr:last-child td{ border-bottom:none; }
+  table.div-table td.n{ font-weight:700; color:var(--navy-deep); font-family:"JetBrains Mono",monospace; width:10%; }
+
+  /* ---------- worked example ---------- */
+  .example{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    box-shadow:var(--shadow); margin-bottom:20px; overflow:hidden;
+  }
+  .example-head{
+    background:var(--navy-deep); color:#f0ede3; padding:14px 20px;
+    font-family:"JetBrains Mono",monospace; font-size:13px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .example-head .eq{ font-size:16px; font-weight:600; color:#e7c281; }
+  .example-body{ padding:18px 22px; }
+  .step{ display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #ece7d9; align-items:flex-start; }
+  .step:last-child{ border-bottom:none; }
+  .step .step-num{
+    flex-shrink:0; width:22px; height:22px; border-radius:50%; background:var(--stage1);
+    color:#fff; font-size:11px; font-family:"JetBrains Mono",monospace;
+    display:flex; align-items:center; justify-content:center; margin-top:2px;
+  }
+  .step .step-text{ font-size:14.5px; }
+  .step .step-math{ font-family:"JetBrains Mono",monospace; color:var(--navy-deep); font-weight:600; }
+  .step .step-note{ font-size:12.5px; color:#8b8577; display:block; margin-top:2px; }
+
+  /* ---------- word problem cards ---------- */
+  .wp-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
+  .wp-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; box-shadow:var(--shadow);
+  }
+  .wp-card .wp-tag{
+    font-family:"JetBrains Mono",monospace; font-size:11px; text-transform:uppercase;
+    color:var(--teal); letter-spacing:.06em; display:block; margin-bottom:6px;
+  }
+  .wp-card h4{ margin:0 0 8px; font-size:15px; font-family:"Noto Serif TC",serif; color:var(--navy-deep); }
+  .wp-card p{ margin:0 0 10px; font-size:14px; }
+  details.ans{ margin-top:8px; }
+  details.ans summary{
+    cursor:pointer; font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--amber);
+    list-style:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  details.ans summary::-webkit-details-marker{ display:none; }
+  details.ans summary::before{ content:"▸"; transition:transform .15s ease; }
+  details.ans[open] summary::before{ transform:rotate(90deg); }
+  details.ans .ans-body{
+    margin-top:10px; padding:12px 14px; background:var(--amber-soft); border-radius:8px;
+    font-size:13.5px; color:#5a4423;
+  }
+
+  /* ---------- practice grid ---------- */
+  .practice-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .practice-item{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:10px;
+    padding:14px 16px; box-shadow:var(--shadow);
+  }
+  .practice-item .q-num{ font-family:"JetBrains Mono",monospace; color:var(--stage1); font-size:12px; margin-right:4px; }
+  .practice-item .q-text{ font-size:14.5px; }
+  .practice-item details.ans{ margin-top:8px; }
+
+  /* ---------- exam-style questions ---------- */
+  .exam-source-note{
+    background:var(--green-soft); border-left:3px solid var(--green); border-radius:6px;
+    padding:12px 16px; font-size:13px; color:#294a3f; margin-bottom:18px;
+  }
+  .exam-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; box-shadow:var(--shadow); margin-bottom:14px;
+  }
+  .exam-card .exam-tag{
+    font-family:"JetBrains Mono",monospace; font-size:11px; padding:3px 10px; border-radius:999px;
+    display:inline-block; margin-bottom:10px;
+  }
+  .exam-tag.tw{ background:#dce8f5; color:var(--stage1); }
+  .exam-tag.uk{ background:#e4dcf2; color:#6a4c93; }
+  .exam-card p{ margin:0 0 10px; }
+  .choices{ display:grid; grid-template-columns:repeat(2,1fr); gap:6px 16px; margin:10px 0; }
+  .choices span{ font-size:13.5px; font-family:"JetBrains Mono",monospace; }
+
+  /* ---------- review card ---------- */
+  .review-card{
+    background:var(--navy-deep); color:#e9e5d8; border-radius:14px; padding:28px 26px;
+  }
+  .review-card h2{ font-family:"Noto Serif TC",serif; color:#f2efe6; margin:0 0 16px; font-size:20px; }
+  .review-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .review-item{
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+    border-radius:10px; padding:14px 16px;
+  }
+  .review-item .rt{ font-family:"JetBrains Mono",monospace; font-size:11px; color:#e7c281; margin-bottom:6px; display:block; }
+  .review-item p{ margin:0; font-size:13.5px; color:#cfd7e3; }
+  .review-item p.en{ margin-top:6px; font-size:12px; color:#93a1b5; font-family:"JetBrains Mono",monospace; font-style:italic; }
+
+  .nav-footer{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:26px 0 50px; font-family:"JetBrains Mono",monospace; font-size:13px; color:#8b8577;
+  }
+  .nav-footer a{ color:var(--teal); text-decoration:none; }
+
+  @media (max-width:640px){
+    .practice-grid{ grid-template-columns:1fr; }
+    .review-grid{ grid-template-columns:1fr; }
+    .choices{ grid-template-columns:1fr; }
+    .def-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <p class="breadcrumb">學習路徑 / 第一階段:7年級 / 單元 02</p>
+    <span class="unit-badge">UNIT 02 · STAGE 1</span>
+    <h1>數的性質</h1>
+    <p class="sub-en">Number Properties — Primes, Factors &amp; Multiples</p>
+    <div class="meta-row">
+      <span><b>台灣對應</b> 南一/翰林 1上</span>
+      <span><b>Cambridge</b> Stage 7 · Number &amp; Integers</span>
+      <span><b>A-Level 種子概念</b> 質因數分解 → 代數因式分解</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ 1. 核心觀念 ============ -->
+  <section>
+    <h2 class="section-title">一、核心觀念</h2>
+    <p class="section-sub-en">Core Concepts</p>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>因數與倍數:兩個互相對應的概念</h3>
+      <p>
+        如果 <b>a ÷ b</b> 能夠整除(沒有餘數),我們就說 <b>b 是 a 的因數</b>,同時 <b>a 是 b 的倍數</b>。
+        這兩個詞永遠是「配對」出現的——因數是「能整除別人的數」,倍數是「被整除的那個大數」。
+      </p>
+      <p style="margin-top:6px;">
+        例如:12 ÷ 3 = 4(整除),所以 <b>3 是 12 的因數</b>,<b>12 是 3 的倍數</b>。
+      </p>
+      <p style="margin-top:6px;">
+        <span class="en-note">If a ÷ b divides evenly, then b is a <b>factor</b> of a, and a is a <b>multiple</b> of b. E.g. since 12 ÷ 3 = 4 exactly, 3 is a factor of 12, and 12 is a multiple of 3.</span>
+      </p>
+    </div>
+
+    <div class="def-grid">
+      <div class="def-card">
+        <span class="dt">質數 <span class="en">Prime Number</span></span>
+        <p>恰好只有「1」和「自己」這兩個因數的數(大於1)。例如:2, 3, 5, 7, 11, 13...</p>
+      </div>
+      <div class="def-card">
+        <span class="dt">合數 <span class="en">Composite Number</span></span>
+        <p>擁有 3 個以上因數的數。例如:4(1,2,4)、6(1,2,3,6)、8、9、10...</p>
+      </div>
+      <div class="def-card">
+        <span class="dt">1 是特例 <span class="en">1 is Neither</span></span>
+        <p>1 只有一個因數(自己),既不是質數,也不是合數——這是最容易考錯的地方!</p>
+      </div>
+      <div class="def-card">
+        <span class="dt">20以內的質數 <span class="en">Primes under 20</span></span>
+        <p>2, 3, 5, 7, 11, 13, 17, 19(共8個,請直接背起來,節省考試時間)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. 質因數分解 ============ -->
+  <section class="tight">
+    <h2 class="section-title">二、質因數分解</h2>
+    <p class="section-sub-en">Prime Factorization</p>
+    <p style="margin-bottom:10px;">
+      任何一個大於1的合數,都可以「唯一地」寫成幾個質數相乘的形式,這叫做<b>質因數分解</b>。
+      最常見的方法是畫「<b>因數樹</b>」:每次把數字拆成兩個因數,遇到質數就圈起來、停止往下拆,直到所有分支的末端都是質數為止。
+    </p>
+    <p style="margin-bottom:16px;">
+      <span class="en-note">Every composite number can be written uniquely as a product of primes. The "factor tree" method: split the number into two factors repeatedly, circling primes and stopping that branch once you reach one.</span>
+    </p>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>因數樹範例:分解 60</h3>
+      <div class="tree-wrap">
+        <svg width="360" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg">
+          <line x1="170" y1="34" x2="110" y2="80" stroke="#8b8577" stroke-width="1.5"/>
+          <line x1="170" y1="34" x2="230" y2="80" stroke="#8b8577" stroke-width="1.5"/>
+          <line x1="230" y1="80" x2="190" y2="128" stroke="#8b8577" stroke-width="1.5"/>
+          <line x1="230" y1="80" x2="270" y2="128" stroke="#8b8577" stroke-width="1.5"/>
+          <line x1="270" y1="128" x2="240" y2="176" stroke="#8b8577" stroke-width="1.5"/>
+          <line x1="270" y1="128" x2="300" y2="176" stroke="#8b8577" stroke-width="1.5"/>
+
+          <circle cx="170" cy="34" r="18" fill="#233a5e"/>
+          <text x="170" y="39" font-size="13" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">60</text>
+
+          <circle cx="110" cy="80" r="15" fill="#3c8f7a"/>
+          <text x="110" y="85" font-size="12" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">2</text>
+
+          <circle cx="230" cy="80" r="17" fill="#233a5e"/>
+          <text x="230" y="85" font-size="12" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">30</text>
+
+          <circle cx="190" cy="128" r="15" fill="#3c8f7a"/>
+          <text x="190" y="133" font-size="12" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">2</text>
+
+          <circle cx="270" cy="128" r="16" fill="#233a5e"/>
+          <text x="270" y="133" font-size="12" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">15</text>
+
+          <circle cx="240" cy="176" r="15" fill="#3c8f7a"/>
+          <text x="240" y="181" font-size="12" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">3</text>
+
+          <circle cx="300" cy="176" r="15" fill="#3c8f7a"/>
+          <text x="300" y="181" font-size="12" fill="#fff" text-anchor="middle" font-family="JetBrains Mono">5</text>
+
+          <text x="180" y="215" font-size="12" fill="#8b8577" text-anchor="middle" font-family="JetBrains Mono">綠色圓圈 = 質數(停止分解)</text>
+        </svg>
+        <p class="cap">60 = 2 × 2 × 3 × 5 = 2² × 3 × 5</p>
+      </div>
+      <p style="margin-top:8px;">
+        <b>怎麼讀因數樹:</b>60 先拆成 2 × 30(2 是質數,圈起來、這條路停了);30 繼續拆成 2 × 15(2 又是質數);15 再拆成 3 × 5(兩個都是質數)。
+        把所有圈起來的質數相乘:2 × 2 × 3 × 5 = 60,寫成指數形式就是 <b>2² × 3 × 5</b>。
+      </p>
+      <p style="margin-top:4px;">
+        <span class="en-note">Reading the tree: 60 = 2 × 30, then 30 = 2 × 15, then 15 = 3 × 5. Multiplying all circled primes: 2 × 2 × 3 × 5 = 60, or in index form, 2² × 3 × 5.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 3. 最大公因數 / 最小公倍數 ============ -->
+  <section class="tight">
+    <h2 class="section-title">三、最大公因數與最小公倍數</h2>
+    <p class="section-sub-en">GCF (HCF) &amp; LCM</p>
+    <div class="def-grid" style="margin-bottom:16px;">
+      <div class="def-card">
+        <span class="dt">最大公因數 <span class="en">GCF / HCF</span></span>
+        <p>兩個數「共同擁有」的因數中,最大的那一個。</p>
+      </div>
+      <div class="def-card">
+        <span class="dt">最小公倍數 <span class="en">LCM</span></span>
+        <p>兩個數「共同擁有」的倍數中,最小的那一個。</p>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>短除法:同時求 GCF 與 LCM</h3>
+      <p>
+        台灣課本最常用的技巧是「<b>短除法</b>」:用一個兩數<b>共同的質因數</b>連續去除,直到兩個數字「互質」(除了1以外沒有其他公因數)為止。
+      </p>
+      <p style="margin-bottom:14px;">
+        <span class="en-note">The "short division ladder" repeatedly divides both numbers by a common prime factor until the two results share no common factor (i.e. become coprime).</span>
+      </p>
+
+      <div class="sd-wrap">
+        <table class="sd-table">
+          <tr><td class="divisor">2</td><td>18</td><td>24</td></tr>
+          <tr><td class="divisor">3</td><td>9</td><td>12</td></tr>
+          <tr><td></td><td class="final">3</td><td class="final">4</td></tr>
+        </table>
+      </div>
+      <div class="sd-result">
+        <span class="pill gcf">GCF = 左邊除數相乘 = 2 × 3 = 6</span>
+        <span class="pill">LCM = 所有數字相乘 = 2 × 3 × 3 × 4 = 72</span>
+      </div>
+
+      <p style="margin-top:14px;">
+        <b>為什麼這樣算:</b>左邊的除數(2、3)是 18 和 24「共同」的質因數,所以把它們乘起來就是最大公因數。
+        而 LCM 要包含所有「用過的除數」加上「最後剩下、已經互質的兩個數」,因為 LCM 必須同時是兩數的倍數。
+      </p>
+      <p style="margin-top:4px;">
+        <span class="en-note">The divisors used (2, 3) are common prime factors, so their product gives the GCF. The LCM needs all divisors used <b>plus</b> the final coprime pair, since it must be a multiple of both original numbers.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 4. 整除規則 ============ -->
+  <section class="tight">
+    <h2 class="section-title">四、整除規則</h2>
+    <p class="section-sub-en">Divisibility Rules — Quick Checks Without Dividing</p>
+    <p style="margin-bottom:16px;">這些規則能讓你不用真的做除法,就能快速判斷一個數能不能被整除,考試時非常省時間:</p>
+    <table class="div-table">
+      <thead><tr><th>整除數</th><th>判斷規則</th><th>範例</th></tr></thead>
+      <tbody>
+        <tr><td class="n">2</td><td>末位數字是偶數(0,2,4,6,8)</td><td>346 → 末位6是偶數 → 可被2整除</td></tr>
+        <tr><td class="n">3</td><td>各位數字相加的和是3的倍數</td><td>456 → 4+5+6=15(3的倍數)→ 可被3整除</td></tr>
+        <tr><td class="n">4</td><td>末兩位數字組成的數是4的倍數</td><td>3128 → 末兩位28,28÷4=7 → 可被4整除</td></tr>
+        <tr><td class="n">5</td><td>末位數字是0或5</td><td>235 → 末位是5 → 可被5整除</td></tr>
+        <tr><td class="n">9</td><td>各位數字相加的和是9的倍數</td><td>729 → 7+2+9=18(9的倍數)→ 可被9整除</td></tr>
+        <tr><td class="n">10</td><td>末位數字是0</td><td>870 → 末位是0 → 可被10整除</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ 5. 例題精解 ============ -->
+  <section class="tight">
+    <h2 class="section-title">五、例題精解</h2>
+    <p class="section-sub-en">Worked Examples — Step by Step</p>
+
+    <div class="example">
+      <div class="example-head"><span>例題 1 · 質因數分解</span><span class="eq">分解 84</span></div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><span class="step-text"><span class="step-math">84 = 2 × 42</span><span class="step-note">2 是質數,圈起來</span></span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text"><span class="step-math">42 = 2 × 21</span><span class="step-note">2 又是質數,圈起來</span></span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text"><span class="step-math">21 = 3 × 7</span><span class="step-note">3 和 7 都是質數,分解結束</span></span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text"><span class="step-math">84 = 2 × 2 × 3 × 7 = 2² × 3 × 7</span><span class="step-note">檢驗:2²×3×7 = 4×21 = 84 ✓</span></span></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-head"><span>例題 2 · 完全平方數判斷</span><span class="eq">540 最少要乘以多少才是完全平方數?</span></div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><span class="step-text"><span class="step-math">540 = 2² × 3³ × 5</span><span class="step-note">先做質因數分解</span></span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text"><span class="step-math">完全平方數的每個質因數指數都必須是偶數</span><span class="step-note">2的指數是2(偶數,OK);3的指數是3(奇數,不OK);5的指數是1(奇數,不OK)</span></span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text"><span class="step-math">需要再乘以 3 × 5 = 15</span><span class="step-note">讓 3³ 變成 3⁴、5¹ 變成 5²,兩個指數都變偶數</span></span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text"><span class="step-math">540 × 15 = 8100 = 90²</span><span class="step-note">檢驗:90×90 = 8100 ✓</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. 應用題常見類型 ============ -->
+  <section class="tight">
+    <h2 class="section-title">六、應用題常見類型</h2>
+    <p class="section-sub-en">Word Problem Types</p>
+    <div class="wp-grid">
+      <div class="wp-card">
+        <span class="wp-tag">類型 A · GCF 應用(等分裁切)</span>
+        <h4>一條彩帶長72公分,另一條長96公分,要剪成相同長度的小段且沒有剩餘,每段最長可以是多少公分?最多能剪成幾段?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">
+            72 = 2³×3²,96 = 2⁵×3,GCF = 2³×3 = 24。<br>
+            每段最長 24 公分。段數:72÷24=3,96÷24=4,共 3+4 = <b>7 段</b>。
+          </div>
+        </details>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-tag">類型 B · LCM 應用(週期問題)</span>
+        <h4>甲公車每15分鐘發一班,乙公車每20分鐘發一班,中午12:00兩班車同時發車,下一次同時發車是幾點?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">
+            15 = 3×5,20 = 2²×5,LCM = 2²×3×5 = 60(分鐘)。<br>
+            12:00 + 60分鐘 = <b>13:00(下午1點)</b>。
+          </div>
+        </details>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-tag">類型 C · 質因數分解應用</span>
+        <h4>已知某數 N = 2² × 3³ × 5,最少要乘以多少,才能讓 N 變成完全平方數?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">
+            2的指數2(偶數,OK);3的指數3(奇數);5的指數1(奇數)。<br>
+            需要乘以 3 × 5 = <b>15</b>,使兩者指數都變偶數。
+          </div>
+        </details>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-tag">類型 D · 因倍數推理</span>
+        <h4>一個三位數同時是3和5的倍數,且百位數字是7、十位數字是2,求這個數所有可能的值。</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">
+            數字形式為 72x。是5的倍數 → x=0 或 5。<br>
+            是3的倍數 → 7+2+x 要是3的倍數:x=0時和為9(是3的倍數,成立);x=5時和為14(不是3的倍數,不成立)。<br>
+            答案只有 <b>720</b>。
+          </div>
+        </details>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-tag">類型 E · 奇偶性推理</span>
+        <h4>若 a 為偶數、b 為奇數,判斷 a×b + a 的結果是奇數還是偶數?並說明理由。</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">
+            偶數 × 任何數 = 偶數,所以 a×b 是偶數;偶數 + 偶數(a本身也是偶數)= 偶數。<br>
+            答案:<b>偶數</b>。
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. 基礎練習 ============ -->
+  <section class="tight">
+    <h2 class="section-title">七、基礎練習題</h2>
+    <p class="section-sub-en">Basic Practice</p>
+    <div class="practice-grid">
+      <div class="practice-item"><span class="q-num">1.</span><span class="q-text">列出 18 的所有因數。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">1, 2, 3, 6, 9, 18</div></details></div>
+      <div class="practice-item"><span class="q-num">2.</span><span class="q-text">列出 5 的前 5 個倍數。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">5, 10, 15, 20, 25</div></details></div>
+      <div class="practice-item"><span class="q-num">3.</span><span class="q-text">51 是質數還是合數?</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">合數(51 = 3 × 17)</div></details></div>
+      <div class="practice-item"><span class="q-num">4.</span><span class="q-text">97 是質數還是合數?</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">質數(不能被2,3,5,7整除)</div></details></div>
+      <div class="practice-item"><span class="q-num">5.</span><span class="q-text">將 84 進行質因數分解。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">84 = 2² × 3 × 7</div></details></div>
+      <div class="practice-item"><span class="q-num">6.</span><span class="q-text">求 12 和 18 的最大公因數。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">GCF = 6</div></details></div>
+      <div class="practice-item"><span class="q-num">7.</span><span class="q-text">求 4 和 6 的最小公倍數。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">LCM = 12</div></details></div>
+      <div class="practice-item"><span class="q-num">8.</span><span class="q-text">456 是否為3的倍數?</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">是(4+5+6=15,是3的倍數)</div></details></div>
+      <div class="practice-item"><span class="q-num">9.</span><span class="q-text">3450 是否為4的倍數?</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">否(末兩位50不是4的倍數)</div></details></div>
+      <div class="practice-item"><span class="q-num">10.</span><span class="q-text">求 30 的所有質因數(不重複)。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">2, 3, 5</div></details></div>
+    </div>
+  </section>
+
+  <!-- ============ 8. 進階練習 ============ -->
+  <section class="tight">
+    <h2 class="section-title">八、進階練習題(含應用題)</h2>
+    <p class="section-sub-en">Advanced Practice — Including Word Problems</p>
+    <div class="wp-grid">
+      <div class="wp-card"><span class="wp-tag">三數 GCF / LCM</span><h4>求 12、18、24 的最大公因數與最小公倍數。</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">
+          12=2²×3,18=2×3²,24=2³×3<br>
+          GCF(取最小指數)= 2¹×3¹ = 6<br>
+          LCM(取最大指數)= 2³×3² = 72
+        </div></details></div>
+      <div class="wp-card"><span class="wp-tag">周期問題</span><h4>兩個燈每隔18秒與24秒閃一次,若同時亮起,下一次同時亮起是幾秒後?</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">
+          LCM(18,24) = 2³×3² = 72<br>
+          <b>72 秒後</b>兩燈會再次同時亮起。
+        </div></details></div>
+      <div class="wp-card"><span class="wp-tag">裁切分配問題</span><h4>某工廠要把長140公分與196公分的鋼條裁成等長的小段且無剩餘,每段最長是多少?共可裁成幾段?</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">
+          140=2²×5×7,196=2²×7²,GCF=2²×7=28<br>
+          每段最長 <b>28公分</b>;段數:140÷28=5,196÷28=7,共 <b>12段</b>。
+        </div></details></div>
+      <div class="wp-card"><span class="wp-tag">因數個數問題</span><h4>求 60 的正因數共有幾個?並列出所有正因數。</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">
+          60 = 2²×3×5,因數個數 = (2+1)(1+1)(1+1) = 12 個。<br>
+          全部因數:1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60
+        </div></details></div>
+      <div class="wp-card"><span class="wp-tag">數字性質推理</span><h4>一個兩位數是4的倍數,也是3的倍數,且十位數字是5,求所有可能的值。</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">
+          數字形式為 5x(x為個位)。是4的倍數 → 5x 要能被4整除:52(52÷4=13✓)、56(56÷4=14✓)。<br>
+          再檢查是否為3的倍數:52→5+2=7(不是3的倍數,淘汰);56→5+6=11(不是3的倍數,淘汰)。<br>
+          結果:<b>沒有符合條件的兩位數</b>(這題訓練你同時檢查多個條件、並勇於得出「無解」的結論)。
+        </div></details></div>
+      <div class="wp-card"><span class="wp-tag">質因數與平方數</span><h4>求最小的正整數 k,使得 90 × k 是一個完全平方數。</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">
+          90 = 2×3²×5,2的指數1(奇)、5的指數1(奇),3的指數2(偶,OK)。<br>
+          需要乘以 2×5 = <b>10</b>,90×10=900=30² ✓
+        </div></details></div>
+    </div>
+  </section>
+
+  <!-- ============ 9. 仿真模擬題 ============ -->
+  <section class="tight">
+    <h2 class="section-title">九、仿真模擬題</h2>
+    <p class="section-sub-en">Exam-Style Mock Questions — TW &amp; Cambridge/IGCSE Format</p>
+    <div class="exam-source-note">
+      <b>說明:</b>以下題目是依照台灣國中教育會考與 Cambridge/IGCSE 的<b>題型風格</b>自行設計的模擬題,並非逐字複製任何一年的真實考題。
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag tw">仿會考 · 選擇題</span>
+      <p>下列何者是質數?</p>
+      <div class="choices"><span>(A) 21</span><span>(B) 27</span><span>(C) 31</span><span>(D) 33</span></div>
+      <details class="ans"><summary>看解答</summary><div class="ans-body">21=3×7,27=3³,33=3×11,皆為合數;31 不能被2,3,5整除 → 選 (C)</div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag tw">仿會考 · 選擇題(應用)</span>
+      <p>甲彩帶長48公分,乙彩帶長60公分,要剪成等長且不浪費,每段最長可以是多少公分?</p>
+      <div class="choices"><span>(A) 6</span><span>(B) 12</span><span>(C) 24</span><span>(D) 4</span></div>
+      <details class="ans"><summary>看解答</summary><div class="ans-body">48=2⁴×3,60=2²×3×5,GCF=2²×3=12,選 (B)</div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag tw">仿會考 · 非選擇題</span>
+      <p>求 60 的所有正因數,並寫出質因數分解過程。</p>
+      <details class="ans"><summary>看解答</summary><div class="ans-body">
+        60 = 2²×3×5;正因數:1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60(共12個)
+      </div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag uk">仿 IGCSE · Structured Question</span>
+      <p><i>Express 72 as a product of its prime factors. Give your answer in index notation.</i> [2 marks]</p>
+      <details class="ans"><summary>Show Solution</summary><div class="ans-body">72 = 2³ × 3²</div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag uk">仿 IGCSE · Word Problem (LCM)</span>
+      <p><i>Two bells ring every 18 minutes and every 24 minutes respectively. If they ring together at 9:00 am, at what time will they next ring together?</i></p>
+      <details class="ans"><summary>Show Solution</summary><div class="ans-body">
+        LCM(18, 24) = 72 minutes → 9:00 am + 1 hour 12 minutes = <b>10:12 am</b>
+      </div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag uk">仿 IGCSE · HCF via Prime Factorization</span>
+      <p><i>Find the Highest Common Factor (HCF) of 84 and 126, showing your working using prime factorization.</i></p>
+      <details class="ans"><summary>Show Solution</summary><div class="ans-body">
+        84 = 2²×3×7, 126 = 2×3²×7 → HCF = 2×3×7 = <b>42</b>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ============ 10. 重點整理 ============ -->
+  <section class="tight">
+    <div class="review-card">
+      <h2>重點整理小卡 <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#9fb0c9; font-weight:400;">Quick Review Card</span></h2>
+      <div class="review-grid">
+        <div class="review-item"><span class="rt">FACTOR VS MULTIPLE</span><p>a÷b整除 → b是a的因數,a是b的倍數。</p><p class="en">If a ÷ b divides evenly, b is a factor of a, and a is a multiple of b.</p></div>
+        <div class="review-item"><span class="rt">PRIME NUMBER</span><p>只有1和自己兩個因數的數(大於1)。</p><p class="en">A number greater than 1 with exactly two factors: 1 and itself.</p></div>
+        <div class="review-item"><span class="rt">1 IS SPECIAL</span><p>1既不是質數,也不是合數。</p><p class="en">1 is neither prime nor composite.</p></div>
+        <div class="review-item"><span class="rt">FACTOR TREE</span><p>不斷拆解成兩因數,遇質數就停止該分支。</p><p class="en">Split into two factors repeatedly; stop a branch once it reaches a prime.</p></div>
+        <div class="review-item"><span class="rt">GCF (SHORT DIVISION)</span><p>左邊除數連乘=最大公因數。</p><p class="en">Multiply the divisors on the left to get the GCF.</p></div>
+        <div class="review-item"><span class="rt">LCM (SHORT DIVISION)</span><p>所有數字(除數+最後兩商)連乘=最小公倍數。</p><p class="en">Multiply all numbers in the ladder (divisors + final row) to get the LCM.</p></div>
+        <div class="review-item"><span class="rt">DIVISIBILITY</span><p>善用整除規則(2,3,4,5,9,10)快速判斷,不用真的做除法。</p><p class="en">Use divisibility rules to check quickly without actually dividing.</p></div>
+        <div class="review-item"><span class="rt">PERFECT SQUARE CHECK</span><p>質因數分解後,每個指數都必須是偶數。</p><p class="en">A number is a perfect square only if every prime factor's exponent is even.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav-footer">
+    <span>← 單元01:一元一次方程式</span>
+    <span>單元03:比與比例式 →</span>
+  </div>
+
+</div>
+</body>
+</html>
