@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>石化品行情記錄簿 · Petchem Price Log</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --ink:#1b2733;
+  --ink-soft:#4a5a68;
+  --ink-faint:#8a97a3;
+  --paper:#f5f6f7;
+  --card:#ffffff;
+  --line:#dde3e8;
+  --line-strong:#c3ccd4;
+  --teal:#0e7a6d;
+  --teal-soft:#e2f1ef;
+  --up:#0c8a3e;
+  --dn:#c23b3b;
+  --amber:#b97a12;
+  --mono:"SF Mono","Cascadia Mono","Consolas","Roboto Mono",monospace;
+  --sans:"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:15px;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 60px}
+
+header{background:var(--ink);color:#fff;padding:22px 0;margin-bottom:0}
+header .wrap{padding-bottom:0;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px}
+header h1{font-size:20px;font-weight:600;letter-spacing:.02em}
+header h1 .en{font-weight:400;color:#9fb3c2;font-size:14px;margin-left:10px}
+header .sub{font-size:12px;color:#9fb3c2;margin-top:3px}
+.hdr-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font-family:var(--sans);font-size:13px;padding:7px 14px;border-radius:6px;border:1px solid var(--line-strong);background:var(--card);color:var(--ink);cursor:pointer;transition:background .15s}
+.btn:hover{background:#eef1f3}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn.primary:hover{background:#0a6459}
+.btn.ghost-dark{background:transparent;border-color:#46586a;color:#cfdae2}
+.btn.ghost-dark:hover{background:#2a3947}
+.btn.danger{color:var(--dn)}
+
+nav{background:var(--ink);border-bottom:3px solid var(--teal)}
+nav .wrap{padding-bottom:0;display:flex;gap:0}
+.tab{font-size:14px;padding:12px 22px;cursor:pointer;color:#9fb3c2;border:none;background:transparent;font-family:var(--sans)}
+.tab.on{color:#fff;background:var(--teal);border-radius:6px 6px 0 0}
+.tab:hover:not(.on){color:#dfe8ee}
+
+main{padding-top:28px}
+.panel{display:none}
+.panel.show{display:block}
+
+.section-label{font-size:12px;font-weight:600;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.08em;margin:22px 0 10px}
+.section-label:first-child{margin-top:0}
+
+.date-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin-bottom:8px}
+.date-row label{font-size:14px;font-weight:600}
+input[type=date]{font-family:var(--sans);font-size:14px;padding:6px 10px;border-radius:6px;border:1px solid var(--line-strong);background:var(--card);color:var(--ink)}
+.hint{font-size:12px;color:var(--ink-faint)}
+
+.group{background:var(--card);border:1px solid var(--line);border-radius:8px;margin-bottom:10px;overflow:hidden}
+.group-title{font-size:13px;font-weight:600;background:#eef1f3;padding:8px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+.rows{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:640px){.rows{grid-template-columns:1fr}}
+.row{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--line)}
+.rows .row:nth-last-child(-n+2):nth-child(odd){border-bottom:none}
+.rows .row:last-child{border-bottom:none}
+.row label{flex:1;font-size:13px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.term{font-size:11px;color:var(--amber);font-family:var(--mono);margin-left:5px}
+.row input{width:110px;font-family:var(--mono);font-size:14px;padding:5px 9px;border-radius:6px;border:1px solid var(--line-strong);text-align:right;color:var(--ink)}
+.row input:focus{outline:2px solid var(--teal-soft);border-color:var(--teal)}
+.full{grid-column:1/-1}
+
+.save-bar{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+
+.tbl-scroll{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:11px;font-weight:600;color:var(--ink-faint);padding:10px 10px 8px;border-bottom:2px solid var(--line-strong);text-align:right;white-space:nowrap;background:#fafbfc;position:sticky;top:0}
+th:first-child{text-align:left}
+th .u{display:block;font-weight:400;color:var(--amber);font-family:var(--mono);font-size:10px}
+td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);white-space:nowrap}
+td:first-child{text-align:left;font-family:var(--sans);font-weight:600;color:var(--ink-soft)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f4f8f7}
+.chg{font-size:11px;margin-left:4px}
+.up{color:var(--up)}.dn{color:var(--dn)}
+td.edit-cell{cursor:pointer}
+td.edit-cell:hover{background:var(--teal-soft) !important;outline:1px dashed var(--teal)}
+td.edit-cell input{width:92px;font-family:var(--mono);font-size:13px;padding:3px 6px;border:1px solid var(--teal);border-radius:4px;text-align:right}
+.del-btn{font-size:11px;color:var(--dn);cursor:pointer;background:none;border:none;font-family:var(--sans)}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
+.chip{font-size:12px;padding:5px 12px;border-radius:16px;border:1px solid var(--line-strong);background:var(--card);color:var(--ink-soft);cursor:pointer;font-family:var(--sans)}
+.chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
+
+.chart-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin-bottom:16px}
+.chart-card h3{font-size:15px;font-weight:600;margin-bottom:10px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:10px}
+.leg{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-soft)}
+.leg .sw{width:16px;height:0;border-top:3px solid;display:inline-block}
+.leg .sw.dash{border-top-style:dashed}
+.leg .sw.dot{border-top-style:dotted;border-top-width:3px}
+.chart-box{position:relative;width:100%;height:260px}
+
+.empty{text-align:center;padding:50px 20px;color:var(--ink-faint);font-size:14px;background:var(--card);border:1px dashed var(--line-strong);border-radius:8px}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13px;padding:10px 20px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:99}
+.toast.show{opacity:1}
+
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div>
+      <h1>石化品行情記錄簿<span class="en">Petchem Price Log</span></h1>
+      <div class="sub">Platts 油價 · 化學品多交易條件報價 · 長期趨勢追蹤（資料儲存於瀏覽器本機）</div>
+    </div>
+    <div class="hdr-btns">
+      <button class="btn ghost-dark" onclick="document.getElementById('csvFile').click()">匯入 CSV</button>
+      <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="importCSV(event)">
+      <button class="btn ghost-dark" onclick="exportCSV()">匯出 CSV</button>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <button class="tab on" onclick="showTab(0,this)">輸入報價</button>
+    <button class="tab" onclick="showTab(1,this)">歷史記錄</button>
+    <button class="tab" onclick="showTab(2,this)">走勢圖</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<div class="panel show" id="p0">
+  <div class="date-row">
+    <label>報價日期</label>
+    <input type="date" id="entryDate">
+    <span class="hint">可補錄過去任何日期；同日期再存會覆蓋更新該日資料</span>
+  </div>
+
+  <div class="section-label">Platts 油價 · USD/bbl</div>
+  <div class="group">
+    <div class="group-title">Crude oil 原油</div>
+    <div class="rows">
+      <div class="row"><label>WTI<span class="term">Platts</span></label><input type="number" step="0.01" id="f_wti" placeholder="–"></div>
+      <div class="row"><label>Dubai<span class="term">Platts</span></label><input type="number" step="0.01" id="f_dub" placeholder="–"></div>
+      <div class="row full"><label>Brent<span class="term">Platts</span></label><input type="number" step="0.01" id="f_brt" placeholder="–"></div>
+    </div>
+  </div>
+
+  <div class="section-label">化學品 · USD/t（華東 RMB 欄位為 RMB/t）</div>
+
+  <div class="group">
+    <div class="group-title">Naphtha 輕油</div>
+    <div class="rows">
+      <div class="row full"><label>Naphtha<span class="term">MOPJ</span></label><input type="number" step="0.5" id="f_nap_mopj" placeholder="–"></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Benzene 苯</div>
+    <div class="rows">
+      <div class="row"><label>Benzene<span class="term">CFR TW</span></label><input type="number" step="0.5" id="f_benz_cfrtw" placeholder="–"></div>
+      <div class="row"><label>Benzene<span class="term">FOB K</span></label><input type="number" step="0.5" id="f_benz_fobk" placeholder="–"></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Toluene 甲苯</div>
+    <div class="rows">
+      <div class="row"><label>Toluene<span class="term">FOB K</span></label><input type="number" step="0.5" id="f_tol_fobk" placeholder="–"></div>
+      <div class="row"><label>Toluene<span class="term">FOB CN</span></label><input type="number" step="0.5" id="f_tol_fobcn" placeholder="–"></div>
+      <div class="row"><label>Toluene 華東出罐<span class="term">ICIS RMB</span></label><input type="number" step="5" id="f_tol_icis_rmb" placeholder="–"></div>
+      <div class="row"><label>Toluene 華東出罐<span class="term">ICIS USD</span></label><input type="number" step="0.5" id="f_tol_icis_usd" placeholder="–"></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Xylene 二甲苯（混合）</div>
+    <div class="rows">
+      <div class="row"><label>Xylene<span class="term">CFR TW</span></label><input type="number" step="0.5" id="f_xyl_cfrtw" placeholder="–"></div>
+      <div class="row"><label>Xylene<span class="term">FOB K</span></label><input type="number" step="0.5" id="f_xyl_fobk" placeholder="–"></div>
+      <div class="row"><label>Xylene<span class="term">FOB CN</span></label><input type="number" step="0.5" id="f_xyl_fobcn" placeholder="–"></div>
+      <div class="row"><label>Xylene 華東出罐<span class="term">ICIS RMB</span></label><input type="number" step="5" id="f_xyl_icis_rmb" placeholder="–"></div>
+      <div class="row full"><label>Xylene 華東出罐<span class="term">ICIS USD</span></label><input type="number" step="0.5" id="f_xyl_icis_usd" placeholder="–"></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">OX 鄰二甲苯</div>
+    <div class="rows">
+      <div class="row full"><label>OX<span class="term">USD/t</span></label><input type="number" step="0.5" id="f_ox" placeholder="–"></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">PX 對二甲苯</div>
+    <div class="rows">
+      <div class="row"><label>PX<span class="term">CFR TW</span></label><input type="number" step="0.5" id="f_px_cfrtw" placeholder="–"></div>
+      <div class="row"><label>PX<span class="term">FOB K</span></label><input type="number" step="0.5" id="f_px_fobk" placeholder="–"></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">SM 苯乙烯</div>
+    <div class="rows">
+      <div class="row full"><label>SM<span class="term">USD/t</span></label><input type="number" step="0.5" id="f_sm" placeholder="–"></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Phenol 苯酚</div>
+    <div class="rows">
+      <div class="row full"><label>Phenol<span class="term">USD/t</span></label><input type="number" step="0.5" id="f_phenol" placeholder="–"></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">PTA</div>
+    <div class="rows">
+      <div class="row full"><label>PTA<span class="term">USD/t</span></label><input type="number" step="0.5" id="f_pta" placeholder="–"></div>
+    </div>
+  </div>
+
+  <div class="save-bar">
+    <button class="btn" onclick="clearForm()">清除欄位</button>
+    <button class="btn primary" onclick="saveEntry()">儲存這筆報價</button>
+  </div>
+</div>
+
+<div class="panel" id="p1">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+    <div class="section-label" style="margin:0">已儲存記錄（最新在上 · 點擊任一數字即可直接修改，Enter 儲存、Esc 取消，清空則刪除該值）</div>
+    <button class="btn danger" onclick="clearAll()">清除全部記錄</button>
+  </div>
+  <div id="historyPanel"></div>
+</div>
+
+<div class="panel" id="p2">
+  <div class="section-label">選擇要顯示的欄位（可多選，同群組畫在同一張圖）</div>
+  <div class="chips" id="chips"></div>
+  <div id="chartsBox"></div>
+</div>
+
+<footer class="wrap" style="padding-left:0;padding-right:0">
+  資料儲存於此瀏覽器的 localStorage。換裝置或清除瀏覽器資料前，請先「匯出 CSV」備份；在新裝置以「匯入 CSV」還原。
+</footer>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const FIELDS=[
+ {id:'wti',label:'WTI',term:'Platts',unit:'USD/bbl',group:'Crude oil 原油'},
+ {id:'dub',label:'Dubai',term:'Platts',unit:'USD/bbl',group:'Crude oil 原油'},
+ {id:'brt',label:'Brent',term:'Platts',unit:'USD/bbl',group:'Crude oil 原油'},
+ {id:'nap_mopj',label:'Naphtha',term:'MOPJ',unit:'USD/t',group:'Naphtha 輕油'},
+ {id:'benz_cfrtw',label:'Benzene',term:'CFR TW',unit:'USD/t',group:'Benzene 苯'},
+ {id:'benz_fobk',label:'Benzene',term:'FOB K',unit:'USD/t',group:'Benzene 苯'},
+ {id:'tol_fobk',label:'Toluene',term:'FOB K',unit:'USD/t',group:'Toluene 甲苯'},
+ {id:'tol_fobcn',label:'Toluene',term:'FOB CN',unit:'USD/t',group:'Toluene 甲苯'},
+ {id:'tol_icis_rmb',label:'Toluene 華東',term:'ICIS RMB',unit:'RMB/t',group:'Toluene 甲苯'},
+ {id:'tol_icis_usd',label:'Toluene 華東',term:'ICIS USD',unit:'USD/t',group:'Toluene 甲苯'},
+ {id:'xyl_cfrtw',label:'Xylene',term:'CFR TW',unit:'USD/t',group:'Xylene 二甲苯'},
+ {id:'xyl_fobk',label:'Xylene',term:'FOB K',unit:'USD/t',group:'Xylene 二甲苯'},
+ {id:'xyl_fobcn',label:'Xylene',term:'FOB CN',unit:'USD/t',group:'Xylene 二甲苯'},
+ {id:'xyl_icis_rmb',label:'Xylene 華東',term:'ICIS RMB',unit:'RMB/t',group:'Xylene 二甲苯'},
+ {id:'xyl_icis_usd',label:'Xylene 華東',term:'ICIS USD',unit:'USD/t',group:'Xylene 二甲苯'},
+ {id:'ox',label:'OX',term:'',unit:'USD/t',group:'OX 鄰二甲苯'},
+ {id:'px_cfrtw',label:'PX',term:'CFR TW',unit:'USD/t',group:'PX 對二甲苯'},
+ {id:'px_fobk',label:'PX',term:'FOB K',unit:'USD/t',group:'PX 對二甲苯'},
+ {id:'sm',label:'SM',term:'',unit:'USD/t',group:'SM 苯乙烯'},
+ {id:'phenol',label:'Phenol',term:'',unit:'USD/t',group:'Phenol 苯酚'},
+ {id:'pta',label:'PTA',term:'',unit:'USD/t',group:'PTA'}
+];
+const COLORS=['#0e7a6d','#b97a12','#2a5fa8','#a8422a','#5a4a9e','#3d7a2a','#a83a6e','#4a7a8a'];
+const SPREADS=[
+ {id:'pxn',label:'PXN = PX CFR TW − Naphtha',a:'px_cfrtw',b:'nap_mopj',group:'PX 對二甲苯',color:'#c23b3b'},
+ {id:'pxy',label:'PXY = PX CFR TW − Xylene CFR TW',a:'px_cfrtw',b:'xyl_cfrtw',group:'PX 對二甲苯',color:'#5a4a9e'},
+ {id:'xyn',label:'XYN = Xylene CFR TW − Naphtha',a:'xyl_cfrtw',b:'nap_mopj',group:'Xylene 二甲苯',color:'#c23b3b'},
+ {id:'bzn',label:'BZN = Benzene CFR TW − Naphtha',a:'benz_cfrtw',b:'nap_mopj',group:'Benzene 苯',color:'#c23b3b'}
+];
+const KEY='petchem_records_v1';
+let records=[];
+let sel=new Set(['wti','benz_cfrtw','px_cfrtw','pta']);
+let charts={};
+
+function load(){try{records=JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){records=[];}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(records));}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function fname(f){return (f.label+(f.term?' '+f.term:'')).trim();}
+
+function showTab(n,el){
+  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('show',i===n));
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===n));
+  if(n===1)renderHistory();
+  if(n===2)renderCharts();
+}
+
+function saveEntry(){
+  const date=document.getElementById('entryDate').value;
+  if(!date){toast('請先選擇日期');return;}
+  const entry={date};let count=0;
+  FIELDS.forEach(f=>{
+    const el=document.getElementById('f_'+f.id);
+    if(el&&el.value!==''){entry[f.id]=parseFloat(el.value);count++;}
+  });
+  if(!count){toast('請至少填入一個價格');return;}
+  const idx=records.findIndex(r=>r.date===date);
+  if(idx>=0)records[idx]={...records[idx],...entry};
+  else records.push(entry);
+  records.sort((a,b)=>b.date.localeCompare(a.date));
+  persist();
+  toast('已儲存 '+date+'（共 '+records.length+' 筆記錄）');
+}
+
+function clearForm(){FIELDS.forEach(f=>{const e=document.getElementById('f_'+f.id);if(e)e.value='';});}
+
+function clearAll(){
+  if(!confirm('確定要清除所有記錄？建議先匯出 CSV 備份。'))return;
+  records=[];persist();renderHistory();toast('已清除所有記錄');
+}
+
+function delRecord(date){
+  if(!confirm('刪除 '+date+' 這筆記錄？'))return;
+  records=records.filter(r=>r.date!==date);
+  persist();renderHistory();toast('已刪除 '+date);
+}
+
+function renderHistory(){
+  const hp=document.getElementById('historyPanel');
+  if(!records.length){hp.innerHTML='<div class="empty">尚無記錄。到「輸入報價」分頁儲存第一筆，或用「匯入 CSV」載入既有資料。</div>';return;}
+  const vis=FIELDS.filter(f=>records.some(r=>r[f.id]!=null));
+  let h='<div class="tbl-scroll"><table><thead><tr><th>日期</th>';
+  vis.forEach(f=>{h+='<th>'+fname(f)+'<span class="u">'+f.unit+'</span></th>';});
+  h+='<th></th></tr></thead><tbody>';
+  records.forEach((r,ri)=>{
+    h+='<tr><td>'+r.date+'</td>';
+    vis.forEach(f=>{
+      const v=r[f.id],prev=records[ri+1]?records[ri+1][f.id]:null;
+      let chg='';
+      if(v!=null&&prev!=null){
+        const d=v-prev;
+        if(Math.abs(d)>=0.005)chg='<span class="chg '+(d>0?'up':'dn')+'">'+(d>0?'▲':'▼')+Math.abs(d).toFixed(1)+'</span>';
+      }
+      h+='<td class="edit-cell" data-date="'+r.date+'" data-field="'+f.id+'" title="點擊修改">'+(v!=null?v.toFixed(f.unit==='RMB/t'?0:2)+chg:'–')+'</td>';
+    });
+    h+='<td><button class="del-btn" onclick="delRecord(\''+r.date+'\')">刪除</button></td></tr>';
+  });
+  h+='</tbody></table></div>';
+  hp.innerHTML=h;
+  hp.querySelectorAll('td.edit-cell').forEach(td=>{
+    td.addEventListener('click',()=>startEdit(td));
+  });
+}
+
+function startEdit(td){
+  if(td.querySelector('input'))return;
+  const date=td.dataset.date,fid=td.dataset.field;
+  const rec=records.find(r=>r.date===date);
+  if(!rec)return;
+  const cur=rec[fid]!=null?rec[fid]:'';
+  td.innerHTML='<input type="number" step="0.01" value="'+cur+'">';
+  const inp=td.querySelector('input');
+  inp.focus();inp.select();
+  let cancelled=false;
+  const commit=()=>{
+    if(cancelled)return;
+    const v=inp.value.trim();
+    if(v===''){delete rec[fid];}
+    else{const n=parseFloat(v);if(isNaN(n)){renderHistory();return;}rec[fid]=n;}
+    if(Object.keys(rec).length<=1){
+      records=records.filter(x=>x.date!==date);
+    }
+    persist();
+    renderHistory();
+    toast('已更新 '+date);
+  };
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter')inp.blur();
+    if(e.key==='Escape'){cancelled=true;renderHistory();}
+  });
+  inp.addEventListener('blur',commit);
+}
+
+function initChips(){
+  const c=document.getElementById('chips');c.innerHTML='';
+  FIELDS.forEach(f=>{
+    const b=document.createElement('button');
+    b.className='chip'+(sel.has(f.id)?' on':'');
+    b.textContent=fname(f);
+    b.onclick=()=>{
+      if(sel.has(f.id)){if(sel.size>1)sel.delete(f.id);}else sel.add(f.id);
+      b.classList.toggle('on',sel.has(f.id));
+      renderCharts();
+    };
+    c.appendChild(b);
+  });
+}
+
+function renderCharts(){
+  Object.values(charts).forEach(c=>c.destroy());charts={};
+  const box=document.getElementById('chartsBox');
+  if(records.length<2){box.innerHTML='<div class="empty">儲存至少 2 筆不同日期的記錄後即可顯示走勢圖。</div>';return;}
+  box.innerHTML='';
+  const selF=FIELDS.filter(f=>sel.has(f.id));
+  const groups=[...new Set(selF.map(f=>f.group))];
+  const dates=[...records].sort((a,b)=>a.date.localeCompare(b.date)).map(r=>r.date);
+  groups.forEach(g=>{
+    const gf=selF.filter(f=>f.group===g);
+    const div=document.createElement('div');div.className='chart-card';
+    const cid='c_'+g.replace(/[^a-z0-9]/gi,'');
+    const gSpreads=SPREADS.filter(s=>s.group===g);
+    let leg='<div class="legend">';
+    gf.forEach((f,i)=>{
+      const col=COLORS[FIELDS.indexOf(f)%COLORS.length];
+      leg+='<span class="leg"><span class="sw'+(i%2?' dash':'')+'" style="border-color:'+col+'"></span>'+fname(f)+'</span>';
+    });
+    gSpreads.forEach(s=>{
+      leg+='<span class="leg"><span class="sw dot" style="border-color:'+s.color+'"></span>'+s.label+'</span>';
+    });
+    leg+='</div>';
+    div.innerHTML='<h3>'+g+'</h3>'+leg+'<div class="chart-box"><canvas id="'+cid+'" role="img" aria-label="'+g+' 價格走勢圖"></canvas></div>';
+    box.appendChild(div);
+    const datasets=gf.map((f,i)=>({
+      label:fname(f),
+      data:dates.map(d=>{const rec=records.find(r=>r.date===d);return rec?(rec[f.id]??null):null;}),
+      borderColor:COLORS[FIELDS.indexOf(f)%COLORS.length],
+      borderWidth:2,
+      borderDash:i%2?[6,4]:[],
+      pointRadius:dates.length<=20?3:0,
+      pointHoverRadius:5,
+      tension:0.25,
+      spanGaps:true,
+      fill:false
+    }));
+    gSpreads.forEach(s=>{
+      datasets.push({
+        label:s.label,
+        data:dates.map(d=>{
+          const rec=records.find(r=>r.date===d);
+          if(!rec)return null;
+          const av=rec[s.a],bv=rec[s.b];
+          return (av!=null&&bv!=null)?parseFloat((av-bv).toFixed(2)):null;
+        }),
+        borderColor:s.color,
+        borderWidth:2,
+        borderDash:[2,3],
+        pointRadius:0,
+        pointHoverRadius:5,
+        tension:0.25,
+        spanGaps:true,
+        fill:false
+      });
+    });
+    charts[g]=new Chart(document.getElementById(cid),{
+      type:'line',
+      data:{labels:dates,datasets},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        interaction:{mode:'index',intersect:false},
+        plugins:{legend:{display:false}},
+        scales:{
+          x:{grid:{color:'rgba(0,0,0,.05)'},ticks:{maxTicksLimit:10,font:{size:11}}},
+          y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:11}}}
+        }
+      }
+    });
+  });
+}
+
+function exportCSV(){
+  if(!records.length){toast('尚無資料可匯出');return;}
+  const header=['date',...FIELDS.map(f=>f.id)].join(',');
+  const readable=['日期',...FIELDS.map(f=>fname(f)+' ('+f.unit+')')].join(',');
+  const rows=[...records].sort((a,b)=>a.date.localeCompare(b.date))
+    .map(r=>[r.date,...FIELDS.map(f=>r[f.id]!=null?r[f.id]:'')].join(','));
+  const csv=header+'\n'+readable+'\n'+rows.join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='petchem_prices_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();URL.revokeObjectURL(a.href);
+  toast('已匯出 '+records.length+' 筆記錄');
+}
+
+function importCSV(ev){
+  const file=ev.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const lines=e.target.result.replace(/^\uFEFF/,'').split(/\r?\n/).filter(l=>l.trim());
+      if(lines.length<2)throw new Error('empty');
+      const header=lines[0].split(',').map(s=>s.trim());
+      if(header[0]!=='date')throw new Error('format');
+      const ids=header.slice(1);
+      const validIds=new Set(FIELDS.map(f=>f.id));
+      let startRow=1;
+      if(lines[1]&&lines[1].startsWith('日期'))startRow=2;
+      let added=0,updated=0;
+      for(let i=startRow;i<lines.length;i++){
+        const cells=lines[i].split(',');
+        const date=cells[0].trim();
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(date))continue;
+        const entry={date};
+        ids.forEach((id,j)=>{
+          if(!validIds.has(id))return;
+          const v=cells[j+1];
+          if(v!==undefined&&v.trim()!=='')entry[id]=parseFloat(v);
+        });
+        const idx=records.findIndex(r=>r.date===date);
+        if(idx>=0){records[idx]={...records[idx],...entry};updated++;}
+        else{records.push(entry);added++;}
+      }
+      records.sort((a,b)=>b.date.localeCompare(a.date));
+      persist();
+      renderHistory();
+      toast('匯入完成：新增 '+added+' 筆、更新 '+updated+' 筆');
+    }catch(err){
+      toast('匯入失敗：請使用本工具匯出的 CSV 格式（第一欄為 date）');
+    }
+    ev.target.value='';
+  };
+  reader.readAsText(file,'utf-8');
+}
+
+load();
+document.getElementById('entryDate').value=new Date().toISOString().slice(0,10);
+initChips();
+</script>
+</body>
+</html>

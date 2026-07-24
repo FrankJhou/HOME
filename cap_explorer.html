@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cap Explorer</title>
+<style>
+  body { margin:0; display:flex; align-items:center; justify-content:center; height:100vh; background:#222; font-family:sans-serif; }
+  #game { position:relative; width:600px; height:420px; background:linear-gradient(#bfe6ff,#eafff0); border-radius:12px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.4); }
+  #hint, #score { position:absolute; background:rgba(255,255,255,0.85); padding:6px 10px; border-radius:8px; font-size:13px; }
+  #hint { top:10px; left:10px; }
+  #score { top:10px; right:10px; }
+  #char { position:absolute; width:36px; height:50px; left:50px; top:300px; }
+</style>
+</head>
+<body>
+<div id="game" tabindex="0">
+  <div id="hint">Use arrow keys / WASD to walk. Find all 3 gems!</div>
+  <div id="score">Found: 0 / 3</div>
+  <div id="char">
+    <svg viewBox="0 0 36 50" width="36" height="50">
+      <ellipse cx="18" cy="47" rx="10" ry="3" fill="rgba(0,0,0,0.15)"/>
+      <rect x="10" y="24" width="16" height="18" rx="4" fill="#3b82f6"/>
+      <circle cx="18" cy="14" r="9" fill="#f5c396"/>
+      <path d="M8 12 Q18 -2 28 12 Q28 6 18 6 Q8 6 8 12 Z" fill="#e11d48"/>
+      <rect x="7" y="10" width="22" height="4" rx="2" fill="#e11d48"/>
+      <rect x="9" y="40" width="6" height="8" fill="#374151"/>
+      <rect x="21" y="40" width="6" height="8" fill="#374151"/>
+    </svg>
+  </div>
+</div>
+<script>
+(function(){
+  const game = document.getElementById('game');
+  const char = document.getElementById('char');
+  const scoreEl = document.getElementById('score');
+  const bounds = {w: 600, h: 420};
+  let pos = {x:50, y:300};
+  let found = 0;
+  const gems = [];
+  const gemPositions = [[220,80],[400,200],[150,340]];
+  gemPositions.forEach((p)=>{
+    const g = document.createElement('div');
+    g.style.cssText = `position:absolute; left:${p[0]}px; top:${p[1]}px; width:22px; height:22px;`;
+    g.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22"><polygon points="12,1 22,9 18,23 6,23 2,9" fill="#a855f7" stroke="#7e22ce" stroke-width="1"/></svg>`;
+    game.appendChild(g);
+    gems.push({el:g, x:p[0], y:p[1], found:false});
+  });
+
+  const keys = {};
+  window.addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; });
+  window.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
+
+  function loop(){
+    const speed = 4;
+    let dx = 0, dy = 0;
+    if (keys['arrowleft'] || keys['a']) dx -= speed;
+    if (keys['arrowright'] || keys['d']) dx += speed;
+    if (keys['arrowup'] || keys['w']) dy -= speed;
+    if (keys['arrowdown'] || keys['s']) dy += speed;
+    pos.x = Math.max(0, Math.min(bounds.w-36, pos.x+dx));
+    pos.y = Math.max(0, Math.min(bounds.h-50, pos.y+dy));
+    char.style.left = pos.x+'px';
+    char.style.top = pos.y+'px';
+
+    gems.forEach(g=>{
+      if(!g.found){
+        const dist = Math.hypot((pos.x+18)-(g.x+11), (pos.y+25)-(g.y+11));
+        if(dist < 28){
+          g.found = true;
+          g.el.style.display = 'none';
+          found++;
+          scoreEl.textContent = `Found: ${found} / 3`;
+          if(found === 3){
+            scoreEl.textContent = `All gems found! 🎉`;
+          }
+        }
+      }
+    });
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+  game.focus();
+})();
+</script>
+</body>
+</html>

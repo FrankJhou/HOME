@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Square Collector</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+  :root{
+    --bg: #0b0e1a;
+    --grid-line: #161c33;
+    --panel: #11162a;
+    --player: #5eead4;
+    --item: #fbbf24;
+    --enemy: #f43f5e;
+    --text: #e2e8f0;
+    --text-dim: #6b7593;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text);
+  }
+  #holder{
+    position: relative;
+    border-radius: 14px;
+    box-shadow: 0 0 0 1px #202749, 0 0 60px rgba(94,234,212,0.10), 0 20px 50px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  canvas {
+    display: block;
+    background: var(--bg);
+  }
+</style>
+</head>
+<body>
+<div id="holder">
+  <canvas id="game" width="700" height="500"></canvas>
+</div>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const HUD_H = 40;
+
+// ── STATE ──────────────────────────────────────────────
+const S = { TITLE: 0, PLAYING: 1, LEVELUP: 2, GAMEOVER: 3, WIN: 4 };
+let state = S.TITLE;
+let level = 1, lives = 3, score = 0;
+let items = [], enemies = [], collected = 0;
+let transitionTimer = 0;
+let flashTimer = 0; // red damage flash
+let pulse = 0;
+
+// ── PLAYER ───────────────────────────────────────────────
+const player = { x: W/2, y: H/2, r: 12, spd: 3, invuln: 0 };
+
+// ── INPUT ──────────────────────────────────────────────
+const keys = {};
+window.addEventListener('keydown', e => {
+  keys[e.key] = true;
+  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+});
+window.addEventListener('keyup', e => keys[e.key] = false);
+
+// ── START BUTTON (title screen) ─────────────────────────
+const startBtn = { x: W/2 - 65, y: 330, w: 130, h: 44 };
+canvas.addEventListener('click', e => {
+  if (state !== S.TITLE) return;
+  const rect = canvas.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (W / rect.width);
+  const my = (e.clientY - rect.top) * (H / rect.height);
+  if (mx >= startBtn.x && mx <= startBtn.x + startBtn.w &&
+      my >= startBtn.y && my <= startBtn.y + startBtn.h) {
+    startGame();
+  }
+});
+
+// ── LEVEL DATA ─────────────────────────────────────────
+const LEVELS = {
+  1: {
+    items: [{x:140,y:110},{x:560,y:90},{x:90,y:360},{x:610,y:380},{x:350,y:195}],
+    enemies: [{x:240,y:175,dx:1.5},{x:460,y:315,dx:-1.2}],
+    goal: 5
+  },
+  2: {
+    items: [{x:110,y:80},{x:590,y:80},{x:90,y:420},{x:610,y:420},
+             {x:195,y:255},{x:505,y:255},{x:350,y:115},{x:350,y:385}],
+    enemies: [{x:200,y:150,dx:1.3},{x:500,y:150,dx:-1.3},
+              {x:195,y:350,dx:1.3},{x:505,y:350,dx:-1.3}],
+    goal: 8
+  }
+};
+
+function startGame() {
+  level = 1; lives = 3; score = 0;
+  loadLevel(1);
+  state = S.PLAYING;
+}
+
+function loadLevel(lvl) {
+  level = lvl;
+  const d = LEVELS[lvl];
+  items = d.items.map(s => ({ ...s, r: 10, got: false, popTimer: 0 }));
+  enemies = d.enemies.map(m => ({ ...m, r: 12 }));
+  collected = 0;
+  player.x = W/2; player.y = H/2 + 20;
+  player.invuln = 1.0; // brief grace period entering a level
+}
+
+// ── UPDATE ─────────────────────────────────────────────
+function update(dt) {
+  pulse += dt;
+  if (flashTimer > 0) flashTimer -= dt;
+
+  if (state === S.LEVELUP || state === S.GAMEOVER) {
+    transitionTimer -= dt;
+    if (transitionTimer <= 0) {
+      if (state === S.LEVELUP) {
+        loadLevel(2);
+        state = S.PLAYING;
+      } else {
+        lives = 3;
+        loadLevel(1);
+        state = S.PLAYING;
+      }
+    }
+    return;
+  }
+
+  if (state !== S.PLAYING) return;
+
+  if (player.invuln > 0) player.invuln -= dt;
+
+  let dx = 0, dy = 0;
+  if (keys['ArrowLeft']  || keys['a'] || keys['A']) dx -= player.spd;
+  if (keys['ArrowRight'] || keys['d'] || keys['D']) dx += player.spd;
+  if (keys['ArrowUp']    || keys['w'] || keys['W']) dy -= player.spd;
+  if (keys['ArrowDown']  || keys['s'] || keys['S']) dy += player.spd;
+  player.x = Math.max(player.r, Math.min(W - player.r, player.x + dx));
+  player.y = Math.max(player.r + HUD_H, Math.min(H - player.r, player.y + dy));
+
+  // Enemies: back and forth horizontally, constant slow speed
+  enemies.forEach(m => {
+    m.x += m.dx;
+    if (m.x < m.r || m.x > W - m.r) m.dx *= -1;
+  });
+
+  // Item collection
+  items.forEach(s => {
+    if (s.got) return;
+    const d = Math.hypot(player.x - s.x, player.y - s.y);
+    if (d < player.r + s.r) {
+      s.got = true; collected++; score += 1;
+    }
+  });
+
+  // Level complete
+  if (collected >= LEVELS[level].goal) {
+    if (level === 1) {
+      state = S.LEVELUP;
+      transitionTimer = 1.4;
+    } else {
+      state = S.WIN;
+    }
+    return;
+  }
+
+  // Enemy collision — only registers once per hit thanks to the invuln window,
+  // and only ever costs one life per hit even if multiple enemies overlap the
+  // same frame.
+  if (player.invuln <= 0) {
+    for (const m of enemies) {
+      if (Math.hypot(player.x - m.x, player.y - m.y) < player.r + m.r) {
+        lives--;
+        flashTimer = 0.3;
+        player.invuln = 1.4;
+        player.x = W/2; player.y = H/2 + 20;
+        if (lives <= 0) {
+          state = S.GAMEOVER;
+          transitionTimer = 1.6;
+        }
+        break; // stop after the first hit this frame
+      }
+    }
+  }
+}
+
+// ── DRAW ───────────────────────────────────────────────
+function drawGrid() {
+  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#0b0e1a';
+  ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = 'rgba(94,234,212,0.05)';
+  ctx.lineWidth = 1;
+  const step = 28;
+  for (let x = 0; x <= W; x += step) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = HUD_H; y <= H; y += step) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+}
+
+function drawItem(s) {
+  if (s.got) return;
+  const bob = Math.sin(pulse*2.4 + s.x*0.05) * 2;
+  ctx.save();
+  ctx.shadowColor = '#fbbf24';
+  ctx.shadowBlur = 12;
+  ctx.fillStyle = '#fbbf24';
+  ctx.fillRect(s.x - s.r, s.y - s.r + bob, s.r*2, s.r*2);
+  ctx.restore();
+}
+
+function drawEnemy(m) {
+  ctx.save();
+  ctx.shadowColor = '#f43f5e';
+  ctx.shadowBlur = 10;
+  ctx.fillStyle = '#f43f5e';
+  ctx.fillRect(m.x - m.r, m.y - m.r, m.r*2, m.r*2);
+  ctx.restore();
+}
+
+function drawPlayer() {
+  ctx.save();
+  if (player.invuln > 0 && Math.floor(player.invuln*14) % 2 === 0) {
+    ctx.globalAlpha = 0.4;
+  }
+  ctx.shadowColor = '#5eead4';
+  ctx.shadowBlur = 14;
+  ctx.fillStyle = '#5eead4';
+  ctx.fillRect(player.x - player.r, player.y - player.r, player.r*2, player.r*2);
+  ctx.restore();
+}
+
+function drawHUD() {
+  ctx.fillStyle = '#11162a';
+  ctx.fillRect(0, 0, W, HUD_H);
+  ctx.strokeStyle = '#202749';
+  ctx.beginPath(); ctx.moveTo(0, HUD_H); ctx.lineTo(W, HUD_H); ctx.stroke();
+
+  ctx.fillStyle = '#e2e8f0';
+  ctx.font = '600 14px "JetBrains Mono", monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText(`SCORE ${score}`, 14, 25);
+
+  ctx.textAlign = 'center';
+  ctx.fillText(`LEVEL ${level}`, W/2, 25);
+
+  ctx.textAlign = 'right';
+  ctx.fillStyle = '#f43f5e';
+  let heartStr = '';
+  for (let i=0;i<3;i++) heartStr += i < lives ? '■ ' : '□ ';
+  ctx.fillText(heartStr.trim(), W - 14, 25);
+}
+
+function drawDamageFlash() {
+  if (flashTimer > 0) {
+    ctx.fillStyle = `rgba(244,63,94,${(flashTimer/0.3)*0.25})`;
+    ctx.fillRect(0, 0, W, H);
+  }
+}
+
+// ── SCREENS ────────────────────────────────────────────
+function screenTitle() {
+  drawGrid();
+  ctx.fillStyle = '#e2e8f0';
+  ctx.font = '700 40px "Space Grotesk", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('SQUARE COLLECTOR', W/2, 150);
+
+  ctx.fillStyle = '#6b7593';
+  ctx.font = '15px "JetBrains Mono", monospace';
+  ctx.fillText('Collect the amber squares. Avoid the crimson ones.', W/2, 190);
+  ctx.fillText('Move with WASD or Arrow Keys.', W/2, 214);
+
+  // sample squares as legend
+  ctx.save();
+  ctx.shadowColor = '#fbbf24'; ctx.shadowBlur = 10; ctx.fillStyle = '#fbbf24';
+  ctx.fillRect(W/2 - 130, 250, 16, 16);
+  ctx.restore();
+  ctx.save();
+  ctx.shadowColor = '#f43f5e'; ctx.shadowBlur = 10; ctx.fillStyle = '#f43f5e';
+  ctx.fillRect(W/2 + 114, 250, 16, 16);
+  ctx.restore();
+
+  const glow = 6 + Math.sin(pulse*3)*3;
+  ctx.save();
+  ctx.shadowColor = '#5eead4'; ctx.shadowBlur = glow;
+  ctx.fillStyle = '#12203a';
+  ctx.fillRect(startBtn.x, startBtn.y, startBtn.w, startBtn.h);
+  ctx.strokeStyle = '#5eead4'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(startBtn.x, startBtn.y, startBtn.w, startBtn.h);
+  ctx.fillStyle = '#5eead4';
+  ctx.font = '600 18px "JetBrains Mono", monospace';
+  ctx.fillText('START', W/2, startBtn.y + 28);
+  ctx.restore();
+}
+
+function screenLevelUp() {
+  drawGrid();
+  items.forEach(drawItem);
+  enemies.forEach(drawEnemy);
+  drawPlayer();
+  drawHUD();
+  ctx.fillStyle = 'rgba(11,14,26,0.72)';
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#5eead4';
+  ctx.font = '700 30px "Space Grotesk", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('LEVEL 1 CLEAR', W/2, H/2 - 6);
+  ctx.fillStyle = '#e2e8f0';
+  ctx.font = '14px "JetBrains Mono", monospace';
+  ctx.fillText('Entering Level 2...', W/2, H/2 + 22);
+}
+
+function screenGameOver() {
+  drawGrid();
+  ctx.fillStyle = '#f43f5e';
+  ctx.font = '700 32px "Space Grotesk", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('OUT OF LIVES', W/2, H/2 - 6);
+  ctx.fillStyle = '#e2e8f0';
+  ctx.font = '14px "JetBrains Mono", monospace';
+  ctx.fillText(`Final Score: ${score}  ·  Restarting from Level 1...`, W/2, H/2 + 22);
+}
+
+function screenWin() {
+  drawGrid();
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = '700 34px "Space Grotesk", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('ALL LEVELS CLEAR', W/2, H/2 - 10);
+  ctx.fillStyle = '#e2e8f0';
+  ctx.font = '16px "JetBrains Mono", monospace';
+  ctx.fillText(`Final Score: ${score}`, W/2, H/2 + 22);
+}
+
+// ── GAME LOOP ──────────────────────────────────────────
+let lastTime = 0;
+function loop(t) {
+  if (!lastTime) lastTime = t;
+  let dt = (t - lastTime) / 1000;
+  dt = Math.min(dt, 0.05);
+  lastTime = t;
+
+  update(dt);
+
+  if (state === S.PLAYING) {
+    drawGrid();
+    items.forEach(drawItem);
+    enemies.forEach(drawEnemy);
+    drawPlayer();
+    drawHUD();
+    drawDamageFlash();
+  } else if (state === S.TITLE) {
+    screenTitle();
+  } else if (state === S.LEVELUP) {
+    screenLevelUp();
+  } else if (state === S.GAMEOVER) {
+    screenGameOver();
+  } else if (state === S.WIN) {
+    screenWin();
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

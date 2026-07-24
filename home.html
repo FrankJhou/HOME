@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>我的網站 · 首頁與相簿</title>
+    <meta name="description" content="首頁精選 + 全部相簿，將照片放進 /images/ 即可自動顯示，含燈箱效果。">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1 class="logo">你的名字</h1>
+        <nav>
+          <a href="#featured">精選</a>
+          <a href="#gallery">全部相簿</a>
+          <a href="#contact">聯絡</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero container">
+        <h2>歡迎來到我的網站</h2>
+        <p>這是一個使用 GitHub Pages 建置的個人網站。下方有精選照片，往下還能看全部相簿。你只需要把照片放進 <code>/images/</code> 目錄，頁面就會自動更新。</p>
+        <p class="cta-wrap">
+          <a class="btn" href="#gallery">前往全部相簿</a>
+        </p>
+      </section>
+
+      <section id="featured" class="section container">
+        <div class="section-head">
+          <h3>首頁精選</h3>
+          <p class="muted">自動從 <code>/images/</code> 選取前幾張作為精選（可在 app.js 調整數量與排序）。</p>
+        </div>
+        <div class="grid" id="featuredGrid" aria-live="polite"></div>
+      </section>
+
+      <section id="gallery" class="section container">
+        <div class="section-head">
+          <h3>全部相簿</h3>
+          <div class="tools">
+            <label class="tool">
+              <span>每列尺寸</span>
+              <select id="colControl">
+                <option value="200">小</option>
+                <option value="260" selected>中</option>
+                <option value="320">大</option>
+              </select>
+            </label>
+            <button class="btn ghost" id="shuffleBtn" type="button">隨機排序</button>
+          </div>
+        </div>
+        <div class="grid" id="galleryGrid"></div>
+        <div id="empty" class="empty" hidden>還沒有找到任何圖片。請把照片放到 <code>/images/</code> 後重整此頁。</div>
+      </section>
+
+      <section id="contact" class="section container">
+        <h3>聯絡我</h3>
+        <p class="email"><a href="mailto:you@example.com">you@example.com</a></p>
+      </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+      <button class="lightbox-close" aria-label="關閉">&times;</button>
+      <img id="lightboxImg" alt="" />
+      <div id="lightboxCap" class="lightbox-cap"></div>
+      <button class="nav prev" aria-label="上一張">&#10094;</button>
+      <button class="nav next" aria-label="下一張">&#10095;</button>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <small>© <span id="year"></span> 你的名字 · 以 GitHub Pages 建置</small>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  </body>
+</html>

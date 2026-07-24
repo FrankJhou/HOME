@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行情智能分析台 · Price Intelligence Analyzer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --ink:#1b2733;--ink-soft:#4a5a68;--ink-faint:#8a97a3;
+  --paper:#f5f6f7;--card:#ffffff;--line:#dde3e8;--line-strong:#c3ccd4;
+  --teal:#0e7a6d;--teal-soft:#e2f1ef;--up:#0c8a3e;--dn:#c23b3b;--amber:#b97a12;
+  --mono:"SF Mono","Cascadia Mono","Consolas","Roboto Mono",monospace;
+  --sans:"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:15px;line-height:1.65}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px 70px}
+header{background:var(--ink);color:#fff;padding:24px 0;border-bottom:3px solid var(--teal)}
+header .wrap{padding-bottom:0}
+header h1{font-size:20px;font-weight:600}
+header h1 .en{font-weight:400;color:#9fb3c2;font-size:14px;margin-left:10px}
+header .sub{font-size:12px;color:#9fb3c2;margin-top:4px}
+main{padding-top:26px}
+.step-label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink-soft);margin:26px 0 10px}
+.step-label:first-child{margin-top:0}
+.step-num{background:var(--teal);color:#fff;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-family:var(--mono)}
+.drop{border:2px dashed var(--line-strong);border-radius:10px;background:var(--card);padding:36px 20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+.drop:hover,.drop.over{border-color:var(--teal);background:var(--teal-soft)}
+.drop .big{font-size:16px;font-weight:600;margin-bottom:4px}
+.drop .hint{font-size:12px;color:var(--ink-faint)}
+.file-meta{display:flex;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin-top:10px;font-size:13px}
+.file-meta b{font-family:var(--mono)}
+.btn{font-family:var(--sans);font-size:13px;padding:8px 16px;border-radius:6px;border:1px solid var(--line-strong);background:var(--card);color:var(--ink);cursor:pointer}
+.btn:hover{background:#eef1f3}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:600}
+.btn.primary:hover{background:#0a6459}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.tbl-scroll{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:11px;font-weight:600;color:var(--ink-faint);padding:9px 12px 7px;border-bottom:2px solid var(--line-strong);text-align:right;white-space:nowrap;background:#fafbfc}
+th:first-child{text-align:left}
+td{padding:7px 12px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);white-space:nowrap}
+td:first-child{text-align:left;font-family:var(--sans);font-weight:600;color:var(--ink-soft)}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;font-family:var(--sans)}
+.b-up{background:#e5f4ea;color:var(--up)}
+.b-dn{background:#fbeaea;color:var(--dn)}
+.b-fl{background:#eef1f3;color:var(--ink-faint)}
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.chart-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;cursor:zoom-in;transition:box-shadow .15s}
+.chart-card:hover{box-shadow:0 2px 12px rgba(14,122,109,.18);border-color:var(--teal)}
+.chart-card .zoom-hint{font-size:10px;color:var(--ink-faint);float:right}
+.zoom-overlay{display:none;position:fixed;inset:0;background:rgba(20,30,38,.82);z-index:200;padding:2vh 2vw;align-items:stretch;justify-content:center}
+.zoom-overlay.show{display:flex}
+.zoom-box{background:var(--card);border-radius:12px;width:100%;max-width:1400px;display:flex;flex-direction:column;padding:18px 22px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.zoom-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.zoom-head h3{font-size:19px;font-weight:600}
+.zoom-head .stats{font-size:13px;color:var(--ink-soft);font-family:var(--mono)}
+.zoom-close{margin-left:auto;font-size:14px;padding:6px 14px;border-radius:6px;border:1px solid var(--line-strong);background:var(--card);cursor:pointer}
+.zoom-close:hover{background:#eef1f3}
+.zoom-chart{flex:1;position:relative;min-height:0}
+.chart-card h3{font-size:14px;font-weight:600;margin-bottom:2px}
+.chart-card .rng{font-size:11px;color:var(--ink-faint);font-family:var(--mono);margin-bottom:8px}
+.chart-box{position:relative;width:100%;height:180px}
+.ai-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.ai-bar .note{font-size:12px;color:var(--ink-faint)}
+.progress{display:none;font-size:12px;color:var(--teal);font-weight:600}
+.progress.show{display:inline-flex;align-items:center;gap:6px}
+.spinner{width:12px;height:12px;border:2px solid var(--teal-soft);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin-bottom:14px}
+.ai-card h3{font-size:15px;font-weight:600;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.ai-card h3 .tag{font-size:10px;color:var(--amber);font-family:var(--mono);font-weight:400;margin-left:8px}
+.ai-body{font-size:14px;color:var(--ink-soft);white-space:pre-wrap;line-height:1.8}
+.ai-body.muted{color:var(--ink-faint);font-style:italic}
+.hidden{display:none}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13px;padding:10px 20px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:99}
+.toast.show{opacity:1}
+footer{margin-top:44px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>行情智能分析台<span class="en">Price Intelligence Analyzer</span></h1>
+    <div class="sub">上傳 Excel / CSV 行情檔 → 自動繪製各產品趨勢圖 → 計算近一週變化 → 一鍵輸出分析檔，丟給 Claude 產出附來源的完整報告</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="step-label"><span class="step-num">1</span>上傳行情檔案</div>
+<div class="drop" id="drop" onclick="document.getElementById('fileInput').click()">
+  <div class="big">點擊或拖曳上傳 Excel / CSV</div>
+  <div class="hint">格式：第一欄為日期，其餘每欄為一個產品的價格。支援 .xlsx / .xls / .csv，欄位名稱不限、產品數量不限。</div>
+</div>
+<input type="file" id="fileInput" accept=".xlsx,.xls,.csv" class="hidden" onchange="handleFile(event)">
+<div class="file-meta hidden" id="fileMeta"></div>
+
+<div id="afterLoad" class="hidden">
+
+<div class="step-label"><span class="step-num">2</span>近一週價格變化（以檔案最近一日為基準）</div>
+<div class="tbl-scroll"><table id="weekTable"></table></div>
+
+<div class="step-label"><span class="step-num">3</span>各產品價格趨勢圖（完整歷史）</div>
+<div class="charts-grid" id="chartsGrid"></div>
+
+<div class="step-label"><span class="step-num">4</span>輸出分析檔（丟給 Claude 分析）</div>
+<div class="ai-bar">
+  <button class="btn primary" onclick="exportAnalysisFile()">輸出結果（下載 .md 分析檔）</button>
+  <span class="note">下載後把這個檔案丟給 Claude，Claude 會自動上網搜尋機構分析與世界大事，產出附來源的完整報告。檔內已包含近一週變化、近 10 個交易日明細與分析指令。</span>
+</div>
+
+</div>
+
+<footer>
+  說明：週變化以檔案中最近一日對比約 7 天前最接近的交易日。點擊趨勢圖可放大檢視。「輸出結果」產生的分析檔內含數據摘要與分析指令，上傳給 Claude 即可取得附來源的完整報告。本工具僅供市場資訊參考，不構成投資建議。
+</footer>
+
+</main>
+
+<div class="zoom-overlay" id="zoomOverlay" onclick="if(event.target===this)closeZoom()">
+  <div class="zoom-box">
+    <div class="zoom-head">
+      <h3 id="zoomTitle"></h3>
+      <span class="stats" id="zoomStats"></span>
+      <button class="zoom-close" onclick="closeZoom()">✕ 關閉（Esc）</button>
+    </div>
+    <div class="zoom-chart"><canvas id="zoomCanvas"></canvas></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let dates=[];            // sorted asc, 'YYYY-MM-DD'
+let products=[];         // [{name}]
+let series={};           // name -> {date: value}
+let charts=[];
+let weekInfo=null;
+
+const PALETTE=['#0e7a6d','#b97a12','#2a5fa8','#a8422a','#5a4a9e','#3d7a2a','#a83a6e','#4a7a8a','#8a6d3b','#2a8a8a'];
+
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
+
+/* ---------- file parsing ---------- */
+const drop=document.getElementById('drop');
+drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('over');});
+drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
+drop.addEventListener('drop',e=>{
+  e.preventDefault();drop.classList.remove('over');
+  if(e.dataTransfer.files.length)readFile(e.dataTransfer.files[0]);
+});
+function handleFile(ev){if(ev.target.files.length)readFile(ev.target.files[0]);ev.target.value='';}
+
+function readFile(f){
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:'array',cellDates:true});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:null});
+      const layout=detectLayout(rows);
+      let res=null;
+      if(layout==='horizontal')res=parseHorizontal(rows);
+      else if(layout==='vertical')res=parseVertical(rows);
+      if(!res){toast('無法辨識檔案格式：需要一列或一欄為日期');return;}
+      finishLoad(res,f.name,layout);
+    }catch(err){toast('讀取失敗：請確認檔案為有效的 Excel 或 CSV');}
+  };
+  reader.readAsArrayBuffer(f);
+}
+
+function normDate(v){
+  if(v==null)return null;
+  if(v instanceof Date&&!isNaN(v))return v.toISOString().slice(0,10);
+  if(typeof v==='number'&&v>20000&&v<80000){ // excel serial
+    const d=new Date(Math.round((v-25569)*86400*1000));
+    return isNaN(d)?null:d.toISOString().slice(0,10);
+  }
+  if(typeof v==='string'){
+    const s=v.trim().replace(/[./]/g,'-');
+    const m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+    if(m)return m[1]+'-'+m[2].padStart(2,'0')+'-'+m[3].padStart(2,'0');
+    const d=new Date(v);
+    if(!isNaN(d))return d.toISOString().slice(0,10);
+  }
+  return null;
+}
+function num(v){
+  if(v==null||v==='')return null;
+  if(typeof v==='number')return isFinite(v)?v:null;
+  const n=parseFloat(String(v).replace(/,/g,''));
+  return isNaN(n)?null:n;
+}
+
+/* Detect: dates across a row (horizontal) or down first columns (vertical) */
+function detectLayout(rows){
+  let bestRowCount=0;
+  const scanR=Math.min(rows.length,8);
+  for(let r=0;r<scanR;r++){
+    if(!rows[r])continue;
+    let cnt=0;
+    for(let c=0;c<rows[r].length;c++)if(normDate(rows[r][c]))cnt++;
+    if(cnt>bestRowCount)bestRowCount=cnt;
+  }
+  let bestColCount=0;
+  for(let c=0;c<Math.min(3,(rows[0]||[]).length+1);c++){
+    let cnt=0;
+    for(let r=0;r<rows.length;r++)if(rows[r]&&normDate(rows[r][c]))cnt++;
+    if(cnt>bestColCount)bestColCount=cnt;
+  }
+  if(bestRowCount<3&&bestColCount<3)return null;
+  return bestRowCount>=bestColCount?'horizontal':'vertical';
+}
+
+/* Vertical: col A dates, header row = product names */
+function parseVertical(rows){
+  if(!rows.length||rows.length<3)return null;
+  const header=rows[0].map(h=>h==null?'':String(h).trim());
+  let dataStart=1;
+  if(rows[1]&&normDate(rows[1][0])==null)dataStart=2;
+  const prodCols=[];
+  for(let c=1;c<header.length;c++){
+    let has=false;
+    for(let r=dataStart;r<rows.length;r++){
+      if(num(rows[r]&&rows[r][c])!=null){has=true;break;}
+    }
+    if(has)prodCols.push({idx:c,name:header[c]||('欄位'+c)});
+  }
+  if(!prodCols.length)return null;
+  const map={};prodCols.forEach(p=>map[p.name]={});
+  const dset=new Set();
+  for(let r=dataStart;r<rows.length;r++){
+    const d=normDate(rows[r]&&rows[r][0]);
+    if(!d)continue;
+    let any=false;
+    prodCols.forEach(p=>{
+      const v=num(rows[r][p.idx]);
+      if(v!=null){map[p.name][d]=v;any=true;}
+    });
+    if(any)dset.add(d);
+  }
+  if(dset.size<2)return null;
+  return{dates:[...dset].sort(),products:prodCols.map(p=>({name:p.name})),series:map};
+}
+
+/* Horizontal (transposed): one row of dates; each data row = a product.
+   Col A = product name (merged cells carried forward), Col B = trading term.
+   Skips weekend/month-average columns (no date), '-' holidays, and helper
+   rows of day-numbers (all small ints or strictly increasing ints). */
+function parseHorizontal(rows){
+  // locate the date row
+  let dateRow=-1,best=0;
+  for(let r=0;r<Math.min(rows.length,8);r++){
+    if(!rows[r])continue;
+    let cnt=0;
+    for(let c=0;c<rows[r].length;c++)if(normDate(rows[r][c]))cnt++;
+    if(cnt>best){best=cnt;dateRow=r;}
+  }
+  if(dateRow<0||best<3)return null;
+  // date columns: only cells with a real date (excludes weekend & monthly-avg cols)
+  const dcols=[];
+  for(let c=0;c<rows[dateRow].length;c++){
+    const d=normDate(rows[dateRow][c]);
+    if(d)dcols.push({c,d});
+  }
+  // first date column index → name/term columns are those before it
+  const firstDC=dcols[0].c;
+  const nameCol=0,termCol=firstDC>=2?1:-1;
+  const map={},prods=[];
+  let carryName='';
+  for(let r=dateRow+1;r<rows.length;r++){
+    const row=rows[r];if(!row)continue;
+    let name=row[nameCol]!=null?String(row[nameCol]).replace(/\s*\n\s*/g,' ').trim():'';
+    const term=termCol>=0&&row[termCol]!=null?String(row[termCol]).trim():'';
+    if(name)carryName=name;else name=carryName;
+    // collect numeric values under date columns
+    const vals=[];
+    dcols.forEach(({c})=>{const v=num(row[c]);if(v!=null)vals.push(v);});
+    if(!vals.length)continue;
+    // skip helper rows: all integers AND (all<=31 OR strictly increasing) e.g. day-of-month / day-of-year rows
+    const allInt=vals.every(v=>Number.isInteger(v));
+    if(allInt){
+      const maxV=Math.max(...vals);
+      let inc=true;
+      for(let i=1;i<vals.length;i++)if(vals[i]<=vals[i-1]){inc=false;break;}
+      if(maxV<=31||inc)continue;
+    }
+    // skip obvious header rows
+    if(/品名|产品|product|item/i.test(name)&&/交易|条件|term/i.test(term))continue;
+    const full=(name+' '+term).trim()||('系列'+(prods.length+1));
+    let key=full,k=2;
+    while(map[key])key=full+' #'+(k++);
+    map[key]={};
+    dcols.forEach(({c,d})=>{const v=num(row[c]);if(v!=null)map[key][d]=v;});
+    prods.push({name:key});
+  }
+  if(!prods.length)return null;
+  // keep only dates where at least one product has data (trims pre-built future columns)
+  const dset=new Set();
+  dcols.forEach(({d})=>{if(prods.some(p=>map[p.name][d]!=null))dset.add(d);});
+  if(dset.size<2)return null;
+  return{dates:[...dset].sort(),products:prods,series:map};
+}
+
+function finishLoad(res,fname,layout){
+  dates=res.dates;products=res.products;series=res.series;
+  document.getElementById('fileMeta').classList.remove('hidden');
+  document.getElementById('fileMeta').innerHTML=
+    '<span>檔案：<b>'+fname+'</b></span>'+
+    '<span>格式：<b>'+(layout==='horizontal'?'橫式（日期在列）':'直式（日期在欄）')+'</b></span>'+
+    '<span>產品數：<b>'+products.length+'</b></span>'+
+    '<span>日期範圍：<b>'+dates[0]+' ～ '+dates[dates.length-1]+'</b>（'+dates.length+' 個交易日）</span>';
+  document.getElementById('afterLoad').classList.remove('hidden');
+  buildWeekTable();
+  buildCharts();
+  toast('已載入 '+products.length+' 個產品、'+dates.length+' 個交易日（數據截至 '+dates[dates.length-1]+'）');
+}
+
+/* ---------- weekly change ---------- */
+function buildWeekTable(){
+  const last=dates[dates.length-1];
+  const target=new Date(last);target.setDate(target.getDate()-7);
+  const tstr=target.toISOString().slice(0,10);
+  let base=dates[0];
+  for(const d of dates){if(d<=tstr)base=d;else break;}
+  weekInfo={last,base};
+  let h='<thead><tr><th>產品</th><th>'+base+'<br>(約一週前)</th><th>'+last+'<br>(最近一日)</th><th>變化</th><th>幅度</th></tr></thead><tbody>';
+  products.forEach(p=>{
+    const a=series[p.name][base],b=series[p.name][last];
+    // fallback: nearest available values
+    const av=a!=null?a:nearestVal(p.name,base,-1);
+    const bv=b!=null?b:nearestVal(p.name,last,-1);
+    if(av==null||bv==null){h+='<tr><td>'+p.name+'</td><td colspan="4" style="text-align:center;color:var(--ink-faint)">數據不足</td></tr>';return;}
+    const d=bv-av,pct=av?d/av*100:0;
+    const cls=Math.abs(pct)<0.05?'b-fl':d>0?'b-up':'b-dn';
+    const arrow=Math.abs(pct)<0.05?'→':d>0?'▲':'▼';
+    h+='<tr><td>'+p.name+'</td><td>'+av.toFixed(2)+'</td><td>'+bv.toFixed(2)+'</td>'+
+       '<td>'+(d>=0?'+':'')+d.toFixed(2)+'</td>'+
+       '<td><span class="badge '+cls+'">'+arrow+' '+Math.abs(pct).toFixed(2)+'%</span></td></tr>';
+  });
+  h+='</tbody>';
+  document.getElementById('weekTable').innerHTML=h;
+}
+function nearestVal(name,dstr,dir){
+  const idx=dates.indexOf(dstr);
+  if(idx<0)return null;
+  for(let i=idx;i>=0&&i<dates.length;i+=dir){
+    const v=series[name][dates[i]];
+    if(v!=null)return v;
+  }
+  return null;
+}
+
+/* ---------- charts ---------- */
+function buildCharts(){
+  charts.forEach(c=>c.destroy());charts=[];
+  const grid=document.getElementById('chartsGrid');grid.innerHTML='';
+  products.forEach((p,i)=>{
+    const vals=dates.map(d=>series[p.name][d]??null);
+    const nums=vals.filter(v=>v!=null);
+    if(!nums.length)return;
+    const card=document.createElement('div');card.className='chart-card';
+    const cid='ch_'+i;
+    card.innerHTML='<h3>'+p.name+'<span class="zoom-hint">🔍 點擊放大</span></h3><div class="rng">min '+Math.min(...nums).toFixed(1)+' · max '+Math.max(...nums).toFixed(1)+' · 最新 '+nums[nums.length-1].toFixed(2)+'</div><div class="chart-box"><canvas id="'+cid+'"></canvas></div>';
+    card.addEventListener('click',()=>openZoom(i));
+    grid.appendChild(card);
+    charts.push(new Chart(document.getElementById(cid),{
+      type:'line',
+      data:{labels:dates,datasets:[{data:vals,borderColor:PALETTE[i%PALETTE.length],backgroundColor:PALETTE[i%PALETTE.length]+'15',borderWidth:2,pointRadius:dates.length<=25?2:0,pointHoverRadius:4,tension:.25,spanGaps:true,fill:true}]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        interaction:{mode:'index',intersect:false},
+        scales:{x:{grid:{color:'rgba(0,0,0,.05)'},ticks:{maxTicksLimit:6,font:{size:10}}},
+                y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:10}}}}}
+    }));
+  });
+}
+
+/* ---------- zoom modal ---------- */
+let zoomChart=null;
+function openZoom(idx){
+  const p=products[idx];if(!p)return;
+  const vals=dates.map(d=>series[p.name][d]??null);
+  const nums=vals.filter(v=>v!=null);
+  if(!nums.length)return;
+  const latest=nums[nums.length-1];
+  document.getElementById('zoomTitle').textContent=p.name;
+  document.getElementById('zoomStats').textContent=
+    dates[0]+' ～ '+dates[dates.length-1]+' ｜ min '+Math.min(...nums).toFixed(2)+' ｜ max '+Math.max(...nums).toFixed(2)+' ｜ 最新 '+latest.toFixed(2);
+  document.getElementById('zoomOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+  if(zoomChart)zoomChart.destroy();
+  const color=PALETTE[idx%PALETTE.length];
+  zoomChart=new Chart(document.getElementById('zoomCanvas'),{
+    type:'line',
+    data:{labels:dates,datasets:[{data:vals,borderColor:color,backgroundColor:color+'12',borderWidth:2.5,pointRadius:0,pointHoverRadius:6,pointHitRadius:10,tension:.2,spanGaps:true,fill:true}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:{duration:250},
+      plugins:{
+        legend:{display:false},
+        tooltip:{titleFont:{size:14},bodyFont:{size:14},padding:12,
+          callbacks:{label:ctx=>' '+(ctx.parsed.y!=null?ctx.parsed.y.toFixed(2):'-')}}
+      },
+      interaction:{mode:'index',intersect:false},
+      scales:{
+        x:{grid:{color:'rgba(0,0,0,.07)'},
+           ticks:{maxTicksLimit:18,font:{size:13},maxRotation:45,minRotation:0},
+           title:{display:true,text:'日期',font:{size:13}}},
+        y:{grid:{color:'rgba(0,0,0,.07)'},
+           ticks:{font:{size:13},precision:2},
+           title:{display:true,text:'價格',font:{size:13}}}
+      }
+    }
+  });
+}
+function closeZoom(){
+  document.getElementById('zoomOverlay').classList.remove('show');
+  document.body.style.overflow='';
+  if(zoomChart){zoomChart.destroy();zoomChart=null;}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeZoom();});
+
+/* ---------- export analysis request file ---------- */
+function exportAnalysisFile(){
+  if(!dates.length){toast('請先上傳檔案');return;}
+  const last=weekInfo.last,base=weekInfo.base;
+  let md='# 行情分析請求檔\n\n';
+  md+='- 產生時間：'+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC\n';
+  md+='- 資料範圍：'+dates[0]+' ～ '+last+'（'+dates.length+' 個交易日）\n';
+  md+='- 最近一週窗口：'+base+' → '+last+'\n';
+  md+='- 產品數：'+products.length+'\n\n';
+  md+='## 一、近一週價格變化\n\n| 產品 | '+base+' | '+last+' | 變化 | 幅度% |\n|---|---|---|---|---|\n';
+  products.forEach(p=>{
+    const av=nearestVal(p.name,base,-1),bv=nearestVal(p.name,last,-1);
+    if(av==null||bv==null){md+='| '+p.name+' | – | – | – | 數據不足 |\n';return;}
+    const d=bv-av,pct=av?d/av*100:0;
+    md+='| '+p.name+' | '+av+' | '+bv+' | '+(d>=0?'+':'')+d.toFixed(2)+' | '+(pct>=0?'+':'')+pct.toFixed(2)+' |\n';
+  });
+  const recent=dates.slice(-10);
+  md+='\n## 二、最近 '+recent.length+' 個交易日明細\n\n| 日期 | '+products.map(p=>p.name).join(' | ')+' |\n|'+'---|'.repeat(products.length+1)+'\n';
+  recent.forEach(d=>{
+    md+='| '+d+' | '+products.map(p=>{const v=series[p.name][d];return v!=null?v:'–';}).join(' | ')+' |\n';
+  });
+  md+='\n## 三、分析需求（給 Claude 的指令）\n\n'+
+  '請依本檔數據執行：\n'+
+  '1. 上網搜尋最近一週（'+base+' 至 '+last+'）各產品或其產業鏈的機構分析與世界大事，每則消息以【來源：機構/媒體名稱】標注，嚴禁捏造；找不到請如實說明。\n'+
+  '2. 逐產品整合近一週漲跌的具體原因，交代邏輯鏈（成本傳導、供需、季節、地緣、政策）；無消息佐證的判斷標注（推論）。\n'+
+  '3. 推導未來走勢，至少涵蓋一個月之後，分「未來 1 個月」與「1–3 個月」兩段，列出關鍵驅動因子與可能推翻判斷的風險變數。\n'+
+  '4. 產出繁體中文 Markdown 報告，報告日期為 '+last+'，文末附來源對照表、方法說明與免責聲明。\n';
+  const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='analysis_request_'+last+'.md';
+  a.click();URL.revokeObjectURL(a.href);
+  toast('已輸出分析檔，請將檔案上傳給 Claude');
+}
+</script>
+</body>
+</html>

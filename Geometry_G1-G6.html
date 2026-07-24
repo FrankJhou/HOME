@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>幾何完全學習手冊 — 空間與形狀 G1 到 G6（108 課綱）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbfaf6;--ink:#1b2333;--ink-soft:#4b5568;--rule:#e9edf4;--line:#cfd7e3;
+    --blue:#2f6fb3;--blue-fill:rgba(47,111,179,.14);
+    --teal:#2f8f83;--indigo:#5566b8;--purple:#7e57b3;
+    --orange:#dd7a32;--orange-fill:rgba(221,122,50,.18);
+    --green:#2f9e85;--gold:#eaa916;--gold-fill:rgba(234,169,22,.20);
+    --card:#fff;--shadow:0 1px 2px rgba(27,35,51,.06),0 8px 24px rgba(27,35,51,.06);--maxw:880px;
+  }
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);
+    background:linear-gradient(var(--rule) 1px,transparent 1px) 0 0/28px 28px,
+      linear-gradient(90deg,var(--rule) 1px,transparent 1px) 0 0/28px 28px,var(--paper);
+    line-height:1.78;-webkit-font-smoothing:antialiased}
+
+  header.hero{padding:64px 22px 40px;text-align:center}
+  .hero .kicker{font-size:.82rem;letter-spacing:.32em;color:var(--indigo);font-weight:700;text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-family:"Fraunces","Noto Sans TC",serif;font-weight:900;font-size:clamp(2.1rem,5.6vw,3.4rem);line-height:1.06;margin:0 0 16px;letter-spacing:-.01em}
+  .hero p.sub{font-size:1.06rem;color:var(--ink-soft);max-width:600px;margin:8px auto 0}
+  .hero .heroline{max-width:360px;margin:22px auto 0}
+  .hero .tag{display:inline-block;margin-top:22px;font-size:.8rem;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:#fff}
+
+  nav.toc{max-width:var(--maxw);margin:18px auto 50px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 24px}
+  nav.toc h2{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px}
+  nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 26px}
+  nav.toc a{display:flex;gap:10px;text-decoration:none;color:var(--ink);padding:6px 4px;border-radius:8px;font-size:.96rem}
+  nav.toc a:hover{background:var(--blue-fill);color:var(--indigo)}
+  nav.toc a .g{font-weight:700;color:var(--indigo);font-variant-numeric:tabular-nums;min-width:30px}
+  @media(max-width:620px){nav.toc ol{grid-template-columns:1fr}}
+
+  section.ch{max-width:var(--maxw);margin:0 auto;padding:34px 22px 10px}
+  .ch-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px;padding-top:18px;border-top:2px solid var(--ink)}
+  .ch-num{font-family:"Fraunces",serif;font-weight:900;font-size:2.1rem;line-height:1;color:#fff;background:var(--blue);border-radius:10px;padding:8px 12px;flex:none;min-width:62px;text-align:center}
+  .ch-num.c1{background:#3a8fb0}.ch-num.c2{background:#2f7fb3}.ch-num.c3{background:#2f6fb3}.ch-num.c4{background:#5566b8}.ch-num.c5{background:#6b5bb0}.ch-num.c6{background:#7e57b3}.ch-num.c7{background:#9b5ba0}.ch-num.x{background:#3a4253}
+  .ch-head h2{font-size:1.5rem;margin:2px 0 2px;font-weight:900;letter-spacing:-.01em}
+  .ch-head .grade{font-size:.8rem;color:var(--ink-soft);letter-spacing:.06em}
+  .ch-body{padding:6px 2px 0}
+  h3{font-size:1.16rem;margin:30px 0 8px;font-weight:700;display:flex;align-items:center;gap:9px}
+  h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg);flex:none}
+  p{margin:.6em 0}.lead{font-size:1.05rem}
+
+  .term{font-weight:700;color:var(--indigo)}
+  .en{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:.82em;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+  .en::before{content:"("}.en::after{content:")"}
+
+  .why{background:#fff;border:1px solid var(--line);border-left:5px solid var(--indigo);border-radius:10px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow)}
+  .why .lbl{font-weight:700;color:var(--indigo);font-size:.92rem;letter-spacing:.05em;display:block;margin-bottom:4px}
+  .pitfall{background:#fff7ef;border:1px solid #f1d6b5;border-left:5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:18px 0}
+  .pitfall .lbl{font-weight:700;color:var(--orange);font-size:.92rem;display:block;margin-bottom:4px}
+  .keyformula{text-align:center;background:var(--gold-fill);border:2px dashed var(--gold);border-radius:12px;padding:16px;margin:20px 0;font-size:1.2rem;font-weight:700}
+  .keyformula small{display:block;font-size:.82rem;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:.02em}
+
+  figure{margin:22px 0;text-align:center}
+  figure svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+  figcaption{font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+  .sh{fill:var(--blue-fill);stroke:var(--blue);stroke-width:2}
+  .sh-o{fill:var(--orange-fill);stroke:var(--orange);stroke-width:2}
+  .sh-g{fill:var(--gold-fill);stroke:var(--gold);stroke-width:2}
+  .sh-n{fill:none;stroke:var(--ink);stroke-width:2}
+  .dash{stroke:var(--ink-soft);stroke-width:1.5;stroke-dasharray:5 4;fill:none}
+  .s-lbl{font:600 13px "Noto Sans TC",sans-serif;fill:var(--ink)}
+  .s-lbl-b{font:700 13px "Noto Sans TC",sans-serif;fill:var(--blue)}
+  .s-lbl-o{font:700 13px "Noto Sans TC",sans-serif;fill:var(--orange)}
+  .s-lbl-p{font:700 13px "Noto Sans TC",sans-serif;fill:var(--purple)}
+
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:.94rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+  th{background:#f0f3f8;font-weight:700}
+  td.l,th.l{text-align:left}
+
+  .practice{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:26px 0;box-shadow:var(--shadow)}
+  .practice .ptitle{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin:0 0 4px}
+  .practice .ptitle .badge{background:var(--green);color:#fff;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+  ol.prob{counter-reset:p;list-style:none;padding:0;margin:14px 0 0}
+  ol.prob>li{counter-increment:p;position:relative;padding:14px 0 14px 40px;border-top:1px dashed var(--line)}
+  ol.prob>li:first-child{border-top:none}
+  ol.prob>li::before{content:counter(p);position:absolute;left:0;top:13px;width:26px;height:26px;background:var(--indigo);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  details{margin-top:8px}
+  details>summary{cursor:pointer;display:inline-block;font-size:.86rem;font-weight:700;color:var(--green);background:#eef8f5;border:1px solid #bfe3da;border-radius:8px;padding:4px 12px;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::before{content:"▸ ";font-size:.8rem}
+  details[open]>summary::before{content:"▾ "}
+  .ans{margin-top:10px;background:#f4faf8;border:1px solid #cfe9e1;border-radius:10px;padding:12px 16px;font-size:.95rem}
+  .ans b{color:#1f7a66}.ans .calc{font-variant-numeric:tabular-nums}
+
+  .cards-wrap{max-width:var(--maxw);margin:0 auto;padding:20px 22px 40px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;position:relative;overflow:hidden}
+  .mc::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--indigo)}
+  .mc.c1::before{background:#3a8fb0}.mc.c2::before{background:#2f7fb3}.mc.c3::before{background:#2f6fb3}.mc.c4::before{background:#5566b8}.mc.c5::before{background:#6b5bb0}.mc.c6::before{background:#7e57b3}.mc.c7::before{background:#9b5ba0}.mc.gx::before{background:#3a4253}
+  .mc .tag{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:var(--ink-soft)}
+  .mc h4{margin:4px 0 8px;font-size:1.05rem}
+  .mc h4 .en{font-size:.66em}
+  .mc .f{font-size:1rem;font-weight:900;color:var(--ink);background:var(--gold-fill);border-radius:8px;padding:6px 10px;display:inline-block;margin-bottom:8px}
+  .mc .pt{font-size:.86rem;color:var(--ink-soft);margin:0}
+  .mc .pt b{color:var(--orange)}
+
+  .controls{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.86);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .controls .inner{max-width:var(--maxw);margin:0 auto;padding:9px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .controls .home{font-weight:900;text-decoration:none;color:var(--ink);font-size:.95rem}
+  .controls .home .b{color:var(--gold)}
+  .btn{font:inherit;font-size:.82rem;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn:hover{border-color:var(--indigo);color:var(--indigo)}
+  footer{max-width:var(--maxw);margin:30px auto 60px;padding:24px 22px 0;border-top:2px solid var(--ink);color:var(--ink-soft);font-size:.9rem}
+  .note{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.9rem;color:var(--ink-soft)}
+
+  @media print{
+    body{background:#fff}.controls{display:none}
+    details>summary{display:none}.ans{display:block!important}
+    figure svg,.practice,.mc,.why{box-shadow:none}
+    .keyformula,.practice{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="inner">
+    <a class="home" href="#top">幾<span class="b">何</span>學習手冊</a>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="toggleAll">展開全部解答</button>
+      <button class="btn" onclick="window.print()">列印 / 存 PDF</button>
+    </div>
+  </div>
+</div>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="kicker">108 課綱 · 空間與形狀 S</div>
+  <h1>幾何完全學習手冊</h1>
+  <p class="sub">幾何研究的是「形狀與空間」。本手冊帶你從點、線、角出發，一路認識三角形、四邊形、圓與立體圖形，並弄懂每個性質<strong>背後的道理</strong>——像是三角形內角和為什麼一定是 180°。</p>
+  <figure class="heroline">
+    <svg viewBox="0 0 320 90" role="img" aria-label="三角形、正方形、圓三個基本圖形">
+      <polygon points="45,75 15,75 30,25" class="sh"/>
+      <rect x="80" y="30" width="46" height="46" class="sh-o"/>
+      <circle cx="185" cy="52" r="26" class="sh-g"/>
+      <polygon points="250,52 270,32 290,52 270,72" class="sh" style="fill:none;stroke:var(--purple)"/>
+    </svg>
+  </figure>
+  <div class="tag">涵蓋 G1 → G6 ｜ 角・線・三角形・四邊形・圓・立體・對稱 ｜ 名詞附英文・圖解・記憶小卡・練習</div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <h2>學習地圖</h2>
+  <ol>
+    <li><a href="#c0"><span class="g">核心</span><span>幾何的積木：點・線・面</span></a></li>
+    <li><a href="#c1"><span class="g">1</span><span>角與角度</span></a></li>
+    <li><a href="#c2"><span class="g">2</span><span>垂直與平行</span></a></li>
+    <li><a href="#c3"><span class="g">3</span><span>三角形（內角和 180°）</span></a></li>
+    <li><a href="#c4"><span class="g">4</span><span>四邊形與多邊形</span></a></li>
+    <li><a href="#c5"><span class="g">5</span><span>圓</span></a></li>
+    <li><a href="#c6"><span class="g">6</span><span>立體圖形</span></a></li>
+    <li><a href="#c7"><span class="g">7</span><span>對稱・放大縮小・座標</span></a></li>
+    <li><a href="#cards"><span class="g">小卡</span><span>考前記憶小卡專區</span></a></li>
+  </ol>
+</nav>
+
+<!-- ===== 核心 ===== -->
+<section class="ch" id="c0">
+  <div class="ch-head"><div class="ch-num x">★</div><div><h2>幾何的積木：點、線、面</h2><div class="grade">全部章節的共同地基</div></div></div>
+  <div class="ch-body">
+    <p class="lead">所有圖形都是由三種最基本的東西組成的：</p>
+    <figure>
+      <svg viewBox="0 0 500 130" role="img" aria-label="點、線段、射線、直線、平面的圖示">
+        <circle cx="45" cy="40" r="5" fill="var(--ink)"/><text x="45" y="70" text-anchor="middle" class="s-lbl">點</text>
+        <line x1="110" y1="40" x2="180" y2="40" class="sh-n"/><circle cx="110" cy="40" r="4" fill="var(--ink)"/><circle cx="180" cy="40" r="4" fill="var(--ink)"/><text x="145" y="70" text-anchor="middle" class="s-lbl">線段</text>
+        <line x1="230" y1="40" x2="310" y2="40" class="sh-n"/><circle cx="230" cy="40" r="4" fill="var(--ink)"/><polygon points="310,34 322,40 310,46" fill="var(--ink)"/><text x="270" y="70" text-anchor="middle" class="s-lbl">射線</text>
+        <line x1="360" y1="40" x2="470" y2="40" class="sh-n"/><polygon points="360,34 348,40 360,46" fill="var(--ink)"/><polygon points="470,34 482,40 470,46" fill="var(--ink)"/><text x="415" y="70" text-anchor="middle" class="s-lbl">直線</text>
+        <rect x="150" y="90" width="200" height="30" class="sh" transform="skewX(-20)" opacity=".6"/>
+        <text x="250" y="112" text-anchor="middle" class="s-lbl-b">平面（一整片，可無限延伸）</text>
+      </svg>
+      <figcaption>點只有位置；線段有兩個端點；射線一端無限延伸；直線兩端都無限延伸；平面是一整片的面。</figcaption>
+    </figure>
+    <table>
+      <tr><th>名稱</th><th class="l">英文</th><th class="l">特徵</th></tr>
+      <tr><td><span class="term">點</span></td><td class="l en">point</td><td class="l">只表示位置，沒有大小</td></tr>
+      <tr><td><span class="term">線段</span></td><td class="l en">line segment</td><td class="l">兩個端點之間、直直的一段（可以量長度）</td></tr>
+      <tr><td><span class="term">直線</span></td><td class="l en">line</td><td class="l">向兩端無限延伸，沒有長度</td></tr>
+      <tr><td><span class="term">平面</span></td><td class="l en">plane</td><td class="l">平平的一整片面</td></tr>
+      <tr><td><span class="term">角</span></td><td class="l en">angle</td><td class="l">兩條射線從同一點張開</td></tr>
+    </table>
+    <div class="why"><span class="lbl">幾何在研究什麼？</span>就是研究這些積木「怎麼組合、有什麼規律」。點連成線、線圍成<strong>平面圖形</strong>（2D，如三角形、圓），平面圍成<strong>立體圖形</strong>（3D，如正方體、球）。本手冊會從平面一路蓋到立體。</div>
+  </div>
+</section>
+
+<!-- ===== Ch1 角 ===== -->
+<section class="ch" id="c1">
+  <div class="ch-head"><div class="ch-num c1">1</div><div><h2>角與角度 <span class="en">angle</span></h2><div class="grade">小三～小四｜目標：懂角是「張開／旋轉的量」、會分類與量角</div></div></div>
+  <div class="ch-body">
+    <h3>一、角是什麼？——張開的大小</h3>
+    <p>兩條射線從同一點（<span class="term">頂點</span> <span class="en">vertex</span>）張開，中間的開口就是<span class="term">角</span>。角的大小跟邊畫多長<strong>沒有關係</strong>，只看「張開多少」。可以想成一扇門打開的程度。</p>
+
+    <h3>二、角度的單位：度（°）</h3>
+    <p>把一整圈平分成 360 等份，每一份就是 <strong>1 度（1°）</strong>。所以轉一整圈是 360°、轉半圈是 180°、轉四分之一圈是 90°。</p>
+    <figure>
+      <svg viewBox="0 0 520 120" role="img" aria-label="銳角、直角、鈍角、平角的比較">
+        <g stroke-width="2" fill="none">
+          <path d="M40,90 L40,40" stroke="var(--blue)"/><path d="M40,90 L80,60" stroke="var(--blue)"/>
+          <path d="M150,90 L150,40" stroke="var(--teal)"/><path d="M150,90 L200,90" stroke="var(--teal)"/><rect x="150" y="76" width="14" height="14" stroke="var(--teal)"/>
+          <path d="M280,90 L245,45" stroke="var(--orange)"/><path d="M280,90 L335,90" stroke="var(--orange)"/>
+          <path d="M400,90 L340,90" stroke="var(--purple)"/><path d="M400,90 L470,90" stroke="var(--purple)"/>
+        </g>
+        <text x="55" y="112" text-anchor="middle" class="s-lbl-b">銳角 ＜90°</text>
+        <text x="165" y="112" text-anchor="middle" class="s-lbl-t">直角 ＝90°</text>
+        <text x="290" y="112" text-anchor="middle" class="s-lbl-o">鈍角 90~180°</text>
+        <text x="405" y="112" text-anchor="middle" class="s-lbl-p">平角 ＝180°</text>
+      </svg>
+      <figcaption>依張開大小分類。量角時把量角器中心對準頂點、0° 線對齊一邊，讀另一邊的刻度。</figcaption>
+    </figure>
+    <table>
+      <tr><th>種類</th><th class="l">英文</th><th>範圍</th></tr>
+      <tr><td>銳角</td><td class="l en">acute angle</td><td>大於 0°、小於 90°</td></tr>
+      <tr><td>直角</td><td class="l en">right angle</td><td>剛好 90°</td></tr>
+      <tr><td>鈍角</td><td class="l en">obtuse angle</td><td>大於 90°、小於 180°</td></tr>
+      <tr><td>平角</td><td class="l en">straight angle</td><td>剛好 180°（一直線）</td></tr>
+      <tr><td>周角</td><td class="l en">full angle</td><td>剛好 360°（一整圈）</td></tr>
+    </table>
+    <div class="pitfall"><span class="lbl">易錯</span>角的大小<strong>只看張開程度</strong>，把兩邊畫長或畫短都不會改變角度。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>角與角度（11 題）</p>
+      <ol class="prob">
+        <li>一個直角是幾度？<details><summary>解答</summary><div class="ans"><b>90°。</b></div></details></li>
+        <li>平角（一直線）是幾度？<details><summary>解答</summary><div class="ans"><b>180°。</b></div></details></li>
+        <li>一整圈（周角）是幾度？<details><summary>解答</summary><div class="ans"><b>360°。</b></div></details></li>
+        <li>60° 是銳角、直角還是鈍角？<details><summary>解答</summary><div class="ans"><b>銳角</b>（小於 90°）。</div></details></li>
+        <li>120° 是哪一種角？<details><summary>解答</summary><div class="ans"><b>鈍角</b>（90°~180°）。</div></details></li>
+        <li>兩個直角合起來是幾度？<details><summary>解答</summary><div class="ans">90＋90＝<b>180°</b>（平角）。</div></details></li>
+        <li>一個角 45°，再轉 45°，共幾度？是什麼角？<details><summary>解答</summary><div class="ans">90°，<b>直角。</b></div></details></li>
+        <li>時鐘 3 點整，時針和分針的夾角是幾度？<details><summary>解答</summary><div class="ans"><b>90°</b>（直角）。</div></details></li>
+        <li>銳角的度數範圍？<details><summary>解答</summary><div class="ans"><b>大於 0°、小於 90°。</b></div></details></li>
+        <li>30° ＋ 60° ＝ 幾度？是什麼角？<details><summary>解答</summary><div class="ans">90°，<b>直角。</b></div></details></li>
+        <li>角的大小和邊畫多長有關係嗎？<details><summary>解答</summary><div class="ans"><b>沒有</b>，只看張開的程度。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch2 垂直平行 ===== -->
+<section class="ch" id="c2">
+  <div class="ch-head"><div class="ch-num c2">2</div><div><h2>垂直與平行</h2><div class="grade">小四｜目標：分辨兩直線的兩種重要關係</div></div></div>
+  <div class="ch-body">
+    <figure>
+      <svg viewBox="0 0 460 140" role="img" aria-label="垂直與平行兩種線的關係">
+        <g stroke-width="2">
+          <line x1="60" y1="20" x2="60" y2="120" stroke="var(--blue)"/><line x1="20" y1="70" x2="150" y2="70" stroke="var(--blue)"/>
+          <rect x="60" y="56" width="14" height="14" fill="none" stroke="var(--blue)"/>
+        </g>
+        <text x="85" y="135" text-anchor="middle" class="s-lbl-b">垂直：交叉成 90°</text>
+        <g stroke-width="2">
+          <line x1="290" y1="45" x2="430" y2="45" stroke="var(--orange)"/><line x1="290" y1="95" x2="430" y2="95" stroke="var(--orange)"/>
+          <line x1="320" y1="45" x2="320" y2="95" class="dash"/><line x1="400" y1="45" x2="400" y2="95" class="dash"/>
+        </g>
+        <text x="360" y="135" text-anchor="middle" class="s-lbl-o">平行：永不相交、距離處處相等</text>
+      </svg>
+      <figcaption>垂直＝相交成直角；平行＝不管延伸多遠都不會碰到，兩線間距離永遠一樣。</figcaption>
+    </figure>
+    <table>
+      <tr><th>關係</th><th class="l">英文</th><th>符號</th><th class="l">意思</th></tr>
+      <tr><td><span class="term">垂直</span></td><td class="l en">perpendicular</td><td>⊥</td><td class="l">兩直線相交成 90°</td></tr>
+      <tr><td><span class="term">平行</span></td><td class="l en">parallel</td><td>∥</td><td class="l">兩直線永遠不相交</td></tr>
+    </table>
+    <div class="why"><span class="lbl">生活中到處都是</span>十字路口的兩條路互相<strong>垂直</strong>；鐵軌的兩條軌道互相<strong>平行</strong>（永遠等距，火車才不會出軌）。長方形和正方形的<strong>相鄰邊垂直、對邊平行</strong>——這正是它們的定義關鍵。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>垂直與平行（10 題）</p>
+      <ol class="prob">
+        <li>兩直線相交成 90°，叫什麼？<details><summary>解答</summary><div class="ans"><b>垂直</b>（perpendicular）。</div></details></li>
+        <li>兩直線永不相交，叫什麼？<details><summary>解答</summary><div class="ans"><b>平行</b>（parallel）。</div></details></li>
+        <li>垂直、平行的符號各是？<details><summary>解答</summary><div class="ans">垂直 <b>⊥</b>、平行 <b>∥</b>。</div></details></li>
+        <li>正方形相鄰兩邊是垂直還是平行？<details><summary>解答</summary><div class="ans"><b>垂直。</b></div></details></li>
+        <li>正方形的對邊是垂直還是平行？<details><summary>解答</summary><div class="ans"><b>平行。</b></div></details></li>
+        <li>平行線之間的距離處處相等嗎？<details><summary>解答</summary><div class="ans"><b>是。</b></div></details></li>
+        <li>鐵軌的兩條軌道是平行還是垂直？<details><summary>解答</summary><div class="ans"><b>平行。</b></div></details></li>
+        <li>十字路口的兩條路互相？<details><summary>解答</summary><div class="ans"><b>垂直。</b></div></details></li>
+        <li>長方形有幾組平行的邊？<details><summary>解答</summary><div class="ans"><b>2 組</b>（上下一組、左右一組）。</div></details></li>
+        <li>一條直線和它的垂直線夾角幾度？<details><summary>解答</summary><div class="ans"><b>90°。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch3 三角形 ===== -->
+<section class="ch" id="c3">
+  <div class="ch-head"><div class="ch-num c3">3</div><div><h2>三角形 <span class="en">triangle</span></h2><div class="grade">小四～小五｜目標：會分類、並理解內角和為什麼是 180°</div></div></div>
+  <div class="ch-body">
+    <h3>一、三角形的兩種分類</h3>
+    <table>
+      <tr><th>依邊分</th><th class="l">英文</th><th>特徵</th></tr>
+      <tr><td>正三角形</td><td class="l en">equilateral</td><td>三邊都相等（三角也都 60°）</td></tr>
+      <tr><td>等腰三角形</td><td class="l en">isosceles</td><td>兩邊相等</td></tr>
+      <tr><td>不等邊三角形</td><td class="l en">scalene</td><td>三邊都不相等</td></tr>
+    </table>
+    <table>
+      <tr><th>依角分</th><th class="l">英文</th><th>特徵</th></tr>
+      <tr><td>銳角三角形</td><td class="l en">acute</td><td>三個角都小於 90°</td></tr>
+      <tr><td>直角三角形</td><td class="l en">right</td><td>有一個 90° 的角</td></tr>
+      <tr><td>鈍角三角形</td><td class="l en">obtuse</td><td>有一個大於 90° 的角</td></tr>
+    </table>
+
+    <h3>二、為什麼三角形內角和一定是 180°？（重點推導）</h3>
+    <p>拿一個三角形，把<strong>三個角撕下來</strong>，尖端對著同一點排在一起——它們會<strong>剛好排成一條直線</strong>。而直線是平角＝180°。</p>
+    <figure>
+      <svg viewBox="0 0 480 160" role="img" aria-label="三角形三個角撕下拼成一條直線180度">
+        <polygon points="60,130 200,130 110,50" class="sh"/>
+        <text x="72" y="122" class="s-lbl-b">①</text><text x="182" y="122" class="s-lbl-b">②</text><text x="108" y="70" class="s-lbl-b">③</text>
+        <path d="M240,90 L285,90" stroke="var(--green)" stroke-width="2.4" fill="none" marker-end="url(#ah3)"/>
+        <defs><marker id="ah3" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--green)"/></marker></defs>
+        <line x1="315" y1="120" x2="465" y2="120" stroke="var(--ink)" stroke-width="2"/>
+        <path d="M330,120 L345,95 L360,120 Z" class="sh" /><path d="M360,120 L378,98 L400,120 Z" class="sh"/><path d="M400,120 L420,100 L450,120 Z" class="sh"/>
+        <text x="342" y="115" class="s-lbl-b" style="font-size:11px">①</text><text x="378" y="115" class="s-lbl-b" style="font-size:11px">③</text><text x="422" y="115" class="s-lbl-b" style="font-size:11px">②</text>
+        <text x="390" y="145" text-anchor="middle" class="s-lbl-o">三角拼成一直線 ＝ 180°</text>
+      </svg>
+      <figcaption>三個角拼起來剛好是一條直線（平角），所以三角形三個內角加起來一定是 180°。</figcaption>
+    </figure>
+    <div class="keyformula">三角形內角和 ＝ 180°<small>三個角撕下來能拼成一條直線（平角）</small></div>
+    <div class="why"><span class="lbl">好用推論</span>知道其中兩個角，就能算第三個角（180° 減掉另外兩個）。正三角形三角相等 → 每個角 180÷3＝60°。<strong>三角形不可能有兩個直角</strong>（90＋90＝180，第三個角就變 0° 了，不成三角形）。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>三角形（11 題）</p>
+      <ol class="prob">
+        <li>三角形內角和是幾度？<details><summary>解答</summary><div class="ans"><b>180°。</b></div></details></li>
+        <li>已知兩角 60°、70°，第三角？<details><summary>解答</summary><div class="ans">180−60−70＝<b>50°。</b></div></details></li>
+        <li>已知兩角 90°、40°，第三角？<details><summary>解答</summary><div class="ans">180−90−40＝<b>50°。</b></div></details></li>
+        <li>三邊都相等的三角形叫？<details><summary>解答</summary><div class="ans"><b>正三角形</b>（equilateral）。</div></details></li>
+        <li>兩邊相等的三角形叫？<details><summary>解答</summary><div class="ans"><b>等腰三角形</b>（isosceles）。</div></details></li>
+        <li>有一個 90° 角的三角形叫？<details><summary>解答</summary><div class="ans"><b>直角三角形。</b></div></details></li>
+        <li>正三角形每個角幾度？<details><summary>解答</summary><div class="ans">180÷3＝<b>60°。</b></div></details></li>
+        <li>三角形可以有兩個直角嗎？為什麼？<details><summary>解答</summary><div class="ans"><b>不行</b>，90＋90＝180，第三角變 0°，圍不成三角形。</div></details></li>
+        <li>等腰三角形頂角 40°，兩個底角各幾度？<details><summary>解答</summary><div class="ans">(180−40)÷2＝<b>70°。</b></div></details></li>
+        <li>直角三角形有一銳角 30°，另一銳角幾度？<details><summary>解答</summary><div class="ans">180−90−30＝<b>60°。</b></div></details></li>
+        <li>依「角」分類，三角形分成哪三種？<details><summary>解答</summary><div class="ans"><b>銳角、直角、鈍角三角形。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch4 四邊形多邊形 ===== -->
+<section class="ch" id="c4">
+  <div class="ch-head"><div class="ch-num c4">4</div><div><h2>四邊形與多邊形</h2><div class="grade">小四～小六｜目標：懂四邊形家族關係、會推內角和</div></div></div>
+  <div class="ch-body">
+    <h3>一、四邊形的「家族」——特殊的會繼承一般的性質</h3>
+    <figure>
+      <svg viewBox="0 0 460 170" role="img" aria-label="四邊形家族樹:平行四邊形到長方形菱形再到正方形">
+        <rect x="170" y="14" width="120" height="30" class="sh" rx="4"/><text x="230" y="34" text-anchor="middle" class="s-lbl-b">平行四邊形</text>
+        <line x1="200" y1="44" x2="120" y2="72" stroke="var(--ink-soft)"/><line x1="260" y1="44" x2="340" y2="72" stroke="var(--ink-soft)"/>
+        <rect x="60" y="72" width="120" height="30" class="sh-o" rx="4"/><text x="120" y="92" text-anchor="middle" class="s-lbl-o">長方形（四角直角）</text>
+        <rect x="280" y="72" width="120" height="30" class="sh-o" rx="4"/><text x="340" y="92" text-anchor="middle" class="s-lbl-o">菱形（四邊相等）</text>
+        <line x1="120" y1="102" x2="210" y2="128" stroke="var(--ink-soft)"/><line x1="340" y1="102" x2="250" y2="128" stroke="var(--ink-soft)"/>
+        <rect x="170" y="128" width="120" height="30" class="sh-g" rx="4"/><text x="230" y="148" text-anchor="middle" class="s-lbl-p">正方形</text>
+      </svg>
+      <figcaption>越下面越特殊。正方形同時是長方形、也是菱形、也是平行四邊形——它繼承了上面全部的性質。</figcaption>
+    </figure>
+    <table>
+      <tr><th>圖形</th><th class="l">英文</th><th class="l">定義</th></tr>
+      <tr><td>梯形</td><td class="l en">trapezoid</td><td class="l">只有一組對邊平行</td></tr>
+      <tr><td>平行四邊形</td><td class="l en">parallelogram</td><td class="l">兩組對邊都平行（對邊等長、對角相等）</td></tr>
+      <tr><td>長方形</td><td class="l en">rectangle</td><td class="l">四個角都是直角的平行四邊形</td></tr>
+      <tr><td>菱形</td><td class="l en">rhombus</td><td class="l">四邊都相等的平行四邊形</td></tr>
+      <tr><td>正方形</td><td class="l en">square</td><td class="l">四邊都相等、四角都直角</td></tr>
+    </table>
+    <div class="pitfall"><span class="lbl">觀念題常考</span>「正方形是不是長方形？」→ <strong>是</strong>（它符合長方形「四角直角」的條件，只是又多了四邊相等）。但「長方形是不是正方形？」→ 不一定。</div>
+
+    <h3>二、為什麼四邊形內角和是 360°？（切三角形推導）</h3>
+    <p>從四邊形一個頂點畫一條<strong>對角線</strong>，就把它切成 <strong>2 個三角形</strong>。每個三角形內角和 180°，所以四邊形＝2×180°＝360°。</p>
+    <figure>
+      <svg viewBox="0 0 300 150" role="img" aria-label="四邊形對角線切成兩個三角形">
+        <polygon points="40,120 90,30 250,50 210,130" class="sh"/>
+        <line x1="40" y1="120" x2="250" y2="50" class="dash"/>
+        <text x="110" y="80" class="s-lbl-b">180°</text><text x="175" y="105" class="s-lbl-b">180°</text>
+        <text x="150" y="145" text-anchor="middle" class="s-lbl-o">2 × 180° ＝ 360°</text>
+      </svg>
+      <figcaption>一條對角線把四邊形切成 2 個三角形 → 內角和 2×180°＝360°。</figcaption>
+    </figure>
+    <div class="keyformula">n 邊形內角和 ＝ (n − 2) × 180°<small>因為 n 邊形可切成 (n−2) 個三角形</small></div>
+    <div class="why"><span class="lbl">推廣</span>五邊形切成 3 個三角形 → 3×180＝540°；六邊形切成 4 個 → 720°。規律就是「邊數減 2，再乘 180°」。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>四邊形與多邊形（11 題）</p>
+      <ol class="prob">
+        <li>四邊形內角和是幾度？<details><summary>解答</summary><div class="ans"><b>360°。</b></div></details></li>
+        <li>為什麼是 360°？<details><summary>解答</summary><div class="ans">對角線切成 <b>2 個三角形</b>，2×180＝360°。</div></details></li>
+        <li>四邊形三個角是 90°、90°、80°，第四角？<details><summary>解答</summary><div class="ans">360−260＝<b>100°。</b></div></details></li>
+        <li>正方形是不是長方形？為什麼？<details><summary>解答</summary><div class="ans"><b>是</b>，它符合「四角直角」，是特殊的長方形。</div></details></li>
+        <li>四邊都相等、四角都直角的四邊形叫？<details><summary>解答</summary><div class="ans"><b>正方形。</b></div></details></li>
+        <li>只有一組對邊平行的四邊形叫？<details><summary>解答</summary><div class="ans"><b>梯形</b>（trapezoid）。</div></details></li>
+        <li>兩組對邊都平行的四邊形叫？<details><summary>解答</summary><div class="ans"><b>平行四邊形。</b></div></details></li>
+        <li>五邊形內角和是幾度？<details><summary>解答</summary><div class="ans">(5−2)×180＝<b>540°。</b></div></details></li>
+        <li>六邊形內角和是幾度？<details><summary>解答</summary><div class="ans">(6−2)×180＝<b>720°。</b></div></details></li>
+        <li>平行四邊形的對角相等嗎？<details><summary>解答</summary><div class="ans"><b>相等。</b></div></details></li>
+        <li>長方形有幾組對邊「既平行又等長」？<details><summary>解答</summary><div class="ans"><b>2 組。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch5 圓 ===== -->
+<section class="ch" id="c5">
+  <div class="ch-head"><div class="ch-num c5">5</div><div><h2>圓 <span class="en">circle</span></h2><div class="grade">小三～小六｜目標：認識圓的各部位與性質</div></div></div>
+  <div class="ch-body">
+    <figure>
+      <svg viewBox="0 0 320 240" role="img" aria-label="圓的圓心半徑直徑弦弧">
+        <circle cx="160" cy="120" r="90" class="sh"/>
+        <circle cx="160" cy="120" r="4" fill="var(--ink)"/><text x="150" y="118" class="s-lbl">圓心 O</text>
+        <line x1="160" y1="120" x2="250" y2="120" stroke="var(--orange)" stroke-width="3"/><text x="195" y="112" class="s-lbl-o">半徑</text>
+        <line x1="70" y1="120" x2="250" y2="120" stroke="var(--blue)" stroke-width="2" stroke-dasharray="4 3"/><text x="95" y="138" class="s-lbl-b">直徑</text>
+        <line x1="120" y1="45" x2="235" y2="70" stroke="var(--purple)" stroke-width="2"/><text x="175" y="48" class="s-lbl-p">弦</text>
+        <path d="M120,45 A90,90 0 0,0 78,88" fill="none" stroke="var(--green)" stroke-width="3"/><text x="72" y="60" class="s-lbl" style="fill:var(--green)">弧</text>
+      </svg>
+      <figcaption>圓心到圓周＝半徑；穿過圓心、兩端在圓周上＝直徑；圓周上兩點的線段＝弦；兩點間的曲線＝弧。</figcaption>
+    </figure>
+    <table>
+      <tr><th>名稱</th><th class="l">英文</th><th class="l">意思</th></tr>
+      <tr><td>圓心</td><td class="l en">center</td><td class="l">圓正中心的點</td></tr>
+      <tr><td>半徑</td><td class="l en">radius</td><td class="l">圓心到圓周的線段</td></tr>
+      <tr><td>直徑</td><td class="l en">diameter</td><td class="l">通過圓心、兩端在圓周上的線段</td></tr>
+      <tr><td>弦</td><td class="l en">chord</td><td class="l">圓周上任兩點的連線</td></tr>
+      <tr><td>弧</td><td class="l en">arc</td><td class="l">圓周上任兩點間的曲線</td></tr>
+    </table>
+    <div class="keyformula">直徑 ＝ 2 × 半徑<small>直徑穿過圓心，正好是兩條半徑</small></div>
+    <div class="why"><span class="lbl">為什麼同一個圓所有半徑都一樣長？</span>因為圓的定義就是「<strong>到圓心距離都相等</strong>的所有點」。這個「相等距離」就是半徑。也因此，最長的弦一定是<strong>直徑</strong>（通過圓心的那條）。（圓周長與圓面積的算法，請見《面積完全學習手冊》。）</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>圓（10 題）</p>
+      <ol class="prob">
+        <li>圓心到圓周的線段叫？<details><summary>解答</summary><div class="ans"><b>半徑</b>（radius）。</div></details></li>
+        <li>通過圓心、兩端在圓周上的線段叫？<details><summary>解答</summary><div class="ans"><b>直徑</b>（diameter）。</div></details></li>
+        <li>直徑是半徑的幾倍？<details><summary>解答</summary><div class="ans"><b>2 倍。</b></div></details></li>
+        <li>半徑 5 公分，直徑幾公分？<details><summary>解答</summary><div class="ans">5×2＝<b>10 公分。</b></div></details></li>
+        <li>直徑 12 公分，半徑幾公分？<details><summary>解答</summary><div class="ans">12÷2＝<b>6 公分。</b></div></details></li>
+        <li>同一個圓，所有半徑都一樣長嗎？<details><summary>解答</summary><div class="ans"><b>是。</b></div></details></li>
+        <li>圓周上兩點間的曲線叫？<details><summary>解答</summary><div class="ans"><b>弧</b>（arc）。</div></details></li>
+        <li>圓周上兩點的連線（線段）叫？<details><summary>解答</summary><div class="ans"><b>弦</b>（chord）。</div></details></li>
+        <li>圓裡最長的弦是什麼？<details><summary>解答</summary><div class="ans"><b>直徑。</b></div></details></li>
+        <li>為什麼半徑都一樣長？<details><summary>解答</summary><div class="ans">圓的定義就是「<b>到圓心等距</b>的所有點」。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch6 立體 ===== -->
+<section class="ch" id="c6">
+  <div class="ch-head"><div class="ch-num c6">6</div><div><h2>立體圖形 <span class="en">solid</span></h2><div class="grade">小四～小六｜目標：認識立體、會數面/邊/頂點、看懂展開圖</div></div></div>
+  <div class="ch-body">
+    <h3>一、立體的三個構成要素：面、邊、頂點</h3>
+    <figure>
+      <svg viewBox="0 0 320 200" role="img" aria-label="正方體標出面、邊、頂點">
+        <polygon points="80,60 200,60 200,160 80,160" class="sh"/>
+        <polygon points="80,60 120,30 240,30 200,60" class="sh" opacity=".6"/>
+        <polygon points="200,60 240,30 240,130 200,160" class="sh" opacity=".45"/>
+        <circle cx="80" cy="60" r="4" fill="var(--orange)"/><circle cx="200" cy="60" r="4" fill="var(--orange)"/><circle cx="80" cy="160" r="4" fill="var(--orange)"/><circle cx="200" cy="160" r="4" fill="var(--orange)"/><circle cx="120" cy="30" r="4" fill="var(--orange)"/><circle cx="240" cy="30" r="4" fill="var(--orange)"/><circle cx="240" cy="130" r="4" fill="var(--orange)"/>
+        <text x="140" y="115" text-anchor="middle" class="s-lbl-b">面 6 個</text>
+        <text x="270" y="90" class="s-lbl-o">頂點 8</text>
+        <text x="120" y="185" text-anchor="middle" class="s-lbl">邊 12 條</text>
+      </svg>
+      <figcaption>正方體：<strong>6 個面</strong>（face）、<strong>12 條邊</strong>（edge）、<strong>8 個頂點</strong>（vertex）。</figcaption>
+    </figure>
+    <table>
+      <tr><th>立體</th><th class="l">英文</th><th>面</th><th>邊</th><th>頂點</th></tr>
+      <tr><td>正方體／長方體</td><td class="l en">cube / cuboid</td><td>6</td><td>12</td><td>8</td></tr>
+      <tr><td>三角柱</td><td class="l en">triangular prism</td><td>5</td><td>9</td><td>6</td></tr>
+      <tr><td>四角錐</td><td class="l en">pyramid</td><td>5</td><td>8</td><td>5</td></tr>
+      <tr><td>圓柱</td><td class="l en">cylinder</td><td>3（2 圓＋1 曲面）</td><td>2 圓邊</td><td>0</td></tr>
+      <tr><td>球</td><td class="l en">sphere</td><td>1 曲面</td><td>0</td><td>0</td></tr>
+    </table>
+
+    <h3>二、柱體 vs 錐體，與展開圖 <span class="en">net</span></h3>
+    <p><strong>柱體</strong>：上下兩個底面一樣、互相平行（像罐頭）。<strong>錐體</strong>：一個底面，向上收成一個頂點（像金字塔）。把立體<strong>攤平</strong>成一張平面圖，就是展開圖。</p>
+    <figure>
+      <svg viewBox="0 0 240 180" role="img" aria-label="正方體的十字展開圖,6個正方形">
+        <g class="sh">
+          <rect x="90" y="20" width="40" height="40"/>
+          <rect x="50" y="60" width="40" height="40"/><rect x="90" y="60" width="40" height="40"/><rect x="130" y="60" width="40" height="40"/><rect x="170" y="60" width="40" height="40"/>
+          <rect x="90" y="100" width="40" height="40"/>
+        </g>
+        <text x="120" y="165" text-anchor="middle" class="s-lbl-b">正方體展開圖 ＝ 6 個正方形</text>
+      </svg>
+      <figcaption>正方體有 6 個面，所以展開圖一定是 6 個正方形（折起來剛好圍成正方體）。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">有趣的規律（歐拉 <span class="en">Euler</span>）</span>對這些「有平面的」立體，永遠有：<strong>面 ＋ 頂點 − 邊 ＝ 2</strong>。正方體驗證：6＋8−12＝2 ✔；三角柱：5＋6−9＝2 ✔。可以拿來檢查有沒有數錯。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>立體圖形（11 題）</p>
+      <ol class="prob">
+        <li>正方體有幾個面？<details><summary>解答</summary><div class="ans"><b>6 個。</b></div></details></li>
+        <li>正方體有幾條邊？<details><summary>解答</summary><div class="ans"><b>12 條。</b></div></details></li>
+        <li>正方體有幾個頂點？<details><summary>解答</summary><div class="ans"><b>8 個。</b></div></details></li>
+        <li>長方體的面是什麼形狀？<details><summary>解答</summary><div class="ans"><b>長方形</b>（有時含正方形）。</div></details></li>
+        <li>三角柱有幾個面？<details><summary>解答</summary><div class="ans">2 個三角形＋3 個長方形＝<b>5 個。</b></div></details></li>
+        <li>球有幾個平面？<details><summary>解答</summary><div class="ans"><b>0 個平面</b>（只有 1 個曲面）。</div></details></li>
+        <li>四角錐有幾個頂點？<details><summary>解答</summary><div class="ans"><b>5 個</b>（底面 4＋頂點 1）。</div></details></li>
+        <li>正方體的展開圖有幾個正方形？<details><summary>解答</summary><div class="ans"><b>6 個。</b></div></details></li>
+        <li>柱體和錐體最大的差別？<details><summary>解答</summary><div class="ans">柱體有<b>兩個平行相同的底</b>；錐體收成<b>一個頂點</b>。</div></details></li>
+        <li>圓柱有幾個平面？<details><summary>解答</summary><div class="ans"><b>2 個</b>（上下兩個圓）。</div></details></li>
+        <li>用「面＋頂點−邊」驗證正方體。<details><summary>解答</summary><div class="ans">6＋8−12＝<b>2 ✔。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch7 對稱 ===== -->
+<section class="ch" id="c7">
+  <div class="ch-head"><div class="ch-num c7">7</div><div><h2>對稱・放大縮小・座標</h2><div class="grade">小四～小六｜目標：懂線對稱、放大縮小、用數對描述位置</div></div></div>
+  <div class="ch-body">
+    <h3>一、線對稱 <span class="en">line symmetry</span></h3>
+    <p>一個圖形沿著一條線<strong>對折後，兩邊完全重合</strong>，這條線就叫<span class="term">對稱軸</span> <span class="en">axis of symmetry</span>，這個圖形是線對稱圖形。</p>
+    <figure>
+      <svg viewBox="0 0 420 130" role="img" aria-label="蝴蝶沿中線對稱,正方形有四條對稱軸">
+        <path d="M110,70 C70,20 20,40 60,70 C20,100 70,120 110,70" class="sh"/>
+        <path d="M110,70 C150,20 200,40 160,70 C200,100 150,120 110,70" class="sh"/>
+        <line x1="110" y1="20" x2="110" y2="120" class="dash"/>
+        <text x="110" y="15" text-anchor="middle" class="s-lbl">對稱軸</text>
+        <rect x="270" y="40" width="70" height="70" class="sh-o"/>
+        <line x1="305" y1="30" x2="305" y2="120" class="dash"/><line x1="260" y1="75" x2="350" y2="75" class="dash"/>
+        <line x1="270" y1="40" x2="340" y2="110" class="dash"/><line x1="340" y1="40" x2="270" y2="110" class="dash"/>
+        <text x="305" y="128" text-anchor="middle" class="s-lbl-o">正方形有 4 條對稱軸</text>
+      </svg>
+      <figcaption>對折能完全重合＝線對稱。正方形有 4 條、長方形 2 條、正三角形 3 條、圓有無數條對稱軸。</figcaption>
+    </figure>
+
+    <h3>二、放大與縮小 <span class="en">enlargement / reduction</span></h3>
+    <p>把圖形放大 2 倍，<strong>每一條邊都變 2 倍長，但每個角都不變</strong>——所以形狀一模一樣，只是大小不同。地圖上的<span class="term">比例尺</span> <span class="en">scale</span> 就是這個道理：比例尺 1:100 表示「圖上 1 公分＝實際 100 公分」。</p>
+    <div class="keyformula">放大縮小：邊長按比例改變，角度不變<small>形狀相同，大小不同（相似）</small></div>
+
+    <h3>三、位置與座標：用「數對」描述位置</h3>
+    <p>在方格上，用一組<span class="term">數對</span> <span class="en">ordered pair</span> (向右幾格, 向上幾格) 就能精準說出位置。例如 (3, 2)＝從原點向右 3 格、向上 2 格。</p>
+    <figure>
+      <svg viewBox="0 0 220 180" role="img" aria-label="方格座標上標出數對3,2">
+        <g stroke="var(--line)"><line x1="30" y1="20" x2="30" y2="150"/><line x1="70" y1="20" x2="70" y2="150"/><line x1="110" y1="20" x2="110" y2="150"/><line x1="150" y1="20" x2="150" y2="150"/><line x1="190" y1="20" x2="190" y2="150"/>
+        <line x1="30" y1="30" x2="190" y2="30"/><line x1="30" y1="70" x2="190" y2="70"/><line x1="30" y1="110" x2="190" y2="110"/><line x1="30" y1="150" x2="190" y2="150"/></g>
+        <line x1="30" y1="150" x2="195" y2="150" stroke="var(--ink)" stroke-width="2"/><line x1="30" y1="150" x2="30" y2="18" stroke="var(--ink)" stroke-width="2"/>
+        <circle cx="150" cy="70" r="6" fill="var(--gold)" stroke="var(--ink)"/>
+        <text x="150" y="60" text-anchor="middle" class="s-lbl-o">(3, 2)</text>
+        <text x="25" y="165" class="s-lbl">0</text>
+      </svg>
+      <figcaption>數對 (3, 2)：從原點 0 向右 3 格、再向上 2 格，就是那個亮點的位置。</figcaption>
+    </figure>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>對稱・放大縮小・座標（11 題）</p>
+      <ol class="prob">
+        <li>線對稱圖形沿對稱軸對折後會怎樣？<details><summary>解答</summary><div class="ans"><b>兩邊完全重合。</b></div></details></li>
+        <li>正方形有幾條對稱軸？<details><summary>解答</summary><div class="ans"><b>4 條。</b></div></details></li>
+        <li>長方形有幾條對稱軸？<details><summary>解答</summary><div class="ans"><b>2 條。</b></div></details></li>
+        <li>圓有幾條對稱軸？<details><summary>解答</summary><div class="ans"><b>無數條</b>（任何一條直徑都是）。</div></details></li>
+        <li>正三角形有幾條對稱軸？<details><summary>解答</summary><div class="ans"><b>3 條。</b></div></details></li>
+        <li>圖形放大 2 倍，邊長變幾倍？<details><summary>解答</summary><div class="ans"><b>2 倍。</b></div></details></li>
+        <li>放大或縮小後，角度會改變嗎？<details><summary>解答</summary><div class="ans"><b>不會</b>，形狀相同（相似）。</div></details></li>
+        <li>比例尺 1:100，圖上 1 公分代表實際多少？<details><summary>解答</summary><div class="ans"><b>100 公分（＝1 公尺）。</b></div></details></li>
+        <li>一個圖形放大 3 倍，原本 5 公分的邊變幾公分？<details><summary>解答</summary><div class="ans">5×3＝<b>15 公分。</b></div></details></li>
+        <li>數對 (3, 2) 表示什麼位置？<details><summary>解答</summary><div class="ans">從原點<b>向右 3 格、向上 2 格。</b></div></details></li>
+        <li>等腰三角形有幾條對稱軸？<details><summary>解答</summary><div class="ans"><b>1 條。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 記憶小卡 ===== -->
+<section class="cards-wrap" id="cards">
+  <div class="ch-head" style="max-width:none"><div class="ch-num x">★</div><div><h2>考前記憶小卡</h2><div class="grade">快速翻閱用｜每張＝重點（附英文）＋一句「為什麼」＋易錯</div></div></div>
+  <p class="note" style="margin-top:14px">用法：考前遮住重點，看「為什麼」那句話，試著自己講出來（含英文名詞）。列印可剪成卡片。</p>
+  <div class="cards">
+    <div class="mc c1"><div class="tag">CH1 · 角</div><h4>角度分類 <span class="en">angle</span></h4><div class="f">銳<90°｜直=90°｜鈍90~180°｜平=180°</div><p class="pt">角看<b>張開程度</b>，和邊長無關。一圈＝360°。</p></div>
+    <div class="mc c2"><div class="tag">CH2 · 線</div><h4>垂直 <span class="en">⊥</span> / 平行 <span class="en">∥</span></h4><div class="f">交成90° / 永不相交</div><p class="pt">平行線<b>距離處處相等</b>。正方形：鄰邊垂直、對邊平行。</p></div>
+    <div class="mc c3"><div class="tag">CH3 · 三角形</div><h4>內角和 180°</h4><div class="f">三角撕下拼成一直線</div><p class="pt">知兩角求第三角。<b>不能有兩個直角</b>。正三角形每角 60°。</p></div>
+    <div class="mc c3"><div class="tag">CH3 · 分類</div><h4>三角形分類</h4><div class="f">依邊：正/等腰/不等邊｜依角：銳/直/鈍</div><p class="pt">equilateral / isosceles / scalene。</p></div>
+    <div class="mc c4"><div class="tag">CH4 · 四邊形</div><h4>內角和 360°</h4><div class="f">n 邊形 ＝ (n−2)×180°</div><p class="pt">切成 (n−2) 個三角形。五邊形 540°、六邊形 720°。</p></div>
+    <div class="mc c4"><div class="tag">CH4 · 家族</div><h4>四邊形家族</h4><div class="f">正方形 ⊂ 長方形・菱形 ⊂ 平行四邊形</div><p class="pt"><b>正方形也是長方形</b>（反過來不一定）。</p></div>
+    <div class="mc c5"><div class="tag">CH5 · 圓</div><h4>圓的各部位 <span class="en">circle</span></h4><div class="f">直徑 ＝ 2 × 半徑</div><p class="pt">半徑 radius、直徑 diameter、弦 chord、弧 arc。半徑都等長。</p></div>
+    <div class="mc c6"><div class="tag">CH6 · 立體</div><h4>面・邊・頂點</h4><div class="f">正方體：6 面・12 邊・8 頂點</div><p class="pt">face / edge / vertex。<b>面＋頂點−邊＝2</b> 可驗算。</p></div>
+    <div class="mc c6"><div class="tag">CH6 · 展開圖</div><h4>柱錐與展開圖 <span class="en">net</span></h4><div class="f">柱：兩底平行｜錐：收成頂點</div><p class="pt">正方體展開圖＝6 個正方形。</p></div>
+    <div class="mc c7"><div class="tag">CH7 · 對稱</div><h4>線對稱 <span class="en">symmetry</span></h4><div class="f">對折完全重合</div><p class="pt">正方形 4 條、長方形 2 條、正三角形 3 條、圓無數條。</p></div>
+    <div class="mc c7"><div class="tag">CH7 · 放大縮小</div><h4>放大縮小 <span class="en">scale</span></h4><div class="f">邊長按比例、角度不變</div><p class="pt">形狀相同大小不同。比例尺 1:100＝圖上1cm 為實際1m。</p></div>
+    <div class="mc c7"><div class="tag">CH7 · 座標</div><h4>數對 <span class="en">ordered pair</span></h4><div class="f">(右幾格, 上幾格)</div><p class="pt">(3,2)＝向右 3、向上 2。順序不能顛倒。</p></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>幾何完全學習手冊</strong>　依十二年國教 108 課綱「空間與形狀（S）」編製，涵蓋 G1–G6 的角、線關係、三角形、四邊形與多邊形、圓、立體圖形、對稱與座標。周長與面積的<strong>計算</strong>請搭配《面積完全學習手冊》一起使用。</p>
+  <p>使用建議：先讀每章「為什麼」與圖解，再做練習；考前用記憶小卡（含英文名詞）複習。英文名詞供延伸與銜接國中之用。各版本教科書（康軒／翰林／南一）名詞與順序略有差異，本手冊以概念脈絡編排。</p>
+</footer>
+
+<script>
+  (function(){
+    var btn=document.getElementById('toggleAll');var open=false;
+    btn.addEventListener('click',function(){
+      open=!open;document.querySelectorAll('details').forEach(function(d){d.open=open;});
+      btn.textContent=open?'收合全部解答':'展開全部解答';
+    });
+  })();
+</script>
+</body>
+</html>

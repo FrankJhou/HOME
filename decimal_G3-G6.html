@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小數完全學習手冊 — 從 G3 到 G6（108 課綱）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbfaf6;--ink:#1b2333;--ink-soft:#4b5568;--rule:#e9edf4;--line:#cfd7e3;
+    --blue:#2f6fb3;--blue-fill:rgba(47,111,179,.14);
+    --orange:#dd7a32;--orange-fill:rgba(221,122,50,.18);
+    --green:#2f9e85;--gold:#eaa916;--gold-fill:rgba(234,169,22,.20);
+    --card:#fff;--shadow:0 1px 2px rgba(27,35,51,.06),0 8px 24px rgba(27,35,51,.06);--maxw:880px;
+  }
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);
+    background:linear-gradient(transparent 27px,var(--rule) 27px,var(--rule) 28px,transparent 28px) 0 0/100% 28px,var(--paper);
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+
+  header.hero{padding:64px 22px 40px;text-align:center}
+  .hero .kicker{font-size:.82rem;letter-spacing:.32em;color:var(--blue);font-weight:700;text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-family:"Fraunces","Noto Sans TC",serif;font-weight:900;font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.05;margin:0 0 16px;letter-spacing:-.01em}
+  .hero h1 .dot{color:var(--gold)}
+  .hero p.sub{font-size:1.06rem;color:var(--ink-soft);max-width:600px;margin:8px auto 0}
+  .hero .heroline{max-width:520px;margin:24px auto 0}
+  .hero .tag{display:inline-block;margin-top:22px;font-size:.8rem;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:#fff}
+
+  nav.toc{max-width:var(--maxw);margin:18px auto 50px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 24px}
+  nav.toc h2{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px}
+  nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 26px}
+  nav.toc a{display:flex;gap:10px;text-decoration:none;color:var(--ink);padding:6px 4px;border-radius:8px;font-size:.96rem}
+  nav.toc a:hover{background:var(--blue-fill);color:var(--blue)}
+  nav.toc a .g{font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums;min-width:42px}
+  @media(max-width:620px){nav.toc ol{grid-template-columns:1fr}}
+
+  section.ch{max-width:var(--maxw);margin:0 auto;padding:34px 22px 10px}
+  .ch-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px;padding-top:18px;border-top:2px solid var(--ink)}
+  .ch-num{font-family:"Fraunces",serif;font-weight:900;font-size:2.1rem;line-height:1;color:#fff;background:var(--blue);border-radius:10px;padding:8px 12px;flex:none;min-width:62px;text-align:center}
+  .ch-num.g3{background:#2f7fb3}.ch-num.g4{background:#2f6fb3}.ch-num.g5{background:#5566b8}.ch-num.g6{background:#7e57b3}.ch-num.x{background:#3a4253}
+  .ch-head h2{font-size:1.6rem;margin:2px 0 2px;font-weight:900;letter-spacing:-.01em}
+  .ch-head .grade{font-size:.8rem;color:var(--ink-soft);letter-spacing:.08em}
+  .ch-body{padding:6px 2px 0}
+  h3{font-size:1.16rem;margin:30px 0 8px;font-weight:700;display:flex;align-items:center;gap:9px}
+  h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg);flex:none}
+  p{margin:.6em 0}.lead{font-size:1.05rem}
+
+  .why{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:10px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow)}
+  .why .lbl{font-weight:700;color:var(--blue);font-size:.92rem;letter-spacing:.05em;display:block;margin-bottom:4px}
+  .echo{background:#f2f7fc;border:1px solid #cfe0f0;border-left:5px solid var(--blue);border-radius:10px;padding:14px 18px;margin:18px 0}
+  .echo .lbl{font-weight:700;color:var(--blue);font-size:.9rem;display:block;margin-bottom:4px}
+  .echo .lbl::before{content:"🔗 ";}
+  .pitfall{background:#fff7ef;border:1px solid #f1d6b5;border-left:5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:18px 0}
+  .pitfall .lbl{font-weight:700;color:var(--orange);font-size:.92rem;display:block;margin-bottom:4px}
+  .keyformula{text-align:center;background:var(--gold-fill);border:2px dashed var(--gold);border-radius:12px;padding:16px;margin:20px 0;font-size:1.22rem;font-weight:700}
+  .keyformula small{display:block;font-size:.82rem;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:.02em}
+
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;line-height:1;text-align:center;font-size:.78em;margin:0 .12em;transform:translateY(-.05em)}
+  .fr .n{border-bottom:2px solid currentColor;padding:0 .25em 1px}
+  .fr .d{padding:1px .25em 0}
+
+  figure{margin:22px 0;text-align:center}
+  figure svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+  figcaption{font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+  .fr-whole{fill:none;stroke:var(--ink);stroke-width:2}
+  .fr-part{fill:var(--gold-fill);stroke:var(--gold);stroke-width:1.5}
+  .fr-cut{stroke:var(--ink-soft);stroke-width:1}
+  .nl-axis{stroke:var(--ink);stroke-width:2;fill:none}
+  .nl-tick{stroke:var(--ink);stroke-width:1.4}
+  .nl-pt{fill:var(--gold);stroke:var(--ink);stroke-width:1.5}
+  .s-lbl{font:600 13px "Noto Sans TC",sans-serif;fill:var(--ink)}
+  .s-lbl-b{font:700 13px "Noto Sans TC",sans-serif;fill:var(--blue)}
+  .s-lbl-o{font:700 13px "Noto Sans TC",sans-serif;fill:var(--orange)}
+  .s-lbl-g{font:700 13px "Noto Sans TC",sans-serif;fill:#1f7a66}
+
+  /* place-value strip */
+  .pv{display:flex;justify-content:center;gap:0;margin:20px 0;font-variant-numeric:tabular-nums}
+  .pv .cell{border:1px solid var(--line);min-width:74px;text-align:center;background:#fff}
+  .pv .cell .top{font-size:.72rem;color:var(--ink-soft);padding:5px 4px;border-bottom:1px solid var(--line);background:#f0f3f8}
+  .pv .cell .val{font-size:1.5rem;font-weight:900;padding:8px 4px}
+  .pv .dot{display:flex;align-items:flex-end;justify-content:center;font-size:1.8rem;font-weight:900;color:var(--gold);padding:0 3px 8px}
+  .pv .cell.hl .val{color:var(--gold)}
+
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:.95rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+  th{background:#f0f3f8;font-weight:700}
+  td.l,th.l{text-align:left}
+  .align{font-family:"Fraunces",monospace;font-variant-numeric:tabular-nums;font-size:1.15rem;font-weight:600;letter-spacing:.1em}
+
+  .practice{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:26px 0;box-shadow:var(--shadow)}
+  .practice .ptitle{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin:0 0 4px}
+  .practice .ptitle .badge{background:var(--green);color:#fff;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+  ol.prob{counter-reset:p;list-style:none;padding:0;margin:14px 0 0}
+  ol.prob>li{counter-increment:p;position:relative;padding:14px 0 14px 40px;border-top:1px dashed var(--line)}
+  ol.prob>li:first-child{border-top:none}
+  ol.prob>li::before{content:counter(p);position:absolute;left:0;top:13px;width:26px;height:26px;background:var(--blue);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  details{margin-top:8px}
+  details>summary{cursor:pointer;display:inline-block;font-size:.86rem;font-weight:700;color:var(--green);background:#eef8f5;border:1px solid #bfe3da;border-radius:8px;padding:4px 12px;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::before{content:"▸ ";font-size:.8rem}
+  details[open]>summary::before{content:"▾ "}
+  .ans{margin-top:10px;background:#f4faf8;border:1px solid #cfe9e1;border-radius:10px;padding:12px 16px;font-size:.95rem}
+  .ans b{color:#1f7a66}.ans .calc{font-variant-numeric:tabular-nums}
+
+  .cards-wrap{max-width:var(--maxw);margin:0 auto;padding:20px 22px 40px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;position:relative;overflow:hidden}
+  .mc::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--blue)}
+  .mc.g3::before{background:#2f7fb3}.mc.g4::before{background:#2f6fb3}.mc.g5::before{background:#5566b8}.mc.g6::before{background:#7e57b3}.mc.gx::before{background:#3a4253}
+  .mc .tag{font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--ink-soft)}
+  .mc h4{margin:4px 0 8px;font-size:1.05rem}
+  .mc .f{font-size:1.02rem;font-weight:900;color:var(--ink);background:var(--gold-fill);border-radius:8px;padding:6px 10px;display:inline-block;margin-bottom:8px}
+  .mc .pt{font-size:.86rem;color:var(--ink-soft);margin:0}
+  .mc .pt b{color:var(--orange)}
+
+  .controls{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.86);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .controls .inner{max-width:var(--maxw);margin:0 auto;padding:9px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .controls .home{font-weight:900;text-decoration:none;color:var(--ink);font-size:.95rem}
+  .controls .home .b{color:var(--gold)}
+  .btn{font:inherit;font-size:.82rem;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn:hover{border-color:var(--blue);color:var(--blue)}
+  footer{max-width:var(--maxw);margin:30px auto 60px;padding:24px 22px 0;border-top:2px solid var(--ink);color:var(--ink-soft);font-size:.9rem}
+  .note{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.9rem;color:var(--ink-soft)}
+
+  @media print{
+    body{background:#fff}.controls{display:none}
+    details>summary{display:none}.ans{display:block!important}
+    figure svg,.practice,.mc,.why,.echo{box-shadow:none}
+    .keyformula,.practice{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="inner">
+    <a class="home" href="#top">小<span class="b">數</span>學習手冊</a>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="toggleAll">展開全部解答</button>
+      <button class="btn" onclick="window.print()">列印 / 存 PDF</button>
+    </div>
+  </div>
+</div>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="kicker">108 課綱 · 數與量 N</div>
+  <h1>小數完全學習手冊 <span class="dot">.</span></h1>
+  <p class="sub">小數其實就是「分母 10、100、1000… 的分數」換一種寫法。懂了這一點，加減乘除全都能從<strong>分數</strong>和<strong>數軸</strong>推回來，不必死背小數點的規則。</p>
+  <figure class="heroline">
+    <svg viewBox="0 0 520 78" role="img" aria-label="0到1的數軸切成十等份,標出0.3的位置">
+      <defs><marker id="ahh" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#1b2333"/></marker></defs>
+      <line x1="30" y1="44" x2="500" y2="44" class="nl-axis" marker-end="url(#ahh)"/>
+      <g class="nl-tick">
+        <line x1="45" y1="34" x2="45" y2="54"/><line x1="90" y1="37" x2="90" y2="51"/><line x1="135" y1="37" x2="135" y2="51"/><line x1="180" y1="37" x2="180" y2="51"/><line x1="225" y1="37" x2="225" y2="51"/><line x1="270" y1="37" x2="270" y2="51"/><line x1="315" y1="37" x2="315" y2="51"/><line x1="360" y1="37" x2="360" y2="51"/><line x1="405" y1="37" x2="405" y2="51"/><line x1="450" y1="34" x2="450" y2="54"/>
+      </g>
+      <text x="45" y="70" text-anchor="middle" class="s-lbl">0</text>
+      <text x="450" y="70" text-anchor="middle" class="s-lbl">1</text>
+      <circle cx="180" cy="44" r="6" class="nl-pt"/>
+      <text x="180" y="24" text-anchor="middle" class="s-lbl-b">0.3 ＝ 3/10</text>
+    </svg>
+  </figure>
+  <div class="tag">涵蓋 G3 → G6 ｜ 全程呼應分數＋數軸 ｜ 概念推導・圖解・記憶小卡・練習（附詳解）</div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <h2>學習地圖</h2>
+  <ol>
+    <li><a href="#c0"><span class="g">核心</span><span>小數是什麼？</span></a></li>
+    <li><a href="#c3"><span class="g">G3</span><span>一位小數（十分位）</span></a></li>
+    <li><a href="#c4"><span class="g">G4</span><span>二位小數・加減・小數↔分數</span></a></li>
+    <li><a href="#c5"><span class="g">G5</span><span>小數乘法・除以整數</span></a></li>
+    <li><a href="#c6"><span class="g">G6</span><span>小數÷小數・四則混合</span></a></li>
+    <li><a href="#cx"><span class="g">進階</span><span>應用題＋分數小數混合</span></a></li>
+    <li><a href="#cards"><span class="g">小卡</span><span>考前記憶小卡專區</span></a></li>
+  </ol>
+</nav>
+
+<!-- ===== 核心 ===== -->
+<section class="ch" id="c0">
+  <div class="ch-head"><div class="ch-num x">★</div><div><h2>小數是什麼？</h2><div class="grade">全部章節的共同地基</div></div></div>
+  <div class="ch-body">
+    <p class="lead">一句話記住：</p>
+    <div class="keyformula">小數 ＝ 把「1」平分成 10、100、1000… 份的分數<small>0.1＝<span class="fr"><span class="n">1</span><span class="d">10</span></span>、0.01＝<span class="fr"><span class="n">1</span><span class="d">100</span></span>、0.001＝<span class="fr"><span class="n">1</span><span class="d">1000</span></span></small></div>
+
+    <p>整數是「一個一個」數；但東西常常不剛好是整數個。把 1 平分成 10 份，每份就是 <strong>0.1</strong>。這和分數一樣是「平分」，只是規定<strong>每次都平分成 10 份</strong>，所以和我們的位值系統（十進位）完美接軌。</p>
+
+    <h3>位值：小數點右邊，每往右一位就變 <span class="fr"><span class="n">1</span><span class="d">10</span></span></h3>
+    <div class="pv">
+      <div class="cell"><div class="top">個位</div><div class="val">2</div></div>
+      <div class="dot">.</div>
+      <div class="cell hl"><div class="top">十分位</div><div class="val">3</div></div>
+      <div class="cell"><div class="top">百分位</div><div class="val">6</div></div>
+    </div>
+    <p style="text-align:center;color:var(--ink-soft);font-size:.92rem">2.36 ＝ 2 個 1 ＋ 3 個 0.1 ＋ 6 個 0.01</p>
+    <div class="why"><span class="lbl">小數點在做什麼？</span>小數點只是一個「分隔線」，把<strong>整數部分</strong>（≥1）和<strong>不足 1 的部分</strong>分開。左邊照舊是個位、十位…；右邊是十分位、百分位…，位值一路 ÷10 變小。</div>
+
+    <div class="echo">
+      <span class="lbl">和分數的連結（本手冊會一直用）</span>
+      小數就是「十進位分數」。所以分數學過的招式全都能搬過來：<br>
+      ・0.1＝0.10（尾巴加 0 不變）＝ 分數的<strong>等值</strong>（擴分）<br>
+      ・小數在<strong>數軸</strong>上是一個點，和分數住同一條線（0.5 和 <span class="fr"><span class="n">1</span><span class="d">2</span></span> 是同一個點）<br>
+      ・後面的乘、除規則，都能用「先變成分數」推出來。
+    </div>
+
+    <figure>
+      <svg viewBox="0 0 500 120" role="img" aria-label="數軸0到1切十份,顯示0.1到0.9,並標0.5等於二分之一">
+        <line x1="30" y1="55" x2="480" y2="55" class="nl-axis"/>
+        <g class="nl-tick">
+          <line x1="45" y1="45" x2="45" y2="65"/><line x1="90" y1="48" x2="90" y2="62"/><line x1="135" y1="48" x2="135" y2="62"/><line x1="180" y1="48" x2="180" y2="62"/><line x1="225" y1="48" x2="225" y2="62"/><line x1="270" y1="45" x2="270" y2="65"/><line x1="315" y1="48" x2="315" y2="62"/><line x1="360" y1="48" x2="360" y2="62"/><line x1="405" y1="48" x2="405" y2="62"/><line x1="450" y1="45" x2="450" y2="65"/>
+        </g>
+        <text x="45" y="82" text-anchor="middle" class="s-lbl">0</text>
+        <text x="270" y="82" text-anchor="middle" class="s-lbl-o">0.5 ＝ ½</text>
+        <text x="450" y="82" text-anchor="middle" class="s-lbl">1</text>
+        <text x="90" y="38" text-anchor="middle" class="s-lbl">0.1</text><text x="180" y="38" text-anchor="middle" class="s-lbl">0.3</text>
+        <text x="360" y="38" text-anchor="middle" class="s-lbl">0.7</text><text x="450" y="38" text-anchor="middle" class="s-lbl">1.0</text>
+        <circle cx="270" cy="55" r="5" class="nl-pt"/>
+      </svg>
+      <figcaption>把 0 到 1 切成 10 等份，每個刻度就是一個一位小數。0.5 正好在中間，＝ ½。</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== G3 ===== -->
+<section class="ch" id="c3">
+  <div class="ch-head"><div class="ch-num g3">G3</div><div><h2>一位小數（十分位）</h2><div class="grade">第二學習階段 · 小三｜目標：懂 0.1＝<span class="fr"><span class="n">1</span><span class="d">10</span></span>、會讀寫比大小、放上數軸</div></div></div>
+  <div class="ch-body">
+    <h3>一、0.1 從哪來？</h3>
+    <p>把一條 1 公尺的緞帶平分成 10 段，每段是 <span class="fr"><span class="n">1</span><span class="d">10</span></span> 公尺，寫成小數就是 <strong>0.1</strong> 公尺。所以 <strong>0.1 ＝ <span class="fr"><span class="n">1</span><span class="d">10</span></span></strong>，讀作「零點一」。</p>
+    <figure>
+      <svg viewBox="0 0 520 130" role="img" aria-label="長條平分十份塗七份表示0.7,下方對應數軸">
+        <rect x="30" y="35" width="450" height="40" class="fr-whole"/>
+        <rect x="30" y="35" width="315" height="40" class="fr-part"/>
+        <g class="fr-cut">
+          <line x1="75" y1="35" x2="75" y2="75"/><line x1="120" y1="35" x2="120" y2="75"/><line x1="165" y1="35" x2="165" y2="75"/><line x1="210" y1="35" x2="210" y2="75"/><line x1="255" y1="35" x2="255" y2="75"/><line x1="300" y1="35" x2="300" y2="75"/><line x1="345" y1="35" x2="345" y2="75"/><line x1="390" y1="35" x2="390" y2="75"/><line x1="435" y1="35" x2="435" y2="75"/>
+        </g>
+        <text x="187" y="60" text-anchor="middle" class="s-lbl-o">塗了 7 格</text>
+        <text x="255" y="110" text-anchor="middle" class="s-lbl-b" style="font-size:15px">7 個 0.1 ＝ 0.7 ＝ 7/10</text>
+      </svg>
+      <figcaption>0.7 就是「7 個 0.1」，也就是 <span class="fr"><span class="n">7</span><span class="d">10</span></span>。小數和分數是同一件事的兩種寫法。</figcaption>
+    </figure>
+
+    <h3>二、比大小＆數軸</h3>
+    <p>一位小數比大小，先比整數部分，整數一樣就比十分位。0.7 ＞ 0.4，因為 7 個 0.1 比 4 個 0.1 多。在數軸上，就是 0.7 離 0 比較遠。</p>
+    <div class="echo"><span class="lbl">呼應分數</span>0.7＞0.4 ↔ <span class="fr"><span class="n">7</span><span class="d">10</span></span> ＞ <span class="fr"><span class="n">4</span><span class="d">10</span></span>（同分母比分子）。完全是同一回事。</div>
+    <div class="pitfall"><span class="lbl">易錯</span>0.7 不是「比 0.65 小」！別被位數多的騙了。要比位值：0.70 vs 0.65，十分位 7＞6，所以 0.7 大。（先對齊位數再比）</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小三・一位小數（10 題）</p>
+      <ol class="prob">
+        <li>1 公尺平分成 10 段，每段幾公尺？用小數寫。<details><summary>解答</summary><div class="ans"><b>0.1 公尺。</b></div></details></li>
+        <li>0.7 是幾個 0.1？<details><summary>解答</summary><div class="ans"><b>7 個 0.1。</b></div></details></li>
+        <li>0.3 用分數寫。<details><summary>解答</summary><div class="ans"><b><span class="fr"><span class="n">3</span><span class="d">10</span></span>。</b></div></details></li>
+        <li><span class="fr"><span class="n">3</span><span class="d">10</span></span> 用小數寫。<details><summary>解答</summary><div class="ans"><b>0.3。</b></div></details></li>
+        <li>0.4 和 0.7 哪個大？<details><summary>解答</summary><div class="ans"><b>0.7 大。</b></div></details></li>
+        <li>0 到 1 的數軸切 10 段，第 6 個刻度是？<details><summary>解答</summary><div class="ans"><b>0.6。</b></div></details></li>
+        <li>9 個 0.1 是多少？再加 1 個 0.1 呢？<details><summary>解答</summary><div class="ans">9 個＝0.9；再加 1 個＝<b>1.0（＝1）</b>。</div></details></li>
+        <li>0.5 和 ½ 一樣大嗎？<details><summary>解答</summary><div class="ans"><b>一樣大。</b>0.5＝5/10＝½，數軸同一點。</div></details></li>
+        <li>由小到大排：0.8、0.3、0.6。<details><summary>解答</summary><div class="ans"><b>0.3 ＜ 0.6 ＜ 0.8。</b></div></details></li>
+        <li>2.4 裡，小數點右邊的 4 代表什麼？<details><summary>解答</summary><div class="ans"><b>4 個 0.1（十分位是 4）。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== G4 ===== -->
+<section class="ch" id="c4">
+  <div class="ch-head"><div class="ch-num g4">G4</div><div><h2>二位小數・加減・小數↔分數</h2><div class="grade">第二學習階段 · 小四｜目標：懂百分位、加減為何要對齊小數點、與分數互換、取概數</div></div></div>
+  <div class="ch-body">
+    <h3>一、二位小數：把 0.1 再切 10 份</h3>
+    <p>把 0.1 再平分成 10 小份，每小份就是 <strong>0.01 ＝ <span class="fr"><span class="n">1</span><span class="d">100</span></span></strong>（百分位）。所以 0.36 ＝ 3 個 0.1 ＋ 6 個 0.01。</p>
+    <div class="echo"><span class="lbl">呼應分數等值</span>0.1 ＝ 0.10：把每格切更細，格數變 10 倍，數量也變 10 倍，值不變 → 就是<strong>擴分</strong>（<span class="fr"><span class="n">1</span><span class="d">10</span></span>＝<span class="fr"><span class="n">10</span><span class="d">100</span></span>）。所以小數尾巴加 0，大小不變。</div>
+
+    <h3>二、小數加減：為什麼一定要「小數點對齊」？</h3>
+    <p>因為只有<strong>相同位值</strong>才能相加：十分位加十分位、百分位加百分位。小數點對齊，位值就自動對齊了。</p>
+    <table>
+      <tr><th>對齊小數點 ✔</th><th>沒對齊 ✗</th></tr>
+      <tr>
+        <td><span class="align">&nbsp;3.70<br>＋0.35<br>─────<br>&nbsp;4.05</span></td>
+        <td style="color:var(--orange)"><span class="align">3.7<br>0.35 ←錯位</span></td>
+      </tr>
+    </table>
+    <div class="echo"><span class="lbl">呼應分數</span>「小數點對齊才能加」＝「分數要<strong>同分母</strong>才能加」。位值相同 ↔ 積木一樣大。位數不夠就補 0（3.7＝3.70），就像通分。</div>
+    <div class="pitfall"><span class="lbl">易錯</span>加減時<strong>不要</strong>把尾巴對齊（右邊對齊）！要對齊<strong>小數點</strong>。3.7＋0.35，先寫成 3.70＋0.35。</div>
+
+    <h3>三、小數 ↔ 分數</h3>
+    <p>小數化分數：看小數位數決定分母（一位→10、二位→100），再約分。0.25 ＝ <span class="fr"><span class="n">25</span><span class="d">100</span></span> ＝ <span class="fr"><span class="n">1</span><span class="d">4</span></span>。分數化小數：分子÷分母（¾＝3÷4＝0.75）。</p>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小四・二位小數・加減・互換（12 題）</p>
+      <ol class="prob">
+        <li>把 0.1 再平分成 10 份，每份是多少？<details><summary>解答</summary><div class="ans"><b>0.01。</b></div></details></li>
+        <li>0.01 用分數寫。<details><summary>解答</summary><div class="ans"><b><span class="fr"><span class="n">1</span><span class="d">100</span></span>。</b></div></details></li>
+        <li>0.25 化成最簡分數。<details><summary>解答</summary><div class="ans">25/100＝<b>¼。</b></div></details></li>
+        <li>0.1 ＝ 0.10 嗎？為什麼？<details><summary>解答</summary><div class="ans"><b>相等。</b>1/10＝10/100，擴分，數軸同一點。</div></details></li>
+        <li>0.36 中，3 和 6 各代表多少？<details><summary>解答</summary><div class="ans">3 在十分位＝0.3；6 在百分位＝<b>0.06</b>。</div></details></li>
+        <li>0.4 ＋ 0.3 ＝？<details><summary>解答</summary><div class="ans"><b>0.7。</b></div></details></li>
+        <li>0.25 ＋ 0.36 ＝？<details><summary>解答</summary><div class="ans"><span class="calc">0.25＋0.36＝0.61</span>。<b>0.61。</b></div></details></li>
+        <li>0.8 − 0.35 ＝？<details><summary>解答</summary><div class="ans">補 0：0.80−0.35＝<b>0.45。</b></div></details></li>
+        <li>1 − 0.4 ＝？<details><summary>解答</summary><div class="ans">1.0−0.4＝<b>0.6。</b></div></details></li>
+        <li>3.7 ＋ 2.45 ＝？<details><summary>解答</summary><div class="ans">3.70＋2.45＝<b>6.15。</b></div></details></li>
+        <li>把 2.68 四捨五入到十分位。<details><summary>解答</summary><div class="ans">百分位是 8（≥5 進位）→ <b>2.7。</b></div></details></li>
+        <li>¾ 用小數表示。<details><summary>解答</summary><div class="ans">3÷4＝<b>0.75。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== G5 ===== -->
+<section class="ch" id="c5">
+  <div class="ch-head"><div class="ch-num g5">G5</div><div><h2>小數乘法・除以整數</h2><div class="grade">第三學習階段 · 小五｜目標：懂小數×整數、小數×小數（位數為何相加）、小數÷整數</div></div></div>
+  <div class="ch-body">
+    <h3>一、小數 × 整數：就是連加</h3>
+    <p>0.3 × 4 ＝ 0.3＋0.3＋0.3＋0.3。想成「3 個 0.1」的 4 倍＝12 個 0.1＝<strong>1.2</strong>。</p>
+
+    <h3>二、小數 × 小數：為什麼「先當整數乘，小數位數再相加」？</h3>
+    <p>看 0.3 × 0.2。把它們變回分數就一目了然：</p>
+    <div class="keyformula">0.3 × 0.2 ＝ <span class="fr"><span class="n">3</span><span class="d">10</span></span> × <span class="fr"><span class="n">2</span><span class="d">10</span></span> ＝ <span class="fr"><span class="n">3×2</span><span class="d">10×10</span></span> ＝ <span class="fr"><span class="n">6</span><span class="d">100</span></span> ＝ 0.06</div>
+    <figure>
+      <svg viewBox="0 0 260 260" role="img" aria-label="10乘10方格共100格,塗出3欄2列共6格表示0.3乘0.2等於0.06">
+        <rect x="40" y="30" width="200" height="200" class="fr-whole"/>
+        <g class="fr-cut">
+          <line x1="60" y1="30" x2="60" y2="230"/><line x1="80" y1="30" x2="80" y2="230"/><line x1="100" y1="30" x2="100" y2="230"/><line x1="120" y1="30" x2="120" y2="230"/><line x1="140" y1="30" x2="140" y2="230"/><line x1="160" y1="30" x2="160" y2="230"/><line x1="180" y1="30" x2="180" y2="230"/><line x1="200" y1="30" x2="200" y2="230"/><line x1="220" y1="30" x2="220" y2="230"/>
+          <line x1="40" y1="50" x2="240" y2="50"/><line x1="40" y1="70" x2="240" y2="70"/><line x1="40" y1="90" x2="240" y2="90"/><line x1="40" y1="110" x2="240" y2="110"/><line x1="40" y1="130" x2="240" y2="130"/><line x1="40" y1="150" x2="240" y2="150"/><line x1="40" y1="170" x2="240" y2="170"/><line x1="40" y1="190" x2="240" y2="190"/><line x1="40" y1="210" x2="240" y2="210"/>
+        </g>
+        <rect x="40" y="30" width="60" height="40" fill="var(--gold-fill)" stroke="var(--gold)" stroke-width="2"/>
+        <text x="140" y="20" text-anchor="middle" class="s-lbl">寬 0.3（3 欄）</text>
+        <text x="24" y="130" text-anchor="middle" class="s-lbl" transform="rotate(-90 24,130)">高 0.2（2 列）</text>
+        <text x="140" y="250" text-anchor="middle" class="s-lbl-o">塗 6 格 ／ 全部 100 格 ＝ 0.06</text>
+      </svg>
+      <figcaption>整塊 100 格（10×10）＝1；取 3 欄×2 列＝6 格＝0.06。分母 10×10＝100，所以是兩位小數。</figcaption>
+    </figure>
+    <div class="why">
+      <span class="lbl">位數為什麼相加？</span>每個小數的分母都是 10 的次方：一位小數＝分母 10，二位＝分母 100…。相乘時分母也相乘（10×10＝100），<strong>分母多幾個 0，小數就有幾位</strong>。所以「兩個因數的小數位數<strong>加起來</strong>，就是答案的小數位數」。<br>
+      捷徑：先不管小數點算 3×2＝6，再數兩個數共 2 位小數，從右邊點 2 位 → 0.06。
+    </div>
+    <div class="echo"><span class="lbl">呼應分數</span>小數×小數的「分母相乘」，就是分數乘法「分母×分母」那條規則。同一個道理。</div>
+    <div class="pitfall"><span class="lbl">易錯</span>0.5×0.4，先算 5×4＝20，兩位小數 → 0.20＝0.2。別忘了補 0 再點位（20 要看成 .20）。</div>
+
+    <h3>三、小數 ÷ 整數</h3>
+    <p>1.2 ÷ 3：想成「12 個 0.1 平分成 3 份」＝每份 4 個 0.1＝<strong>0.4</strong>。直式時商的小數點對齊被除數的小數點。</p>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小五・小數乘法・除以整數（12 題）</p>
+      <ol class="prob">
+        <li>0.3 × 4 ＝？<details><summary>解答</summary><div class="ans">3個0.1 ×4＝12個0.1＝<b>1.2。</b></div></details></li>
+        <li>0.6 × 5 ＝？<details><summary>解答</summary><div class="ans">30個0.1＝<b>3.0＝3。</b></div></details></li>
+        <li>1.2 × 3 ＝？<details><summary>解答</summary><div class="ans"><b>3.6。</b></div></details></li>
+        <li>0.3 × 0.2 ＝？<details><summary>解答</summary><div class="ans">3×2＝6，兩位小數 → <b>0.06。</b></div></details></li>
+        <li>0.5 × 0.4 ＝？<details><summary>解答</summary><div class="ans">5×4＝20，兩位 → 0.20＝<b>0.2。</b></div></details></li>
+        <li>1.2 × 1.5 ＝？<details><summary>解答</summary><div class="ans">12×15＝180，兩位 → 1.80＝<b>1.8。</b></div></details></li>
+        <li>0.25 × 4 ＝？<details><summary>解答</summary><div class="ans">25×4＝100，兩位 → 1.00＝<b>1。</b></div></details></li>
+        <li>2.5 × 0.6 ＝？<details><summary>解答</summary><div class="ans">25×6＝150，兩位 → 1.50＝<b>1.5。</b></div></details></li>
+        <li>1.2 ÷ 3 ＝？<details><summary>解答</summary><div class="ans">12個0.1÷3＝4個0.1＝<b>0.4。</b></div></details></li>
+        <li>4.8 ÷ 4 ＝？<details><summary>解答</summary><div class="ans"><b>1.2。</b></div></details></li>
+        <li>0.6 ÷ 5 ＝？<details><summary>解答</summary><div class="ans"><span class="calc">0.6÷5＝0.12</span>。<b>0.12。</b></div></details></li>
+        <li>7.5 ÷ 6 ＝？<details><summary>解答</summary><div class="ans"><span class="calc">7.5÷6＝1.25</span>。<b>1.25。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== G6 ===== -->
+<section class="ch" id="c6">
+  <div class="ch-head"><div class="ch-num g6">G6</div><div><h2>小數 ÷ 小數・四則混合</h2><div class="grade">第三學習階段 · 小六｜目標：懂「移小數點」的道理（商不變）、四則混合</div></div></div>
+  <div class="ch-body">
+    <h3>一、先用「裡面有幾個」理解</h3>
+    <p>0.6 ÷ 0.2 問的是：<strong>「0.6 裡面有幾個 0.2？」</strong> 在數軸上，從 0 到 0.6，每 0.2 一步，走 3 步到 0.6，所以答案是 3。</p>
+    <figure>
+      <svg viewBox="0 0 480 110" role="img" aria-label="數軸0到0.6每0.2一步共3步">
+        <line x1="40" y1="55" x2="440" y2="55" class="nl-axis"/>
+        <g class="nl-tick"><line x1="60" y1="45" x2="60" y2="65"/><line x1="180" y1="45" x2="180" y2="65"/><line x1="300" y1="45" x2="300" y2="65"/><line x1="420" y1="45" x2="420" y2="65"/></g>
+        <line x1="60" y1="55" x2="300" y2="55" stroke="var(--gold)" stroke-width="4"/>
+        <text x="60" y="82" text-anchor="middle" class="s-lbl">0</text>
+        <text x="180" y="82" text-anchor="middle" class="s-lbl">0.2</text>
+        <text x="300" y="82" text-anchor="middle" class="s-lbl-o">0.6</text>
+        <text x="420" y="82" text-anchor="middle" class="s-lbl">0.8</text>
+        <text x="180" y="36" text-anchor="middle" class="s-lbl-o">3 步（3 個 0.2）</text>
+      </svg>
+      <figcaption>0.6 ÷ 0.2 ＝「0.6 裡有幾個 0.2」＝ 3。</figcaption>
+    </figure>
+
+    <h3>二、為什麼可以「除數變整數，被除數跟著移小數點」？</h3>
+    <p>把除法寫成分數，上下同乘 10：</p>
+    <div class="keyformula">0.6 ÷ 0.2 ＝ <span class="fr"><span class="n">0.6</span><span class="d">0.2</span></span> ＝ <span class="fr"><span class="n">0.6×10</span><span class="d">0.2×10</span></span> ＝ <span class="fr"><span class="n">6</span><span class="d">2</span></span> ＝ 3</div>
+    <div class="why"><span class="lbl">道理：商不變</span>被除數和除數<strong>同時放大一樣的倍數，商不變</strong>（因為分子分母同乘一數，分數值不變）。所以我們故意把除數乘 10（或 100…）變成整數，好算多了——被除數也要乘一樣的倍數（小數點往右移一樣的格數）。</div>
+    <div class="echo"><span class="lbl">呼應分數</span>「上下同乘 10，值不變」＝分數的<strong>等值分數</strong>（分子分母同乘一數）。移小數點不是魔法，是等值分數。</div>
+    <div class="pitfall"><span class="lbl">易錯</span>被除數和除數要移<strong>一樣多格</strong>。1.44 ÷ 1.2：除數 1.2 移 1 格變 12，被除數也移 1 格變 14.4 → 14.4 ÷ 12 ＝ 1.2。</div>
+
+    <div class="note" style="margin:18px 0">📌 除不盡時：像 1 ÷ 3 ＝ 0.333…，國小的做法是<strong>四捨五入到指定的位數</strong>（例如取到百分位 ≈ 0.33）。「循環小數」的正式寫法到國中才學。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小六・小數÷小數・四則（12 題）</p>
+      <ol class="prob">
+        <li>0.6 ÷ 0.2 ＝？<details><summary>解答</summary><div class="ans">6÷2＝<b>3。</b></div></details></li>
+        <li>0.8 ÷ 0.4 ＝？<details><summary>解答</summary><div class="ans">8÷4＝<b>2。</b></div></details></li>
+        <li>0.75 ÷ 0.25 ＝？<details><summary>解答</summary><div class="ans">75÷25＝<b>3。</b></div></details></li>
+        <li>1.44 ÷ 1.2 ＝？<details><summary>解答</summary><div class="ans">14.4÷12＝<b>1.2。</b></div></details></li>
+        <li>3.6 ÷ 0.4 ＝？<details><summary>解答</summary><div class="ans">36÷4＝<b>9。</b></div></details></li>
+        <li>0.9 ÷ 0.15 ＝？<details><summary>解答</summary><div class="ans">同乘 100：90÷15＝<b>6。</b></div></details></li>
+        <li>2.5 ÷ 0.5 ＝？<details><summary>解答</summary><div class="ans">25÷5＝<b>5。</b></div></details></li>
+        <li>4.8 ÷ 1.6 ＝？<details><summary>解答</summary><div class="ans">48÷16＝<b>3。</b></div></details></li>
+        <li>0.3 ＋ 0.5 × 0.4 ＝？<details><summary>解答</summary><div class="ans">先乘：0.5×0.4＝0.2；0.3＋0.2＝<b>0.5。</b></div></details></li>
+        <li>(1.2 ＋ 0.8) ÷ 0.5 ＝？<details><summary>解答</summary><div class="ans">括號＝2.0；2÷0.5＝<b>4。</b></div></details></li>
+        <li>1 ÷ 0.25 ＝？<details><summary>解答</summary><div class="ans">100÷25＝<b>4。</b></div></details></li>
+        <li>2.4 ÷ 0.8 ＋ 1.5 ＝？<details><summary>解答</summary><div class="ans">先除：2.4÷0.8＝3；3＋1.5＝<b>4.5。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 進階 ===== -->
+<section class="ch" id="cx">
+  <div class="ch-head"><div class="ch-num x">＋</div><div><h2>應用題＋分數小數混合</h2><div class="grade">G5–G6 綜合｜把小數用到生活，並和分數自由換算</div></div></div>
+  <div class="ch-body">
+    <div class="echo"><span class="lbl">混合計算的通用招</span>遇到分數和小數一起出現，先<strong>統一成同一種</strong>（通常化成小數比較快，或化成分數比較準），再計算。因為它們住同一條數軸，換算後就能直接算。</div>
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>應用與混合（10 題）</p>
+      <ol class="prob">
+        <li>一枝筆 12.5 元，買 4 枝要多少錢？<details><summary>解答</summary><div class="ans">12.5×4＝<b>50 元。</b></div></details></li>
+        <li>3.6 公尺緞帶，每 0.4 公尺剪一段，可剪幾段？<details><summary>解答</summary><div class="ans">3.6÷0.4＝<b>9 段。</b></div></details></li>
+        <li>0.75 ＋ ¼ ＝？<details><summary>解答</summary><div class="ans">¼＝0.25；0.75＋0.25＝<b>1。</b></div></details></li>
+        <li>½ ＋ 0.3 ＝？<details><summary>解答</summary><div class="ans">½＝0.5；0.5＋0.3＝<b>0.8。</b></div></details></li>
+        <li>1.5 公升的水平分成 6 杯，每杯幾公升？<details><summary>解答</summary><div class="ans">1.5÷6＝<b>0.25 公升。</b></div></details></li>
+        <li>小明高 1.4 公尺，小華比他高 0.15 公尺，小華多高？<details><summary>解答</summary><div class="ans">1.40＋0.15＝<b>1.55 公尺。</b></div></details></li>
+        <li>買東西 87.5 元，付 100 元，找多少？<details><summary>解答</summary><div class="ans">100−87.5＝<b>12.5 元。</b></div></details></li>
+        <li>0.2 的 ¾ 是多少？<details><summary>解答</summary><div class="ans">0.2×0.75＝<b>0.15。</b></div></details></li>
+        <li>一段路 2.4 公里，走了 <span class="fr"><span class="n">3</span><span class="d">8</span></span>，走了幾公里？<details><summary>解答</summary><div class="ans">2.4÷8＝0.3；0.3×3＝<b>0.9 公里。</b></div></details></li>
+        <li>蛋糕 0.6 公斤，吃了 0.25 公斤，剩多少？<details><summary>解答</summary><div class="ans">0.60−0.25＝<b>0.35 公斤。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 記憶小卡 ===== -->
+<section class="cards-wrap" id="cards">
+  <div class="ch-head" style="max-width:none"><div class="ch-num x">★</div><div><h2>考前記憶小卡</h2><div class="grade">快速翻閱用｜每張＝規則＋一句「為什麼」＋易錯提醒</div></div></div>
+  <p class="note" style="margin-top:14px">用法：考前遮住規則，看「為什麼」那句話，試著自己把規則講出來。能講出來＝真的記住了。列印可剪成卡片。</p>
+  <div class="cards">
+    <div class="mc gx"><div class="tag">核心觀念</div><h4>小數是什麼</h4><div class="f">分母 10、100… 的分數</div><p class="pt">0.1＝1/10。小數是<b>十進位分數</b>，住在數軸上。</p></div>
+    <div class="mc g3"><div class="tag">G3 · 位值</div><h4>位值</h4><div class="f">往右一位 ÷10</div><p class="pt">十分位、百分位、千分位。0.7＝7 個 0.1。</p></div>
+    <div class="mc g4"><div class="tag">G4 · 尾巴 0</div><h4>0.1 ＝ 0.10</h4><div class="f">尾巴加 0 不變</div><p class="pt">＝分數<b>擴分</b>（1/10＝10/100），數軸同一點。</p></div>
+    <div class="mc g4"><div class="tag">G4 · 加減</div><h4>小數加減</h4><div class="f">小數點對齊</div><p class="pt">＝同位值相加＝分數<b>同分母</b>。位數不夠補 0。</p></div>
+    <div class="mc g4"><div class="tag">G4 · 互換</div><h4>小數 ↔ 分數</h4><div class="f">一位/10、二位/100 → 約分</div><p class="pt">0.25＝25/100＝¼；分數化小數＝分子÷分母。</p></div>
+    <div class="mc g5"><div class="tag">G5 · 乘法</div><h4>小數 × 小數</h4><div class="f">當整數乘，小數位數相加</div><p class="pt">分母相乘（10×10＝100）→ 位數相加。<b>記得補 0 再點位</b>。</p></div>
+    <div class="mc g5"><div class="tag">G5 · 除以整數</div><h4>小數 ÷ 整數</h4><div class="f">商的小數點對齊被除數</div><p class="pt">1.2÷3＝12個0.1÷3＝0.4。</p></div>
+    <div class="mc g6"><div class="tag">G6 · 除以小數</div><h4>小數 ÷ 小數</h4><div class="f">除數變整數，被除數移一樣多格</div><p class="pt">上下同乘 10＝<b>商不變</b>＝等值分數。移<b>一樣多格</b>！</p></div>
+    <div class="mc g6"><div class="tag">G6 · 除不盡</div><h4>除不盡怎麼辦</h4><div class="f">四捨五入到指定位數</div><p class="pt">1÷3≈0.33。循環小數國中再學。</p></div>
+    <div class="mc gx"><div class="tag">運算順序</div><h4>四則混合</h4><div class="f">括號 → 乘除 → 加減</div><p class="pt">和整數、分數的順序一樣。</p></div>
+    <div class="mc gx"><div class="tag">混合 · 分數</div><h4>分數小數混合</h4><div class="f">先統一成同一種</div><p class="pt">住同一條數軸，換算後直接算。</p></div>
+    <div class="mc gx"><div class="tag">必考 · 易錯</div><h4>比大小</h4><div class="f">對齊位值再比</div><p class="pt">0.7＞0.65（0.70 vs 0.65）。別被位數多的騙了。</p></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>小數完全學習手冊</strong>　依十二年國教 108 課綱「數與量（N）」小數脈絡編製，涵蓋 G3–G6，全程以「十進位分數＋數軸」貫穿，並與《分數手冊》互相呼應。</p>
+  <p>使用建議：先讀每章「為什麼」與圖解，再做練習；考前用記憶小卡複習。各版本教科書（康軒／翰林／南一）單元順序與名稱略有差異，本手冊以概念脈絡編排。乘除題答案已化到最簡整潔形式（如 0.20 寫成 0.2），實際作答請依各校要求保留位數。</p>
+</footer>
+
+<script>
+  (function(){
+    var btn=document.getElementById('toggleAll');var open=false;
+    btn.addEventListener('click',function(){
+      open=!open;document.querySelectorAll('details').forEach(function(d){d.open=open;});
+      btn.textContent=open?'收合全部解答':'展開全部解答';
+    });
+  })();
+</script>
+</body>
+</html>

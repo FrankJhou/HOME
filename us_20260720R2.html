@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股類股個股動態｜每日彙整</title>
+<style>
+  :root{
+    --bg:#EEF3EA;
+    --panel:#FAFCF8;
+    --panel-raised:#E4EDDF;
+    --border:#CFDCC9;
+    --ink:#25352C;
+    --ink-dim:#51624F;
+    --ink-faint:#7C8C77;
+    --amber:#A5651F;
+    --amber-dim:#7C4C18;
+    --up:#2E7D4F;
+    --down:#B33B2E;
+    --flat:#6B7A6E;
+    --serif:"Noto Serif TC","Source Han Serif TC","Georgia",serif;
+    --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Helvetica Neue",sans-serif;
+    --mono:"IBM Plex Mono","SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{font-size:18px;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    line-height:1.55;
+  }
+
+  /* ---------- Header + ticker tape (signature element) ---------- */
+  header.masthead{
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,#F5F8F2,#EEF3EA);
+    padding:22px clamp(16px,4vw,40px) 0;
+  }
+  .masthead-top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px 24px;
+    padding-bottom:16px;
+  }
+  .masthead-title{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(23px,2.9vw,32px);
+    letter-spacing:0.02em;
+    color:var(--ink);
+    margin:0;
+  }
+  .masthead-title .accent{color:var(--amber);}
+  .masthead-sub{
+    font-family:var(--mono);
+    font-size:13.5px;
+    color:var(--ink-faint);
+    letter-spacing:0.04em;
+  }
+
+  .tape-wrap{
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    background:#E4EBDF;
+    overflow:hidden;
+    white-space:nowrap;
+    position:relative;
+  }
+  .tape-wrap::before, .tape-wrap::after{
+    content:"";
+    position:absolute;
+    top:0; bottom:0;
+    width:48px;
+    z-index:2;
+    pointer-events:none;
+  }
+  .tape-wrap::before{left:0;background:linear-gradient(90deg,#E4EBDF, transparent);}
+  .tape-wrap::after{right:0;background:linear-gradient(270deg,#E4EBDF, transparent);}
+  .tape-track{
+    display:inline-flex;
+    align-items:center;
+    gap:36px;
+    padding:9px 0;
+    animation:scroll-tape 38s linear infinite;
+    font-family:var(--mono);
+    font-size:15px;
+  }
+  .tape-wrap:hover .tape-track{ animation-play-state:paused; }
+  @keyframes scroll-tape{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  .tape-item{display:inline-flex; align-items:center; gap:8px; color:var(--ink-dim);}
+  .tape-item b{color:var(--ink); font-weight:600;}
+  .tape-up{color:var(--up);}
+  .tape-down{color:var(--down);}
+  .tape-dot{color:var(--ink-faint);}
+
+  /* ---------- Layout ---------- */
+  .layout{
+    display:flex;
+    align-items:flex-start;
+    max-width:1180px;
+    margin:0 auto;
+  }
+
+  nav.sidebar{
+    width:230px;
+    flex:0 0 230px;
+    padding:28px 14px 60px 24px;
+    position:sticky;
+    top:0;
+  }
+  .sidebar-label{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.12em;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+    margin:0 0 12px 10px;
+  }
+  .date-list{list-style:none; margin:0; padding:0; border-left:1px solid var(--border);}
+  .date-list li{position:relative;}
+  .date-btn{
+    all:unset;
+    cursor:pointer;
+    display:block;
+    width:100%;
+    padding:10px 10px 10px 18px;
+    font-family:var(--mono);
+    font-size:17px;
+    color:var(--ink-dim);
+    border-left:2px solid transparent;
+    margin-left:-1px;
+    transition:color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .date-btn:hover{color:var(--ink); background:rgba(232,163,61,0.06);}
+  .date-btn.active{
+    color:var(--amber);
+    border-left:2px solid var(--amber);
+    background:rgba(232,163,61,0.08);
+    font-weight:600;
+  }
+  .date-btn .dow{
+    display:block;
+    font-family:var(--sans);
+    font-size:12.5px;
+    color:var(--ink-faint);
+    margin-top:2px;
+  }
+  .date-btn.active .dow{color:var(--amber-dim);}
+
+  .sidebar-note{
+    margin:22px 10px 0;
+    font-size:13.5px;
+    line-height:1.7;
+    color:var(--ink-faint);
+    border-top:1px dashed var(--border);
+    padding-top:14px;
+  }
+
+  main#content{
+    flex:1;
+    min-width:0;
+    padding:28px clamp(16px,3vw,36px) 80px;
+    border-left:1px solid var(--border);
+  }
+
+  .day-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .day-head h2{
+    font-family:var(--serif);
+    font-size:26px;
+    margin:0;
+    color:var(--ink);
+    font-weight:600;
+  }
+  .day-range{
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--ink-faint);
+  }
+  .day-desc{
+    font-size:16px;
+    color:var(--ink-dim);
+    margin:8px 0 28px;
+    line-height:1.7;
+    max-width:70ch;
+  }
+
+  /* ---------- Sector card ---------- */
+  .sector{
+    margin-bottom:30px;
+    border:1px solid var(--border);
+    border-radius:3px;
+    overflow:hidden;
+    background:var(--panel);
+  }
+  .sector-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 16px;
+    background:var(--panel-raised);
+    border-bottom:1px solid var(--border);
+  }
+  .sector-swatch{
+    width:9px; height:9px; border-radius:50%;
+    flex:0 0 auto;
+  }
+  .sector-head h3{
+    margin:0;
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:19px;
+    color:var(--ink);
+  }
+  .sector-head span.en{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-faint);
+  }
+
+  table.movers{
+    width:100%;
+    border-collapse:collapse;
+    font-size:15.5px;
+  }
+  table.movers th{
+    text-align:left;
+    font-family:var(--mono);
+    font-weight:500;
+    font-size:12px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    padding:9px 14px;
+    border-bottom:1px solid var(--border);
+    white-space:nowrap;
+  }
+  table.movers td{
+    padding:10px 14px;
+    border-bottom:1px solid var(--border);
+    color:var(--ink);
+    vertical-align:top;
+  }
+  table.movers tr:last-child td{border-bottom:none;}
+  table.movers tr:hover td{background:rgba(255,255,255,0.02);}
+  td.ticker{font-family:var(--mono); font-weight:600; white-space:nowrap;}
+  td.change{font-family:var(--mono); font-weight:600; white-space:nowrap;}
+  td.period{font-family:var(--mono); font-size:13.5px; color:var(--ink-dim); white-space:nowrap;}
+  td.note{color:var(--ink-dim); font-size:14.5px; line-height:1.6;}
+  .chg-up{color:var(--up);}
+  .chg-down{color:var(--down);}
+  .chg-flat{color:var(--flat);}
+
+  .sector-gap{
+    padding:9px 16px;
+    font-size:13px;
+    color:var(--amber-dim);
+    background:rgba(232,163,61,0.05);
+    border-top:1px dashed var(--border);
+    line-height:1.6;
+  }
+  .sector-sources{
+    padding:9px 16px 12px;
+    font-size:12.5px;
+    color:var(--ink-faint);
+    border-top:1px solid var(--border);
+  }
+  .sector-sources a{
+    color:#1B6E8C;
+    text-decoration:none;
+    border-bottom:1px dotted rgba(27,110,140,0.45);
+  }
+  .sector-sources a:hover{color:#134F65;}
+  .sector-sources .sep{color:var(--ink-faint); margin:0 6px;}
+
+  .movers-news{
+    padding:4px 16px 14px;
+    border-top:1px solid var(--border);
+  }
+  .movers-news p{
+    margin:8px 0;
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--ink-dim);
+  }
+  .movers-news p b{color:var(--ink); font-weight:600;}
+
+  footer.foot{
+    max-width:1180px;
+    margin:0 auto;
+    padding:20px clamp(16px,4vw,40px) 40px;
+    font-size:12.5px;
+    color:var(--ink-faint);
+    border-top:1px solid var(--border);
+  }
+
+  @media (max-width: 760px){
+    .layout{flex-direction:column;}
+    nav.sidebar{
+      width:100%; flex:none;
+      position:relative;
+      padding:16px 16px 8px;
+    }
+    .date-list{display:flex; gap:4px; border-left:none; overflow-x:auto; padding-bottom:6px;}
+    .date-list li{flex:0 0 auto;}
+    .date-btn{border-left:none; border-bottom:2px solid transparent; padding:8px 12px; white-space:nowrap;}
+    .date-btn.active{border-left:none; border-bottom:2px solid var(--amber);}
+    main#content{border-left:none; padding:20px 16px 60px;}
+    table.movers{font-size:13.5px;}
+    td.note{display:none;}
+    th:last-child{display:none;}
+  }
+
+  :focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-top">
+    <h1 class="masthead-title">美股類股<span class="accent">個股動態</span></h1>
+    <div class="masthead-sub">DAILY SECTOR MOVERS · U.S. EQUITIES</div>
+  </div>
+  <div class="tape-wrap">
+    <div class="tape-track" id="tapeTrack"></div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <p class="sidebar-label">日期索引</p>
+    <ul class="date-list" id="dateList"></ul>
+    <p class="sidebar-note">點選左側日期查看當天美股十一大類股個股動態。之後每次更新，會在此新增一個日期。</p>
+  </nav>
+
+  <main id="content"></main>
+</div>
+
+<footer class="foot">
+  資料為根據真實新聞與市場數據整理，各表格下方附原始來源連結。部份類股個股數量尚未達10檔者已標註說明。本頁僅供參考，不構成投資建議。
+</footer>
+
+<script>
+const DATA = {
+  "2026-07-20": {
+    label: "2026/07/20",
+    dow: "週二更新（台灣時間）／美股7/20收盤資料",
+    range: "資料範圍：2026/07/20美股收盤（美東週一）",
+    desc: "美股週一收盤漲跌互見：道瓊下跌307.16點（-0.59%）收51,839.26，S&amp;P 500小跌0.19%收7,443.28，那斯達克僅微跌0.05%收25,508.07。蘋果重挫逾2%是拖累道瓊主因；特斯拉續跌3.0%至369.57美元，靜待週三財報。半導體類股在上週重挫後強勁反彈，輝達、超微、英特爾、美光、博通全面上漲，Alphabet（Google）則因AI晶片開發消息激勵走高。中東局勢方面，美伊已連續9晚互襲，布蘭特原油盤中一度衝上每桶90美元、收在90.79美元（+4%），創6月中以來新高；隨後伊朗外交部發言人釋出談判意願，市場情緒略為緩和。英特爾同時宣布新一輪資料中心部門裁員。本頁已將科技、通訊服務、能源、非必需消費等類股更新至7/20收盤資料，其餘類股暫維持先前確認的最新資料並標明原始日期。",
+    movers: [
+      ["MU","美光 Micron","$848.95","$888.57","+$39.62","+4.67%","未創新高，較6/25歷史高點$1,255.00仍低約29%","記憶體類股全面反彈，SanDisk、Western Digital同步大漲，市場解讀為上週重挫後的超跌買盤"],
+      ["AMD","超微 AMD","$495.76","$516.48","+$20.72","+4.18%","未創新高，較6/30歷史高點$580.91仍低約11.1%","與微軟擴大策略合作，Azure將導入AMD Helios機架式AI伺服器（Instinct MI455X GPU），H2 2026開始出貨；Rosenblatt、UBS同步調升目標價"],
+      ["SNDK","晟碟／SanDisk","$1,354.82","約$1,402.91","約+$48.09","+3.55%","未創新高，仍遠低於6/25歷史高點$2,335～2,354","記憶體與儲存類股同步反彈，惟上週已重挫近30%，本次反彈僅收復一小部分跌幅"],
+      ["AVGO","博通 Broadcom","$370.83","$381.23","+$10.40","+2.81%","未創新高，較52週高點$495.00仍低約23%","隨半導體類股同步反彈，無單一公司特定消息"],
+      ["INTC","英特爾 Intel","$95.04","$97.06","+$2.02","+2.13%","未創新高，較52週高點$142.35仍低約32%","市場傳出晶圓代工部門可能取得雲端大廠長期合約，驗證18A製程IDM 2.0策略；同日公布資料中心部門新一輪裁員"],
+      ["GOOG","Alphabet（Google）","$346.12","$351.37","+$5.25","+1.52%","未創新高，距5月歷史高點$408.61仍有約14%空間","《The Information》報導Google正開發新一代AI晶片「Frozen v2」，優化Gemini運算效率；週三（7/22）將公布Q2財報"]
+    ],
+    moversSources:[
+      ["Google Finance","https://www.google.com/finance/beta/quote/GOOG:NASDAQ"],
+      ["Seeking Alpha","https://seekingalpha.com/symbol/GOOG"],
+      ["CNN Markets（Barchart數據）","https://www.cnn.com/markets/stocks/INTC"],
+      ["CNN Markets（Barchart數據）","https://www.cnn.com/markets/stocks/AMD"],
+      ["Investing.com","https://www.investing.com/equities/intel-corp"],
+      ["Investing.com","https://www.investing.com/equities/adv-micro-device"],
+      ["Morningstar","https://www.morningstar.com/stocks/xnas/mu/quote"],
+      ["TradingKey（引用TradingView圖表）","https://www.tradingkey.com/analysis/stocks/us-stocks/262037492-amd-stock-forecast-week-july-20-2026-advancing-ai-july-22-tradingkey"],
+      ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262041913-market-movers-sndk-20260720"],
+      ["StockAnalysis.com","https://stockanalysis.com/markets/gainers/"]
+    ],
+    sectors: [
+      {
+        zh:"科技", en:"Technology", color:"#2563EB",
+        rows:[
+          ["SNPS","新思科技 Synopsys","-7.85%","down","7/17（單日）","Moonshot AI「Kimi K3」繞開專屬EDA軟體獨立完成晶片設計，單日市值蒸發逾60億美元"],
+          ["CDNS","益華電腦 Cadence","-9.6%","down","7/17（單日）","同受Kimi K3衝擊，兩大EDA廠商合計蒸發約158億美元市值"],
+          ["NVDA","輝達 Nvidia","+2%以上","up","7/20（單日）","上週重挫後強勁反彈，晶片股全面回升，費半指數收漲"],
+          ["AMD","超微 AMD","+2.83%","up","7/20（單日）","隨半導體類股同步反彈"],
+          ["INTC","英特爾 Intel","+3.61%","up","7/20（單日）","晶圓代工業務利多消息帶動大漲，同日宣布資料中心部門新一輪裁員"],
+          ["MU","美光 Micron","+4.67%","up","7/20（單日）","記憶體類股領漲晶片股反彈"],
+          ["AVGO","博通 Broadcom","+2.81%","up","7/20（單日）","隨半導體類股同步反彈"],
+          ["IBM","IBM","-26.0%","down","7/13–7/17（週）","第二季初步財報令投資人失望，單週重挫"],
+          ["MRVL","邁威爾 Marvell","-20%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"],
+          ["GLW","康寧 Corning","-19%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"],
+          ["AAPL","蘋果 Apple","-2%以上","down","7/20（單日）","單日跌幅逾2%，是拖累道瓊主因；毛利率展望疑慮浮現"],
+          ["PANW","帕羅奧圖網路 Palo Alto Networks","+10.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"]
+        ],
+        sources:[
+          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
+          ["Investing.com","https://www.investing.com/news/stock-market-news/why-is-cadence-design-systems-stock-plummeting-today-93CH-4798909"],
+          ["TS2.tech","https://ts2.tech/en/synopsys-nasdaqsnps-loses-6-3-billion-following-kimi-k3-chip-design-demonstration/"],
+          ["Bloomberg","https://www.bloomberg.com/news/articles/2026-07-20/us-stocks-rebound-from-selloff-as-nvidia-other-chipmakers-rise"],
+          ["Yahoo Finance","https://finance.yahoo.com/quote/NVDA/history/"],
+          ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/why-apple-stock-dropped-today-192518253.html"],
+          ["TipRanks","https://www.tipranks.com/news/intel-stock-nasdaqintc-jumps-with-new-layoff-plans"]
+        ]
+      },
+      {
+        zh:"通訊服務", en:"Communication Services", color:"#7C3AED",
+        rows:[
+          ["NFLX","Netflix","-7.26%","down","7/17（單日）","第三季展望不如預期"],
+          ["GOOG","Alphabet（Google）","+1.52%","up","7/20（單日）","AI晶片開發消息激勵股價走高，週三將公布Q2財報"],
+          ["META","Meta Platforms","-2.79%","down","7/17（單日）","隨AI晶片類股同步走跌"],
+          ["DIS","迪士尼 Disney","-2.05%","down","7/17（單日）","串流同業Netflix財報拖累"],
+          ["CMCSA","康卡斯特 Comcast","-1.29%","down","7/17（單日）","串流同業Netflix財報拖累"],
+          ["TMUS","T-Mobile US","-0.22%","down","7/17（單日）","收$192.43，接近52週低點，市場消化衛星直連手機競爭疑慮"],
+          ["VZ","威訊 Verizon","-0.66%","down","7/17（單日）","收$43.59，遭剔出道瓊工業指數的利空持續發酵"],
+          ["T","美國電話電報 AT&amp;T","+0.64%","up","7/20（單日）","收$21.95，週三（7/22）將公布Q2財報，市場關注SpaceX/Starlink威脅"],
+          ["WBD","華納兄弟探索 Warner Bros Discovery","-1.54%","down","7/17（單日）","收$26.87，Paramount併購案面臨多州檢察總長反壟斷訴訟，英國監管審查亦未明朗"]
+        ],
+        gap:"目前已確認到9檔具體漲跌數字，仍差1檔湊滿10檔（如Charter Communications、EchoStar等），可再補充搜尋。",
+        sources:[
+          ["The Motley Fool（Yahoo Finance轉載）","https://www.fool.com/coverage/stock-market-today/2026/07/17/stock-market-today-july-17-netflix-plunges-but-are-investors-missing-the-point/"],
+          ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/alphabet-94-meta-down-5-230002079.html"],
+          ["Yahoo Finance","https://finance.yahoo.com/markets/live/stock-market-today-monday-july-20-dow-sp-500-nasdaq-111429441.html"],
+          ["GuruFocus","https://www.gurufocus.com/news/8967145/us-semiconductor-stocks-surge-amid-ai-market-recovery"],
+          ["CNN Markets","https://www.cnn.com/markets/stocks/TMUS"],
+          ["Morningstar","https://www.morningstar.com/stocks/xnys/vz/quote"],
+          ["Morningstar","https://www.morningstar.com/stocks/xnys/t/quote"],
+          ["StockAnalysis.com","https://stockanalysis.com/stocks/t/history/"],
+          ["MacroTrends","https://www.macrotrends.net/stocks/charts/T/at-t/stock-price-history"],
+          ["StockInvest.us","https://stockinvest.us/stock/WBD"]
+        ]
+      },
+      {
+        zh:"金融", en:"Financials", color:"#059669",
+        rows:[
+          ["GS","高盛 Goldman Sachs","+7.3%","up","7/13–7/17（週）","Q2財報大幅超預期，創歷史新高"],
+          ["JPM","摩根大通 JPMorgan","+1%","up","7/13–7/17（週）","Q2獲利創美國銀行業史上新高，創歷史新高"],
+          ["BAC","美國銀行 Bank of America","+1.8%","up","7/14（單日）","Q2財報優於預期"],
+          ["PYPL","PayPal","+22.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股"],
+          ["C","花旗 Citigroup","-4.3%","down","7/14（單日）","市場擔憂下半年費用上升"],
+          ["WFC","富國銀行 Wells Fargo","-2.6%","down","7/14（單日）","財報後獲利了結賣壓"],
+          ["V","Visa","創52週新高","up","7/13–7/17（週）","本週新高的24檔金融股之一"]
+        ],
+        sources:[
+          ["Tech Times","https://www.techtimes.com/articles/320491/20260714/all-five-major-banks-beat-estimates-jpmorgan-posts-highest-profit-us-history.htm"],
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"]
+        ]
+      },
+      {
+        zh:"能源", en:"Energy", color:"#B45309",
+        rows:[
+          ["Brent原油","Brent Crude","+4%（收$90.79）","up","7/20（收盤）","美伊衝突升級、荷莫茲海峽航運受阻，收盤價創6月中以來新高"],
+          ["WTI原油","WTI Crude","+2.65%（收$84.68）","up","7/20（收盤）","同步走高，創6月12日以來新高，上週單週漲幅達15.5%"],
+          ["XOM","埃克森美孚 ExxonMobil","+6.1%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
+          ["CVX","雪佛龍 Chevron","+6.2%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
+          ["VLO","Valero能源","+10.3%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
+          ["MPC","馬拉松石油 Marathon Petroleum","+10.2%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
+          ["COP","康菲石油 ConocoPhillips","+1.18%","up","7/17（單日）","BP合資取得伊拉克Kirkuk油田開發權，單日漲幅逾大盤"],
+          ["SLB","斯倫貝謝 SLB（Schlumberger）","-0.65%","down","7/13–7/17（週）","中東營運中斷疑慮及美伊和談降低短線需求預期，股價承壓"]
+        ],
+        gap:"能源類股整體本週上漲4.7%，目前已確認到6檔個股數據，仍差4檔（如Kinder Morgan、Halliburton等中游／油服類股，因資料來源對單週漲跌幅記載不一致，暫未收錄），可再補充搜尋。",
+        sources:[
+          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
+          ["Reuters（Yahoo Finance轉載）","https://finance.yahoo.com/news/brent-oil-tops-90-us-001615973.html"],
+          ["CNBC","https://www.cnbc.com/2026/07/20/oil-prices-today-brent-wti-crude-us-iran-centcom-hormuz.html"],
+          ["The Sunday Guardian","https://sundayguardianlive.com/business/brent-crude-oil-price-today-july-20-brent-crosses-90-wti-climbs-above-84-as-us-iran-conflict-escalates-strait-of-hormuz-supply-fears-intensify-check-latest-brent-crude-wti-oil-rates-today-241883/"],
+          ["The Motley Fool","https://www.fool.com/investing/2026/07/17/why-conocophillips-stock-flew-higher-on-friday/"],
+          ["eToro","https://www.etoro.com/markets/slb"],
+          ["Tickeron","https://tickeron.com/ticker/SLB/"]
+        ]
+      },
+      {
+        zh:"醫療保健", en:"Healthcare", color:"#DC2626",
+        rows:[
+          ["ISRG","直覺外科 Intuitive Surgical","約-9%","down","7/17（單日）","財報優但健保補貼疑慮拖累，創52週新低"],
+          ["UNH","聯合健康 UnitedHealth","創52週新高","up","7/13–7/17（週）","本週新高名單之一"],
+          ["LLY","禮來 Eli Lilly","-0.97%","down","7/7 資料","GLP-1藥物龍頭，近期股價回落"],
+          ["JNJ","嬌生 Johnson &amp; Johnson","-1.35%","down","7/7 資料","醫療保健類股中市值前段"],
+          ["ABBV","艾伯維 AbbVie","-2.44%","down","7/7 資料","醫療保健類股中市值前段"],
+          ["MRK","默沙東 Merck","-2.08%","down","7/7 資料","醫療保健類股中市值前段"]
+        ],
+        sources:[
+          ["CNBC","https://www.cnbc.com/2026/07/16/stock-market-today-live-updates.html"],
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
+          ["The Motley Fool","https://www.fool.com/research/largest-healthcare-companies/"]
+        ]
+      },
+      {
+        zh:"工業", en:"Industrials", color:"#4B5563",
+        rows:[
+          ["CTAS","金泰克斯 Cintas","+13.8%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"],
+          ["GE","奇異航空 GE Aerospace","約-2%至-6%","down","7/16（單日）","財報優於預期並上調全年展望，但毛利率承壓"],
+          ["BA","波音 Boeing","-0.14%","down","7/17（單日）","收$214.03，FAA恢復波音自行簽署737 MAX／787適航證書"],
+          ["CAT","開拓重工 Caterpillar","-1.17%","down","7/20（單日）","收$869.98，Q2財報將於7/22公布，市場預期EPS年增逾30%"],
+          ["DAL","達美航空 Delta Air Lines","+0.44%","up","7/20（單日）","收$84.54，第二季高階艙位營收年增17%，維持全年獲利展望"]
+        ],
+        gap:"目前已確認到5檔具體數字，仍差5檔（如聯合包裹UPS、漢威聯合Honeywell等，因近期涉及企業分割／股票分拆，資料時間點難以乾淨比對，暫未收錄），可再補充搜尋。",
+        sources:[
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
+          ["Quartz (qz.com)","https://qz.com/ge-aerospace-q2-2026-earnings-raised-guidance-071626"],
+          ["Morningstar","https://www.morningstar.com/stocks/xnys/ba/quote"],
+          ["Morningstar","https://www.morningstar.com/stocks/xnys/cat/quote"],
+          ["Morningstar","https://www.morningstar.com/stocks/xnys/dal/quote"]
+        ]
+      },
+      {
+        zh:"非必需消費", en:"Consumer Discretionary", color:"#DB2777",
+        rows:[
+          ["TSLA","特斯拉 Tesla","-3.0%（收$369.57）","down","7/20（單日）","蘋果、特斯拉領跌道瓊成分股；週三將公布Q2財報，市場關注自由現金流與毛利率"],
+          ["SBUX","星巴克 Starbucks","+3.3%","up","7/16（單日）","分析師調升目標價，轉型信心回升"],
+          ["MCD","麥當勞 McDonald's","創52週新低","down","7/13–7/17（週）","本週新低名單之一"],
+          ["ORLY","O'Reilly汽車零件","創52週新低","down","7/13–7/17（週）","本週新低名單之一"],
+          ["NKE","耐吉 Nike","-1.23%","down","7/20（單日）","收$43.21，靠近52週低點$40.00，品牌復甦仍待觀察"]
+        ],
+        gap:"目前確認到5檔，可再補充Amazon、Home Depot、Booking Holdings等數據（因缺乏明確日期標註的乾淨收盤價，暫未收錄）湊滿10檔。",
+        sources:[
+          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
+          ["Quiver Quantitative","https://www.quiverquant.com/news/Why+Starbucks+(SBUX)+Stock+Is+Up+Today"],
+          ["TS2.tech","https://ts2.tech/en/stock-market-today-20-07-2026/"],
+          ["Bloomberg","https://www.bloomberg.com/news/articles/2026-07-20/us-stocks-rebound-from-selloff-as-nvidia-other-chipmakers-rise"],
+          ["Morningstar","https://www.morningstar.com/stocks/xnys/nke/quote"]
+        ]
+      },
+      {
+        zh:"必需消費", en:"Consumer Staples", color:"#0D9488",
+        rows:[
+          ["KO","可口可樂 Coca-Cola","-4%","down","7/17（單日）","從歷史高點拉回，獲利了結賣壓"],
+          ["WMT","沃爾瑪 Walmart","-0.62%","down","7/7 資料","必需消費類股市值龍頭"],
+          ["COST","好市多 Costco","-0.50%","down","7/7 資料","必需消費類股市值第二"],
+          ["PG","寶僑 Procter &amp; Gamble","-1.08%","down","7/7 資料","家用品類股代表"],
+          ["PM","菲利普莫里斯 Philip Morris","+1.65%","up","7/7 資料","菸草類股逆勢上漲"]
+        ],
+        sources:[
+          ["FX Leaders","https://www.fxleaders.com/news/2026/07/17/coca-cola-ko-stock-falls-4-risking-uptrend-as-consumer-weakness-weighs/"],
+          ["The Motley Fool","https://www.fool.com/research/largest-consumer-staples-companies/"]
+        ]
+      },
+      {
+        zh:"原物料", en:"Materials", color:"#92400E",
+        rows:[
+          ["黃金現貨","Gold Spot","+1.03%（惟單週跌逾3%）","flat","7/17（單日／週）","中東緊張推升油價，壓抑降息預期"],
+          ["SHW","宣偉塗料 Sherwin-Williams","+13.3%","up","7月（月）","工業與原物料類股領漲個股之一"],
+          ["NUE","紐柯鋼鐵 Nucor","-2.07%","down","7/20（單日）","收約$231.72，鋼鐵類股隨大盤震盪走弱"],
+          ["LIN","林德集團 Linde","-0.29%","down","7/14（單日）","工業氣體龍頭，股價小幅回落，距52週高點$548.20約5%"]
+        ],
+        gap:"目前已確認到4項數據，可再補充Freeport-McMoRan、Newmont等個股（因近期股價資料時間點不一致，暫未收錄）的本週數據。",
+        sources:[
+          ["Trading Economics","https://tradingeconomics.com/commodity/gold"],
+          ["StockMarketWatch","https://stockmarketwatch.com/indices/dowjones/reports/july-2026"],
+          ["Investing.com","https://www.investing.com/equities/nucor"],
+          ["FinanceCharts","https://www.financecharts.com/stocks/LIN/summary/price"]
+        ]
+      },
+      {
+        zh:"公用事業", en:"Utilities", color:"#CA8A04",
+        rows:[
+          ["NEE","新紀元能源 NextEra Energy","-0.94%","down","7/7 資料","全球市值最大電力公司"],
+          ["CEG","星座能源 Constellation Energy","+0.57%（惟月線約-16%）","flat","7/7 資料／近期","核能發電廠授權延續申請中"],
+          ["DUK","杜克能源 Duke Energy","-0.87%","down","7/17（單日）","收$125.01，距52週高點$134.49約7%"]
+        ],
+        gap:"目前已確認到3檔，可再補充Southern Company、Vistra等本週數據（因資料時間點不夠明確，暫未收錄）。",
+        sources:[
+          ["The Motley Fool","https://www.fool.com/research/largest-utilities-companies/"],
+          ["Simply Wall St","https://simplywall.st/markets/us/utilities"],
+          ["Google Finance","https://www.google.com/finance/beta/quote/DUK:NYSE"]
+        ]
+      },
+      {
+        zh:"不動產", en:"Real Estate (REIT)", color:"#4338CA",
+        rows:[
+          ["PLD","普洛斯 Prologis","股價創一年新高","up","7/16–7/17","Q2財報大幅超預期並上調全年財測"],
+          ["EQIX","Equinix","+1.32%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
+          ["DLR","Digital Realty","+1.15%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
+          ["O","Realty Income","+1.36%","up","近期","淨租賃型REIT代表"],
+          ["AMT","美國電塔 American Tower","+0.54%","up","近期","電信基礎設施REIT"],
+          ["SPG","西蒙地產 Simon Property","+0.33%","up","近期","零售商場REIT代表"]
+        ],
+        sources:[
+          ["The Markets Daily","https://www.themarketsdaily.com/2026/07/17/prologis-nysepld-reaches-new-1-year-high-after-better-than-expected-earnings.html"],
+          ["The Motley Fool","https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/"],
+          ["Dividend.com","https://www.dividend.com/reit-industry-dividend-stocks-etfs-and-funds/"]
+        ]
+      }
+    ]
+  },
+  "2026-07-19": {
+    label: "2026/07/19",
+    dow: "週日彙整",
+    range: "資料範圍：2026/07/12 – 07/19（近1週滾動）",
+    desc: "本週美股呈現明顯輪動：AI／半導體交易獲利了結，科技類股領跌；資金轉向能源、不動產與部份防禦類股。以下依十一大類股列出個股層級漲跌，皆標明資料日期或期間。",
+    sectors: [
+      {
+        zh:"科技", en:"Technology", color:"#2563EB",
+        rows:[
+          ["NVDA","輝達 Nvidia","-3.9%","down","7/13–7/17（週）","AI晶片交易獲利了結，投資人轉趨保守"],
+          ["AMD","超微 AMD","-11.1%","down","7/13–7/17（週）","半導體類股全面下修拖累"],
+          ["INTC","英特爾 Intel","-13.5%","down","7/13–7/17（週）","AI資本支出報酬疑慮升溫"],
+          ["MU","美光 Micron","-13.3%","down","7/13–7/17（週）","記憶體漲勢降溫，隨SK海力士回落"],
+          ["AVGO","博通 Broadcom","-7.3%","down","7/13–7/17（週）","隨半導體類股同步走跌"],
+          ["IBM","IBM","-26.0%","down","7/13–7/17（週）","第二季初步財報令投資人失望，單週重挫"],
+          ["MRVL","邁威爾 Marvell","-20%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"],
+          ["GLW","康寧 Corning","-19%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"],
+          ["AAPL","蘋果 Apple","+5.8%","up","7/13–7/17（週）","逆勢上漲，緩衝科技類股跌勢"],
+          ["PANW","帕羅奧圖網路 Palo Alto Networks","+10.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"]
+        ],
+        sources:[
+          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"]
+        ]
+      },
+      {
+        zh:"通訊服務", en:"Communication Services", color:"#7C3AED",
+        rows:[
+          ["NFLX","Netflix","-7.26%","down","7/17（單日）","第三季展望不如預期"],
+          ["GOOG","Alphabet（Google）","-2.17%","down","7/17（單日）","隨AI晶片類股同步走跌"],
+          ["META","Meta Platforms","-2.79%","down","7/17（單日）","隨AI晶片類股同步走跌"],
+          ["DIS","迪士尼 Disney","-2.05%","down","7/17（單日）","串流同業Netflix財報拖累"],
+          ["CMCSA","康卡斯特 Comcast","-1.29%","down","7/17（單日）","串流同業Netflix財報拖累"]
+        ],
+        gap:"目前僅確認到5檔具體漲跌數字，若需湊滿10檔（如T-Mobile、Verizon、AT&amp;T、Warner Bros Discovery等），可再補充搜尋。",
+        sources:[
+          ["The Motley Fool（Yahoo Finance轉載）","https://www.fool.com/coverage/stock-market-today/2026/07/17/stock-market-today-july-17-netflix-plunges-but-are-investors-missing-the-point/"],
+          ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/alphabet-94-meta-down-5-230002079.html"]
+        ]
+      },
+      {
+        zh:"金融", en:"Financials", color:"#059669",
+        rows:[
+          ["GS","高盛 Goldman Sachs","+7.3%","up","7/13–7/17（週）","Q2財報大幅超預期，創歷史新高"],
+          ["JPM","摩根大通 JPMorgan","+1%","up","7/13–7/17（週）","Q2獲利創美國銀行業史上新高，創歷史新高"],
+          ["BAC","美國銀行 Bank of America","+1.8%","up","7/14（單日）","Q2財報優於預期"],
+          ["PYPL","PayPal","+22.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股"],
+          ["C","花旗 Citigroup","-4.3%","down","7/14（單日）","市場擔憂下半年費用上升"],
+          ["WFC","富國銀行 Wells Fargo","-2.6%","down","7/14（單日）","財報後獲利了結賣壓"],
+          ["V","Visa","創52週新高","up","7/13–7/17（週）","本週新高的24檔金融股之一"]
+        ],
+        sources:[
+          ["Tech Times","https://www.techtimes.com/articles/320491/20260714/all-five-major-banks-beat-estimates-jpmorgan-posts-highest-profit-us-history.htm"],
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"]
+        ]
+      },
+      {
+        zh:"能源", en:"Energy", color:"#B45309",
+        rows:[
+          ["XOM","埃克森美孚 ExxonMobil","+6.1%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
+          ["CVX","雪佛龍 Chevron","+6.2%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
+          ["VLO","Valero能源","+10.3%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
+          ["MPC","馬拉松石油 Marathon Petroleum","+10.2%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"]
+        ],
+        gap:"能源類股整體本週上漲4.7%，目前僅確認到4檔個股數據，可再補充中游／油服類股（如Kinder Morgan、Halliburton、ConocoPhillips）。",
+        sources:[
+          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"]
+        ]
+      },
+      {
+        zh:"醫療保健", en:"Healthcare", color:"#DC2626",
+        rows:[
+          ["ISRG","直覺外科 Intuitive Surgical","約-9%","down","7/17（單日）","財報優但健保補貼疑慮拖累，創52週新低"],
+          ["UNH","聯合健康 UnitedHealth","創52週新高","up","7/13–7/17（週）","本週新高名單之一"],
+          ["LLY","禮來 Eli Lilly","-0.97%","down","7/7 資料","GLP-1藥物龍頭，近期股價回落"],
+          ["JNJ","嬌生 Johnson &amp; Johnson","-1.35%","down","7/7 資料","醫療保健類股中市值前段"],
+          ["ABBV","艾伯維 AbbVie","-2.44%","down","7/7 資料","醫療保健類股中市值前段"],
+          ["MRK","默沙東 Merck","-2.08%","down","7/7 資料","醫療保健類股中市值前段"]
+        ],
+        sources:[
+          ["CNBC","https://www.cnbc.com/2026/07/16/stock-market-today-live-updates.html"],
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
+          ["The Motley Fool","https://www.fool.com/research/largest-healthcare-companies/"]
+        ]
+      },
+      {
+        zh:"工業", en:"Industrials", color:"#4B5563",
+        rows:[
+          ["CTAS","金泰克斯 Cintas","+13.8%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"],
+          ["GE","奇異航空 GE Aerospace","約-2%至-6%","down","7/16（單日）","財報優於預期並上調全年展望，但毛利率承壓"]
+        ],
+        gap:"目前僅確認到2檔具體數字，可再補充波音、開拓重工、聯合包裹、達美航空等的本週數據以湊滿10檔。",
+        sources:[
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
+          ["Quartz (qz.com)","https://qz.com/ge-aerospace-q2-2026-earnings-raised-guidance-071626"]
+        ]
+      },
+      {
+        zh:"非必需消費", en:"Consumer Discretionary", color:"#DB2777",
+        rows:[
+          ["TSLA","特斯拉 Tesla","-6.6%","down","7/13–7/17（週）","AI／成長股輪動賣壓，拖累類股表現"],
+          ["SBUX","星巴克 Starbucks","+3.3%","up","7/16（單日）","分析師調升目標價，轉型信心回升"],
+          ["MCD","麥當勞 McDonald's","創52週新低","down","7/13–7/17（週）","本週新低名單之一"],
+          ["ORLY","O'Reilly汽車零件","創52週新低","down","7/13–7/17（週）","本週新低名單之一"]
+        ],
+        gap:"目前確認到4檔，可再補充Amazon、Home Depot、Booking Holdings、Nike等數據湊滿10檔。",
+        sources:[
+          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
+          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
+          ["Quiver Quantitative","https://www.quiverquant.com/news/Why+Starbucks+(SBUX)+Stock+Is+Up+Today"]
+        ]
+      },
+      {
+        zh:"必需消費", en:"Consumer Staples", color:"#0D9488",
+        rows:[
+          ["KO","可口可樂 Coca-Cola","-4%","down","7/17（單日）","從歷史高點拉回，獲利了結賣壓"],
+          ["WMT","沃爾瑪 Walmart","-0.62%","down","7/7 資料","必需消費類股市值龍頭"],
+          ["COST","好市多 Costco","-0.50%","down","7/7 資料","必需消費類股市值第二"],
+          ["PG","寶僑 Procter &amp; Gamble","-1.08%","down","7/7 資料","家用品類股代表"],
+          ["PM","菲利普莫里斯 Philip Morris","+1.65%","up","7/7 資料","菸草類股逆勢上漲"]
+        ],
+        sources:[
+          ["FX Leaders","https://www.fxleaders.com/news/2026/07/17/coca-cola-ko-stock-falls-4-risking-uptrend-as-consumer-weakness-weighs/"],
+          ["The Motley Fool","https://www.fool.com/research/largest-consumer-staples-companies/"]
+        ]
+      },
+      {
+        zh:"原物料", en:"Materials", color:"#92400E",
+        rows:[
+          ["黃金現貨","Gold Spot","+1.03%（惟單週跌逾3%）","flat","7/17（單日／週）","中東緊張推升油價，壓抑降息預期"],
+          ["SHW","宣偉塗料 Sherwin-Williams","+13.3%","up","7月（月）","工業與原物料類股領漲個股之一"]
+        ],
+        gap:"目前僅確認到2項數據，可再補充Freeport-McMoRan、Newmont、Linde、Nucor等個股的本週數據。",
+        sources:[
+          ["Trading Economics","https://tradingeconomics.com/commodity/gold"],
+          ["StockMarketWatch","https://stockmarketwatch.com/indices/dowjones/reports/july-2026"]
+        ]
+      },
+      {
+        zh:"公用事業", en:"Utilities", color:"#CA8A04",
+        rows:[
+          ["NEE","新紀元能源 NextEra Energy","-0.94%","down","7/7 資料","全球市值最大電力公司"],
+          ["CEG","星座能源 Constellation Energy","+0.57%（惟月線約-16%）","flat","7/7 資料／近期","核能發電廠授權延續申請中"]
+        ],
+        gap:"目前僅確認到2檔，可再補充Duke Energy、Southern Company、Vistra等本週數據。",
+        sources:[
+          ["The Motley Fool","https://www.fool.com/research/largest-utilities-companies/"],
+          ["Simply Wall St","https://simplywall.st/markets/us/utilities"]
+        ]
+      },
+      {
+        zh:"不動產", en:"Real Estate (REIT)", color:"#4338CA",
+        rows:[
+          ["PLD","普洛斯 Prologis","股價創一年新高","up","7/16–7/17","Q2財報大幅超預期並上調全年財測"],
+          ["EQIX","Equinix","+1.32%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
+          ["DLR","Digital Realty","+1.15%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
+          ["O","Realty Income","+1.36%","up","近期","淨租賃型REIT代表"],
+          ["AMT","美國電塔 American Tower","+0.54%","up","近期","電信基礎設施REIT"],
+          ["SPG","西蒙地產 Simon Property","+0.33%","up","近期","零售商場REIT代表"]
+        ],
+        sources:[
+          ["The Markets Daily","https://www.themarketsdaily.com/2026/07/17/prologis-nysepld-reaches-new-1-year-high-after-better-than-expected-earnings.html"],
+          ["The Motley Fool","https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/"],
+          ["Dividend.com","https://www.dividend.com/reit-industry-dividend-stocks-etfs-and-funds/"]
+        ]
+      }
+    ]
+  }
+};
+
+const dateKeys = Object.keys(DATA).sort().reverse();
+
+function trendClass(t){
+  if(t==="up") return "chg-up";
+  if(t==="down") return "chg-down";
+  return "chg-flat";
+}
+
+function renderSidebar(activeKey){
+  const list = document.getElementById("dateList");
+  list.innerHTML = "";
+  dateKeys.forEach(key=>{
+    const d = DATA[key];
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.className = "date-btn" + (key===activeKey ? " active":"");
+    btn.innerHTML = d.label + '<span class="dow">' + d.dow + '</span>';
+    btn.onclick = ()=> renderDay(key);
+    li.appendChild(btn);
+    list.appendChild(li);
+  });
+}
+
+function renderDay(key){
+  const d = DATA[key];
+  const main = document.getElementById("content");
+
+  let html = '';
+  html += '<div class="day-head"><h2>' + d.label + ' 美股十一大類股個股動態</h2>';
+  html += '<span class="day-range">' + d.range + '</span></div>';
+  html += '<p class="day-desc">' + d.desc + '</p>';
+
+  if(d.movers && d.movers.length){
+    html += '<section class="sector movers-block">';
+    html += '<div class="sector-head"><span class="sector-swatch" style="background:#C0392B"></span>';
+    html += '<h3>個股動態：收盤前大漲個股</h3><span class="en">Top Gainers at Close</span></div>';
+    html += '<table class="movers"><thead><tr><th>代號</th><th>公司</th><th>前一交易日收盤</th><th>最新收盤</th><th>漲跌點數</th><th>漲跌%</th><th>是否創新高</th></tr></thead><tbody>';
+    d.movers.forEach(m=>{
+      const [ticker, company, prevClose, lastClose, ptChange, pctChange, highNote, news] = m;
+      html += '<tr><td class="ticker">' + ticker + '</td>';
+      html += '<td>' + company + '</td>';
+      html += '<td class="period">' + prevClose + '</td>';
+      html += '<td class="period">' + lastClose + '</td>';
+      html += '<td class="change chg-up">' + ptChange + '</td>';
+      html += '<td class="change chg-up">' + pctChange + '</td>';
+      html += '<td class="note">' + highNote + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    html += '<div class="movers-news">';
+    d.movers.forEach(m=>{
+      const [ticker, company, , , , , , news] = m;
+      html += '<p><b>' + ticker + '（' + company + '）：</b>' + news + '</p>';
+    });
+    html += '</div>';
+    if(d.moversSources){
+      html += '<div class="sector-sources">資料來源：　';
+      html += d.moversSources.map(src=>'<a href="'+src[1]+'" target="_blank" rel="noopener">'+src[0]+'</a>').join('<span class="sep">｜</span>');
+      html += '</div>';
+    }
+    html += '</section>';
+  }
+
+  d.sectors.forEach(s=>{
+    html += '<section class="sector">';
+    html += '<div class="sector-head"><span class="sector-swatch" style="background:' + s.color + '"></span>';
+    html += '<h3>' + s.zh + '</h3><span class="en">' + s.en + '</span></div>';
+    html += '<table class="movers"><thead><tr><th>代號</th><th>公司</th><th>漲跌</th><th>期間</th><th>備註</th></tr></thead><tbody>';
+    s.rows.forEach(r=>{
+      const [ticker, company, change, trend, period, note] = r;
+      html += '<tr><td class="ticker">' + ticker + '</td>';
+      html += '<td>' + company + '</td>';
+      html += '<td class="change ' + trendClass(trend) + '">' + change + '</td>';
+      html += '<td class="period">' + period + '</td>';
+      html += '<td class="note">' + note + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    if(s.gap){
+      html += '<div class="sector-gap">⚠ ' + s.gap + '</div>';
+    }
+    html += '<div class="sector-sources">資料來源：　';
+    html += s.sources.map(src=>'<a href="'+src[1]+'" target="_blank" rel="noopener">'+src[0]+'</a>').join('<span class="sep">｜</span>');
+    html += '</div></section>';
+  });
+
+  main.innerHTML = html;
+  renderSidebar(key);
+}
+
+function buildTape(){
+  const track = document.getElementById("tapeTrack");
+  const latest = DATA[dateKeys[0]];
+  let items = [];
+  latest.sectors.forEach(s=>{
+    s.rows.forEach(r=>{
+      items.push({ticker:r[0], change:r[2], trend:r[3]});
+    });
+  });
+  const renderItems = (arr)=> arr.map(it=>{
+    const cls = it.trend==="up" ? "tape-up" : (it.trend==="down" ? "tape-down" : "");
+    return '<span class="tape-item"><b>'+it.ticker+'</b><span class="'+cls+'">'+it.change+'</span></span><span class="tape-dot">·</span>';
+  }).join('');
+  // duplicate for seamless loop
+  track.innerHTML = renderItems(items) + renderItems(items);
+}
+
+// init
+buildTape();
+renderDay(dateKeys[0]);
+</script>
+</body>
+</html>

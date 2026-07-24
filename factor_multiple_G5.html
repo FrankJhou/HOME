@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>因數與倍數完全學習手冊 — G5（108 課綱）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbfaf6;--ink:#1b2333;--ink-soft:#4b5568;--rule:#e9edf4;--line:#cfd7e3;
+    --blue:#2f6fb3;--blue-fill:rgba(47,111,179,.14);
+    --indigo:#5566b8;--purple:#7e57b3;
+    --orange:#dd7a32;--orange-fill:rgba(221,122,50,.18);
+    --green:#2f9e85;--gold:#eaa916;--gold-fill:rgba(234,169,22,.20);
+    --card:#fff;--shadow:0 1px 2px rgba(27,35,51,.06),0 8px 24px rgba(27,35,51,.06);--maxw:880px;
+  }
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);
+    background:linear-gradient(transparent 27px,var(--rule) 27px,var(--rule) 28px,transparent 28px) 0 0/100% 28px,var(--paper);
+    line-height:1.78;-webkit-font-smoothing:antialiased}
+
+  header.hero{padding:64px 22px 40px;text-align:center}
+  .hero .kicker{font-size:.82rem;letter-spacing:.32em;color:var(--indigo);font-weight:700;text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-family:"Fraunces","Noto Sans TC",serif;font-weight:900;font-size:clamp(2rem,5.5vw,3.3rem);line-height:1.06;margin:0 0 16px;letter-spacing:-.01em}
+  .hero p.sub{font-size:1.06rem;color:var(--ink-soft);max-width:600px;margin:8px auto 0}
+  .hero .heroline{max-width:520px;margin:24px auto 0}
+  .hero .tag{display:inline-block;margin-top:22px;font-size:.8rem;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:#fff}
+
+  nav.toc{max-width:var(--maxw);margin:18px auto 50px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 24px}
+  nav.toc h2{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px}
+  nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 26px}
+  nav.toc a{display:flex;gap:10px;text-decoration:none;color:var(--ink);padding:6px 4px;border-radius:8px;font-size:.96rem}
+  nav.toc a:hover{background:var(--blue-fill);color:var(--indigo)}
+  nav.toc a .g{font-weight:700;color:var(--indigo);font-variant-numeric:tabular-nums;min-width:30px}
+  @media(max-width:620px){nav.toc ol{grid-template-columns:1fr}}
+
+  section.ch{max-width:var(--maxw);margin:0 auto;padding:34px 22px 10px}
+  .ch-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px;padding-top:18px;border-top:2px solid var(--ink)}
+  .ch-num{font-family:"Fraunces",serif;font-weight:900;font-size:2.1rem;line-height:1;color:#fff;background:var(--indigo);border-radius:10px;padding:8px 12px;flex:none;min-width:62px;text-align:center}
+  .ch-num.c1{background:#2f7fb3}.ch-num.c2{background:#2f6fb3}.ch-num.c3{background:#5566b8}.ch-num.c4{background:#6b5bb0}.ch-num.c5{background:#7e57b3}.ch-num.x{background:#3a4253}
+  .ch-head h2{font-size:1.55rem;margin:2px 0 2px;font-weight:900;letter-spacing:-.01em}
+  .ch-head .grade{font-size:.8rem;color:var(--ink-soft);letter-spacing:.06em}
+  .ch-body{padding:6px 2px 0}
+  h3{font-size:1.16rem;margin:30px 0 8px;font-weight:700;display:flex;align-items:center;gap:9px}
+  h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg);flex:none}
+  p{margin:.6em 0}.lead{font-size:1.05rem}
+
+  /* English term annotation */
+  .term{font-weight:700;color:var(--indigo)}
+  .en{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:.82em;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+  .en::before{content:"("}.en::after{content:")"}
+
+  .why{background:#fff;border:1px solid var(--line);border-left:5px solid var(--indigo);border-radius:10px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow)}
+  .why .lbl{font-weight:700;color:var(--indigo);font-size:.92rem;letter-spacing:.05em;display:block;margin-bottom:4px}
+  .frac-link{background:#f5f2fb;border:1px solid #ddd3f0;border-left:5px solid var(--purple);border-radius:10px;padding:14px 18px;margin:18px 0}
+  .frac-link .lbl{font-weight:700;color:var(--purple);font-size:.9rem;display:block;margin-bottom:4px}
+  .frac-link .lbl::before{content:"🔗 ";}
+  .pitfall{background:#fff7ef;border:1px solid #f1d6b5;border-left:5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:18px 0}
+  .pitfall .lbl{font-weight:700;color:var(--orange);font-size:.92rem;display:block;margin-bottom:4px}
+  .keyformula{text-align:center;background:var(--gold-fill);border:2px dashed var(--gold);border-radius:12px;padding:16px;margin:20px 0;font-size:1.2rem;font-weight:700}
+  .keyformula small{display:block;font-size:.82rem;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:.02em}
+
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;line-height:1;text-align:center;font-size:.78em;margin:0 .12em;transform:translateY(-.05em)}
+  .fr .n{border-bottom:2px solid currentColor;padding:0 .25em 1px}
+  .fr .d{padding:1px .25em 0}
+
+  figure{margin:22px 0;text-align:center}
+  figure svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+  figcaption{font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+  .nl-axis{stroke:var(--ink);stroke-width:2;fill:none}
+  .nl-tick{stroke:var(--ink);stroke-width:1.4}
+  .dot-b{fill:var(--blue)}.dot-g{fill:var(--gold)}
+  .s-lbl{font:600 13px "Noto Sans TC",sans-serif;fill:var(--ink)}
+  .s-lbl-b{font:700 13px "Noto Sans TC",sans-serif;fill:var(--blue)}
+  .s-lbl-o{font:700 13px "Noto Sans TC",sans-serif;fill:var(--orange)}
+  .s-lbl-p{font:700 13px "Noto Sans TC",sans-serif;fill:var(--purple)}
+  .box-o{fill:var(--orange-fill);stroke:var(--orange);stroke-width:2}
+  .box-b{fill:var(--blue-fill);stroke:var(--blue);stroke-width:2}
+
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:.94rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+  th{background:#f0f3f8;font-weight:700}
+  td.l,th.l{text-align:left}
+  .sd{font-family:"Fraunces",monospace;font-variant-numeric:tabular-nums;font-size:1.05rem;line-height:1.5;text-align:left;display:inline-block;background:#f7f5fc;border:1px solid #ddd3f0;border-radius:8px;padding:10px 16px}
+
+  .practice{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:26px 0;box-shadow:var(--shadow)}
+  .practice .ptitle{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin:0 0 4px}
+  .practice .ptitle .badge{background:var(--green);color:#fff;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+  ol.prob{counter-reset:p;list-style:none;padding:0;margin:14px 0 0}
+  ol.prob>li{counter-increment:p;position:relative;padding:14px 0 14px 40px;border-top:1px dashed var(--line)}
+  ol.prob>li:first-child{border-top:none}
+  ol.prob>li::before{content:counter(p);position:absolute;left:0;top:13px;width:26px;height:26px;background:var(--indigo);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  details{margin-top:8px}
+  details>summary{cursor:pointer;display:inline-block;font-size:.86rem;font-weight:700;color:var(--green);background:#eef8f5;border:1px solid #bfe3da;border-radius:8px;padding:4px 12px;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::before{content:"▸ ";font-size:.8rem}
+  details[open]>summary::before{content:"▾ "}
+  .ans{margin-top:10px;background:#f4faf8;border:1px solid #cfe9e1;border-radius:10px;padding:12px 16px;font-size:.95rem}
+  .ans b{color:#1f7a66}.ans .calc{font-variant-numeric:tabular-nums}
+
+  .cards-wrap{max-width:var(--maxw);margin:0 auto;padding:20px 22px 40px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;position:relative;overflow:hidden}
+  .mc::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--indigo)}
+  .mc.c1::before{background:#2f7fb3}.mc.c2::before{background:#2f6fb3}.mc.c3::before{background:#5566b8}.mc.c4::before{background:#6b5bb0}.mc.c5::before{background:#7e57b3}.mc.gx::before{background:#3a4253}
+  .mc .tag{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:var(--ink-soft)}
+  .mc h4{margin:4px 0 8px;font-size:1.05rem}
+  .mc h4 .en{font-size:.66em}
+  .mc .f{font-size:1rem;font-weight:900;color:var(--ink);background:var(--gold-fill);border-radius:8px;padding:6px 10px;display:inline-block;margin-bottom:8px}
+  .mc .pt{font-size:.86rem;color:var(--ink-soft);margin:0}
+  .mc .pt b{color:var(--orange)}
+
+  .controls{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.86);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .controls .inner{max-width:var(--maxw);margin:0 auto;padding:9px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .controls .home{font-weight:900;text-decoration:none;color:var(--ink);font-size:.95rem}
+  .controls .home .b{color:var(--gold)}
+  .btn{font:inherit;font-size:.82rem;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn:hover{border-color:var(--indigo);color:var(--indigo)}
+  footer{max-width:var(--maxw);margin:30px auto 60px;padding:24px 22px 0;border-top:2px solid var(--ink);color:var(--ink-soft);font-size:.9rem}
+  .note{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.9rem;color:var(--ink-soft)}
+
+  @media print{
+    body{background:#fff}.controls{display:none}
+    details>summary{display:none}.ans{display:block!important}
+    figure svg,.practice,.mc,.why,.frac-link{box-shadow:none}
+    .keyformula,.practice{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="inner">
+    <a class="home" href="#top">因數與<span class="b">倍數</span>手冊</a>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="toggleAll">展開全部解答</button>
+      <button class="btn" onclick="window.print()">列印 / 存 PDF</button>
+    </div>
+  </div>
+</div>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="kicker">108 課綱 · 數與量 N · 小五</div>
+  <h1>因數與倍數<br>完全學習手冊</h1>
+  <p class="sub">這是小學數學裡最抽象的一章。本手冊把每個名詞都拆到最細、附上<strong>英文原文</strong>，並用長方形、積木、Venn 圖把看不見的關係畫出來。學會它，回頭看分數的<strong>約分、通分</strong>會突然變得很簡單。</p>
+  <figure class="heroline">
+    <svg viewBox="0 0 520 92" role="img" aria-label="數線上3的倍數以跳格呈現,3是12的因數,12是3的倍數">
+      <line x1="30" y1="50" x2="500" y2="50" class="nl-axis"/>
+      <g class="nl-tick">
+        <line x1="45" y1="42" x2="45" y2="58"/><line x1="80" y1="44" x2="80" y2="56"/><line x1="115" y1="44" x2="115" y2="56"/>
+        <line x1="150" y1="42" x2="150" y2="58"/><line x1="185" y1="44" x2="185" y2="56"/><line x1="220" y1="44" x2="220" y2="56"/>
+        <line x1="255" y1="42" x2="255" y2="58"/>
+      </g>
+      <path d="M45,50 Q97,15 150,50" fill="none" stroke="var(--indigo)" stroke-width="2"/>
+      <path d="M150,50 Q202,15 255,50" fill="none" stroke="var(--indigo)" stroke-width="2"/>
+      <circle cx="45" cy="50" r="4" class="dot-b"/><circle cx="150" cy="50" r="4" class="dot-b"/><circle cx="255" cy="50" r="5" class="dot-g"/>
+      <text x="45" y="74" text-anchor="middle" class="s-lbl">0</text>
+      <text x="150" y="74" text-anchor="middle" class="s-lbl">3</text>
+      <text x="255" y="74" text-anchor="middle" class="s-lbl-o">12</text>
+      <text x="360" y="40" class="s-lbl-b" style="font-size:14px">3 是 12 的因數</text>
+      <text x="360" y="62" class="s-lbl-o" style="font-size:14px">12 是 3 的倍數</text>
+    </svg>
+  </figure>
+  <div class="tag">G5 全概念 ｜ 名詞附英文 ｜ 概念推導・圖解・記憶小卡・練習（附詳解）</div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <h2>學習地圖</h2>
+  <ol>
+    <li><a href="#c0"><span class="g">核心</span><span>一體兩面＋術語對照表</span></a></li>
+    <li><a href="#c1"><span class="g">1</span><span>倍數與倍數判別法</span></a></li>
+    <li><a href="#c2"><span class="g">2</span><span>因數・質數・合數</span></a></li>
+    <li><a href="#c3"><span class="g">3</span><span>質因數分解</span></a></li>
+    <li><a href="#c4"><span class="g">4</span><span>最大公因數 → 約分</span></a></li>
+    <li><a href="#c5"><span class="g">5</span><span>最小公倍數 → 通分</span></a></li>
+    <li><a href="#cx"><span class="g">進階</span><span>短除法一次搞定＋互質</span></a></li>
+    <li><a href="#cards"><span class="g">小卡</span><span>考前記憶小卡專區</span></a></li>
+  </ol>
+</nav>
+
+<!-- ===== 核心 ===== -->
+<section class="ch" id="c0">
+  <div class="ch-head"><div class="ch-num x">★</div><div><h2>一體兩面：因數與倍數是同一件事</h2><div class="grade">全部章節的共同地基</div></div></div>
+  <div class="ch-body">
+    <p class="lead">先弄懂一個關鍵字：<span class="term">整除</span> <span class="en">divides exactly</span>。</p>
+    <p>如果 12 ÷ 3 <strong>剛好除得盡、沒有餘數</strong>，我們就說「3 能整除 12」。這一件事，可以用<strong>兩個名字</strong>來說：</p>
+    <div class="keyformula">3 是 12 的因數 ＝ 12 是 3 的倍數<small>同一個「整除」關係，從兩邊看，就有兩個名字</small></div>
+
+    <table>
+      <tr><th style="width:120px">名詞</th><th class="l">英文</th><th class="l">從哪個方向看</th></tr>
+      <tr><td><span class="term">因數</span></td><td class="l en" style="white-space:normal">factor / divisor</td><td class="l">往<strong>下</strong>拆：12 可以被誰整除？（3 能）→ 3 是 12 的因數</td></tr>
+      <tr><td><span class="term">倍數</span></td><td class="l en" style="white-space:normal">multiple</td><td class="l">往<strong>上</strong>疊：3 跳幾次會到 12？（跳 4 次）→ 12 是 3 的倍數</td></tr>
+    </table>
+
+    <div class="why">
+      <span class="lbl">為什麼一定要先講清楚這件事？</span>
+      因為「因數」和「倍數」是小學生最容易搞混的兩個詞。其實它們是<strong>同一個乘法算式的兩種讀法</strong>：<br>
+      3 × 4 ＝ 12<br>
+      ・站在 12 的角度：3 和 4 都是我的<strong>因數</strong>（可以整除我）。<br>
+      ・站在 3 的角度：12 是我的<strong>倍數</strong>（我疊 4 次到達）。<br>
+      記法：<strong>因數比較小（或相等）、倍數比較大（或相等）</strong>。
+    </div>
+
+    <h3>專有名詞・中英對照表</h3>
+    <p class="note" style="margin-bottom:8px">本章名詞較多，先放一張總表，之後各章會逐一詳細解說。</p>
+    <table>
+      <tr><th>中文</th><th class="l">英文原文</th><th class="l">白話</th></tr>
+      <tr><td>因數</td><td class="l en" style="white-space:normal">factor / divisor</td><td class="l">能整除某數的數</td></tr>
+      <tr><td>倍數</td><td class="l en" style="white-space:normal">multiple</td><td class="l">某數的整數倍</td></tr>
+      <tr><td>質數</td><td class="l en" style="white-space:normal">prime number</td><td class="l">只有 1 和自己 2 個因數</td></tr>
+      <tr><td>合數</td><td class="l en" style="white-space:normal">composite number</td><td class="l">因數超過 2 個</td></tr>
+      <tr><td>質因數</td><td class="l en" style="white-space:normal">prime factor</td><td class="l">是質數的因數</td></tr>
+      <tr><td>質因數分解</td><td class="l en" style="white-space:normal">prime factorization</td><td class="l">把數拆成質數相乘</td></tr>
+      <tr><td>公因數</td><td class="l en" style="white-space:normal">common factor</td><td class="l">兩數共同的因數</td></tr>
+      <tr><td>最大公因數</td><td class="l en" style="white-space:normal">greatest common factor（GCF）／ highest common factor（HCF）</td><td class="l">公因數中最大的</td></tr>
+      <tr><td>公倍數</td><td class="l en" style="white-space:normal">common multiple</td><td class="l">兩數共同的倍數</td></tr>
+      <tr><td>最小公倍數</td><td class="l en" style="white-space:normal">least common multiple（LCM）</td><td class="l">公倍數中最小的</td></tr>
+      <tr><td>互質</td><td class="l en" style="white-space:normal">coprime / relatively prime</td><td class="l">最大公因數是 1</td></tr>
+      <tr><td>短除法</td><td class="l en" style="white-space:normal">short division</td><td class="l">連續除以質數的直式</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===== Ch1 倍數 ===== -->
+<section class="ch" id="c1">
+  <div class="ch-head"><div class="ch-num c1">1</div><div><h2>倍數 <span class="en">multiple</span> 與倍數判別法</h2><div class="grade">小五｜目標：懂倍數是「整數倍」、會用判別法快速檢查</div></div></div>
+  <div class="ch-body">
+    <h3>一、什麼是倍數？</h3>
+    <p>一個數的<span class="term">倍數</span> <span class="en">multiple</span>，就是它 ×1、×2、×3… 得到的數。4 的倍數是 4、8、12、16、20…（4 × 整數）。在數線上，就是<strong>從 0 開始、每次跳 4 格</strong>停下來的位置。</p>
+    <figure>
+      <svg viewBox="0 0 500 90" role="img" aria-label="數線上以跳格方式呈現4的倍數4 8 12 16">
+        <line x1="30" y1="55" x2="480" y2="55" class="nl-axis"/>
+        <g class="nl-tick"><line x1="40" y1="47" x2="40" y2="63"/><line x1="150" y1="47" x2="150" y2="63"/><line x1="260" y1="47" x2="260" y2="63"/><line x1="370" y1="47" x2="370" y2="63"/><line x1="440" y1="47" x2="440" y2="63"/></g>
+        <path d="M40,55 Q95,25 150,55" fill="none" stroke="var(--blue)" stroke-width="2"/>
+        <path d="M150,55 Q205,25 260,55" fill="none" stroke="var(--blue)" stroke-width="2"/>
+        <path d="M260,55 Q315,25 370,55" fill="none" stroke="var(--blue)" stroke-width="2"/>
+        <text x="40" y="78" text-anchor="middle" class="s-lbl">0</text>
+        <text x="150" y="78" text-anchor="middle" class="s-lbl-b">4</text><text x="260" y="78" text-anchor="middle" class="s-lbl-b">8</text>
+        <text x="370" y="78" text-anchor="middle" class="s-lbl-b">12</text><text x="440" y="78" text-anchor="middle" class="s-lbl">…</text>
+        <text x="95" y="20" text-anchor="middle" class="s-lbl">＋4</text><text x="205" y="20" text-anchor="middle" class="s-lbl">＋4</text><text x="315" y="20" text-anchor="middle" class="s-lbl">＋4</text>
+      </svg>
+      <figcaption>4 的倍數＝從 0 每次 ＋4。倍數<strong>沒有最大的</strong>（可以一直跳下去），但最小的倍數是它自己。</figcaption>
+    </figure>
+    <div class="pitfall"><span class="lbl">易錯</span>0 要看情況：課本通常從「4×1＝4」開始列倍數，所以<strong>最小的倍數是 4 本身</strong>。另外，倍數是<strong>無限多個</strong>的。</div>
+
+    <h3>二、倍數判別法 <span class="en">divisibility rules</span>：不用真的除，一眼看出</h3>
+    <table>
+      <tr><th>是誰的倍數</th><th class="l">怎麼看</th><th class="l">例子</th></tr>
+      <tr><td><b>2</b></td><td class="l">個位是偶數（0,2,4,6,8）</td><td class="l">138 → 個位 8 ✔</td></tr>
+      <tr><td><b>5</b></td><td class="l">個位是 0 或 5</td><td class="l">245 → 個位 5 ✔</td></tr>
+      <tr><td><b>10</b></td><td class="l">個位是 0</td><td class="l">470 → 個位 0 ✔</td></tr>
+      <tr><td><b>3</b></td><td class="l">各位數字<strong>相加</strong>是 3 的倍數</td><td class="l">231 → 2+3+1=6 ✔</td></tr>
+      <tr><td><b>9</b></td><td class="l">各位數字相加是 9 的倍數</td><td class="l">4152 → 4+1+5+2=12，不是 9 的倍數 ✗</td></tr>
+      <tr><td><b>4</b></td><td class="l">末<strong>兩</strong>位是 4 的倍數</td><td class="l">1316 → 16 是 4 倍 ✔</td></tr>
+    </table>
+    <div class="why">
+      <span class="lbl">為什麼「數字相加」可以判斷 3 的倍數？（進階理解）</span>
+      因為 10＝9＋1、100＝99＋1…，而 9、99、999 都是 3 的倍數。所以一個數除以 3 的餘數，只跟「各位數字加起來」有關。例如 231＝2×100＋3×10＋1＝2×(99+1)＋3×(9+1)+1，前面 99、9 的部分都能被 3 整除，剩下的正好是 2＋3＋1＝6。6 是 3 的倍數，所以 231 也是。
+    </div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>倍數與判別法（11 題）</p>
+      <ol class="prob">
+        <li>寫出 4 的前 5 個倍數。<details><summary>解答</summary><div class="ans"><b>4、8、12、16、20。</b></div></details></li>
+        <li>24 是 6 的倍數嗎？為什麼？<details><summary>解答</summary><div class="ans"><b>是。</b>24÷6＝4 整除（沒有餘數）。</div></details></li>
+        <li>35 是 4 的倍數嗎？<details><summary>解答</summary><div class="ans"><b>不是。</b>35÷4＝8 餘 3。</div></details></li>
+        <li>不算 0，最小的 7 的倍數是？<details><summary>解答</summary><div class="ans"><b>7</b>（7×1）。</div></details></li>
+        <li>138 是不是 2 的倍數？<details><summary>解答</summary><div class="ans">個位 8 是偶數 → <b>是。</b></div></details></li>
+        <li>245 是不是 5 的倍數？<details><summary>解答</summary><div class="ans">個位是 5 → <b>是。</b></div></details></li>
+        <li>231 是不是 3 的倍數？<details><summary>解答</summary><div class="ans">2+3+1＝6，是 3 的倍數 → <b>是。</b></div></details></li>
+        <li>4152 是不是 3 的倍數？<details><summary>解答</summary><div class="ans">4+1+5+2＝12，是 3 的倍數 → <b>是。</b></div></details></li>
+        <li>470 是不是 10 的倍數？<details><summary>解答</summary><div class="ans">個位 0 → <b>是。</b></div></details></li>
+        <li>一個數同時是 2 和 3 的倍數，它一定是誰的倍數？<details><summary>解答</summary><div class="ans"><b>6 的倍數</b>（2 和 3 一起 → 6）。</div></details></li>
+        <li>50 以內，9 的倍數有哪些？<details><summary>解答</summary><div class="ans"><b>9、18、27、36、45。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch2 因數 ===== -->
+<section class="ch" id="c2">
+  <div class="ch-head"><div class="ch-num c2">2</div><div><h2>因數 <span class="en">factor</span>・質數・合數</h2><div class="grade">小五｜目標：會找出所有因數、分辨質數與合數</div></div></div>
+  <div class="ch-body">
+    <h3>一、因數成雙成對出現</h3>
+    <p>一個數的<span class="term">因數</span> <span class="en">factor / divisor</span>，就是能<strong>整除</strong>它的數。找 12 的因數，最好的方法是想「哪兩個數相乘等於 12」——因為因數總是<strong>成對</strong>出現：</p>
+    <figure>
+      <svg viewBox="0 0 520 180" role="img" aria-label="12個方塊排成1乘12,2乘6,3乘4三種長方形">
+        <!-- 1x12 -->
+        <text x="20" y="30" class="s-lbl">1×12</text>
+        <g class="box-b">
+          <rect x="70" y="18" width="18" height="18"/><rect x="88" y="18" width="18" height="18"/><rect x="106" y="18" width="18" height="18"/><rect x="124" y="18" width="18" height="18"/><rect x="142" y="18" width="18" height="18"/><rect x="160" y="18" width="18" height="18"/><rect x="178" y="18" width="18" height="18"/><rect x="196" y="18" width="18" height="18"/><rect x="214" y="18" width="18" height="18"/><rect x="232" y="18" width="18" height="18"/><rect x="250" y="18" width="18" height="18"/><rect x="268" y="18" width="18" height="18"/>
+        </g>
+        <!-- 2x6 -->
+        <text x="20" y="80" class="s-lbl">2×6</text>
+        <g class="box-b">
+          <rect x="70" y="62" width="18" height="18"/><rect x="88" y="62" width="18" height="18"/><rect x="106" y="62" width="18" height="18"/><rect x="124" y="62" width="18" height="18"/><rect x="142" y="62" width="18" height="18"/><rect x="160" y="62" width="18" height="18"/>
+          <rect x="70" y="80" width="18" height="18"/><rect x="88" y="80" width="18" height="18"/><rect x="106" y="80" width="18" height="18"/><rect x="124" y="80" width="18" height="18"/><rect x="142" y="80" width="18" height="18"/><rect x="160" y="80" width="18" height="18"/>
+        </g>
+        <!-- 3x4 -->
+        <text x="20" y="140" class="s-lbl">3×4</text>
+        <g class="box-b">
+          <rect x="70" y="118" width="18" height="18"/><rect x="88" y="118" width="18" height="18"/><rect x="106" y="118" width="18" height="18"/><rect x="124" y="118" width="18" height="18"/>
+          <rect x="70" y="136" width="18" height="18"/><rect x="88" y="136" width="18" height="18"/><rect x="106" y="136" width="18" height="18"/><rect x="124" y="136" width="18" height="18"/>
+          <rect x="70" y="154" width="18" height="18"/><rect x="88" y="154" width="18" height="18"/><rect x="106" y="154" width="18" height="18"/><rect x="124" y="154" width="18" height="18"/>
+        </g>
+        <text x="330" y="95" class="s-lbl-o" style="font-size:14px">12 的因數：</text>
+        <text x="330" y="118" class="s-lbl" style="font-size:15px">1, 2, 3, 4, 6, 12</text>
+      </svg>
+      <figcaption>把 12 個方塊排成長方形，邊長就是因數。1×12、2×6、3×4 → 因數是 1,2,3,4,6,12（成對：1↔12、2↔6、3↔4）。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">技巧：找因數要找到「中間會合」為止</span>從 1 開始一對一對找：1×12、2×6、3×4，接下來 4 已經出現過（4×3），就表示<strong>兩端會合了，可以停</strong>。這樣不會漏掉，也不會重複。<br>另外，<strong>1 是每個數的因數，每個數最大的因數是它自己</strong>。</div>
+
+    <h3>二、質數 <span class="en">prime</span> 與合數 <span class="en">composite</span></h3>
+    <p>依「因數的個數」把數分類：</p>
+    <table>
+      <tr><th>種類</th><th class="l">因數個數</th><th class="l">例子</th></tr>
+      <tr><td><span class="term">質數</span> <span class="en">prime</span></td><td class="l">剛好 <strong>2 個</strong>（1 和自己）</td><td class="l">2, 3, 5, 7, 11, 13…</td></tr>
+      <tr><td><span class="term">合數</span> <span class="en">composite</span></td><td class="l"><strong>3 個以上</strong></td><td class="l">4, 6, 8, 9, 10…</td></tr>
+      <tr><td>1</td><td class="l">只有 <strong>1 個</strong></td><td class="l">1 既不是質數，也不是合數</td></tr>
+    </table>
+    <figure>
+      <svg viewBox="0 0 500 130" role="img" aria-label="7個方塊只能排成一直線,12個方塊能排成長方形">
+        <text x="30" y="35" class="s-lbl-b">質數 7：只能排成 1 直線</text>
+        <g class="box-b"><rect x="30" y="45" width="20" height="20"/><rect x="50" y="45" width="20" height="20"/><rect x="70" y="45" width="20" height="20"/><rect x="90" y="45" width="20" height="20"/><rect x="110" y="45" width="20" height="20"/><rect x="130" y="45" width="20" height="20"/><rect x="150" y="45" width="20" height="20"/></g>
+        <text x="300" y="35" class="s-lbl-o">合數 6：能排成 2×3 長方形</text>
+        <g class="box-o">
+          <rect x="320" y="45" width="20" height="20"/><rect x="340" y="45" width="20" height="20"/><rect x="360" y="45" width="20" height="20"/>
+          <rect x="320" y="65" width="20" height="20"/><rect x="340" y="65" width="20" height="20"/><rect x="360" y="65" width="20" height="20"/>
+        </g>
+        <text x="250" y="120" text-anchor="middle" class="s-lbl">質數＝只能排成 1 條線（除了 1×自己，排不出別的長方形）</text>
+      </svg>
+      <figcaption>質數只能排成「1 × 自己」一條線；合數能排出更「胖」的長方形（有別的因數）。</figcaption>
+    </figure>
+    <div class="pitfall"><span class="lbl">最常錯：1 和 2</span><strong>1 不是質數</strong>（它只有 1 個因數）。<strong>2 是最小的質數，也是唯一的偶數質數</strong>（其他偶數都能被 2 整除，因數超過 2 個）。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>因數・質數・合數（12 題）</p>
+      <ol class="prob">
+        <li>找出 12 的所有因數。<details><summary>解答</summary><div class="ans"><b>1, 2, 3, 4, 6, 12。</b></div></details></li>
+        <li>找出 18 的所有因數。<details><summary>解答</summary><div class="ans">1×18、2×9、3×6 → <b>1, 2, 3, 6, 9, 18。</b></div></details></li>
+        <li>找出 24 的所有因數。<details><summary>解答</summary><div class="ans">1×24、2×12、3×8、4×6 → <b>1,2,3,4,6,8,12,24。</b></div></details></li>
+        <li>12 可以寫成哪些「兩數相乘」？<details><summary>解答</summary><div class="ans"><b>1×12、2×6、3×4。</b></div></details></li>
+        <li>1 是不是每個數的因數？<details><summary>解答</summary><div class="ans"><b>是</b>，1 能整除任何數。</div></details></li>
+        <li>一個數最大的因數是誰？<details><summary>解答</summary><div class="ans"><b>它自己。</b></div></details></li>
+        <li>13 是質數還是合數？<details><summary>解答</summary><div class="ans">因數只有 1 和 13 → <b>質數。</b></div></details></li>
+        <li>15 是質數還是合數？<details><summary>解答</summary><div class="ans">因數 1,3,5,15（超過 2 個）→ <b>合數。</b></div></details></li>
+        <li>1 是質數嗎？<details><summary>解答</summary><div class="ans"><b>不是</b>（也不是合數；它只有 1 個因數）。</div></details></li>
+        <li>寫出 20 以內的所有質數。<details><summary>解答</summary><div class="ans"><b>2, 3, 5, 7, 11, 13, 17, 19。</b></div></details></li>
+        <li>最小的質數是？它有什麼特別？<details><summary>解答</summary><div class="ans"><b>2</b>，是唯一的偶數質數。</div></details></li>
+        <li>9 有 3 個因數（1,3,9），它可能是質數嗎？<details><summary>解答</summary><div class="ans"><b>不可能</b>，質數只有 2 個因數，9 是合數。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch3 質因數分解 ===== -->
+<section class="ch" id="c3">
+  <div class="ch-head"><div class="ch-num c3">3</div><div><h2>質因數分解 <span class="en">prime factorization</span></h2><div class="grade">小五｜目標：把一個數拆成質數的乘積（它的「積木」）</div></div></div>
+  <div class="ch-body">
+    <p class="lead">質數就像數字世界的<strong>積木</strong>：每一個合數，都能拆成幾個質數相乘，而且拆法<strong>只有一種</strong>（順序不算）。這叫<span class="term">質因數分解</span> <span class="en">prime factorization</span>。</p>
+
+    <h3>方法一：因數樹 <span class="en">factor tree</span></h3>
+    <p>把數拆成兩個因數，再繼續拆，直到每個葉子都是質數為止。</p>
+    <figure>
+      <svg viewBox="0 0 360 200" role="img" aria-label="12的因數樹拆成2乘2乘3">
+        <text x="180" y="30" text-anchor="middle" class="s-lbl" style="font-size:18px;font-weight:700">12</text>
+        <line x1="170" y1="38" x2="110" y2="70" stroke="var(--ink-soft)"/><line x1="190" y1="38" x2="250" y2="70" stroke="var(--ink-soft)"/>
+        <text x="100" y="86" text-anchor="middle" class="s-lbl-p" style="font-size:17px;font-weight:700">2</text>
+        <text x="260" y="86" text-anchor="middle" class="s-lbl" style="font-size:17px;font-weight:700">6</text>
+        <line x1="250" y1="94" x2="210" y2="128" stroke="var(--ink-soft)"/><line x1="268" y1="94" x2="308" y2="128" stroke="var(--ink-soft)"/>
+        <text x="200" y="144" text-anchor="middle" class="s-lbl-p" style="font-size:17px;font-weight:700">2</text>
+        <text x="316" y="144" text-anchor="middle" class="s-lbl-p" style="font-size:17px;font-weight:700">3</text>
+        <text x="180" y="185" text-anchor="middle" class="s-lbl-p" style="font-size:16px">12 ＝ 2 × 2 × 3</text>
+      </svg>
+      <figcaption>質數用紫色標出。不管你先拆成 2×6 還是 3×4，最後的質數積木都是 2、2、3（拆法唯一）。</figcaption>
+    </figure>
+
+    <h3>方法二：短除法 <span class="en">short division</span>（更整齊，之後求 GCF/LCM 也靠它）</h3>
+    <p>一直用<strong>質數</strong>去除，除到商是 1 為止；左邊除數乘起來就是答案。</p>
+    <div style="text-align:center">
+      <div class="sd">2 ｜ 12<br>2 ｜&nbsp;&nbsp;6<br>3 ｜&nbsp;&nbsp;3<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>→ 12 ＝ 2 × 2 × 3</div>
+    </div>
+    <div class="keyformula">12 ＝ 2 × 2 × 3 ＝ 2<sup>2</sup> × 3<small>這是 12 的「質因數 DNA」，獨一無二</small></div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>質因數分解（10 題）</p>
+      <ol class="prob">
+        <li>12 的質因數分解。<details><summary>解答</summary><div class="ans"><b>2×2×3</b>（＝2²×3）。</div></details></li>
+        <li>18。<details><summary>解答</summary><div class="ans"><b>2×3×3</b>（＝2×3²）。</div></details></li>
+        <li>24。<details><summary>解答</summary><div class="ans"><b>2×2×2×3</b>（＝2³×3）。</div></details></li>
+        <li>36。<details><summary>解答</summary><div class="ans"><b>2×2×3×3</b>（＝2²×3²）。</div></details></li>
+        <li>30。<details><summary>解答</summary><div class="ans"><b>2×3×5。</b></div></details></li>
+        <li>45。<details><summary>解答</summary><div class="ans"><b>3×3×5</b>（＝3²×5）。</div></details></li>
+        <li>100。<details><summary>解答</summary><div class="ans"><b>2×2×5×5</b>（＝2²×5²）。</div></details></li>
+        <li>42。<details><summary>解答</summary><div class="ans"><b>2×3×7。</b></div></details></li>
+        <li>20 的質因數有哪些（不同的）？<details><summary>解答</summary><div class="ans">20＝2×2×5，質因數是 <b>2 和 5。</b></div></details></li>
+        <li>用短除法分解 60。<details><summary>解答</summary><div class="ans">60＝<b>2×2×3×5</b>（＝2²×3×5）。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch4 GCF ===== -->
+<section class="ch" id="c4">
+  <div class="ch-head"><div class="ch-num c4">4</div><div><h2>最大公因數 <span class="en">GCF</span> → 約分</h2><div class="grade">小五｜目標：會求最大公因數，並用它把分數約到最簡</div></div></div>
+  <div class="ch-body">
+    <h3>一、公因數與最大公因數</h3>
+    <p><span class="term">公因數</span> <span class="en">common factor</span>：兩個數<strong>共同</strong>擁有的因數。其中最大的那個，就是<span class="term">最大公因數</span> <span class="en">greatest common factor · GCF</span>。</p>
+    <table>
+      <tr><th class="l">12 的因數</th><td class="l">1, 2, 3, 4, 6, 12</td></tr>
+      <tr><th class="l">18 的因數</th><td class="l">1, 2, 3, 6, 9, 18</td></tr>
+      <tr><th class="l">公因數（共同的）</th><td class="l" style="color:var(--blue)">1, 2, 3, <b>6</b></td></tr>
+      <tr><th class="l">最大公因數 GCF</th><td class="l"><b style="color:var(--orange)">6</b></td></tr>
+    </table>
+
+    <h3>二、用質因數 Venn 圖看，最清楚</h3>
+    <p>把兩個數的質因數畫進 Venn 圖，<strong>重疊區（共同的質因數）相乘＝GCF</strong>。</p>
+    <figure>
+      <svg viewBox="0 0 460 210" role="img" aria-label="12和18的質因數Venn圖,重疊部分2和3相乘為6">
+        <circle cx="170" cy="105" r="90" fill="var(--blue-fill)" stroke="var(--blue)" stroke-width="2"/>
+        <circle cx="290" cy="105" r="90" fill="var(--orange-fill)" stroke="var(--orange)" stroke-width="2"/>
+        <text x="110" y="60" class="s-lbl-b">12＝2×2×3</text>
+        <text x="300" y="60" class="s-lbl-o">18＝2×3×3</text>
+        <text x="95" y="115" class="s-lbl" style="font-size:20px;font-weight:700">2</text>
+        <text x="355" y="115" class="s-lbl" style="font-size:20px;font-weight:700">3</text>
+        <text x="222" y="95" text-anchor="middle" class="s-lbl-p" style="font-size:19px;font-weight:700">2</text>
+        <text x="222" y="130" text-anchor="middle" class="s-lbl-p" style="font-size:19px;font-weight:700">3</text>
+        <text x="230" y="198" text-anchor="middle" class="s-lbl-p" style="font-size:14px">重疊：2×3 ＝ 6 ＝ 最大公因數</text>
+      </svg>
+      <figcaption>重疊區是兩數<strong>都有</strong>的質因數（一個 2、一個 3），相乘 2×3＝6 就是 GCF。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">為什麼重疊區相乘就是 GCF？</span>能同時整除兩個數的，必須是「兩邊都有的質因數」組成的。把兩邊共同的質因數<strong>全部</strong>拿出來相乘，就是能同時整除、又最大的那個數。</div>
+
+    <div class="frac-link">
+      <span class="lbl">回到分數：約分就是「除以最大公因數」</span>
+      要把 <span class="fr"><span class="n">12</span><span class="d">18</span></span> 約到最簡，分子分母同時除以它們的 GCF＝6：<span class="fr"><span class="n">12</span><span class="d">18</span></span> ＝ <span class="fr"><span class="n">12÷6</span><span class="d">18÷6</span></span> ＝ <span class="fr"><span class="n">2</span><span class="d">3</span></span>。<strong>一次除以 GCF，就能一步約到最簡</strong>——這就是我們學 GCF 的主要理由。
+    </div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>最大公因數與約分（11 題）</p>
+      <ol class="prob">
+        <li>12 和 18 的公因數有哪些？<details><summary>解答</summary><div class="ans"><b>1, 2, 3, 6。</b></div></details></li>
+        <li>12 和 18 的最大公因數？<details><summary>解答</summary><div class="ans"><b>6。</b></div></details></li>
+        <li>8 和 12 的最大公因數？<details><summary>解答</summary><div class="ans">公因數 1,2,4 → <b>4。</b></div></details></li>
+        <li>15 和 20 的最大公因數？<details><summary>解答</summary><div class="ans"><b>5。</b></div></details></li>
+        <li>24 和 36 的最大公因數？<details><summary>解答</summary><div class="ans">24＝2³×3、36＝2²×3²，共同 2²×3＝<b>12。</b></div></details></li>
+        <li>用 GCF 把 <span class="fr"><span class="n">12</span><span class="d">18</span></span> 約到最簡。<details><summary>解答</summary><div class="ans">同除 6 → <b>⅔。</b></div></details></li>
+        <li>約分 <span class="fr"><span class="n">8</span><span class="d">12</span></span>。<details><summary>解答</summary><div class="ans">同除 4 → <b>⅔。</b></div></details></li>
+        <li>約分 <span class="fr"><span class="n">24</span><span class="d">36</span></span>。<details><summary>解答</summary><div class="ans">同除 12 → <b>⅔。</b></div></details></li>
+        <li>約分 <span class="fr"><span class="n">16</span><span class="d">24</span></span>。<details><summary>解答</summary><div class="ans">GCF＝8，同除 8 → <b>⅔。</b></div></details></li>
+        <li>兩條緞帶 18 公分和 24 公分，都剪成一樣長、不浪費，最長每段幾公分？各幾段？<details><summary>解答</summary><div class="ans">GCF(18,24)＝6，<b>每段最長 6 公分</b>；18→3 段、24→4 段。</div></details></li>
+        <li>7 和 9 的最大公因數是多少？<details><summary>解答</summary><div class="ans"><b>1</b>（它們互質）。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch5 LCM ===== -->
+<section class="ch" id="c5">
+  <div class="ch-head"><div class="ch-num c5">5</div><div><h2>最小公倍數 <span class="en">LCM</span> → 通分</h2><div class="grade">小五｜目標：會求最小公倍數，並用它做分數通分</div></div></div>
+  <div class="ch-body">
+    <h3>一、公倍數與最小公倍數</h3>
+    <p><span class="term">公倍數</span> <span class="en">common multiple</span>：兩個數<strong>共同</strong>的倍數。其中最小的（不含 0），就是<span class="term">最小公倍數</span> <span class="en">least common multiple · LCM</span>。</p>
+    <figure>
+      <svg viewBox="0 0 500 130" role="img" aria-label="數線上4的倍數與6的倍數在12第一次相遇">
+        <line x1="30" y1="45" x2="480" y2="45" class="nl-axis"/>
+        <line x1="30" y1="95" x2="480" y2="95" class="nl-axis"/>
+        <g class="nl-tick">
+          <line x1="40" y1="40" x2="40" y2="50"/><line x1="75" y1="40" x2="75" y2="50"/><line x1="110" y1="40" x2="110" y2="50"/><line x1="145" y1="40" x2="145" y2="50"/><line x1="180" y1="40" x2="180" y2="50"/><line x1="215" y1="40" x2="215" y2="50"/><line x1="250" y1="40" x2="250" y2="50"/>
+        </g>
+        <circle cx="75" cy="45" r="4" class="dot-b"/><circle cx="110" cy="45" r="4" class="dot-b"/><circle cx="145" cy="45" r="4" class="dot-b"/><circle cx="180" cy="45" r="6" class="dot-g"/>
+        <text x="40" y="33" class="s-lbl">0</text><text x="75" y="33" text-anchor="middle" class="s-lbl">4</text><text x="110" y="33" text-anchor="middle" class="s-lbl">8</text><text x="180" y="33" text-anchor="middle" class="s-lbl-o">12</text>
+        <text x="255" y="49" class="s-lbl-b">4 的倍數</text>
+        <circle cx="93" cy="95" r="4" fill="var(--orange)"/><circle cx="128" cy="95" r="4" fill="var(--orange)"/><circle cx="180" cy="95" r="6" class="dot-g"/>
+        <text x="40" y="115" class="s-lbl">0</text><text x="93" y="115" text-anchor="middle" class="s-lbl">6</text><text x="180" y="115" text-anchor="middle" class="s-lbl-o">12</text>
+        <text x="255" y="99" class="s-lbl-o">6 的倍數</text>
+        <text x="180" y="70" text-anchor="middle" class="s-lbl-p" style="font-size:13px">第一次相遇</text>
+      </svg>
+      <figcaption>4 的倍數和 6 的倍數，第一次「同時踩到」的地方是 12 → 最小公倍數＝12。（想成兩個人跳格子，第一次一起落地的點）</figcaption>
+    </figure>
+
+    <h3>二、用質因數看：取「較多的」</h3>
+    <p>12＝2<sup>2</sup>×3、18＝2×3<sup>2</sup>。最小公倍數要能同時是兩者的倍數，所以每種質因數都要取<strong>比較多的那邊</strong>：取 2<sup>2</sup>（來自 12）、取 3<sup>2</sup>（來自 18）→ LCM＝2<sup>2</sup>×3<sup>2</sup>＝36。（在 Venn 圖裡，就是把<strong>整個聯集全部相乘</strong>。）</p>
+
+    <div class="frac-link">
+      <span class="lbl">回到分數：通分就是「用最小公倍數當公分母」</span>
+      <span class="fr"><span class="n">1</span><span class="d">4</span></span> ＋ <span class="fr"><span class="n">1</span><span class="d">6</span></span>：分母 4 和 6 的 LCM＝12，就用 12 當公分母 → <span class="fr"><span class="n">3</span><span class="d">12</span></span> ＋ <span class="fr"><span class="n">2</span><span class="d">12</span></span> ＝ <span class="fr"><span class="n">5</span><span class="d">12</span></span>。<strong>用 LCM 通分，數字最小、最好算</strong>——這就是我們學 LCM 的主要理由。
+    </div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>最小公倍數與通分（11 題）</p>
+      <ol class="prob">
+        <li>4 和 6 的最小公倍數？<details><summary>解答</summary><div class="ans"><b>12。</b></div></details></li>
+        <li>3 和 5 的最小公倍數？<details><summary>解答</summary><div class="ans"><b>15。</b></div></details></li>
+        <li>6 和 8 的最小公倍數？<details><summary>解答</summary><div class="ans">6＝2×3、8＝2³，LCM＝2³×3＝<b>24。</b></div></details></li>
+        <li>4 和 6 的公倍數（前 3 個）？<details><summary>解答</summary><div class="ans"><b>12、24、36。</b></div></details></li>
+        <li>用 LCM 算 <span class="fr"><span class="n">1</span><span class="d">4</span></span> ＋ <span class="fr"><span class="n">1</span><span class="d">6</span></span>。<details><summary>解答</summary><div class="ans">LCM12：3/12＋2/12＝<b><span class="fr"><span class="n">5</span><span class="d">12</span></span>。</b></div></details></li>
+        <li>算 <span class="fr"><span class="n">1</span><span class="d">6</span></span> ＋ <span class="fr"><span class="n">1</span><span class="d">8</span></span>。<details><summary>解答</summary><div class="ans">LCM24：4/24＋3/24＝<b><span class="fr"><span class="n">7</span><span class="d">24</span></span>。</b></div></details></li>
+        <li>2 和 3 的最小公倍數？<details><summary>解答</summary><div class="ans"><b>6。</b></div></details></li>
+        <li>兩個鬧鐘分別每 4 分、每 6 分響一次，剛剛一起響過，幾分鐘後再一起響？<details><summary>解答</summary><div class="ans">LCM(4,6)＝<b>12 分鐘後。</b></div></details></li>
+        <li>一盞燈每 8 秒閃、另一盞每 12 秒閃，同時閃過後幾秒再一起閃？<details><summary>解答</summary><div class="ans">LCM(8,12)＝<b>24 秒後。</b></div></details></li>
+        <li>5 和 10 的最小公倍數？<details><summary>解答</summary><div class="ans"><b>10</b>（當一數是另一數的倍數，LCM 就是較大的那個）。</div></details></li>
+        <li>算 <span class="fr"><span class="n">5</span><span class="d">6</span></span> − <span class="fr"><span class="n">3</span><span class="d">8</span></span>。<details><summary>解答</summary><div class="ans">LCM24：20/24−9/24＝<b><span class="fr"><span class="n">11</span><span class="d">24</span></span>。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 進階 ===== -->
+<section class="ch" id="cx">
+  <div class="ch-head"><div class="ch-num x">＋</div><div><h2>短除法一次搞定＋互質</h2><div class="grade">綜合技巧｜同時求 GCF 與 LCM，並認識互質</div></div></div>
+  <div class="ch-body">
+    <h3>一、短除法 <span class="en">short division</span>：同時求出 GCF 和 LCM</h3>
+    <p>把兩個數並排，一直用<strong>共同</strong>的質因數去除，除到兩商<strong>互質</strong>（沒有共同因數）為止。</p>
+    <div style="text-align:center">
+      <div class="sd">2 ｜ 12&nbsp;&nbsp;18<br>3 ｜&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;9<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;3</div>
+    </div>
+    <div class="keyformula">
+      GCF ＝ 左邊除數相乘 ＝ 2 × 3 ＝ 6<br>
+      LCM ＝ 左邊 × 下面兩商 ＝ 2 × 3 × 2 × 3 ＝ 36
+      <small>GCF 只取「共同」的；LCM 還要再乘上剩下互質的部分（L 形相乘）</small>
+    </div>
+
+    <h3>二、互質 <span class="en">coprime</span> 與一個好用的關係</h3>
+    <p>如果兩個數的<strong>最大公因數是 1</strong>，就說它們<span class="term">互質</span> <span class="en">coprime</span>（例如 8 和 9）。此外有個好用的檢查：</p>
+    <div class="keyformula">最大公因數 × 最小公倍數 ＝ 兩數相乘<small>以 12、18 為例：6 × 36 ＝ 216 ＝ 12 × 18 ✔</small></div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>綜合（10 題）</p>
+      <ol class="prob">
+        <li>用短除法求 24 和 36 的 GCF 與 LCM。<details><summary>解答</summary><div class="ans">GCF＝<b>12</b>、LCM＝<b>72</b>。（24＝2³×3、36＝2²×3²）</div></details></li>
+        <li>12 和 18 的 GCF 與 LCM。<details><summary>解答</summary><div class="ans">GCF＝<b>6</b>、LCM＝<b>36</b>。</div></details></li>
+        <li>8 和 12 的 GCF 與 LCM。<details><summary>解答</summary><div class="ans">GCF＝<b>4</b>、LCM＝<b>24</b>。</div></details></li>
+        <li>驗證：12 和 18 的 GCF×LCM 是否等於 12×18？<details><summary>解答</summary><div class="ans">6×36＝216；12×18＝216 → <b>相等 ✔。</b></div></details></li>
+        <li>什麼叫互質？舉一個例子。<details><summary>解答</summary><div class="ans">最大公因數是 1，如 <b>8 和 9。</b></div></details></li>
+        <li>9 和 16 互質嗎？<details><summary>解答</summary><div class="ans">GCF＝1 → <b>互質。</b></div></details></li>
+        <li>約分 <span class="fr"><span class="n">30</span><span class="d">45</span></span>。<details><summary>解答</summary><div class="ans">GCF(30,45)＝15，同除 15 → <b>⅔。</b></div></details></li>
+        <li>算 <span class="fr"><span class="n">1</span><span class="d">8</span></span> ＋ <span class="fr"><span class="n">5</span><span class="d">12</span></span>。<details><summary>解答</summary><div class="ans">LCM(8,12)＝24：3/24＋10/24＝<b><span class="fr"><span class="n">13</span><span class="d">24</span></span>。</b></div></details></li>
+        <li>一盒糖，平分給 12 人或 18 人都剛好分完，這盒糖最少幾顆？<details><summary>解答</summary><div class="ans">要同時是 12 和 18 的倍數 → LCM＝<b>36 顆。</b></div></details></li>
+        <li>一條長緞帶要能剪成整段的 12 公分或整段的 15 公分都不剩，最短幾公分？<details><summary>解答</summary><div class="ans">LCM(12,15)＝<b>60 公分。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 記憶小卡 ===== -->
+<section class="cards-wrap" id="cards">
+  <div class="ch-head" style="max-width:none"><div class="ch-num x">★</div><div><h2>考前記憶小卡</h2><div class="grade">快速翻閱用｜每張＝定義（附英文）＋一句「為什麼」＋易錯</div></div></div>
+  <p class="note" style="margin-top:14px">用法：考前遮住定義，看「白話／為什麼」那句，試著自己講出來（含英文名詞）。列印可剪成卡片。</p>
+  <div class="cards">
+    <div class="mc gx"><div class="tag">核心觀念</div><h4>一體兩面</h4><div class="f">a 是 b 的因數 ＝ b 是 a 的倍數</div><p class="pt">同一個「整除」的兩種說法。<b>因數小、倍數大</b>。</p></div>
+    <div class="mc c1"><div class="tag">CH1</div><h4>倍數 <span class="en">multiple</span></h4><div class="f">某數 × 整數</div><p class="pt">從 0 每次跳固定格。<b>無限多個</b>，最小是自己。</p></div>
+    <div class="mc c1"><div class="tag">CH1 · 判別</div><h4>倍數判別法 <span class="en">divisibility</span></h4><div class="f">2看個位偶｜5看0或5｜3看數字和</div><p class="pt">不用真的除就能判斷。3 的倍數：各位<b>相加</b>是 3 倍數。</p></div>
+    <div class="mc c2"><div class="tag">CH2</div><h4>因數 <span class="en">factor</span></h4><div class="f">能整除某數的數</div><p class="pt"><b>成對</b>找（1×12、2×6…），找到會合就停。1 和自己都算。</p></div>
+    <div class="mc c2"><div class="tag">CH2 · 分類</div><h4>質數 <span class="en">prime</span> / 合數 <span class="en">composite</span></h4><div class="f">2 個因數 / 3 個以上</div><p class="pt">質數只能排 1 直線。<b>1 不是質數；2 是唯一偶質數</b>。</p></div>
+    <div class="mc c3"><div class="tag">CH3</div><h4>質因數分解 <span class="en">factorization</span></h4><div class="f">拆成質數相乘</div><p class="pt">數字的「DNA」，拆法唯一。用因數樹或短除法。</p></div>
+    <div class="mc c4"><div class="tag">CH4</div><h4>最大公因數 <span class="en">GCF</span></h4><div class="f">共同質因數相乘</div><p class="pt">Venn 圖<b>重疊區</b>。用途：<b>約分</b>（分子分母同除 GCF）。</p></div>
+    <div class="mc c5"><div class="tag">CH5</div><h4>最小公倍數 <span class="en">LCM</span></h4><div class="f">每種質因數取較多的</div><p class="pt">Venn 圖<b>聯集</b>全乘。用途：<b>通分</b>（當公分母）。</p></div>
+    <div class="mc gx"><div class="tag">綜合 · 短除法</div><h4>短除法 <span class="en">short division</span></h4><div class="f">GCF＝左欄；LCM＝L 形相乘</div><p class="pt">除到兩商互質為止，一次算出 GCF 和 LCM。</p></div>
+    <div class="mc gx"><div class="tag">綜合 · 關係</div><h4>互質 <span class="en">coprime</span> ＆ 好用式</h4><div class="f">GCF × LCM ＝ 兩數相乘</div><p class="pt">互質＝GCF 是 1。這條式子可以拿來驗算。</p></div>
+    <div class="mc c4"><div class="tag">🔗 回到分數</div><h4>約分靠 GCF</h4><div class="f"><span class="fr"><span class="n">12</span><span class="d">18</span></span> ÷ 6 ＝ ⅔</div><p class="pt">分子分母同除最大公因數，一步到最簡。</p></div>
+    <div class="mc c5"><div class="tag">🔗 回到分數</div><h4>通分靠 LCM</h4><div class="f">公分母 ＝ 分母的 LCM</div><p class="pt">¼＋⅙ 用 12：3/12＋2/12＝5/12。</p></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>因數與倍數完全學習手冊</strong>　依十二年國教 108 課綱「數與量（N）」編製，屬小五（第三學習階段）內容，並與《分數手冊》的約分、通分互相呼應。</p>
+  <p>使用建議：務必照章節順序學（後面每一章都用到前面）。每章先讀「為什麼」與圖解，再做練習；考前用記憶小卡（含英文名詞）複習。英文名詞供延伸與銜接國中之用，國小作答仍以中文為準。各版本教科書（康軒／翰林／南一）名詞與順序略有差異，本手冊以概念脈絡編排。</p>
+</footer>
+
+<script>
+  (function(){
+    var btn=document.getElementById('toggleAll');var open=false;
+    btn.addEventListener('click',function(){
+      open=!open;document.querySelectorAll('details').forEach(function(d){d.open=open;});
+      btn.textContent=open?'收合全部解答':'展開全部解答';
+    });
+  })();
+</script>
+</body>
+</html>

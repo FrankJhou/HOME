@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>資料與不確定性完全學習手冊 — 統計 G1 到 G6（108 課綱）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbfaf6;--ink:#1b2333;--ink-soft:#4b5568;--rule:#e9edf4;--line:#cfd7e3;
+    --blue:#2f6fb3;--blue-fill:rgba(47,111,179,.14);
+    --teal:#2f8f83;--indigo:#5566b8;--indigo-fill:rgba(85,102,184,.14);--purple:#7e57b3;--mauve:#9b5ba0;
+    --orange:#dd7a32;--orange-fill:rgba(221,122,50,.18);
+    --green:#2f9e85;--gold:#eaa916;--gold-fill:rgba(234,169,22,.20);
+    --card:#fff;--shadow:0 1px 2px rgba(27,35,51,.06),0 8px 24px rgba(27,35,51,.06);--maxw:880px;
+  }
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);
+    background:linear-gradient(transparent 27px,var(--rule) 27px,var(--rule) 28px,transparent 28px) 0 0/100% 28px,var(--paper);
+    line-height:1.78;-webkit-font-smoothing:antialiased}
+
+  header.hero{padding:64px 22px 40px;text-align:center}
+  .hero .kicker{font-size:.82rem;letter-spacing:.32em;color:var(--indigo);font-weight:700;text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-family:"Fraunces","Noto Sans TC",serif;font-weight:900;font-size:clamp(2rem,5.4vw,3.2rem);line-height:1.06;margin:0 0 16px;letter-spacing:-.01em}
+  .hero p.sub{font-size:1.06rem;color:var(--ink-soft);max-width:610px;margin:8px auto 0}
+  .hero .heroline{max-width:300px;margin:22px auto 0}
+  .hero .tag{display:inline-block;margin-top:22px;font-size:.8rem;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:#fff}
+
+  nav.toc{max-width:var(--maxw);margin:18px auto 50px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 24px}
+  nav.toc h2{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px}
+  nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 26px}
+  nav.toc a{display:flex;gap:10px;text-decoration:none;color:var(--ink);padding:6px 4px;border-radius:8px;font-size:.96rem}
+  nav.toc a:hover{background:var(--indigo-fill);color:var(--indigo)}
+  nav.toc a .g{font-weight:700;color:var(--indigo);font-variant-numeric:tabular-nums;min-width:30px}
+  @media(max-width:620px){nav.toc ol{grid-template-columns:1fr}}
+
+  section.ch{max-width:var(--maxw);margin:0 auto;padding:34px 22px 10px}
+  .ch-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px;padding-top:18px;border-top:2px solid var(--ink)}
+  .ch-num{font-family:"Fraunces",serif;font-weight:900;font-size:2.1rem;line-height:1;color:#fff;background:var(--indigo);border-radius:10px;padding:8px 12px;flex:none;min-width:62px;text-align:center}
+  .ch-num.c1{background:#2f8f83}.ch-num.c2{background:#2f7fb3}.ch-num.c3{background:#2f6fb3}.ch-num.c4{background:#5566b8}.ch-num.c5{background:#7e57b3}.ch-num.c6{background:#9b5ba0}.ch-num.x{background:#3a4253}
+  .ch-head h2{font-size:1.5rem;margin:2px 0 2px;font-weight:900;letter-spacing:-.01em}
+  .ch-head .grade{font-size:.8rem;color:var(--ink-soft);letter-spacing:.06em}
+  .ch-body{padding:6px 2px 0}
+  h3{font-size:1.16rem;margin:30px 0 8px;font-weight:700;display:flex;align-items:center;gap:9px}
+  h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg);flex:none}
+  p{margin:.6em 0}.lead{font-size:1.05rem}
+
+  .term{font-weight:700;color:var(--indigo)}
+  .en{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:.82em;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+  .en::before{content:"("}.en::after{content:")"}
+
+  .why{background:#fff;border:1px solid var(--line);border-left:5px solid var(--indigo);border-radius:10px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow)}
+  .why .lbl{font-weight:700;color:var(--indigo);font-size:.92rem;letter-spacing:.05em;display:block;margin-bottom:4px}
+  .xref{background:#f5f2fb;border:1px solid #ddd3f0;border-left:5px solid var(--purple);border-radius:10px;padding:12px 18px;margin:18px 0;font-size:.94rem}
+  .xref .lbl{font-weight:700;color:var(--purple);font-size:.9rem;display:block;margin-bottom:2px}
+  .xref .lbl::before{content:"🔗 ";}
+  .pitfall{background:#fff7ef;border:1px solid #f1d6b5;border-left:5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:18px 0}
+  .pitfall .lbl{font-weight:700;color:var(--orange);font-size:.92rem;display:block;margin-bottom:4px}
+  .keyformula{text-align:center;background:var(--gold-fill);border:2px dashed var(--gold);border-radius:12px;padding:16px;margin:20px 0;font-size:1.2rem;font-weight:700}
+  .keyformula small{display:block;font-size:.82rem;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:.02em}
+
+  figure{margin:22px 0;text-align:center}
+  figure svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+  figcaption{font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+  .axis{stroke:var(--ink);stroke-width:2}
+  .grid{stroke:var(--rule);stroke-width:1}
+  .bar{fill:var(--blue-fill);stroke:var(--blue);stroke-width:2}
+  .bar2{fill:var(--orange-fill);stroke:var(--orange);stroke-width:2}
+  .s-lbl{font:600 12px "Noto Sans TC",sans-serif;fill:var(--ink)}
+  .s-lbl-b{font:700 12px "Noto Sans TC",sans-serif;fill:var(--blue)}
+  .s-lbl-o{font:700 12px "Noto Sans TC",sans-serif;fill:var(--orange)}
+  .s-lbl-p{font:700 12px "Noto Sans TC",sans-serif;fill:var(--purple)}
+
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:.94rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+  th{background:#f0f3f8;font-weight:700}
+  td.l,th.l{text-align:left}
+  .tally{font-size:1.15rem;letter-spacing:2px;color:var(--indigo);font-weight:700}
+
+  .practice{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:26px 0;box-shadow:var(--shadow)}
+  .practice .ptitle{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin:0 0 4px}
+  .practice .ptitle .badge{background:var(--green);color:#fff;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+  ol.prob{counter-reset:p;list-style:none;padding:0;margin:14px 0 0}
+  ol.prob>li{counter-increment:p;position:relative;padding:14px 0 14px 40px;border-top:1px dashed var(--line)}
+  ol.prob>li:first-child{border-top:none}
+  ol.prob>li::before{content:counter(p);position:absolute;left:0;top:13px;width:26px;height:26px;background:var(--indigo);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  details{margin-top:8px}
+  details>summary{cursor:pointer;display:inline-block;font-size:.86rem;font-weight:700;color:var(--green);background:#eef8f5;border:1px solid #bfe3da;border-radius:8px;padding:4px 12px;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::before{content:"▸ ";font-size:.8rem}
+  details[open]>summary::before{content:"▾ "}
+  .ans{margin-top:10px;background:#f4faf8;border:1px solid #cfe9e1;border-radius:10px;padding:12px 16px;font-size:.95rem}
+  .ans b{color:#1f7a66}.ans .calc{font-variant-numeric:tabular-nums}
+
+  .cards-wrap{max-width:var(--maxw);margin:0 auto;padding:20px 22px 40px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;position:relative;overflow:hidden}
+  .mc::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--indigo)}
+  .mc.c1::before{background:#2f8f83}.mc.c2::before{background:#2f7fb3}.mc.c3::before{background:#2f6fb3}.mc.c4::before{background:#5566b8}.mc.c5::before{background:#7e57b3}.mc.c6::before{background:#9b5ba0}.mc.gx::before{background:#3a4253}
+  .mc .tag{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:var(--ink-soft)}
+  .mc h4{margin:4px 0 8px;font-size:1.05rem}
+  .mc h4 .en{font-size:.66em}
+  .mc .f{font-size:1rem;font-weight:900;color:var(--ink);background:var(--gold-fill);border-radius:8px;padding:6px 10px;display:inline-block;margin-bottom:8px}
+  .mc .pt{font-size:.86rem;color:var(--ink-soft);margin:0}
+  .mc .pt b{color:var(--orange)}
+
+  .controls{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.86);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .controls .inner{max-width:var(--maxw);margin:0 auto;padding:9px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .controls .home{font-weight:900;text-decoration:none;color:var(--ink);font-size:.95rem}
+  .controls .home .b{color:var(--gold)}
+  .btn{font:inherit;font-size:.82rem;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn:hover{border-color:var(--indigo);color:var(--indigo)}
+  footer{max-width:var(--maxw);margin:30px auto 60px;padding:24px 22px 0;border-top:2px solid var(--ink);color:var(--ink-soft);font-size:.9rem}
+  .note{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.9rem;color:var(--ink-soft)}
+
+  @media print{
+    body{background:#fff}.controls{display:none}
+    details>summary{display:none}.ans{display:block!important}
+    figure svg,.practice,.mc,.why,.xref{box-shadow:none}
+    .keyformula,.practice{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="inner">
+    <a class="home" href="#top">資料與<span class="b">統計</span>手冊</a>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="toggleAll">展開全部解答</button>
+      <button class="btn" onclick="window.print()">列印 / 存 PDF</button>
+    </div>
+  </div>
+</div>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="kicker">108 課綱 · 資料與不確定性 D</div>
+  <h1>資料與不確定性<br>完全學習手冊</h1>
+  <p class="sub">一堆雜亂的數字，整理成表格和統計圖，就能一眼看出「誰最多、怎麼變化、佔多少」。本手冊帶你學會判讀各種統計圖、算平均數，並用「可能性」描述不確定的事。</p>
+  <figure class="heroline">
+    <svg viewBox="0 0 240 100" role="img" aria-label="一個小長條圖">
+      <line x1="30" y1="80" x2="220" y2="80" class="axis"/>
+      <rect x="45" y="45" width="30" height="35" class="bar"/>
+      <rect x="95" y="25" width="30" height="55" class="bar"/>
+      <rect x="145" y="55" width="30" height="25" class="bar"/>
+      <rect x="195" y="40" width="20" height="40" class="bar2"/>
+    </svg>
+  </figure>
+  <div class="tag">涵蓋 G1 → G6 ｜ 表格・長條圖・折線圖・圓形圖・平均數・可能性 ｜ 圖解・記憶小卡・練習</div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <h2>學習地圖</h2>
+  <ol>
+    <li><a href="#c0"><span class="g">核心</span><span>為什麼要整理資料？</span></a></li>
+    <li><a href="#c1"><span class="g">1</span><span>資料整理與表格</span></a></li>
+    <li><a href="#c2"><span class="g">2</span><span>長條圖</span></a></li>
+    <li><a href="#c3"><span class="g">3</span><span>折線圖</span></a></li>
+    <li><a href="#c4"><span class="g">4</span><span>圓形圖</span></a></li>
+    <li><a href="#c5"><span class="g">5</span><span>平均數</span></a></li>
+    <li><a href="#c6"><span class="g">6</span><span>可能性</span></a></li>
+    <li><a href="#cx"><span class="g">進階</span><span>選對圖表與綜合判讀</span></a></li>
+    <li><a href="#cards"><span class="g">小卡</span><span>考前記憶小卡專區</span></a></li>
+  </ol>
+</nav>
+
+<!-- ===== 核心 ===== -->
+<section class="ch" id="c0">
+  <div class="ch-head"><div class="ch-num x">★</div><div><h2>為什麼要整理資料？</h2><div class="grade">全部章節的共同地基</div></div></div>
+  <div class="ch-body">
+    <p class="lead">想像老師問全班最喜歡什麼水果，得到一長串雜亂的回答：蘋果、香蕉、香蕉、葡萄、蘋果、橘子…。這樣<strong>看不出重點</strong>。統計就是把它變成看得懂的樣子。</p>
+    <figure>
+      <svg viewBox="0 0 500 90" role="img" aria-label="統計四步驟:收集、整理、呈現、判讀">
+        <g>
+          <rect x="15" y="30" width="100" height="34" class="bar" rx="6"/><text x="65" y="52" text-anchor="middle" class="s-lbl">① 收集資料</text>
+          <rect x="140" y="30" width="100" height="34" class="bar" rx="6"/><text x="190" y="52" text-anchor="middle" class="s-lbl">② 整理（表格）</text>
+          <rect x="265" y="30" width="100" height="34" class="bar" rx="6"/><text x="315" y="52" text-anchor="middle" class="s-lbl">③ 呈現（統計圖）</text>
+          <rect x="390" y="30" width="100" height="34" class="bar2" rx="6"/><text x="440" y="52" text-anchor="middle" class="s-lbl">④ 判讀・決定</text>
+        </g>
+        <g stroke="var(--green)" stroke-width="2"><line x1="117" y1="47" x2="138" y2="47"/><line x1="242" y1="47" x2="263" y2="47"/><line x1="367" y1="47" x2="388" y2="47"/></g>
+      </svg>
+      <figcaption>統計的流程：收集 → 整理 → 呈現 → 判讀。整理和呈現，就是為了讓資料「說話」。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">整理資料的價值</span>整理後，「誰最多、誰最少、隨時間怎麼變、各佔多少比例」都能<strong>一眼看出來</strong>，幫助我們做判斷與決定。不同的問題，要用不同的工具（表格、長條圖、折線圖、圓形圖），本手冊會一個一個教，並告訴你「什麼時候該用哪一種」。</div>
+    <div class="keyformula">統計 ＝ 把雜亂的資料，整理成看得懂、能判斷的樣子</div>
+  </div>
+</section>
+
+<!-- ===== Ch1 表格 ===== -->
+<section class="ch" id="c1">
+  <div class="ch-head"><div class="ch-num c1">1</div><div><h2>資料整理與表格 <span class="en">table</span></h2><div class="grade">小一～小二｜目標：會用畫記整理、看懂一維與二維表格</div></div></div>
+  <div class="ch-body">
+    <h3>一、畫記 <span class="en">tally</span>：五個一組最好數</h3>
+    <p>收集資料時，每出現一個就畫一筆。用<strong>「正」字（五畫）一組</strong>來記，數的時候「五個五個數」比一個一個數快又不易錯。</p>
+    <table>
+      <tr><th>水果</th><th>畫記</th><th>人數</th></tr>
+      <tr><td>蘋果</td><td><span class="tally">正</span></td><td>5</td></tr>
+      <tr><td>香蕉</td><td><span class="tally">正 ‖</span></td><td>7</td></tr>
+      <tr><td>葡萄</td><td><span class="tally">丅</span></td><td>3</td></tr>
+      <tr><td>橘子</td><td><span class="tally">正</span></td><td>5</td></tr>
+      <tr><td class="l">合計</td><td>—</td><td><b>20</b></td></tr>
+    </table>
+    <p>這種只記「一種屬性（喜歡的水果）」的表格叫<strong>一維表格</strong>。如果要同時記「水果 × 男生／女生」兩種屬性，就用<strong>二維表格</strong>（有橫、有直兩個方向）。</p>
+    <div class="why"><span class="lbl">為什麼「正」字＝5？</span>「正」剛好五畫，寫一個「正」就代表 5，數的時候看有幾個「正」就乘 5，再加零頭，比一根一根數快得多。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>資料整理與表格（10 題，用上表資料）</p>
+      <ol class="prob">
+        <li>畫記法中，一個「正」字代表幾？<details><summary>解答</summary><div class="ans"><b>5。</b></div></details></li>
+        <li>最多人喜歡哪種水果？<details><summary>解答</summary><div class="ans"><b>香蕉</b>（7 人）。</div></details></li>
+        <li>一共調查了幾人？<details><summary>解答</summary><div class="ans">5＋7＋3＋5＝<b>20 人。</b></div></details></li>
+        <li>喜歡蘋果和橘子的人數一樣多嗎？<details><summary>解答</summary><div class="ans"><b>一樣</b>（都是 5 人）。</div></details></li>
+        <li>香蕉比葡萄多幾人？<details><summary>解答</summary><div class="ans">7−3＝<b>4 人。</b></div></details></li>
+        <li>最少人喜歡的是哪種？<details><summary>解答</summary><div class="ans"><b>葡萄</b>（3 人）。</div></details></li>
+        <li>一維表格記錄的是幾種屬性？<details><summary>解答</summary><div class="ans"><b>1 種</b>（如「喜歡的水果」）。</div></details></li>
+        <li>二維表格可以同時看幾種屬性？<details><summary>解答</summary><div class="ans"><b>2 種。</b></div></details></li>
+        <li>為什麼畫記要五個一組？<details><summary>解答</summary><div class="ans">方便「五個五個數」，<b>又快又不易錯</b>。</div></details></li>
+        <li>統計的正確流程順序是？<details><summary>解答</summary><div class="ans"><b>收集 → 整理 → 呈現 → 判讀。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch2 長條圖 ===== -->
+<section class="ch" id="c2">
+  <div class="ch-head"><div class="ch-num c2">2</div><div><h2>長條圖 <span class="en">bar chart</span></h2><div class="grade">小三｜目標：會判讀與製作，懂它適合「比較各類別」</div></div></div>
+  <div class="ch-body">
+    <p>把上一章的水果資料畫成長條圖：<strong>長條越高，代表數量越多</strong>。誰最多、誰最少，一眼就看出來。</p>
+    <figure>
+      <svg viewBox="0 0 380 220" role="img" aria-label="水果人數長條圖:蘋果5香蕉7葡萄3橘子5">
+        <g class="grid"><line x1="55" y1="170" x2="360" y2="170"/><line x1="55" y1="140" x2="360" y2="140"/><line x1="55" y1="110" x2="360" y2="110"/><line x1="55" y1="80" x2="360" y2="80"/><line x1="55" y1="50" x2="360" y2="50"/></g>
+        <line x1="55" y1="30" x2="55" y2="170" class="axis"/><line x1="55" y1="170" x2="360" y2="170" class="axis"/>
+        <text x="45" y="174" text-anchor="end" class="s-lbl">0</text><text x="45" y="144" text-anchor="end" class="s-lbl">2</text><text x="45" y="114" text-anchor="end" class="s-lbl">4</text><text x="45" y="84" text-anchor="end" class="s-lbl">6</text><text x="45" y="54" text-anchor="end" class="s-lbl">8</text>
+        <rect x="75" y="95" width="45" height="75" class="bar"/><text x="97" y="188" text-anchor="middle" class="s-lbl">蘋果 5</text>
+        <rect x="150" y="65" width="45" height="105" class="bar"/><text x="172" y="188" text-anchor="middle" class="s-lbl">香蕉 7</text>
+        <rect x="225" y="125" width="45" height="45" class="bar"/><text x="247" y="188" text-anchor="middle" class="s-lbl">葡萄 3</text>
+        <rect x="300" y="95" width="45" height="75" class="bar"/><text x="322" y="188" text-anchor="middle" class="s-lbl">橘子 5</text>
+      </svg>
+      <figcaption>長條圖：高度＝數量。長條之間有空隙，因為各類別是分開、獨立的。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">長條圖適合做什麼？為什麼長條要分開？</span>長條圖最適合<strong>比較不同類別的多少</strong>（哪種水果、哪個科目分數…）。因為類別彼此獨立、不連續，所以長條要<strong>分開、不相連</strong>——這一點正好和「連續變化」的折線圖相反（下一章）。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>長條圖（10 題，看上圖）</p>
+      <ol class="prob">
+        <li>長條越高代表什麼？<details><summary>解答</summary><div class="ans"><b>數量越多。</b></div></details></li>
+        <li>哪種水果最多？<details><summary>解答</summary><div class="ans"><b>香蕉。</b></div></details></li>
+        <li>哪種水果最少？<details><summary>解答</summary><div class="ans"><b>葡萄。</b></div></details></li>
+        <li>香蕉有幾人？<details><summary>解答</summary><div class="ans"><b>7 人。</b></div></details></li>
+        <li>香蕉比蘋果多幾人？<details><summary>解答</summary><div class="ans">7−5＝<b>2 人。</b></div></details></li>
+        <li>長條圖最適合比較什麼？<details><summary>解答</summary><div class="ans"><b>各類別的多少。</b></div></details></li>
+        <li>為什麼長條要分開、不相連？<details><summary>解答</summary><div class="ans">因為<b>各類別是分開、獨立的</b>。</div></details></li>
+        <li>蘋果和橘子的長條一樣高，代表什麼？<details><summary>解答</summary><div class="ans"><b>人數一樣（都 5 人）。</b></div></details></li>
+        <li>全部加起來幾人？<details><summary>解答</summary><div class="ans">5＋7＋3＋5＝<b>20 人。</b></div></details></li>
+        <li>看長條圖最快能看出什麼？<details><summary>解答</summary><div class="ans"><b>誰最多、誰最少。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch3 折線圖 ===== -->
+<section class="ch" id="c3">
+  <div class="ch-head"><div class="ch-num c3">3</div><div><h2>折線圖 <span class="en">line graph</span></h2><div class="grade">小四｜目標：懂它適合看「隨時間的變化趨勢」</div></div></div>
+  <div class="ch-body">
+    <p>觀察一株植物每週的高度，畫成折線圖：把每週的點連起來，就能看出<strong>怎麼變化</strong>。</p>
+    <figure>
+      <svg viewBox="0 0 400 220" role="img" aria-label="植物高度折線圖:第1到5週為2,5,9,12,12公分">
+        <g class="grid"><line x1="50" y1="180" x2="390" y2="180"/><line x1="50" y1="144" x2="390" y2="144"/><line x1="50" y1="108" x2="390" y2="108"/><line x1="50" y1="72" x2="390" y2="72"/><line x1="50" y1="36" x2="390" y2="36"/></g>
+        <line x1="50" y1="20" x2="50" y2="180" class="axis"/><line x1="50" y1="180" x2="390" y2="180" class="axis"/>
+        <text x="42" y="184" text-anchor="end" class="s-lbl">0</text><text x="42" y="148" text-anchor="end" class="s-lbl">3</text><text x="42" y="112" text-anchor="end" class="s-lbl">6</text><text x="42" y="76" text-anchor="end" class="s-lbl">9</text><text x="42" y="40" text-anchor="end" class="s-lbl">12</text>
+        <polyline points="90,156 160,120 230,72 300,36 370,36" fill="none" stroke="var(--blue)" stroke-width="2.5"/>
+        <g fill="var(--orange)"><circle cx="90" cy="156" r="4"/><circle cx="160" cy="120" r="4"/><circle cx="230" cy="72" r="4"/><circle cx="300" cy="36" r="4"/><circle cx="370" cy="36" r="4"/></g>
+        <text x="90" y="198" text-anchor="middle" class="s-lbl">第1週</text><text x="160" y="198" text-anchor="middle" class="s-lbl">第2週</text><text x="230" y="198" text-anchor="middle" class="s-lbl">第3週</text><text x="300" y="198" text-anchor="middle" class="s-lbl">第4週</text><text x="370" y="198" text-anchor="middle" class="s-lbl">第5週</text>
+      </svg>
+      <figcaption>折線往上＝變高；線越陡＝變化越快；最後一段是平的＝沒有再長高。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">折線圖 vs 長條圖，怎麼選？</span>折線圖把點<strong>連起來</strong>，是因為要表達「<strong>隨時間連續變化</strong>」的趨勢（高度、氣溫、體重…）。<br>・要看「<strong>各類別誰多誰少</strong>」→ 用<strong>長條圖</strong><br>・要看「<strong>一個東西隨時間怎麼變</strong>」→ 用<strong>折線圖</strong></div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>折線圖（10 題，看上圖）</p>
+      <ol class="prob">
+        <li>折線圖最適合表示什麼？<details><summary>解答</summary><div class="ans"><b>隨時間的變化／趨勢。</b></div></details></li>
+        <li>折線往上代表什麼？<details><summary>解答</summary><div class="ans"><b>增加（變高）。</b></div></details></li>
+        <li>折線平平的一段代表什麼？<details><summary>解答</summary><div class="ans"><b>沒有變化。</b></div></details></li>
+        <li>第 2 週植物高幾公分？<details><summary>解答</summary><div class="ans"><b>5 公分。</b></div></details></li>
+        <li>哪兩週之間長得最多？<details><summary>解答</summary><div class="ans"><b>第 2 到第 3 週</b>（5→9，長 4 公分，線最陡）。</div></details></li>
+        <li>第 4 到第 5 週高度怎麼變？<details><summary>解答</summary><div class="ans"><b>沒有變（都 12 公分）。</b></div></details></li>
+        <li>折線圖和長條圖差在哪？<details><summary>解答</summary><div class="ans">折線看<b>變化趨勢</b>，長條比<b>各類別多少</b>。</div></details></li>
+        <li>為什麼折線圖要把點連起來？<details><summary>解答</summary><div class="ans">表示<b>連續的變化</b>。</div></details></li>
+        <li>從第 1 週到第 5 週，共長高幾公分？<details><summary>解答</summary><div class="ans">12−2＝<b>10 公分。</b></div></details></li>
+        <li>如果折線往下，代表什麼？<details><summary>解答</summary><div class="ans"><b>減少（下降）。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch4 圓形圖 ===== -->
+<section class="ch" id="c4">
+  <div class="ch-head"><div class="ch-num c4">4</div><div><h2>圓形圖 <span class="en">pie chart</span></h2><div class="grade">小六｜目標：懂它適合看「各部分佔整體的比例」</div></div></div>
+  <div class="ch-body">
+    <p>小明把 100 元零用錢的用途畫成圓形圖：<strong>整個圓＝全部（100 元）</strong>，每一塊扇形＝那項用途佔的比例。</p>
+    <figure>
+      <svg viewBox="0 0 320 200" role="img" aria-label="零用錢圓形圖:飲食一半,文具四分之一,儲蓄四分之一">
+        <path d="M100,100 L100,30 A70,70 0 0,0 100,170 Z" fill="var(--blue-fill)" stroke="var(--blue)" stroke-width="2"/>
+        <path d="M100,100 L100,30 A70,70 0 0,1 170,100 Z" fill="var(--orange-fill)" stroke="var(--orange)" stroke-width="2"/>
+        <path d="M100,100 L170,100 A70,70 0 0,1 100,170 Z" fill="var(--gold-fill)" stroke="var(--gold)" stroke-width="2"/>
+        <text x="70" y="105" text-anchor="middle" class="s-lbl-b">飲食 ½</text>
+        <text x="140" y="78" text-anchor="middle" class="s-lbl-o">文具 ¼</text>
+        <text x="140" y="140" text-anchor="middle" class="s-lbl" style="fill:var(--gold)">儲蓄 ¼</text>
+        <text x="255" y="90" class="s-lbl">飲食 50 元</text>
+        <text x="255" y="112" class="s-lbl">文具 25 元</text>
+        <text x="255" y="134" class="s-lbl">儲蓄 25 元</text>
+      </svg>
+      <figcaption>整個圓是「全部」。一半的扇形＝½＝50%，四分之一的扇形＝¼＝25%。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">圓形圖適合做什麼？</span>它最適合看「<strong>各部分佔整體的比例</strong>」。扇形越大，佔的比例越多。全部扇形合起來一定是<strong>一整個圓（全部／100%）</strong>。</div>
+    <div class="xref"><span class="lbl">和分數、角度呼應</span>圓形圖就是把《分數手冊》的「一個圓平分」拿來表示比例：½ 的扇形佔一半，對應圓心角 180°；¼ 的扇形對應 90°（360÷4）。分數、百分率、角度在這裡全部串起來。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>圓形圖（10 題，看上圖）</p>
+      <ol class="prob">
+        <li>圓形圖中，整個圓代表什麼？<details><summary>解答</summary><div class="ans"><b>全部（100%／全體）。</b></div></details></li>
+        <li>一半的圓代表幾分之幾？百分之幾？<details><summary>解答</summary><div class="ans"><b>½，也就是 50%。</b></div></details></li>
+        <li>圖中飲食佔多少比例？<details><summary>解答</summary><div class="ans"><b>½（50%）。</b></div></details></li>
+        <li>圓形圖最適合表示什麼？<details><summary>解答</summary><div class="ans"><b>各部分佔整體的比例。</b></div></details></li>
+        <li>圖中儲蓄佔多少？<details><summary>解答</summary><div class="ans"><b>¼（25%）。</b></div></details></li>
+        <li>三部分合起來應該是多少？<details><summary>解答</summary><div class="ans"><b>一整個圓（全部）。</b></div></details></li>
+        <li>100 元中，飲食佔 ½，是幾元？<details><summary>解答</summary><div class="ans">100×½＝<b>50 元。</b></div></details></li>
+        <li>圓形圖和長條圖差在哪？<details><summary>解答</summary><div class="ans">圓形圖看<b>佔比</b>，長條圖比<b>數量</b>。</div></details></li>
+        <li>佔比最大的部分，扇形會怎樣？<details><summary>解答</summary><div class="ans"><b>最大。</b></div></details></li>
+        <li>¼ 的扇形對應的圓心角是幾度？<details><summary>解答</summary><div class="ans">360÷4＝<b>90°。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch5 平均數 ===== -->
+<section class="ch" id="c5">
+  <div class="ch-head"><div class="ch-num c5">5</div><div><h2>平均數 <span class="en">average / mean</span></h2><div class="grade">小五｜目標：懂平均數是「拉平後每個一樣多」</div></div></div>
+  <div class="ch-body">
+    <p>三個小朋友分別有 4、6、8 顆糖。如果把糖<strong>全部倒在一起再平分</strong>，每人會拿到幾顆？這個「平分後每人的量」就是<strong>平均數</strong>。</p>
+    <figure>
+      <svg viewBox="0 0 380 200" role="img" aria-label="三根高度4,6,8的長條被拉平成6">
+        <line x1="40" y1="170" x2="360" y2="170" class="axis"/>
+        <rect x="70" y="114" width="45" height="56" class="bar"/><text x="92" y="186" text-anchor="middle" class="s-lbl">4 顆</text>
+        <rect x="150" y="86" width="45" height="84" class="bar"/><text x="172" y="186" text-anchor="middle" class="s-lbl">6 顆</text>
+        <rect x="230" y="58" width="45" height="112" class="bar"/><text x="252" y="186" text-anchor="middle" class="s-lbl">8 顆</text>
+        <line x1="55" y1="86" x2="290" y2="86" stroke="var(--purple)" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="320" y="90" class="s-lbl-p">平均 6</text>
+        <path d="M252,66 C270,66 130,78 100,110" fill="none" stroke="var(--purple)" stroke-width="1.5" stroke-dasharray="3 3"/>
+      </svg>
+      <figcaption>把高的削一點給矮的，三根「拉平」到同一高度 6——這個高度就是平均數。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">為什麼平均數 ＝ 總和 ÷ 個數？</span>「平分」本來就是除法。把全部加起來（總和）＝4＋6＋8＝18，再平分給 3 個人＝18÷3＝<strong>6</strong>。平均數就是「如果大家都一樣多，每個會是多少」。</div>
+    <div class="keyformula">平均數 ＝ 總和 ÷ 個數<small>反過來：總和 ＝ 平均數 × 個數</small></div>
+    <div class="xref"><span class="lbl">和除法、分數呼應</span>平均數就是《整數運算手冊》的「等分除」——把總量平分。也因此，平均數不一定是整數（可能是分數或小數）。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>平均數（11 題）</p>
+      <ol class="prob">
+        <li>平均數怎麼算？<details><summary>解答</summary><div class="ans"><b>總和 ÷ 個數。</b></div></details></li>
+        <li>3 人有 4、6、8 顆，平均幾顆？<details><summary>解答</summary><div class="ans">18÷3＝<b>6 顆。</b></div></details></li>
+        <li>5、7、9、11 的平均？<details><summary>解答</summary><div class="ans">32÷4＝<b>8。</b></div></details></li>
+        <li>三次考試 80、90、100，平均？<details><summary>解答</summary><div class="ans">270÷3＝<b>90 分。</b></div></details></li>
+        <li>平均數代表什麼意思？<details><summary>解答</summary><div class="ans"><b>平分後每個一樣多。</b></div></details></li>
+        <li>四個數的平均是 10，總和是多少？<details><summary>解答</summary><div class="ans">10×4＝<b>40。</b></div></details></li>
+        <li>兩個數的平均是 15，其中一個是 12，另一個？<details><summary>解答</summary><div class="ans">總和 30，30−12＝<b>18。</b></div></details></li>
+        <li>5 個人平均身高 140 公分，總和幾公分？<details><summary>解答</summary><div class="ans">140×5＝<b>700 公分。</b></div></details></li>
+        <li>平均數和哪個運算有關？<details><summary>解答</summary><div class="ans"><b>除法（平分）。</b></div></details></li>
+        <li>五天運動 20、30、40、10、50 分，平均每天幾分？<details><summary>解答</summary><div class="ans">150÷5＝<b>30 分。</b></div></details></li>
+        <li>為什麼平均數要除以個數？<details><summary>解答</summary><div class="ans">把總和<b>平分給每一個</b>。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch6 可能性 ===== -->
+<section class="ch" id="c6">
+  <div class="ch-head"><div class="ch-num c6">6</div><div><h2>可能性 <span class="en">likelihood</span></h2><div class="grade">小五～小六｜目標：用「一定／可能／不可能」描述不確定的事</div></div></div>
+  <div class="ch-body">
+    <p>有些事一定會發生、有些絕不會、有些說不準。我們可以把「發生的可能性」排在一條線上：</p>
+    <figure>
+      <svg viewBox="0 0 440 90" role="img" aria-label="可能性量尺:不可能到一定">
+        <rect x="30" y="35" width="380" height="20" rx="10" fill="url(#lg)"/>
+        <defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#e9c7b0"/><stop offset="0.5" stop-color="#e8d9a6"/><stop offset="1" stop-color="#bfe0d8"/></linearGradient></defs>
+        <circle cx="30" cy="45" r="6" fill="var(--orange)"/><circle cx="220" cy="45" r="6" fill="var(--gold)"/><circle cx="410" cy="45" r="6" fill="var(--green)"/>
+        <text x="30" y="78" text-anchor="middle" class="s-lbl-o">不可能</text>
+        <text x="220" y="78" text-anchor="middle" class="s-lbl">可能（一半一半）</text>
+        <text x="410" y="78" text-anchor="middle" class="s-lbl" style="fill:var(--green)">一定</text>
+        <text x="120" y="28" text-anchor="middle" class="s-lbl">不太可能</text><text x="320" y="28" text-anchor="middle" class="s-lbl">很可能</text>
+      </svg>
+      <figcaption>從「不可能」到「一定」，中間有各種程度。擲骰子出現 7 點是<strong>不可能</strong>；出現的點數大於 0 是<strong>一定</strong>。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">怎麼判斷「比較可能」？</span>看數量多寡。袋子裡有 3 顆紅球、1 顆藍球，隨手抽一顆，<strong>抽到紅球比較可能</strong>（因為紅球多）。如果紅、藍各半，那就<strong>一樣可能</strong>。（正式的「機率」用分數精確表示，會在國中學到。）</div>
+    <div class="pitfall"><span class="lbl">易錯</span>「很可能」不等於「一定」。明天很可能放晴，但不是「一定」——只要不是百分之百，就還是「可能」而已。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>可能性（10 題）</p>
+      <ol class="prob">
+        <li>太陽從東邊升起，是哪一種可能性？<details><summary>解答</summary><div class="ans"><b>一定。</b></div></details></li>
+        <li>擲一顆骰子出現 7 點，是？<details><summary>解答</summary><div class="ans"><b>不可能。</b></div></details></li>
+        <li>袋中 3 紅 1 藍，抽紅球和抽藍球，哪個比較可能？<details><summary>解答</summary><div class="ans"><b>抽到紅球</b>（紅球比較多）。</div></details></li>
+        <li>把「一定、不可能、可能」由不可能到一定排序。<details><summary>解答</summary><div class="ans"><b>不可能 ＜ 可能 ＜ 一定。</b></div></details></li>
+        <li>丟一枚公正硬幣，正面和反面哪個較可能？<details><summary>解答</summary><div class="ans"><b>一樣可能</b>（各一半）。</div></details></li>
+        <li>袋中全是紅球，抽到紅球是？<details><summary>解答</summary><div class="ans"><b>一定。</b></div></details></li>
+        <li>袋中沒有黃球，抽到黃球是？<details><summary>解答</summary><div class="ans"><b>不可能。</b></div></details></li>
+        <li>袋中 4 紅 1 綠，抽一顆最可能是什麼顏色？<details><summary>解答</summary><div class="ans"><b>紅色。</b></div></details></li>
+        <li>「明天會下雨」是「一定」嗎？<details><summary>解答</summary><div class="ans"><b>不是</b>，只是「可能」。</div></details></li>
+        <li>擲骰子，出現偶數和奇數哪個較可能？<details><summary>解答</summary><div class="ans"><b>一樣可能</b>（各 3 面）。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 進階 ===== -->
+<section class="ch" id="cx">
+  <div class="ch-head"><div class="ch-num x">＋</div><div><h2>選對圖表與綜合判讀</h2><div class="grade">G4–G6 綜合｜看題目要表達什麼，選對工具</div></div></div>
+  <div class="ch-body">
+    <table>
+      <tr><th>想表達的事</th><th class="l">選哪種圖</th></tr>
+      <tr><td class="l">比較各類別誰多誰少（各科成績、各水果人數）</td><td class="l"><b>長條圖</b></td></tr>
+      <tr><td class="l">看一個量隨時間怎麼變（氣溫、身高、銷售）</td><td class="l"><b>折線圖</b></td></tr>
+      <tr><td class="l">看各部分佔整體的比例（零用錢用途、票數佔比）</td><td class="l"><b>圓形圖</b></td></tr>
+      <tr><td class="l">用一個數代表一整組（全班平均分數）</td><td class="l"><b>平均數</b></td></tr>
+    </table>
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>綜合判讀（10 題）</p>
+      <ol class="prob">
+        <li>想比較全班各科的平均分數，用哪種圖？<details><summary>解答</summary><div class="ans"><b>長條圖</b>（比較各類別）。</div></details></li>
+        <li>想看一週每天的氣溫變化，用哪種圖？<details><summary>解答</summary><div class="ans"><b>折線圖</b>（隨時間變化）。</div></details></li>
+        <li>想看班費各項支出佔多少比例，用哪種圖？<details><summary>解答</summary><div class="ans"><b>圓形圖</b>（佔整體比例）。</div></details></li>
+        <li>四次小考 70、80、90、100，平均幾分？<details><summary>解答</summary><div class="ans">340÷4＝<b>85 分。</b></div></details></li>
+        <li>圓形圖某項佔 ¼，對應圓心角幾度？<details><summary>解答</summary><div class="ans"><b>90°。</b></div></details></li>
+        <li>折線圖某段往下傾斜，代表什麼？<details><summary>解答</summary><div class="ans"><b>數值在減少。</b></div></details></li>
+        <li>長條圖中最高的長條代表？<details><summary>解答</summary><div class="ans"><b>數量最多的那一項。</b></div></details></li>
+        <li>某項佔整體 ½ 的圓形圖，換成百分率是？<details><summary>解答</summary><div class="ans"><b>50%。</b></div></details></li>
+        <li>五個人平均年齡 10 歲，年齡總和？<details><summary>解答</summary><div class="ans">10×5＝<b>50 歲。</b></div></details></li>
+        <li>「這個月很可能會下雪」表示一定會下雪嗎？<details><summary>解答</summary><div class="ans"><b>不是</b>，只是可能性高。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 記憶小卡 ===== -->
+<section class="cards-wrap" id="cards">
+  <div class="ch-head" style="max-width:none"><div class="ch-num x">★</div><div><h2>考前記憶小卡</h2><div class="grade">快速翻閱用｜每張＝重點＋一句「為什麼／何時用」</div></div></div>
+  <p class="note" style="margin-top:14px">用法：考前遮住重點，看提示，試著自己講出「這種圖何時用、怎麼看」。列印可剪成卡片。</p>
+  <div class="cards">
+    <div class="mc gx"><div class="tag">核心觀念</div><h4>統計流程</h4><div class="f">收集 → 整理 → 呈現 → 判讀</div><p class="pt">整理資料是為了讓它<b>說話</b>：誰多、怎麼變、佔多少。</p></div>
+    <div class="mc c1"><div class="tag">CH1 · 表格</div><h4>畫記與表格 <span class="en">tally</span></h4><div class="f">「正」字＝5</div><p class="pt">五個一組好數。一維＝1 種屬性；二維＝2 種。</p></div>
+    <div class="mc c2"><div class="tag">CH2 · 長條圖</div><h4>長條圖 <span class="en">bar</span></h4><div class="f">比較各類別多少</div><p class="pt">高＝數量。長條<b>分開</b>（類別獨立）。看誰最多最少。</p></div>
+    <div class="mc c3"><div class="tag">CH3 · 折線圖</div><h4>折線圖 <span class="en">line</span></h4><div class="f">看隨時間的變化趨勢</div><p class="pt">點連起來＝連續變化。往上＝增、平＝不變、下＝減。</p></div>
+    <div class="mc c4"><div class="tag">CH4 · 圓形圖</div><h4>圓形圖 <span class="en">pie</span></h4><div class="f">看各部分佔整體比例</div><p class="pt">整圓＝全部。½＝50%＝180°、¼＝25%＝90°。</p></div>
+    <div class="mc c5"><div class="tag">CH5 · 平均數</div><h4>平均數 <span class="en">mean</span></h4><div class="f">總和 ÷ 個數</div><p class="pt">＝「拉平後每個一樣多」。總和＝平均×個數。</p></div>
+    <div class="mc c6"><div class="tag">CH6 · 可能性</div><h4>可能性 <span class="en">likelihood</span></h4><div class="f">不可能 → 可能 → 一定</div><p class="pt">數量多的較可能。<b>很可能 ≠ 一定</b>。機率國中學。</p></div>
+    <div class="mc gx"><div class="tag">必考 · 選圖</div><h4>怎麼選圖表</h4><div class="f">類別→長條｜時間→折線｜佔比→圓形</div><p class="pt">先問「我想表達什麼」，再選對應的圖。</p></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>資料與不確定性完全學習手冊</strong>　依十二年國教 108 課綱「資料與不確定性（D）」編製，涵蓋 G1–G6 的資料整理、長條圖、折線圖、圓形圖、平均數與可能性。圓形圖與比例呼應《分數手冊》，平均數呼應《整數運算手冊》的除法。</p>
+  <p>使用建議：先讀每章「為什麼／何時用」與圖例，再做練習；考前用記憶小卡複習。英文名詞供銜接國中之用。正式機率的分數計算為國中內容，本手冊只做可能性的初步描述。各版本教科書（康軒／翰林／南一）順序與名詞略有差異，本手冊以概念脈絡編排。</p>
+</footer>
+
+<script>
+  (function(){
+    var btn=document.getElementById('toggleAll');var open=false;
+    btn.addEventListener('click',function(){
+      open=!open;document.querySelectorAll('details').forEach(function(d){d.open=open;});
+      btn.textContent=open?'收合全部解答':'展開全部解答';
+    });
+  })();
+</script>
+</body>
+</html>

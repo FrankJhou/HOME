@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>整數乘除與四則運算完全學習手冊 — G2 到 G5（108 課綱）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbfaf6;--ink:#1b2333;--ink-soft:#4b5568;--rule:#e9edf4;--line:#cfd7e3;
+    --blue:#2f6fb3;--blue-fill:rgba(47,111,179,.14);
+    --teal:#2f8f83;--indigo:#5566b8;--purple:#7e57b3;
+    --orange:#dd7a32;--orange-fill:rgba(221,122,50,.18);
+    --green:#2f9e85;--gold:#eaa916;--gold-fill:rgba(234,169,22,.20);
+    --card:#fff;--shadow:0 1px 2px rgba(27,35,51,.06),0 8px 24px rgba(27,35,51,.06);--maxw:880px;
+  }
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);
+    background:linear-gradient(transparent 27px,var(--rule) 27px,var(--rule) 28px,transparent 28px) 0 0/100% 28px,var(--paper);
+    line-height:1.78;-webkit-font-smoothing:antialiased}
+
+  header.hero{padding:64px 22px 40px;text-align:center}
+  .hero .kicker{font-size:.82rem;letter-spacing:.32em;color:var(--teal);font-weight:700;text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-family:"Fraunces","Noto Sans TC",serif;font-weight:900;font-size:clamp(2rem,5.4vw,3.2rem);line-height:1.06;margin:0 0 16px;letter-spacing:-.01em}
+  .hero .ops{font-size:clamp(1.6rem,5vw,2.4rem);letter-spacing:.3em;margin:6px 0 4px}
+  .hero .ops .o1{color:var(--teal)}.hero .ops .o2{color:var(--blue)}.hero .ops .o3{color:var(--indigo)}.hero .ops .o4{color:var(--purple)}
+  .hero p.sub{font-size:1.06rem;color:var(--ink-soft);max-width:600px;margin:8px auto 0}
+  .hero .tag{display:inline-block;margin-top:22px;font-size:.8rem;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:#fff}
+
+  nav.toc{max-width:var(--maxw);margin:18px auto 50px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 24px}
+  nav.toc h2{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px}
+  nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 26px}
+  nav.toc a{display:flex;gap:10px;text-decoration:none;color:var(--ink);padding:6px 4px;border-radius:8px;font-size:.96rem}
+  nav.toc a:hover{background:var(--blue-fill);color:var(--blue)}
+  nav.toc a .g{font-weight:700;color:var(--teal);font-variant-numeric:tabular-nums;min-width:30px}
+  @media(max-width:620px){nav.toc ol{grid-template-columns:1fr}}
+
+  section.ch{max-width:var(--maxw);margin:0 auto;padding:34px 22px 10px}
+  .ch-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px;padding-top:18px;border-top:2px solid var(--ink)}
+  .ch-num{font-family:"Fraunces",serif;font-weight:900;font-size:2.1rem;line-height:1;color:#fff;background:var(--blue);border-radius:10px;padding:8px 12px;flex:none;min-width:62px;text-align:center}
+  .ch-num.c1{background:#3a8fb0}.ch-num.c2{background:#2f7fb3}.ch-num.c3{background:#2f6fb3}.ch-num.c4{background:#5566b8}.ch-num.c5{background:#7e57b3}.ch-num.x{background:#3a4253}
+  .ch-head h2{font-size:1.5rem;margin:2px 0 2px;font-weight:900;letter-spacing:-.01em}
+  .ch-head .grade{font-size:.8rem;color:var(--ink-soft);letter-spacing:.06em}
+  .ch-body{padding:6px 2px 0}
+  h3{font-size:1.16rem;margin:30px 0 8px;font-weight:700;display:flex;align-items:center;gap:9px}
+  h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg);flex:none}
+  p{margin:.6em 0}.lead{font-size:1.05rem}
+
+  .term{font-weight:700;color:var(--indigo)}
+  .en{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:.82em;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+  .en::before{content:"("}.en::after{content:")"}
+
+  .why{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:10px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow)}
+  .why .lbl{font-weight:700;color:var(--blue);font-size:.92rem;letter-spacing:.05em;display:block;margin-bottom:4px}
+  .pitfall{background:#fff7ef;border:1px solid #f1d6b5;border-left:5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:18px 0}
+  .pitfall .lbl{font-weight:700;color:var(--orange);font-size:.92rem;display:block;margin-bottom:4px}
+  .keyformula{text-align:center;background:var(--gold-fill);border:2px dashed var(--gold);border-radius:12px;padding:16px;margin:20px 0;font-size:1.2rem;font-weight:700}
+  .keyformula small{display:block;font-size:.82rem;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:.02em}
+
+  figure{margin:22px 0;text-align:center}
+  figure svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+  figcaption{font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+  .s-lbl{font:600 13px "Noto Sans TC",sans-serif;fill:var(--ink)}
+  .s-lbl-b{font:700 13px "Noto Sans TC",sans-serif;fill:var(--blue)}
+  .s-lbl-o{font:700 13px "Noto Sans TC",sans-serif;fill:var(--orange)}
+  .s-lbl-t{font:700 13px "Noto Sans TC",sans-serif;fill:var(--teal)}
+  .dot{fill:var(--blue)}
+  .box-b{fill:var(--blue-fill);stroke:var(--blue);stroke-width:2}
+  .box-o{fill:var(--orange-fill);stroke:var(--orange);stroke-width:2}
+  .box-g{fill:var(--gold-fill);stroke:var(--gold);stroke-width:2}
+
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:.94rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+  th{background:#f0f3f8;font-weight:700}
+  td.l,th.l{text-align:left}
+  .vcalc{font-family:"Fraunces",monospace;font-variant-numeric:tabular-nums;font-size:1.15rem;line-height:1.5;text-align:right;display:inline-block;background:#f7faf9;border:1px solid #cfe0dc;border-radius:8px;padding:12px 22px;white-space:pre;color:var(--ink)}
+  .vcalc .c{color:var(--orange);font-weight:700}
+
+  .practice{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:26px 0;box-shadow:var(--shadow)}
+  .practice .ptitle{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin:0 0 4px}
+  .practice .ptitle .badge{background:var(--green);color:#fff;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+  ol.prob{counter-reset:p;list-style:none;padding:0;margin:14px 0 0}
+  ol.prob>li{counter-increment:p;position:relative;padding:14px 0 14px 40px;border-top:1px dashed var(--line)}
+  ol.prob>li:first-child{border-top:none}
+  ol.prob>li::before{content:counter(p);position:absolute;left:0;top:13px;width:26px;height:26px;background:var(--blue);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  details{margin-top:8px}
+  details>summary{cursor:pointer;display:inline-block;font-size:.86rem;font-weight:700;color:var(--green);background:#eef8f5;border:1px solid #bfe3da;border-radius:8px;padding:4px 12px;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::before{content:"▸ ";font-size:.8rem}
+  details[open]>summary::before{content:"▾ "}
+  .ans{margin-top:10px;background:#f4faf8;border:1px solid #cfe9e1;border-radius:10px;padding:12px 16px;font-size:.95rem}
+  .ans b{color:#1f7a66}.ans .calc{font-variant-numeric:tabular-nums}
+
+  .cards-wrap{max-width:var(--maxw);margin:0 auto;padding:20px 22px 40px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;position:relative;overflow:hidden}
+  .mc::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--blue)}
+  .mc.c1::before{background:#3a8fb0}.mc.c2::before{background:#2f7fb3}.mc.c3::before{background:#2f6fb3}.mc.c4::before{background:#5566b8}.mc.c5::before{background:#7e57b3}.mc.gx::before{background:#3a4253}
+  .mc .tag{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:var(--ink-soft)}
+  .mc h4{margin:4px 0 8px;font-size:1.05rem}
+  .mc h4 .en{font-size:.66em}
+  .mc .f{font-size:1rem;font-weight:900;color:var(--ink);background:var(--gold-fill);border-radius:8px;padding:6px 10px;display:inline-block;margin-bottom:8px}
+  .mc .pt{font-size:.86rem;color:var(--ink-soft);margin:0}
+  .mc .pt b{color:var(--orange)}
+
+  .controls{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.86);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .controls .inner{max-width:var(--maxw);margin:0 auto;padding:9px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .controls .home{font-weight:900;text-decoration:none;color:var(--ink);font-size:.95rem}
+  .controls .home .b{color:var(--gold)}
+  .btn{font:inherit;font-size:.82rem;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn:hover{border-color:var(--blue);color:var(--blue)}
+  footer{max-width:var(--maxw);margin:30px auto 60px;padding:24px 22px 0;border-top:2px solid var(--ink);color:var(--ink-soft);font-size:.9rem}
+  .note{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.9rem;color:var(--ink-soft)}
+
+  @media print{
+    body{background:#fff}.controls{display:none}
+    details>summary{display:none}.ans{display:block!important}
+    figure svg,.practice,.mc,.why{box-shadow:none}
+    .keyformula,.practice{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="inner">
+    <a class="home" href="#top">整數<span class="b">運算</span>手冊</a>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="toggleAll">展開全部解答</button>
+      <button class="btn" onclick="window.print()">列印 / 存 PDF</button>
+    </div>
+  </div>
+</div>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="kicker">108 課綱 · 數與量 N</div>
+  <h1>整數乘除與四則運算<br>完全學習手冊</h1>
+  <div class="ops"><span class="o1">＋</span><span class="o2">−</span><span class="o3">×</span><span class="o4">÷</span></div>
+  <p class="sub">這是所有計算的地基。乘法為什麼可以「直式」算、除法的長除法在做什麼、為什麼「先乘除後加減」——本手冊都用位值和圖解講清楚，讓孩子不是背步驟，而是懂步驟。</p>
+  <div class="tag">涵蓋 G2 → G5 ｜ 乘法・除法・四則順序・運算律 ｜ 概念推導・圖解・記憶小卡・練習（附詳解）</div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <h2>學習地圖</h2>
+  <ol>
+    <li><a href="#c0"><span class="g">核心</span><span>四則運算是什麼？</span></a></li>
+    <li><a href="#c1"><span class="g">1</span><span>乘法的意義與九九乘法</span></a></li>
+    <li><a href="#c2"><span class="g">2</span><span>多位數乘法直式（為什麼）</span></a></li>
+    <li><a href="#c3"><span class="g">3</span><span>除法的意義與直式</span></a></li>
+    <li><a href="#c4"><span class="g">4</span><span>四則運算的順序</span></a></li>
+    <li><a href="#c5"><span class="g">5</span><span>運算律與聰明計算</span></a></li>
+    <li><a href="#cx"><span class="g">進階</span><span>綜合應用與陷阱</span></a></li>
+    <li><a href="#cards"><span class="g">小卡</span><span>考前記憶小卡專區</span></a></li>
+  </ol>
+</nav>
+
+<!-- ===== 核心 ===== -->
+<section class="ch" id="c0">
+  <div class="ch-head"><div class="ch-num x">★</div><div><h2>四則運算是什麼？</h2><div class="grade">全部章節的共同地基</div></div></div>
+  <div class="ch-body">
+    <p class="lead">「四則」就是四種基本運算：加、減、乘、除。它們兩兩是<strong>一對相反</strong>的動作。</p>
+    <table>
+      <tr><th>運算</th><th class="l">在做什麼</th><th class="l">相反運算</th></tr>
+      <tr><td><b>加 ＋</b></td><td class="l">合起來（變多）</td><td class="l">減</td></tr>
+      <tr><td><b>減 −</b></td><td class="l">拿走（變少）</td><td class="l">加</td></tr>
+      <tr><td><b>乘 ×</b></td><td class="l"><strong>相同數量</strong>連加的捷徑</td><td class="l">除</td></tr>
+      <tr><td><b>除 ÷</b></td><td class="l">平分，或看裡面有幾個</td><td class="l">乘</td></tr>
+    </table>
+    <div class="why">
+      <span class="lbl">關鍵：乘法是「加法的捷徑」，除法是乘法的相反</span>
+      3＋3＋3＋3 太慢，寫成 <strong>3×4</strong>（4 個 3）。而除法問的是反過來的問題：「幾個 3 合起來是 12？」＝ 12÷3＝4。<br>
+      所以：<strong>12 ÷ 3 ＝ 4，是因為 3 × 4 ＝ 12</strong>。乘除互為相反，這件事之後驗算、長除法都會一直用到。
+    </div>
+    <div class="keyformula">乘法 ＝ 相同數的連加　｜　除法 ＝ 乘法的相反<small>被除數 ＝ 除數 × 商 ＋ 餘數</small></div>
+  </div>
+</section>
+
+<!-- ===== Ch1 乘法意義 ===== -->
+<section class="ch" id="c1">
+  <div class="ch-head"><div class="ch-num c1">1</div><div><h2>乘法的意義與九九乘法</h2><div class="grade">小二～小三｜目標：懂乘法是連加、會用陣列理解交換律</div></div></div>
+  <div class="ch-body">
+    <h3>一、乘法就是「幾個幾」</h3>
+    <p>4×3 讀作「4 乘 3」，意思是 <strong>3 個 4 相加</strong>（4＋4＋4）或 4 個 3 相加，都等於 12。與其一個一個加，不如用乘法一次算完。</p>
+
+    <h3>二、用陣列 <span class="en">array</span> 看，交換律一目了然</h3>
+    <p>把東西排成整齊的方陣：<strong>橫排數 × 直排數</strong>。3 排、每排 4 個，就是 3×4＝12。</p>
+    <figure>
+      <svg viewBox="0 0 460 170" role="img" aria-label="3列4行的圓點陣列,共12點,旋轉後變成4列3行">
+        <g class="dot">
+          <circle cx="60" cy="40" r="9"/><circle cx="95" cy="40" r="9"/><circle cx="130" cy="40" r="9"/><circle cx="165" cy="40" r="9"/>
+          <circle cx="60" cy="75" r="9"/><circle cx="95" cy="75" r="9"/><circle cx="130" cy="75" r="9"/><circle cx="165" cy="75" r="9"/>
+          <circle cx="60" cy="110" r="9"/><circle cx="95" cy="110" r="9"/><circle cx="130" cy="110" r="9"/><circle cx="165" cy="110" r="9"/>
+        </g>
+        <text x="112" y="150" text-anchor="middle" class="s-lbl-b">3 排 × 每排 4 ＝ 12</text>
+        <text x="245" y="90" text-anchor="middle" class="s-lbl" style="font-size:22px">＝</text>
+        <g class="dot">
+          <circle cx="300" cy="40" r="9"/><circle cx="335" cy="40" r="9"/><circle cx="370" cy="40" r="9"/>
+          <circle cx="300" cy="70" r="9"/><circle cx="335" cy="70" r="9"/><circle cx="370" cy="70" r="9"/>
+          <circle cx="300" cy="100" r="9"/><circle cx="335" cy="100" r="9"/><circle cx="370" cy="100" r="9"/>
+          <circle cx="300" cy="130" r="9"/><circle cx="335" cy="130" r="9"/><circle cx="370" cy="130" r="9"/>
+        </g>
+        <text x="335" y="155" text-anchor="middle" class="s-lbl-o">4 排 × 每排 3 ＝ 12</text>
+      </svg>
+      <figcaption>同一堆 12 個點，轉個方向看，就從 3×4 變成 4×3——所以 <strong>3×4 ＝ 4×3</strong>（交換律 <span class="en">commutative</span>）。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">九九乘法為什麼要背熟？</span>它是所有乘法、除法的「零件」。多位數乘法、長除法、約分…每一步都在用九九乘法。背熟它，後面才會快而不錯。善用交換律，其實只要記一半（記了 6×7，就等於會 7×6）。</div>
+    <div class="pitfall"><span class="lbl">兩個特別的數</span><strong>任何數 ×0 都是 0</strong>（0 個某數＝沒有）。<strong>任何數 ×1 都是自己</strong>（1 個某數）。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>乘法意義與九九乘法（11 題）</p>
+      <ol class="prob">
+        <li>4×3 是「幾個幾相加」？寫成連加。<details><summary>解答</summary><div class="ans"><b>3 個 4：4＋4＋4＝12</b>（或 4 個 3）。</div></details></li>
+        <li>用連加算 5×6。<details><summary>解答</summary><div class="ans">6＋6＋6＋6＋6＝<b>30。</b></div></details></li>
+        <li>7×8 和 8×7 一樣嗎？<details><summary>解答</summary><div class="ans"><b>一樣，都是 56</b>（交換律）。</div></details></li>
+        <li>一排 5 個蘋果，排 4 排，共幾個？<details><summary>解答</summary><div class="ans">5×4＝<b>20 個。</b></div></details></li>
+        <li>9×6 ＝？<details><summary>解答</summary><div class="ans"><b>54。</b></div></details></li>
+        <li>8×7 ＝？<details><summary>解答</summary><div class="ans"><b>56。</b></div></details></li>
+        <li>7×7 ＝？<details><summary>解答</summary><div class="ans"><b>49。</b></div></details></li>
+        <li>一盒 12 支筆，5 盒共幾支？<details><summary>解答</summary><div class="ans">12×5＝<b>60 支。</b></div></details></li>
+        <li>一週 7 天，6 週共幾天？<details><summary>解答</summary><div class="ans">7×6＝<b>42 天。</b></div></details></li>
+        <li>0×9 ＝？為什麼？<details><summary>解答</summary><div class="ans"><b>0</b>，因為是「0 個 9」，什麼都沒有。</div></details></li>
+        <li>1×8 ＝？<details><summary>解答</summary><div class="ans"><b>8</b>（1 個 8）。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch2 多位數乘法 ===== -->
+<section class="ch" id="c2">
+  <div class="ch-head"><div class="ch-num c2">2</div><div><h2>多位數乘法直式：為什麼可以這樣算</h2><div class="grade">小三～小四｜目標：懂直式其實是「拆位值＋分配律」</div></div></div>
+  <div class="ch-body">
+    <h3>一、23 × 4：把 23 拆開來乘</h3>
+    <p>23 就是 20＋3。乘 4 的時候，<strong>兩部分各自乘 4，再合起來</strong>：</p>
+    <div class="keyformula">23 × 4 ＝ (20 ＋ 3) × 4 ＝ 20×4 ＋ 3×4 ＝ 80 ＋ 12 ＝ 92<small>這就是分配律 <span class="en">distributive law</span>；直式其實在偷偷做這件事</small></div>
+    <p>直式把它排整齊：先算 4×3＝12（寫 2、進位 1），再算 4×2（十位）＝8，加進位…最後得 92。<strong>「進位」就是把滿十的部分送到左邊高一位。</strong></p>
+
+    <h3>二、23 × 45：為什麼第二排要「往左移一格」？</h3>
+    <p>45 ＝ 40＋5，所以 23×45 ＝ 23×5 ＋ 23×40，分成兩批：</p>
+    <div style="text-align:center">
+      <div class="vcalc">    2 3
+  ×  4 5
+  ───────
+    1 1 5   ← 23×5
+  9 2 0     ← 23×<span class="c">40</span>（往左移一位）
+  ───────
+  1 0 3 5</div>
+    </div>
+    <div class="why">
+      <span class="lbl">為什麼往左移一位（等於補一個 0）？</span>
+      第二排算的是 23×<strong>40</strong>，不是 23×4。而 ×40 ＝ ×4 再 ×10。<strong>×10 會讓每個數字往左移一個位值</strong>（個位變十位…），所以整排跟著左移一格（也可想成尾巴補 0：23×4＝92 → 23×40＝920）。最後把兩批加起來：115 ＋ 920 ＝ 1035。
+    </div>
+    <div class="pitfall"><span class="lbl">易錯</span>第二排對齊要正確——它是「幾十」的乘積，一定比第一排左移。忘了移位（或補 0）是多位數乘法最常見的錯。</div>
+
+    <h3>三、×10、×100 的規律</h3>
+    <p>×10 尾巴加一個 0、×100 加兩個 0。道理同上：每 ×10，所有數字往左移一位（都變 10 倍大）。</p>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>多位數乘法（12 題）</p>
+      <ol class="prob">
+        <li>23 × 4 ＝？<details><summary>解答</summary><div class="ans">20×4＋3×4＝80＋12＝<b>92。</b></div></details></li>
+        <li>46 × 3 ＝？<details><summary>解答</summary><div class="ans"><b>138。</b></div></details></li>
+        <li>125 × 4 ＝？<details><summary>解答</summary><div class="ans"><b>500。</b></div></details></li>
+        <li>234 × 2 ＝？<details><summary>解答</summary><div class="ans"><b>468。</b></div></details></li>
+        <li>23 × 45 ＝？<details><summary>解答</summary><div class="ans">23×5＝115、23×40＝920，115＋920＝<b>1035。</b></div></details></li>
+        <li>34 × 26 ＝？<details><summary>解答</summary><div class="ans">34×6＝204、34×20＝680，204＋680＝<b>884。</b></div></details></li>
+        <li>68 × 50 ＝？<details><summary>解答</summary><div class="ans">68×5＝340，×10 → <b>3400。</b></div></details></li>
+        <li>125 × 16 ＝？<details><summary>解答</summary><div class="ans">125×6＝750、125×10＝1250，合＝<b>2000。</b></div></details></li>
+        <li>305 × 4 ＝？（注意中間的 0）<details><summary>解答</summary><div class="ans">300×4＋5×4＝1200＋20＝<b>1220。</b></div></details></li>
+        <li>40 × 70 ＝？<details><summary>解答</summary><div class="ans">4×7＝28，補兩個 0 → <b>2800。</b></div></details></li>
+        <li>一箱 24 罐，35 箱共幾罐？<details><summary>解答</summary><div class="ans">24×35＝<b>840 罐。</b></div></details></li>
+        <li>一張票 250 元，賣 32 張共多少元？<details><summary>解答</summary><div class="ans">250×32＝<b>8000 元。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch3 除法 ===== -->
+<section class="ch" id="c3">
+  <div class="ch-head"><div class="ch-num c3">3</div><div><h2>除法的意義與直式</h2><div class="grade">小三～小四｜目標：懂兩種除法、餘數規則、長除法在做什麼</div></div></div>
+  <div class="ch-body">
+    <h3>一、除法有兩種情境（答案一樣，故事不同）</h3>
+    <figure>
+      <svg viewBox="0 0 480 160" role="img" aria-label="12個點分成3人每人4個,以及每4個一組分成3組">
+        <text x="120" y="24" text-anchor="middle" class="s-lbl-b">等分除：12 分給 3 人，每人幾個？</text>
+        <g class="dot">
+          <circle cx="55" cy="55" r="7"/><circle cx="75" cy="55" r="7"/><circle cx="55" cy="75" r="7"/><circle cx="75" cy="75" r="7"/>
+          <circle cx="115" cy="55" r="7"/><circle cx="135" cy="55" r="7"/><circle cx="115" cy="75" r="7"/><circle cx="135" cy="75" r="7"/>
+          <circle cx="175" cy="55" r="7"/><circle cx="195" cy="55" r="7"/><circle cx="175" cy="75" r="7"/><circle cx="195" cy="75" r="7"/>
+        </g>
+        <text x="120" y="105" text-anchor="middle" class="s-lbl">每人 4 個</text>
+        <text x="350" y="24" text-anchor="middle" class="s-lbl-o">包含除：每 4 個一組，分成幾組？</text>
+        <g class="dot">
+          <circle cx="290" cy="55" r="7"/><circle cx="310" cy="55" r="7"/><circle cx="330" cy="55" r="7"/><circle cx="350" cy="55" r="7"/>
+          <circle cx="290" cy="80" r="7"/><circle cx="310" cy="80" r="7"/><circle cx="330" cy="80" r="7"/><circle cx="350" cy="80" r="7"/>
+          <circle cx="290" cy="105" r="7"/><circle cx="310" cy="105" r="7"/><circle cx="330" cy="105" r="7"/><circle cx="350" cy="105" r="7"/>
+        </g>
+        <text x="410" y="83" class="s-lbl">3 組</text>
+      </svg>
+      <figcaption>12÷3＝4，兩種都對：「平分給 3 人」每人 4 個；「每 4 個一組」分成 3 組。列式一樣，情境不同。</figcaption>
+    </figure>
+
+    <h3>二、餘數 <span class="en">remainder</span>：一定要比除數小</h3>
+    <p>13÷3＝4…餘 1。為什麼餘數不能是 3 或更大？因為<strong>如果剩下的還夠再分一組，就應該再分</strong>。餘數 ≥ 除數，代表沒分乾淨。</p>
+    <div class="keyformula">被除數 ＝ 除數 × 商 ＋ 餘數<small>13 ＝ 3 × 4 ＋ 1；可以用它來驗算除法</small></div>
+
+    <h3>三、長除法在做什麼？（96 ÷ 4）</h3>
+    <p>長除法是<strong>從最高位開始，一位一位地分</strong>，分不完的餘數換成低一位繼續分：</p>
+    <table>
+      <tr><th class="l">步驟</th><th class="l">在做的事</th></tr>
+      <tr><td class="l">① 先分「9 個十」</td><td class="l">9 十 ÷ 4 ＝ 2 十…餘 1 十（商的十位是 2）</td></tr>
+      <tr><td class="l">② 餘 1 十換成 10 個一，加原本 6 個一</td><td class="l">變成 16 個一</td></tr>
+      <tr><td class="l">③ 再分 16 個一</td><td class="l">16 ÷ 4 ＝ 4（商的個位是 4）</td></tr>
+      <tr><td class="l">結果</td><td class="l"><b>96 ÷ 4 ＝ 24</b></td></tr>
+    </table>
+    <div class="why"><span class="lbl">重點</span>長除法不是神秘步驟，是「<strong>先分大單位（十），剩下的換成小單位（個）再分</strong>」。這跟找錢時「先給大鈔、不夠再換零錢」是一樣的道理。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>除法（12 題）</p>
+      <ol class="prob">
+        <li>12 顆糖平分給 3 人，每人幾顆？（哪一種除法？）<details><summary>解答</summary><div class="ans">12÷3＝<b>4 顆</b>，屬<b>等分除</b>。</div></details></li>
+        <li>12 顆糖每 3 顆裝一袋，能裝幾袋？<details><summary>解答</summary><div class="ans">12÷3＝<b>4 袋</b>，屬<b>包含除</b>。</div></details></li>
+        <li>13 ÷ 3 ＝？（含餘數）<details><summary>解答</summary><div class="ans"><b>4 餘 1。</b></div></details></li>
+        <li>餘數必須比除數大還是小？<details><summary>解答</summary><div class="ans"><b>比除數小</b>（否則還能再分一組）。</div></details></li>
+        <li>96 ÷ 4 ＝？<details><summary>解答</summary><div class="ans"><b>24。</b></div></details></li>
+        <li>84 ÷ 6 ＝？<details><summary>解答</summary><div class="ans"><b>14。</b></div></details></li>
+        <li>125 ÷ 5 ＝？<details><summary>解答</summary><div class="ans"><b>25。</b></div></details></li>
+        <li>7 ÷ 2 ＝？（含餘數）<details><summary>解答</summary><div class="ans"><b>3 餘 1。</b></div></details></li>
+        <li>50 ÷ 8 ＝？（含餘數）<details><summary>解答</summary><div class="ans"><b>6 餘 2。</b></div></details></li>
+        <li>用乘法驗算「13÷3＝4 餘 1」對不對。<details><summary>解答</summary><div class="ans">3×4＋1＝13 ✔ <b>正確。</b></div></details></li>
+        <li>48 顆糖平分給 6 人，每人幾顆？<details><summary>解答</summary><div class="ans">48÷6＝<b>8 顆。</b></div></details></li>
+        <li>100 元買 7 元的糖，最多買幾個？剩多少錢？<details><summary>解答</summary><div class="ans">100÷7＝14 餘 2 → <b>買 14 個，剩 2 元。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch4 四則順序 ===== -->
+<section class="ch" id="c4">
+  <div class="ch-head"><div class="ch-num c4">4</div><div><h2>四則運算的順序</h2><div class="grade">小三～小五｜目標：懂「先乘除後加減」不是死規定，是情境的結構</div></div></div>
+  <div class="ch-body">
+    <h3>一、為什麼「先乘除，後加減」？</h3>
+    <p>看這題：買 1 個 3 元的麵包，再買 4 個 2 元的糖果，一共多少錢？</p>
+    <figure>
+      <svg viewBox="0 0 480 130" role="img" aria-label="3元麵包加上4個2元糖果,糖果部分先合成一塊8元">
+        <rect x="30" y="45" width="70" height="45" class="box-b"/>
+        <text x="65" y="72" text-anchor="middle" class="s-lbl-b">3 元</text>
+        <text x="118" y="72" text-anchor="middle" class="s-lbl" style="font-size:20px">＋</text>
+        <rect x="140" y="45" width="200" height="45" class="box-o" rx="4"/>
+        <g fill="none" stroke="var(--orange)"><line x1="190" y1="45" x2="190" y2="90"/><line x1="240" y1="45" x2="240" y2="90"/><line x1="290" y1="45" x2="290" y2="90"/></g>
+        <text x="165" y="72" text-anchor="middle" class="s-lbl-o">2</text><text x="215" y="72" text-anchor="middle" class="s-lbl-o">2</text><text x="265" y="72" text-anchor="middle" class="s-lbl-o">2</text><text x="315" y="72" text-anchor="middle" class="s-lbl-o">2</text>
+        <text x="240" y="30" text-anchor="middle" class="s-lbl-o">4×2 是「一整塊」＝ 8 元，要先算</text>
+        <text x="365" y="72" class="s-lbl" style="font-size:20px">＝ 11</text>
+      </svg>
+      <figcaption>糖果的花費 4×2＝8 是「綁在一起的一塊」，要先算，再和麵包的 3 元相加。</figcaption>
+    </figure>
+    <div class="why">
+      <span class="lbl">「先乘除」不是規定，是意義</span>
+      3 ＋ 4×2 裡的「4×2」代表<strong>糖果的總價</strong>，本來就是一個整體（4 個 2 元）。如果先算 3＋4，等於把「1 個麵包」和「4 個糖果」硬加在一起，毫無意義。所以先把乘法那一塊算成一個數，再加減——<strong>因為乘法本來就是「打包好的連加」</strong>。
+    </div>
+    <div class="keyformula">運算順序：括號 → 乘除 → 加減（同一級由左到右）<small>3 ＋ 4×2 ＝ 3 ＋ 8 ＝ 11，不是 7×2</small></div>
+
+    <h3>二、括號 <span class="en">brackets</span>：強制改變順序</h3>
+    <p>如果真的想「先加再乘」，就用括號把它框起來：(3＋4)×2 ＝ 7×2 ＝ 14。括號就是說「這一塊<strong>最優先</strong>，先當成一個整體算」。</p>
+    <table>
+      <tr><th>算式</th><th>先算什麼</th><th>結果</th></tr>
+      <tr><td>3 ＋ 4 × 2</td><td>先算 4×2</td><td>3＋8＝<b>11</b></td></tr>
+      <tr><td>(3 ＋ 4) × 2</td><td>先算括號 3＋4</td><td>7×2＝<b>14</b></td></tr>
+    </table>
+    <div class="pitfall"><span class="lbl">易錯</span>同一級（都是乘除，或都是加減）時要<strong>由左到右</strong>算。例如 36÷6÷2＝(36÷6)÷2＝6÷2＝3，不是 36÷(6÷2)。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>四則運算順序（12 題）</p>
+      <ol class="prob">
+        <li>3 ＋ 4 × 2 ＝？<details><summary>解答</summary><div class="ans">先乘：3＋8＝<b>11。</b></div></details></li>
+        <li>20 − 3 × 5 ＝？<details><summary>解答</summary><div class="ans">先乘：20−15＝<b>5。</b></div></details></li>
+        <li>(3 ＋ 4) × 2 ＝？<details><summary>解答</summary><div class="ans">先括號：7×2＝<b>14。</b></div></details></li>
+        <li>20 ÷ 4 ＋ 6 ＝？<details><summary>解答</summary><div class="ans">先除：5＋6＝<b>11。</b></div></details></li>
+        <li>20 ÷ (4 ＋ 6) ＝？<details><summary>解答</summary><div class="ans">先括號：20÷10＝<b>2。</b></div></details></li>
+        <li>5 ＋ 6 × 2 − 3 ＝？<details><summary>解答</summary><div class="ans">5＋12−3＝<b>14。</b></div></details></li>
+        <li>100 − (20 ＋ 30) ＝？<details><summary>解答</summary><div class="ans">100−50＝<b>50。</b></div></details></li>
+        <li>8 × 3 ＋ 4 × 2 ＝？<details><summary>解答</summary><div class="ans">24＋8＝<b>32。</b></div></details></li>
+        <li>(12 − 4) × (2 ＋ 3) ＝？<details><summary>解答</summary><div class="ans">8×5＝<b>40。</b></div></details></li>
+        <li>36 ÷ 6 ÷ 2 ＝？<details><summary>解答</summary><div class="ans">由左到右：6÷2＝<b>3。</b></div></details></li>
+        <li>24 − 12 ÷ 3 ＝？<details><summary>解答</summary><div class="ans">先除：24−4＝<b>20。</b></div></details></li>
+        <li>2 × (15 − 9) ＋ 8 ＝？<details><summary>解答</summary><div class="ans">2×6＋8＝<b>20。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch5 運算律 ===== -->
+<section class="ch" id="c5">
+  <div class="ch-head"><div class="ch-num c5">5</div><div><h2>運算律與聰明計算</h2><div class="grade">小四～小五｜目標：用三大運算律讓計算變快</div></div></div>
+  <div class="ch-body">
+    <p class="lead">加法和乘法有三條好用的規律，善用它們可以「心算」很多題目。</p>
+    <table>
+      <tr><th>運算律</th><th class="l">英文</th><th class="l">意思與例子</th></tr>
+      <tr><td><span class="term">交換律</span></td><td class="l en">commutative</td><td class="l">交換位置，答案不變：7×9＝9×7</td></tr>
+      <tr><td><span class="term">結合律</span></td><td class="l en">associative</td><td class="l">先算哪兩個都行：(2×5)×4＝2×(5×4)</td></tr>
+      <tr><td><span class="term">分配律</span></td><td class="l en">distributive</td><td class="l">6×(10＋2)＝6×10＋6×2</td></tr>
+    </table>
+
+    <h3>分配律 <span class="en">distributive</span>：最強的一條（也解釋了直式乘法）</h3>
+    <p>用長方形面積來看最清楚：一個 6×12 的長方形，把 12 切成 10＋2，面積就分成兩塊：</p>
+    <figure>
+      <svg viewBox="0 0 420 170" role="img" aria-label="6乘12長方形切成6乘10和6乘2兩塊">
+        <rect x="40" y="40" width="250" height="90" class="box-b"/>
+        <rect x="290" y="40" width="50" height="90" class="box-o"/>
+        <line x1="290" y1="40" x2="290" y2="130" stroke="#fff" stroke-width="2"/>
+        <text x="165" y="90" text-anchor="middle" class="s-lbl-b" style="font-size:15px">6×10＝60</text>
+        <text x="315" y="90" text-anchor="middle" class="s-lbl-o" style="font-size:14px">6×2</text>
+        <text x="315" y="106" text-anchor="middle" class="s-lbl-o" style="font-size:14px">＝12</text>
+        <text x="165" y="30" text-anchor="middle" class="s-lbl">10</text><text x="315" y="30" text-anchor="middle" class="s-lbl">2</text>
+        <text x="24" y="90" text-anchor="middle" class="s-lbl" transform="rotate(-90 24,90)">6</text>
+        <text x="210" y="158" text-anchor="middle" class="s-lbl">6×12 ＝ 6×10 ＋ 6×2 ＝ 60＋12 ＝ 72</text>
+      </svg>
+      <figcaption>6×12＝6×(10＋2)＝6×10＋6×2。這正是第 2 章多位數乘法「拆位值」的道理。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">聰明計算</span>遇到接近整十、整百的數，用分配律拆開最快：<br>・7×99 ＝ 7×(100−1) ＝ 700−7 ＝ 693<br>・25×32 ＝ 25×4×8 ＝ 100×8 ＝ 800（結合律）<br>・15×4＋15×6 ＝ 15×(4＋6) ＝ 15×10 ＝ 150（逆用分配律）</div>
+    <div class="pitfall"><span class="lbl">重要：減法和除法「沒有」交換律、結合律</span>10−3 ≠ 3−10；12÷3 ≠ 3÷12。順序一換，答案就變了，千萬別亂搬。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>運算律與巧算（11 題）</p>
+      <ol class="prob">
+        <li>交換律填空：7 × ___ ＝ 9 × 7。<details><summary>解答</summary><div class="ans"><b>9。</b></div></details></li>
+        <li>結合律填空：(2×5)×4 ＝ 2×(5×___)。<details><summary>解答</summary><div class="ans"><b>4。</b></div></details></li>
+        <li>分配律填空：6×(10＋2) ＝ 6×10 ＋ 6×___。<details><summary>解答</summary><div class="ans"><b>2</b>（＝60＋12＝72）。</div></details></li>
+        <li>用分配律算 7 × 99。<details><summary>解答</summary><div class="ans">7×(100−1)＝700−7＝<b>693。</b></div></details></li>
+        <li>用分配律算 8 × 12。<details><summary>解答</summary><div class="ans">8×10＋8×2＝80＋16＝<b>96。</b></div></details></li>
+        <li>巧算 25 × 32。<details><summary>解答</summary><div class="ans">25×4×8＝100×8＝<b>800。</b></div></details></li>
+        <li>巧算 99 × 5。<details><summary>解答</summary><div class="ans">(100−1)×5＝500−5＝<b>495。</b></div></details></li>
+        <li>巧算 15×4 ＋ 15×6。<details><summary>解答</summary><div class="ans">15×(4＋6)＝15×10＝<b>150。</b></div></details></li>
+        <li>減法有交換律嗎？用 10−3 說明。<details><summary>解答</summary><div class="ans"><b>沒有。</b>10−3＝7，但 3−10 不等於 7。</div></details></li>
+        <li>除法有交換律嗎？用 12÷3 說明。<details><summary>解答</summary><div class="ans"><b>沒有。</b>12÷3＝4，但 3÷12 不等於 4。</div></details></li>
+        <li>巧算 125 × 8。<details><summary>解答</summary><div class="ans"><b>1000。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 進階 ===== -->
+<section class="ch" id="cx">
+  <div class="ch-head"><div class="ch-num x">＋</div><div><h2>綜合應用與常見陷阱</h2><div class="grade">G4–G5 綜合｜把四則運算用到多步驟情境</div></div></div>
+  <div class="ch-body">
+    <div class="why"><span class="lbl">解多步驟應用題的招</span>先想清楚「哪些數量要先打包成一塊」（通常是乘或除），把它們寫成乘除項，再用加減把各塊組合起來，最後由運算順序算出答案。</div>
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>綜合應用（10 題）</p>
+      <ol class="prob">
+        <li>一枝筆 15 元買 3 枝，一本簿子 22 元買 2 本，共多少元？<details><summary>解答</summary><div class="ans">15×3＋22×2＝45＋44＝<b>89 元。</b></div></details></li>
+        <li>帶 200 元買 3 本 45 元的書，找回多少？<details><summary>解答</summary><div class="ans">200−45×3＝200−135＝<b>65 元。</b></div></details></li>
+        <li>5 台車各載 48 人，若共有 250 人，還有幾人沒位子？<details><summary>解答</summary><div class="ans">250−48×5＝250−240＝<b>10 人。</b></div></details></li>
+        <li>6 盒巧克力各 12 塊，平分給 8 人，每人幾塊？<details><summary>解答</summary><div class="ans">6×12÷8＝72÷8＝<b>9 塊。</b></div></details></li>
+        <li>(25 ＋ 15) × 6 ÷ 8 ＝？<details><summary>解答</summary><div class="ans">40×6÷8＝240÷8＝<b>30。</b></div></details></li>
+        <li>一個 8 元的蛋，一盒 10 個，買 3 盒共多少？<details><summary>解答</summary><div class="ans">8×10×3＝<b>240 元。</b></div></details></li>
+        <li>36 人分 4 組，每組再分 3 排，每排幾人？<details><summary>解答</summary><div class="ans">36÷4÷3＝<b>3 人。</b></div></details></li>
+        <li>買 5 個 18 元的麵包，付 100 元，找多少？<details><summary>解答</summary><div class="ans">100−18×5＝100−90＝<b>10 元。</b></div></details></li>
+        <li>一天喝 8 杯水，一週喝幾杯？一個月（30 天）呢？<details><summary>解答</summary><div class="ans">8×7＝<b>56 杯</b>；8×30＝<b>240 杯。</b></div></details></li>
+        <li>停車第一小時 30 元，之後每小時 20 元，停 4 小時共多少？<details><summary>解答</summary><div class="ans">30＋20×3＝30＋60＝<b>90 元。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 記憶小卡 ===== -->
+<section class="cards-wrap" id="cards">
+  <div class="ch-head" style="max-width:none"><div class="ch-num x">★</div><div><h2>考前記憶小卡</h2><div class="grade">快速翻閱用｜每張＝規則＋一句「為什麼」＋易錯</div></div></div>
+  <p class="note" style="margin-top:14px">用法：考前遮住規則，看「為什麼」那句，試著自己講出來。列印可剪成卡片。</p>
+  <div class="cards">
+    <div class="mc gx"><div class="tag">核心觀念</div><h4>四則互為相反</h4><div class="f">加↔減　乘↔除</div><p class="pt">12÷3＝4 是因為 3×4＝12。<b>乘除互逆，可驗算</b>。</p></div>
+    <div class="mc c1"><div class="tag">CH1 · 乘法</div><h4>乘法的意義</h4><div class="f">幾個幾相加</div><p class="pt">陣列：橫×直。3×4＝4×3（交換律）。×0＝0、×1＝自己。</p></div>
+    <div class="mc c2"><div class="tag">CH2 · 直式</div><h4>多位數乘法</h4><div class="f">拆位值 → 分配律</div><p class="pt">23×4＝20×4＋3×4。<b>×幾十那排要左移一位（補 0）</b>。</p></div>
+    <div class="mc c2"><div class="tag">CH2 · ×10</div><h4>×10、×100</h4><div class="f">尾巴加 0</div><p class="pt">每 ×10 所有數字左移一位（變 10 倍大）。</p></div>
+    <div class="mc c3"><div class="tag">CH3 · 除法</div><h4>兩種除法</h4><div class="f">等分除 / 包含除</div><p class="pt">平分幾個 / 裡面有幾組。答案同，情境不同。</p></div>
+    <div class="mc c3"><div class="tag">CH3 · 餘數</div><h4>餘數規則</h4><div class="f">餘數 ＜ 除數</div><p class="pt">被除數＝除數×商＋餘數。餘數太大代表沒分乾淨。</p></div>
+    <div class="mc c3"><div class="tag">CH3 · 長除法</div><h4>長除法在做什麼</h4><div class="f">先分大位，餘數換小位再分</div><p class="pt">像找錢：先給大鈔，不夠再換零錢。</p></div>
+    <div class="mc c4"><div class="tag">CH4 · 順序</div><h4>四則順序</h4><div class="f">括號 → 乘除 → 加減</div><p class="pt">先乘除是因為乘法是「打包好的一塊」。同級由左到右。</p></div>
+    <div class="mc c4"><div class="tag">CH4 · 括號</div><h4>括號的作用</h4><div class="f">強制最先算</div><p class="pt">3＋4×2＝11；(3＋4)×2＝14。括號改變順序。</p></div>
+    <div class="mc c5"><div class="tag">CH5 · 運算律</div><h4>三大運算律 <span class="en">laws</span></h4><div class="f">交換・結合・分配</div><p class="pt">commutative／associative／distributive。加、乘才有。</p></div>
+    <div class="mc c5"><div class="tag">CH5 · 巧算</div><h4>分配律巧算</h4><div class="f">拆成整十整百</div><p class="pt">7×99＝7×(100−1)＝693。15×4＋15×6＝15×10。</p></div>
+    <div class="mc gx"><div class="tag">必考 · 易錯</div><h4>減法除法無交換律</h4><div class="f">順序不能換</div><p class="pt">10−3≠3−10；12÷3≠3÷12。<b>別亂搬位置</b>。</p></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>整數乘除與四則運算完全學習手冊</strong>　依十二年國教 108 課綱「數與量（N）」編製，涵蓋 G2–G5 的乘法、除法、四則併式與運算律，是後續分數、小數、面積計算的共同地基。</p>
+  <p>使用建議：先讀每章「為什麼」與圖解，再做練習；考前用記憶小卡複習。運算律的英文名詞供銜接國中之用。各版本教科書（康軒／翰林／南一）單元順序與名詞略有差異，本手冊以概念脈絡編排。</p>
+</footer>
+
+<script>
+  (function(){
+    var btn=document.getElementById('toggleAll');var open=false;
+    btn.addEventListener('click',function(){
+      open=!open;document.querySelectorAll('details').forEach(function(d){d.open=open;});
+      btn.textContent=open?'收合全部解答':'展開全部解答';
+    });
+  })();
+</script>
+</body>
+</html>

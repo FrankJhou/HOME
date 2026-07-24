@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>分數完全學習手冊 — 從 G2 到 G6（108 課綱）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbfaf6;
+    --ink:#1b2333;
+    --ink-soft:#4b5568;
+    --rule:#e9edf4;
+    --line:#cfd7e3;
+    --blue:#2f6fb3;
+    --blue-fill:rgba(47,111,179,.14);
+    --orange:#dd7a32;
+    --orange-fill:rgba(221,122,50,.18);
+    --green:#2f9e85;
+    --gold:#eaa916;
+    --gold-fill:rgba(234,169,22,.20);
+    --card:#ffffff;
+    --shadow:0 1px 2px rgba(27,35,51,.06),0 8px 24px rgba(27,35,51,.06);
+    --maxw:880px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+    color:var(--ink);
+    background:
+      linear-gradient(transparent 27px,var(--rule) 27px,var(--rule) 28px,transparent 28px) 0 0/100% 28px,
+      var(--paper);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+  /* ---------- HERO ---------- */
+  header.hero{padding:64px 22px 40px;text-align:center}
+  .hero .kicker{font-size:.82rem;letter-spacing:.32em;color:var(--blue);font-weight:700;text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-family:"Fraunces","Noto Sans TC",serif;font-weight:900;font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.05;margin:0 0 16px;letter-spacing:-.01em}
+  .hero h1 .frac{display:inline-flex;flex-direction:column;vertical-align:middle;line-height:.92;font-size:.62em;margin:0 .08em;transform:translateY(-.04em)}
+  .hero h1 .frac .n{border-bottom:3px solid var(--gold);padding:0 .15em}
+  .hero h1 .frac .d{padding:0 .15em}
+  .hero p.sub{font-size:1.06rem;color:var(--ink-soft);max-width:580px;margin:8px auto 0}
+  .hero .heroline{max-width:520px;margin:24px auto 0}
+  .hero .tag{display:inline-block;margin-top:22px;font-size:.8rem;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:#fff}
+
+  /* ---------- TOC ---------- */
+  nav.toc{max-width:var(--maxw);margin:18px auto 50px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 24px}
+  nav.toc h2{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px}
+  nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 26px}
+  nav.toc a{display:flex;gap:10px;text-decoration:none;color:var(--ink);padding:6px 4px;border-radius:8px;font-size:.96rem}
+  nav.toc a:hover{background:var(--blue-fill);color:var(--blue)}
+  nav.toc a .g{font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums;min-width:42px}
+  @media(max-width:620px){nav.toc ol{grid-template-columns:1fr}}
+
+  /* ---------- SECTIONS ---------- */
+  section.ch{max-width:var(--maxw);margin:0 auto;padding:34px 22px 10px}
+  .ch-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px;padding-top:18px;border-top:2px solid var(--ink)}
+  .ch-num{font-family:"Fraunces",serif;font-weight:900;font-size:2.1rem;line-height:1;color:#fff;background:var(--blue);border-radius:10px;padding:8px 12px;flex:none;min-width:62px;text-align:center}
+  .ch-num.g2{background:#3a8fb0}.ch-num.g3{background:#2f7fb3}.ch-num.g4{background:#2f6fb3}.ch-num.g5{background:#5566b8}.ch-num.g6{background:#7e57b3}.ch-num.x{background:#3a4253}
+  .ch-head h2{font-size:1.6rem;margin:2px 0 2px;font-weight:900;letter-spacing:-.01em}
+  .ch-head .grade{font-size:.8rem;color:var(--ink-soft);letter-spacing:.08em}
+  .ch-body{padding:6px 2px 0}
+  h3{font-size:1.16rem;margin:30px 0 8px;font-weight:700;display:flex;align-items:center;gap:9px}
+  h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg);flex:none}
+  p{margin:.6em 0}.lead{font-size:1.05rem}
+
+  .why{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:10px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow)}
+  .why .lbl{font-weight:700;color:var(--blue);font-size:.92rem;letter-spacing:.05em;display:block;margin-bottom:4px}
+  .pitfall{background:#fff7ef;border:1px solid #f1d6b5;border-left:5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:18px 0}
+  .pitfall .lbl{font-weight:700;color:var(--orange);font-size:.92rem;display:block;margin-bottom:4px}
+  .keyformula{text-align:center;background:var(--gold-fill);border:2px dashed var(--gold);border-radius:12px;padding:16px;margin:20px 0;font-size:1.22rem;font-weight:700}
+  .keyformula small{display:block;font-size:.82rem;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:.02em}
+
+  /* inline fraction */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;line-height:1;text-align:center;font-size:.78em;margin:0 .12em;transform:translateY(-.05em)}
+  .fr .n{border-bottom:2px solid currentColor;padding:0 .25em 1px}
+  .fr .d{padding:1px .25em 0}
+
+  figure{margin:22px 0;text-align:center}
+  figure svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+  figcaption{font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+  .fr-whole{fill:none;stroke:var(--ink);stroke-width:2}
+  .fr-part{fill:var(--gold-fill);stroke:var(--gold);stroke-width:1.5}
+  .fr-partb{fill:var(--blue-fill);stroke:var(--blue);stroke-width:1.5}
+  .fr-cut{stroke:var(--ink-soft);stroke-width:1}
+  .fr-cut2{stroke:var(--orange);stroke-width:1.5;stroke-dasharray:4 3}
+  .nl-axis{stroke:var(--ink);stroke-width:2;fill:none}
+  .nl-tick{stroke:var(--ink);stroke-width:1.4}
+  .nl-tickb{stroke:var(--blue);stroke-width:1.4}
+  .nl-pt{fill:var(--gold);stroke:var(--ink);stroke-width:1.5}
+  .s-lbl{font:600 13px "Noto Sans TC",sans-serif;fill:var(--ink)}
+  .s-lbl-b{font:700 13px "Noto Sans TC",sans-serif;fill:var(--blue)}
+  .s-lbl-o{font:700 13px "Noto Sans TC",sans-serif;fill:var(--orange)}
+  .s-lbl-g{font:700 13px "Noto Sans TC",sans-serif;fill:#1f7a66}
+  .svg-arrow{stroke:var(--green);stroke-width:2.4;fill:none;marker-end:url(#ah)}
+
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:.95rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+  th{background:#f0f3f8;font-weight:700}
+  td.l,th.l{text-align:left}
+
+  .practice{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:26px 0;box-shadow:var(--shadow)}
+  .practice .ptitle{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin:0 0 4px}
+  .practice .ptitle .badge{background:var(--green);color:#fff;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+  ol.prob{counter-reset:p;list-style:none;padding:0;margin:14px 0 0}
+  ol.prob>li{counter-increment:p;position:relative;padding:14px 0 14px 40px;border-top:1px dashed var(--line)}
+  ol.prob>li:first-child{border-top:none}
+  ol.prob>li::before{content:counter(p);position:absolute;left:0;top:13px;width:26px;height:26px;background:var(--blue);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  details{margin-top:8px}
+  details>summary{cursor:pointer;display:inline-block;font-size:.86rem;font-weight:700;color:var(--green);background:#eef8f5;border:1px solid #bfe3da;border-radius:8px;padding:4px 12px;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::before{content:"▸ ";font-size:.8rem}
+  details[open]>summary::before{content:"▾ "}
+  .ans{margin-top:10px;background:#f4faf8;border:1px solid #cfe9e1;border-radius:10px;padding:12px 16px;font-size:.95rem}
+  .ans b{color:#1f7a66}
+  .ans .calc{font-variant-numeric:tabular-nums}
+
+  .cards-wrap{max-width:var(--maxw);margin:0 auto;padding:20px 22px 40px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;position:relative;overflow:hidden}
+  .mc::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--blue)}
+  .mc.g2::before{background:#3a8fb0}.mc.g3::before{background:#2f7fb3}.mc.g4::before{background:#2f6fb3}.mc.g5::before{background:#5566b8}.mc.g6::before{background:#7e57b3}.mc.gx::before{background:#3a4253}
+  .mc .tag{font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--ink-soft)}
+  .mc h4{margin:4px 0 8px;font-size:1.05rem}
+  .mc .f{font-size:1.05rem;font-weight:900;color:var(--ink);background:var(--gold-fill);border-radius:8px;padding:6px 10px;display:inline-block;margin-bottom:8px}
+  .mc .pt{font-size:.86rem;color:var(--ink-soft);margin:0}
+  .mc .pt b{color:var(--orange)}
+
+  .controls{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.86);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .controls .inner{max-width:var(--maxw);margin:0 auto;padding:9px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .controls .home{font-weight:900;text-decoration:none;color:var(--ink);font-size:.95rem}
+  .controls .home .b{color:var(--gold)}
+  .btn{font:inherit;font-size:.82rem;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn:hover{border-color:var(--blue);color:var(--blue)}
+  footer{max-width:var(--maxw);margin:30px auto 60px;padding:24px 22px 0;border-top:2px solid var(--ink);color:var(--ink-soft);font-size:.9rem}
+  .note{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.9rem;color:var(--ink-soft)}
+
+  @media print{
+    body{background:#fff}
+    .controls{display:none}
+    details>summary{display:none}
+    .ans{display:block!important}
+    figure svg,.practice,.mc,.why{box-shadow:none}
+    .keyformula,.practice{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="inner">
+    <a class="home" href="#top">分<span class="b">數</span>學習手冊</a>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="toggleAll">展開全部解答</button>
+      <button class="btn" onclick="window.print()">列印 / 存 PDF</button>
+    </div>
+  </div>
+</div>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="kicker">108 課綱 · 數與量 N</div>
+  <h1>分數<span class="frac"><span class="n">完全</span><span class="d">學習</span></span>手冊</h1>
+  <p class="sub">用兩種眼光看分數：<strong>平分一個整體</strong>，以及<strong>數軸上的一個位置</strong>。把分數當成「數」來看，加減乘除就會變得有道理、不再靠死背。</p>
+  <figure class="heroline">
+    <svg viewBox="0 0 520 70" role="img" aria-label="0到1的數軸,標出四等份,四分之三的位置以亮點標示">
+      <defs><marker id="ahh" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#1b2333"/></marker></defs>
+      <line x1="40" y1="42" x2="490" y2="42" class="nl-axis" marker-end="url(#ahh)"/>
+      <g class="nl-tick">
+        <line x1="60" y1="32" x2="60" y2="52"/><line x1="160" y1="34" x2="160" y2="50"/>
+        <line x1="260" y1="34" x2="260" y2="50"/><line x1="360" y1="34" x2="360" y2="50"/>
+        <line x1="460" y1="32" x2="460" y2="52"/>
+      </g>
+      <text x="60" y="68" text-anchor="middle" class="s-lbl">0</text>
+      <text x="460" y="68" text-anchor="middle" class="s-lbl">1</text>
+      <circle cx="360" cy="42" r="6" class="nl-pt"/>
+      <text x="360" y="22" text-anchor="middle" class="s-lbl-b">¾</text>
+    </svg>
+  </figure>
+  <div class="tag">涵蓋 G2 → G6 ｜ 平分 ＋ 數軸雙模型 ｜ 概念推導・圖解・記憶小卡・練習（附詳解）</div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <h2>學習地圖</h2>
+  <ol>
+    <li><a href="#c0"><span class="g">核心</span><span>分數的兩種看法</span></a></li>
+    <li><a href="#c2"><span class="g">G2</span><span>平分與單位分數</span></a></li>
+    <li><a href="#c3"><span class="g">G3</span><span>認識分數＋搬上數軸</span></a></li>
+    <li><a href="#c4"><span class="g">G4</span><span>等值・假分數帶分數・同分母加減</span></a></li>
+    <li><a href="#c5"><span class="g">G5</span><span>通分・異分母加減・分數與除法</span></a></li>
+    <li><a href="#c6"><span class="g">G6</span><span>分數乘法・除法・四則</span></a></li>
+    <li><a href="#cx"><span class="g">進階</span><span>應用題＋分數小數互換</span></a></li>
+    <li><a href="#cards"><span class="g">小卡</span><span>考前記憶小卡專區</span></a></li>
+  </ol>
+</nav>
+
+<!-- ===== 核心 ===== -->
+<section class="ch" id="c0">
+  <div class="ch-head"><div class="ch-num x">★</div><div><h2>分數的兩種看法</h2><div class="grade">全部章節的共同地基</div></div></div>
+  <div class="ch-body">
+    <p class="lead">同一個分數，可以用兩種眼光看。兩種都要會，因為它們各自擅長不同的事。</p>
+
+    <table>
+      <tr><th style="width:130px">看法</th><th class="l">意思</th><th class="l">最擅長</th></tr>
+      <tr><td><b>① 平分整體</b></td><td class="l">把一個東西平分成幾等份，取其中幾份（披薩、巧克力）。</td><td class="l">理解分數「是什麼」</td></tr>
+      <tr><td><b>② 數軸位置</b></td><td class="l">分數是數線上的一個<strong>點</strong>，是一個確切的「數」。</td><td class="l">比大小、加減、通分、除法</td></tr>
+    </table>
+
+    <figure>
+      <svg viewBox="0 0 520 200" role="img" aria-label="左邊長條平分成四份塗一份,右邊數軸0到1標出四分之一">
+        <text x="120" y="28" text-anchor="middle" class="s-lbl-b">① 平分：4 等份，取 1 份</text>
+        <rect x="40" y="50" width="160" height="50" class="fr-whole"/>
+        <rect x="40" y="50" width="40" height="50" class="fr-part"/>
+        <line x1="80" y1="50" x2="80" y2="100" class="fr-cut"/><line x1="120" y1="50" x2="120" y2="100" class="fr-cut"/><line x1="160" y1="50" x2="160" y2="100" class="fr-cut"/>
+        <text x="60" y="82" text-anchor="middle" class="s-lbl-o">¼</text>
+
+        <text x="370" y="28" text-anchor="middle" class="s-lbl-b">② 數軸：0 到 1 切 4 段的第 1 個刻度</text>
+        <line x1="300" y1="75" x2="500" y2="75" class="nl-axis"/>
+        <g class="nl-tick"><line x1="310" y1="66" x2="310" y2="84"/><line x1="355" y1="68" x2="355" y2="82"/><line x1="400" y1="68" x2="400" y2="82"/><line x1="445" y1="68" x2="445" y2="82"/><line x1="490" y1="66" x2="490" y2="84"/></g>
+        <text x="310" y="100" text-anchor="middle" class="s-lbl">0</text><text x="490" y="100" text-anchor="middle" class="s-lbl">1</text>
+        <circle cx="355" cy="75" r="5" class="nl-pt"/><text x="355" y="58" text-anchor="middle" class="s-lbl-o">¼</text>
+
+        <text x="260" y="150" text-anchor="middle" class="s-lbl" style="font-size:15px">兩種看法指的是同一個分數 <tspan class="s-lbl-o">¼</tspan></text>
+      </svg>
+      <figcaption>「平分」幫你懂意思，「數軸」幫你算。本手冊兩種會一直交替使用。</figcaption>
+    </figure>
+
+    <div class="why">
+      <span class="lbl">為什麼要特別強調「分數是數軸上的點」？</span>
+      很多人覺得分數只是「幾片披薩」，於是 <span class="fr"><span class="n">3</span><span class="d">4</span></span> 和 <span class="fr"><span class="n">6</span><span class="d">8</span></span> 看起來像兩個不同東西。但只要把它們放到數軸上，會發現它們<strong>落在同一個點</strong>——原來是同一個數！之後的等值分數、通分、比大小、甚至除法，用數軸都會「看得見」，不必硬背規則。
+    </div>
+
+    <div class="pitfall">
+      <span class="lbl">最關鍵的一個字：平分（每份一樣大）</span>
+      把一個東西分成 4 塊，但塊塊大小不同，那其中一塊<strong>不能</strong>叫 <span class="fr"><span class="n">1</span><span class="d">4</span></span>。分數的前提永遠是「<strong>每一份一樣大</strong>」。在數軸上，就是「每一段一樣長」。
+    </div>
+  </div>
+</section>
+
+<!-- ===== G2 ===== -->
+<section class="ch" id="c2">
+  <div class="ch-head"><div class="ch-num g2">G2</div><div><h2>平分與單位分數</h2><div class="grade">第一學習階段 · 小二｜目標：理解平分、認識 ½ ¼ 這類單位分數</div></div></div>
+  <div class="ch-body">
+    <h3>一、平分：分得公平，每份才一樣大</h3>
+    <p>把一個披薩分給兩個人，要<strong>一樣大</strong>才公平。平分成 2 份，每一份就叫做這個披薩的 <span class="fr"><span class="n">1</span><span class="d">2</span></span>（二分之一）。平分成 4 份，每份就是 <span class="fr"><span class="n">1</span><span class="d">4</span></span>。</p>
+
+    <figure>
+      <svg viewBox="0 0 480 150" role="img" aria-label="圓平分成二分之一,長條平分成四分之一">
+        <circle cx="90" cy="75" r="55" class="fr-whole"/>
+        <path d="M90,20 A55,55 0 0,0 90,130 Z" class="fr-part"/>
+        <line x1="90" y1="20" x2="90" y2="130" class="fr-cut"/>
+        <text x="62" y="80" text-anchor="middle" class="s-lbl-o" style="font-size:16px">½</text>
+        <text x="90" y="148" text-anchor="middle" class="s-lbl">平分成 2 份</text>
+
+        <rect x="240" y="48" width="200" height="54" class="fr-whole"/>
+        <rect x="240" y="48" width="50" height="54" class="fr-part"/>
+        <line x1="290" y1="48" x2="290" y2="102" class="fr-cut"/><line x1="340" y1="48" x2="340" y2="102" class="fr-cut"/><line x1="390" y1="48" x2="390" y2="102" class="fr-cut"/>
+        <text x="265" y="82" text-anchor="middle" class="s-lbl-o" style="font-size:15px">¼</text>
+        <text x="340" y="124" text-anchor="middle" class="s-lbl">平分成 4 份</text>
+      </svg>
+      <figcaption>分母（下面的數）＝平分成幾份；單位分數就是「其中 1 份」。</figcaption>
+    </figure>
+
+    <h3>二、單位分數：分數的積木</h3>
+    <p><span class="fr"><span class="n">1</span><span class="d">2</span></span>、<span class="fr"><span class="n">1</span><span class="d">4</span></span>、<span class="fr"><span class="n">1</span><span class="d">8</span></span> 這種「分子是 1」的分數叫<strong>單位分數</strong>，它們是堆出所有分數的積木——這個觀念到三年級會大爆發。</p>
+    <div class="why">
+      <span class="lbl">為什麼分越多份、每份反而越小？</span>
+      同一個披薩，分給 2 人，每人拿到半個；分給 4 人，每人只拿到四分之一。<strong>人越多，每份越小</strong>。所以 <span class="fr"><span class="n">1</span><span class="d">2</span></span> 比 <span class="fr"><span class="n">1</span><span class="d">4</span></span> 大。下面的數字越大，反而越小——這是分數第一個反直覺的地方。
+    </div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小二・平分與單位分數（10 題）</p>
+      <ol class="prob">
+        <li>一個蛋糕平分成 2 塊，每塊是幾分之幾？<details><summary>解答</summary><div class="ans"><b>二分之一（½）。</b></div></details></li>
+        <li>一條繩子平分成 4 段，每段是幾分之幾？<details><summary>解答</summary><div class="ans"><b>四分之一（¼）。</b></div></details></li>
+        <li>把正方形分成 4 塊，但每塊大小不一樣，其中一塊可以叫 ¼ 嗎？<details><summary>解答</summary><div class="ans"><b>不可以。</b>必須「平分」（每塊一樣大）才行。</div></details></li>
+        <li>巧克力平分成 8 格，1 格是幾分之幾？<details><summary>解答</summary><div class="ans"><b>八分之一（⅛）。</b></div></details></li>
+        <li>「四分之一」的分母 4 代表什麼？<details><summary>解答</summary><div class="ans"><b>整體被平分成 4 等份。</b></div></details></li>
+        <li>一張紙對折，再對折，打開後分成幾等份？一份是？<details><summary>解答</summary><div class="ans">4 等份，一份是 <b>¼</b>。</div></details></li>
+        <li>同一塊餅，「平分成 2 塊的 1 塊」和「平分成 4 塊的 1 塊」，哪個大？<details><summary>解答</summary><div class="ans"><b>½ 比較大。</b>分越多份每份越小。</div></details></li>
+        <li>⅓ 是把整體平分成幾份、取幾份？<details><summary>解答</summary><div class="ans"><b>平分成 3 份，取 1 份。</b></div></details></li>
+        <li>一盒 6 顆糖平分成 2 份，一份是幾顆？（這份是整盒的幾分之幾？）<details><summary>解答</summary><div class="ans">6÷2＝<b>3 顆</b>，是整盒的 <b>½</b>。</div></details></li>
+        <li>哪一個單位分數最大：½、⅓、⅕、⅛？<details><summary>解答</summary><div class="ans"><b>½ 最大。</b>分母越小，每份越大。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== G3 ===== -->
+<section class="ch" id="c3">
+  <div class="ch-head"><div class="ch-num g3">G3</div><div><h2>認識分數，並把它搬上數軸</h2><div class="grade">第二學習階段 · 小三｜目標：懂分子分母、單位分數堆疊、同分母比大小、分數＝數軸上的點</div></div></div>
+  <div class="ch-body">
+    <h3>一、分子、分母在說什麼？</h3>
+    <p>分數 <span class="fr"><span class="n">3</span><span class="d">5</span></span> 讀作「五分之三」：</p>
+    <p>・<strong>分母 5</strong>：整體平分成 <strong>5</strong> 等份（每份是 <span class="fr"><span class="n">1</span><span class="d">5</span></span>）。<br>・<strong>分子 3</strong>：取了其中 <strong>3</strong> 份。</p>
+    <div class="why">
+      <span class="lbl">關鍵理解：分數是「單位分數疊出來的」</span>
+      <span class="fr"><span class="n">3</span><span class="d">5</span></span> 就是 <strong>3 個 <span class="fr"><span class="n">1</span><span class="d">5</span></span></strong> 疊在一起。這個想法非常重要：它讓「同分母加減」變得超簡單（後面 G4 會用到），因為都是同一種積木在數數量。
+    </div>
+
+    <figure>
+      <svg viewBox="0 0 520 200" role="img" aria-label="長條平分五份塗三份,下方數軸標出五分之三">
+        <rect x="40" y="40" width="250" height="44" class="fr-whole"/>
+        <rect x="40" y="40" width="150" height="44" class="fr-part"/>
+        <g class="fr-cut"><line x1="90" y1="40" x2="90" y2="84"/><line x1="140" y1="40" x2="140" y2="84"/><line x1="190" y1="40" x2="190" y2="84"/><line x1="240" y1="40" x2="240" y2="84"/></g>
+        <text x="115" y="70" text-anchor="middle" class="s-lbl-o">3 個 ⅕</text>
+        <text x="400" y="66" class="s-lbl">＝ ⅗</text>
+
+        <line x1="40" y1="140" x2="490" y2="140" class="nl-axis"/>
+        <g class="nl-tick"><line x1="60" y1="131" x2="60" y2="149"/><line x1="140" y1="133" x2="140" y2="147"/><line x1="220" y1="133" x2="220" y2="147"/><line x1="300" y1="133" x2="300" y2="147"/><line x1="380" y1="133" x2="380" y2="147"/><line x1="460" y1="131" x2="460" y2="149"/></g>
+        <text x="60" y="166" text-anchor="middle" class="s-lbl">0</text>
+        <text x="140" y="166" text-anchor="middle" class="s-lbl">⅕</text><text x="220" y="166" text-anchor="middle" class="s-lbl">⅖</text>
+        <text x="300" y="166" text-anchor="middle" class="s-lbl">⅗</text><text x="380" y="166" text-anchor="middle" class="s-lbl">⅘</text>
+        <text x="460" y="166" text-anchor="middle" class="s-lbl">1</text>
+        <circle cx="300" cy="140" r="5" class="nl-pt"/>
+      </svg>
+      <figcaption>數軸上，從 0 走 3 步、每步 ⅕，就停在 ⅗。分數就是數軸上一個確切的位置。</figcaption>
+    </figure>
+
+    <h3>二、同分母比大小：數塊數就好</h3>
+    <p><span class="fr"><span class="n">3</span><span class="d">7</span></span> 和 <span class="fr"><span class="n">5</span><span class="d">7</span></span> 誰大？兩個都是 <span class="fr"><span class="n">1</span><span class="d">7</span></span> 這種積木，一個有 3 塊、一個有 5 塊，<strong>塊數多的大</strong>，所以 <span class="fr"><span class="n">5</span><span class="d">7</span></span> 大。在數軸上，就是 <span class="fr"><span class="n">5</span><span class="d">7</span></span> 離 0 比較遠。</p>
+    <div class="keyformula">分母一樣時：分子大的分數就大<small>因為是同一種單位分數，比的是「有幾個」</small></div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小三・認識分數與數軸（11 題）</p>
+      <ol class="prob">
+        <li>巧克力平分 5 格、吃了 3 格，吃了幾分之幾？<details><summary>解答</summary><div class="ans"><b>⅗。</b></div></details></li>
+        <li>⅗ 是由幾個 ⅕ 組成？<details><summary>解答</summary><div class="ans"><b>3 個 ⅕。</b></div></details></li>
+        <li><span class="fr"><span class="n">5</span><span class="d">8</span></span> 的分子、分母各是多少？分母代表什麼？<details><summary>解答</summary><div class="ans">分子 5、分母 8；<b>分母 8＝平分成 8 等份。</b></div></details></li>
+        <li><span class="fr"><span class="n">3</span><span class="d">7</span></span> 和 <span class="fr"><span class="n">5</span><span class="d">7</span></span> 哪個大？<details><summary>解答</summary><div class="ans"><b>5/7 大</b>（同樣 ⅐，塊數多的大）。</div></details></li>
+        <li>在 0 到 1 的數軸上平分 4 段，第 3 個刻度是哪個分數？<details><summary>解答</summary><div class="ans"><b>¾。</b></div></details></li>
+        <li>數軸上 ⅖ 和 ⅘，哪個離 0 比較遠？<details><summary>解答</summary><div class="ans"><b>⅘</b> 比較遠（比較大）。</div></details></li>
+        <li>7 個 <span class="fr"><span class="n">1</span><span class="d">10</span></span> 合起來是多少？<details><summary>解答</summary><div class="ans"><b><span class="fr"><span class="n">7</span><span class="d">10</span></span>。</b></div></details></li>
+        <li>一個分數是 4 個 ⅙，它是？<details><summary>解答</summary><div class="ans"><b><span class="fr"><span class="n">4</span><span class="d">6</span></span>。</b></div></details></li>
+        <li>把 ⅖、⅚、⅙、⅙… 改成：<span class="fr"><span class="n">2</span><span class="d">9</span></span>、<span class="fr"><span class="n">6</span><span class="d">9</span></span>、<span class="fr"><span class="n">5</span><span class="d">9</span></span> 由小到大排。<details><summary>解答</summary><div class="ans"><b>2/9 ＜ 5/9 ＜ 6/9。</b></div></details></li>
+        <li>數軸上從 0 起，每步 ⅓，走 3 步到哪裡？<details><summary>解答</summary><div class="ans"><span class="calc">3 個 ⅓ ＝ <span class="fr"><span class="n">3</span><span class="d">3</span></span> ＝ 1</span>。<b>剛好到 1。</b></div></details></li>
+        <li>把整數 1 寫成分母是 5 的分數，是多少？為什麼？<details><summary>解答</summary><div class="ans"><b><span class="fr"><span class="n">5</span><span class="d">5</span></span>。</b>因為 5 個 ⅕ 合起來就是一整個 1。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== G4 ===== -->
+<section class="ch" id="c4">
+  <div class="ch-head"><div class="ch-num g4">G4</div><div><h2>等值分數・假分數帶分數・同分母加減</h2><div class="grade">第二學習階段 · 小四｜目標：用數軸理解等值與假分數，搞懂同分母加減「為什麼只加分子」</div></div></div>
+  <div class="ch-body">
+
+    <h3>一、等值分數：數軸上的同一個點</h3>
+    <p>為什麼 <span class="fr"><span class="n">1</span><span class="d">2</span></span> ＝ <span class="fr"><span class="n">2</span><span class="d">4</span></span> ＝ <span class="fr"><span class="n">4</span><span class="d">8</span></span>？把它們放上數軸，會發現它們<strong>停在完全一樣的位置</strong>。</p>
+    <figure>
+      <svg viewBox="0 0 500 170" role="img" aria-label="三條對齊的數軸顯示二分之一,四分之二,八分之四在同一位置">
+        <g>
+          <line x1="40" y1="40" x2="460" y2="40" class="nl-axis"/>
+          <g class="nl-tick"><line x1="50" y1="32" x2="50" y2="48"/><line x1="250" y1="30" x2="250" y2="50"/><line x1="450" y1="32" x2="450" y2="48"/></g>
+          <text x="50" y="26" class="s-lbl">0</text><text x="446" y="26" class="s-lbl">1</text>
+          <text x="250" y="26" text-anchor="middle" class="s-lbl-o">½</text>
+        </g>
+        <g>
+          <line x1="40" y1="85" x2="460" y2="85" class="nl-axis"/>
+          <g class="nl-tick"><line x1="50" y1="77" x2="50" y2="93"/><line x1="150" y1="79" x2="150" y2="91"/><line x1="250" y1="75" x2="250" y2="95"/><line x1="350" y1="79" x2="350" y2="91"/><line x1="450" y1="77" x2="450" y2="93"/></g>
+          <text x="250" y="108" text-anchor="middle" class="s-lbl-o">2/4</text>
+        </g>
+        <g>
+          <line x1="40" y1="130" x2="460" y2="130" class="nl-axis"/>
+          <g class="nl-tick"><line x1="50" y1="123" x2="50" y2="137"/><line x1="100" y1="124" x2="100" y2="136"/><line x1="150" y1="124" x2="150" y2="136"/><line x1="200" y1="124" x2="200" y2="136"/><line x1="250" y1="120" x2="250" y2="140"/><line x1="300" y1="124" x2="300" y2="136"/><line x1="350" y1="124" x2="350" y2="136"/><line x1="400" y1="124" x2="400" y2="136"/><line x1="450" y1="123" x2="450" y2="137"/></g>
+          <text x="250" y="156" text-anchor="middle" class="s-lbl-o">4/8</text>
+        </g>
+        <line x1="250" y1="30" x2="250" y2="140" class="fr-cut2"/>
+      </svg>
+      <figcaption>切得越細，刻度越密，但「½ 那個點」永遠在正中間沒動過。三個分數其實是同一個數。</figcaption>
+    </figure>
+    <div class="why">
+      <span class="lbl">為什麼分子分母「同乘一個數」結果不變？</span>
+      把每一份再切成 2 小份：份數變兩倍（分母 ×2），取的份數也變兩倍（分子 ×2），<strong>但實際的大小一點都沒變</strong>，點也沒移動。這就是<strong>擴分</strong>。反過來，把小份合併回去就是<strong>約分</strong>。<br>
+      <span class="fr"><span class="n">1</span><span class="d">2</span></span> ＝ <span class="fr"><span class="n">1×2</span><span class="d">2×2</span></span> ＝ <span class="fr"><span class="n">2</span><span class="d">4</span></span>。
+    </div>
+    <div class="keyformula">分子、分母同乘（或同除）一個數，分數大小不變<small>擴分＝把每份切更細；約分＝把小份併回去；點都沒移動</small></div>
+
+    <h3>二、假分數與帶分數：數軸可以走過 1</h3>
+    <p>數軸不會停在 1，可以一直往右。<span class="fr"><span class="n">5</span><span class="d">4</span></span>（分子比分母大，叫<strong>假分數</strong>）就是「過了 1 再多 <span class="fr"><span class="n">1</span><span class="d">4</span></span>」的位置，也可以寫成 <strong>1<span class="fr"><span class="n">1</span><span class="d">4</span></span></strong>（<strong>帶分數</strong>）。</p>
+    <figure>
+      <svg viewBox="0 0 500 110" role="img" aria-label="數軸0到2標出四分之五等於一又四分之一">
+        <line x1="30" y1="55" x2="480" y2="55" class="nl-axis"/>
+        <g class="nl-tick">
+          <line x1="40" y1="45" x2="40" y2="65"/><line x1="90" y1="48" x2="90" y2="62"/><line x1="140" y1="48" x2="140" y2="62"/><line x1="190" y1="48" x2="190" y2="62"/>
+          <line x1="240" y1="45" x2="240" y2="65"/><line x1="290" y1="48" x2="290" y2="62"/><line x1="340" y1="48" x2="340" y2="62"/><line x1="390" y1="48" x2="390" y2="62"/><line x1="440" y1="45" x2="440" y2="65"/>
+        </g>
+        <text x="40" y="82" text-anchor="middle" class="s-lbl">0</text>
+        <text x="240" y="82" text-anchor="middle" class="s-lbl">1（＝4/4）</text>
+        <text x="440" y="82" text-anchor="middle" class="s-lbl">2</text>
+        <circle cx="290" cy="55" r="5" class="nl-pt"/>
+        <text x="290" y="38" text-anchor="middle" class="s-lbl-o">5/4 ＝ 1¼</text>
+      </svg>
+      <figcaption>1 就是 <span class="fr"><span class="n">4</span><span class="d">4</span></span>，再往前 1 格（<span class="fr"><span class="n">1</span><span class="d">4</span></span>）就是 <span class="fr"><span class="n">5</span><span class="d">4</span></span>＝1<span class="fr"><span class="n">1</span><span class="d">4</span></span>。</figcaption>
+    </figure>
+    <div class="why">
+      <span class="lbl">互換的道理</span>假分數→帶分數：<strong>分子 ÷ 分母</strong>，商是整數部分、餘數是分子。<span class="fr"><span class="n">7</span><span class="d">4</span></span> → 7÷4＝1 餘 3 → 1<span class="fr"><span class="n">3</span><span class="d">4</span></span>。<br>帶分數→假分數：<strong>整數 × 分母 ＋ 分子</strong>。2<span class="fr"><span class="n">1</span><span class="d">5</span></span> → 2×5＋1＝11 → <span class="fr"><span class="n">11</span><span class="d">5</span></span>。
+    </div>
+
+    <h3>三、同分母加減：為什麼只加分子、分母不變？</h3>
+    <p><span class="fr"><span class="n">2</span><span class="d">5</span></span> ＋ <span class="fr"><span class="n">1</span><span class="d">5</span></span> ＝？兩邊都是 <span class="fr"><span class="n">1</span><span class="d">5</span></span> 這種積木：2 個加 1 個＝3 個，所以是 <span class="fr"><span class="n">3</span><span class="d">5</span></span>。積木大小（分母）沒變，只是<strong>數量（分子）相加</strong>。</p>
+    <div class="why"><span class="lbl">數軸看法</span>每一步都是 <span class="fr"><span class="n">1</span><span class="d">5</span></span> 那麼長。先走 2 步、再走 1 步，總共走 3 步 → <span class="fr"><span class="n">3</span><span class="d">5</span></span>。<strong>步伐一樣大，才能直接把步數加起來</strong>——這正是下一章「通分」的伏筆。</div>
+    <div class="keyformula">同分母相加減：分母不變，分子相加減<small>因為是同一種單位分數在數「有幾個」</small></div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小四・等值・假帶分數・同分母加減（12 題）</p>
+      <ol class="prob">
+        <li><span class="fr"><span class="n">1</span><span class="d">2</span></span> ＝ <span class="fr"><span class="n">?</span><span class="d">4</span></span>？<details><summary>解答</summary><div class="ans">分子分母同 ×2 → <b><span class="fr"><span class="n">2</span><span class="d">4</span></span>。</b></div></details></li>
+        <li><span class="fr"><span class="n">2</span><span class="d">3</span></span> ＝ <span class="fr"><span class="n">?</span><span class="d">9</span></span>？<details><summary>解答</summary><div class="ans">同 ×3 → <b><span class="fr"><span class="n">6</span><span class="d">9</span></span>。</b></div></details></li>
+        <li>把 <span class="fr"><span class="n">6</span><span class="d">8</span></span> 約到最簡。<details><summary>解答</summary><div class="ans">同 ÷2 → <b>¾。</b></div></details></li>
+        <li>把 <span class="fr"><span class="n">4</span><span class="d">12</span></span> 約到最簡。<details><summary>解答</summary><div class="ans">同 ÷4 → <b>⅓。</b></div></details></li>
+        <li>¾ 和 <span class="fr"><span class="n">6</span><span class="d">8</span></span> 一樣大嗎？為什麼？<details><summary>解答</summary><div class="ans"><b>一樣大。</b>¾ 擴分（×2）就是 6/8，數軸上同一點。</div></details></li>
+        <li>假分數 <span class="fr"><span class="n">7</span><span class="d">4</span></span> 化成帶分數。<details><summary>解答</summary><div class="ans">7÷4＝1 餘 3 → <b>1¾。</b></div></details></li>
+        <li>帶分數 2<span class="fr"><span class="n">1</span><span class="d">5</span></span> 化成假分數。<details><summary>解答</summary><div class="ans">2×5＋1＝11 → <b><span class="fr"><span class="n">11</span><span class="d">5</span></span>。</b></div></details></li>
+        <li><span class="fr"><span class="n">2</span><span class="d">7</span></span> ＋ <span class="fr"><span class="n">3</span><span class="d">7</span></span> ＝？<details><summary>解答</summary><div class="ans">2＋3＝5 → <b>5/7。</b></div></details></li>
+        <li><span class="fr"><span class="n">5</span><span class="d">9</span></span> ＋ <span class="fr"><span class="n">2</span><span class="d">9</span></span> ＝？<details><summary>解答</summary><div class="ans"><b>7/9。</b></div></details></li>
+        <li><span class="fr"><span class="n">6</span><span class="d">8</span></span> − <span class="fr"><span class="n">1</span><span class="d">8</span></span> ＝？<details><summary>解答</summary><div class="ans">6−1＝5 → <b>5/8。</b></div></details></li>
+        <li><span class="fr"><span class="n">3</span><span class="d">5</span></span> ＋ <span class="fr"><span class="n">4</span><span class="d">5</span></span> ＝？（記得化帶分數）<details><summary>解答</summary><div class="ans">3＋4＝7 → <span class="fr"><span class="n">7</span><span class="d">5</span></span> ＝ <b>1⅖。</b></div></details></li>
+        <li>1 − <span class="fr"><span class="n">3</span><span class="d">8</span></span> ＝？<details><summary>解答</summary><div class="ans">1＝<span class="fr"><span class="n">8</span><span class="d">8</span></span>；8−3＝5 → <b>5/8。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== G5 ===== -->
+<section class="ch" id="c5">
+  <div class="ch-head"><div class="ch-num g5">G5</div><div><h2>通分・異分母加減・分數與除法</h2><div class="grade">第三學習階段 · 小五｜目標：理解通分為何必要，並把分數連到除法、整數倍</div></div></div>
+  <div class="ch-body">
+
+    <h3>一、為什麼不同分母不能直接加？</h3>
+    <p><span class="fr"><span class="n">1</span><span class="d">2</span></span> ＋ <span class="fr"><span class="n">1</span><span class="d">3</span></span> 不等於 <span class="fr"><span class="n">2</span><span class="d">5</span></span>！因為 <span class="fr"><span class="n">1</span><span class="d">2</span></span> 的積木和 <span class="fr"><span class="n">1</span><span class="d">3</span></span> 的積木<strong>大小不一樣</strong>，不能直接數在一起。就像「2 步大步＋1 步小步」不能說成「3 步」——步伐不一樣長。</p>
+
+    <h3>二、通分：在數軸上找到「共同刻度」</h3>
+    <p>解法是先把兩個分數換成<strong>一樣大的積木</strong>。<span class="fr"><span class="n">1</span><span class="d">2</span></span> 和 <span class="fr"><span class="n">1</span><span class="d">3</span></span> 都可以換成 <span class="fr"><span class="n">1</span><span class="d">6</span></span>：把數軸切成 6 等份，兩個分數剛好都落在刻度上。</p>
+    <figure>
+      <svg viewBox="0 0 500 175" role="img" aria-label="數軸切成六等份,二分之一等於六分之三,三分之一等於六分之二,相加得六分之五">
+        <line x1="40" y1="60" x2="470" y2="60" class="nl-axis"/>
+        <g class="nl-tick">
+          <line x1="50" y1="50" x2="50" y2="70"/><line x1="120" y1="52" x2="120" y2="68"/><line x1="190" y1="52" x2="190" y2="68"/><line x1="260" y1="52" x2="260" y2="68"/><line x1="330" y1="52" x2="330" y2="68"/><line x1="400" y1="52" x2="400" y2="68"/><line x1="450" y1="50" x2="450" y2="70"/>
+        </g>
+        <text x="50" y="86" text-anchor="middle" class="s-lbl">0</text>
+        <text x="120" y="86" text-anchor="middle" class="s-lbl">⅙</text><text x="190" y="86" text-anchor="middle" class="s-lbl">2/6</text>
+        <text x="260" y="86" text-anchor="middle" class="s-lbl">3/6</text><text x="330" y="86" text-anchor="middle" class="s-lbl">4/6</text><text x="400" y="86" text-anchor="middle" class="s-lbl">5/6</text>
+        <text x="450" y="86" text-anchor="middle" class="s-lbl">1</text>
+        <text x="190" y="36" text-anchor="middle" class="s-lbl-b">⅓ ＝ 2/6</text>
+        <text x="260" y="118" text-anchor="middle" class="s-lbl-o">½ ＝ 3/6</text>
+        <circle cx="400" cy="60" r="5" class="nl-pt"/>
+        <text x="250" y="150" text-anchor="middle" class="s-lbl-g" style="font-size:15px">½ ＋ ⅓ ＝ 3/6 ＋ 2/6 ＝ 5/6</text>
+      </svg>
+      <figcaption>切成 6 等份後，½＝3/6、⅓＝2/6，積木一樣大了，就能像同分母一樣相加：3＋2＝5 → 5/6。</figcaption>
+    </figure>
+    <div class="why">
+      <span class="lbl">通分的本質</span>通分＝用<strong>等值分數</strong>，把兩個分數換成同一種分母（找<strong>公分母</strong>，通常用最小公倍數最方便）。換成同分母後，就回到 G4 學過的「同分母加減」——只加分子。所以通分不是新規則，是為了讓積木一樣大。
+    </div>
+    <div class="keyformula">異分母加減：先通分（換成同分母）→ 再加減分子<small>找公分母＝兩個分母的公倍數；最小公倍數最省力</small></div>
+    <div class="pitfall"><span class="lbl">大忌</span><span class="fr"><span class="n">1</span><span class="d">2</span></span>＋<span class="fr"><span class="n">1</span><span class="d">3</span></span> ≠ <span class="fr"><span class="n">2</span><span class="d">5</span></span>。分母絕對不能直接相加！</div>
+
+    <h3>三、分數就是除法：<span class="fr"><span class="n">3</span><span class="d">4</span></span> ＝ 3 ÷ 4</h3>
+    <p>3 個披薩平分給 4 個人，每人分到多少？把 3 個披薩平分成 4 份，每份正好是 <span class="fr"><span class="n">3</span><span class="d">4</span></span> 個披薩。所以 <strong>分數線就是除號</strong>。</p>
+    <div class="keyformula"><span class="fr"><span class="n">a</span><span class="d">b</span></span> ＝ a ÷ b<small>分子÷分母；「平分」本來就是除法</small></div>
+
+    <h3>四、分數 × 整數：就是連加</h3>
+    <p><span class="fr"><span class="n">1</span><span class="d">4</span></span> × 3 ＝ <span class="fr"><span class="n">1</span><span class="d">4</span></span>＋<span class="fr"><span class="n">1</span><span class="d">4</span></span>＋<span class="fr"><span class="n">1</span><span class="d">4</span></span> ＝ <span class="fr"><span class="n">3</span><span class="d">4</span></span>。在數軸上就是「跳 3 步、每步 <span class="fr"><span class="n">1</span><span class="d">4</span></span>」。<strong>分母不變，分子 × 整數。</strong></p>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小五・通分・除法・整數倍（12 題）</p>
+      <ol class="prob">
+        <li><span class="fr"><span class="n">1</span><span class="d">2</span></span> ＋ <span class="fr"><span class="n">1</span><span class="d">3</span></span> ＝？<details><summary>解答</summary><div class="ans">通分 6：3/6＋2/6＝<b>5/6。</b></div></details></li>
+        <li><span class="fr"><span class="n">1</span><span class="d">2</span></span> ＋ <span class="fr"><span class="n">1</span><span class="d">4</span></span> ＝？<details><summary>解答</summary><div class="ans">2/4＋1/4＝<b>¾。</b></div></details></li>
+        <li><span class="fr"><span class="n">2</span><span class="d">3</span></span> ＋ <span class="fr"><span class="n">1</span><span class="d">6</span></span> ＝？<details><summary>解答</summary><div class="ans">4/6＋1/6＝<b>5/6。</b></div></details></li>
+        <li>¾ − <span class="fr"><span class="n">1</span><span class="d">2</span></span> ＝？<details><summary>解答</summary><div class="ans">3/4−2/4＝<b>¼。</b></div></details></li>
+        <li><span class="fr"><span class="n">5</span><span class="d">6</span></span> − <span class="fr"><span class="n">1</span><span class="d">3</span></span> ＝？<details><summary>解答</summary><div class="ans">5/6−2/6＝3/6＝<b>½。</b></div></details></li>
+        <li>把 ¾ 和 <span class="fr"><span class="n">5</span><span class="d">6</span></span> 通分（用最小公分母）。<details><summary>解答</summary><div class="ans">最小公倍數 12：<b>9/12 和 10/12。</b></div></details></li>
+        <li>3 ÷ 4 用分數表示。<details><summary>解答</summary><div class="ans"><b>¾。</b></div></details></li>
+        <li>7 ÷ 5 用分數（假分數及帶分數）表示。<details><summary>解答</summary><div class="ans"><span class="fr"><span class="n">7</span><span class="d">5</span></span> ＝ <b>1⅖。</b></div></details></li>
+        <li><span class="fr"><span class="n">1</span><span class="d">6</span></span> × 4 ＝？<details><summary>解答</summary><div class="ans">4/6＝<b>⅔。</b></div></details></li>
+        <li><span class="fr"><span class="n">2</span><span class="d">5</span></span> × 3 ＝？<details><summary>解答</summary><div class="ans">6/5＝<b>1⅕。</b></div></details></li>
+        <li><span class="fr"><span class="n">2</span><span class="d">3</span></span> ＋ ¾ ＝？<details><summary>解答</summary><div class="ans">通分 12：8/12＋9/12＝<span class="fr"><span class="n">17</span><span class="d">12</span></span>＝<b>1<span class="fr"><span class="n">5</span><span class="d">12</span></span>。</b></div></details></li>
+        <li><span class="fr"><span class="n">5</span><span class="d">8</span></span> − <span class="fr"><span class="n">1</span><span class="d">4</span></span> ＝？<details><summary>解答</summary><div class="ans">5/8−2/8＝<b>⅜。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== G6 ===== -->
+<section class="ch" id="c6">
+  <div class="ch-head"><div class="ch-num g6">G6</div><div><h2>分數乘法・除法・四則</h2><div class="grade">第三學習階段 · 小六｜目標：用面積模型懂乘法、用「裡面有幾個」與倒數懂除法</div></div></div>
+  <div class="ch-body">
+
+    <h3>一、分數 × 分數：為什麼分子乘分子、分母乘分母？</h3>
+    <p>「×」可以讀成「的」。<span class="fr"><span class="n">2</span><span class="d">3</span></span> × <span class="fr"><span class="n">3</span><span class="d">4</span></span> ＝「<span class="fr"><span class="n">3</span><span class="d">4</span></span> 的 <span class="fr"><span class="n">2</span><span class="d">3</span></span>」。用一個邊長 1 的正方形來看最清楚：</p>
+    <figure>
+      <svg viewBox="0 0 320 280" role="img" aria-label="單位正方形切成3欄4列共12格,塗出2欄3列共6格">
+        <rect x="60" y="30" width="210" height="220" class="fr-whole"/>
+        <!-- columns /3 -->
+        <line x1="130" y1="30" x2="130" y2="250" class="fr-cut"/><line x1="200" y1="30" x2="200" y2="250" class="fr-cut"/>
+        <!-- rows /4 -->
+        <line x1="60" y1="85" x2="270" y2="85" class="fr-cut"/><line x1="60" y1="140" x2="270" y2="140" class="fr-cut"/><line x1="60" y1="195" x2="270" y2="195" class="fr-cut"/>
+        <!-- overlap 2 cols x 3 rows -->
+        <rect x="60" y="30" width="140" height="165" fill="var(--gold-fill)" stroke="var(--gold)" stroke-width="2"/>
+        <text x="165" y="20" text-anchor="middle" class="s-lbl">寬：取 ⅔（2 欄）</text>
+        <text x="40" y="140" text-anchor="middle" class="s-lbl" transform="rotate(-90 40,140)">高：取 ¾（3 列）</text>
+        <text x="130" y="270" text-anchor="middle" class="s-lbl-o">塗到 6 格 ／ 全部 12 格 ＝ 6/12 ＝ ½</text>
+      </svg>
+      <figcaption>切成 3 欄 × 4 列＝12 小格；取 2 欄 × 3 列＝6 格。<b>6＝2×3（分子相乘）、12＝3×4（分母相乘）</b>。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">推導</span>分母相乘＝小格<strong>總數</strong>（3 欄×4 列＝12）；分子相乘＝塗到的格數（2×3＝6）。所以 <span class="fr"><span class="n">2</span><span class="d">3</span></span>×<span class="fr"><span class="n">3</span><span class="d">4</span></span>＝<span class="fr"><span class="n">6</span><span class="d">12</span></span>＝½。乘法會讓結果<strong>變小</strong>（取一部分的一部分），不像整數乘法越乘越大——這很反直覺，但數軸／面積一看就懂。</div>
+    <div class="keyformula"><span class="fr"><span class="n">a</span><span class="d">b</span></span> × <span class="fr"><span class="n">c</span><span class="d">d</span></span> ＝ <span class="fr"><span class="n">a×c</span><span class="d">b×d</span></span><small>分子乘分子、分母乘分母；能先約分更快</small></div>
+
+    <h3>二、分數 ÷ 分數：先懂「裡面有幾個」</h3>
+    <p>除法問的是：<strong>「被除數裡面，有幾個除數？」</strong> 例如 <span class="fr"><span class="n">3</span><span class="d">4</span></span> ÷ <span class="fr"><span class="n">1</span><span class="d">8</span></span> ＝「<span class="fr"><span class="n">3</span><span class="d">4</span></span> 裡面有幾個 <span class="fr"><span class="n">1</span><span class="d">8</span></span>？」</p>
+    <figure>
+      <svg viewBox="0 0 480 110" role="img" aria-label="數軸0到1切成8等份,從0到四分之三共6個八分之一">
+        <line x1="30" y1="55" x2="450" y2="55" class="nl-axis"/>
+        <g class="nl-tick">
+          <line x1="40" y1="45" x2="40" y2="65"/><line x1="90" y1="48" x2="90" y2="62"/><line x1="140" y1="48" x2="140" y2="62"/><line x1="190" y1="48" x2="190" y2="62"/><line x1="240" y1="48" x2="240" y2="62"/><line x1="290" y1="48" x2="290" y2="62"/><line x1="340" y1="45" x2="340" y2="65"/><line x1="390" y1="48" x2="390" y2="62"/><line x1="440" y1="45" x2="440" y2="65"/>
+        </g>
+        <line x1="40" y1="55" x2="340" y2="55" stroke="var(--gold)" stroke-width="4"/>
+        <text x="40" y="82" text-anchor="middle" class="s-lbl">0</text>
+        <text x="340" y="82" text-anchor="middle" class="s-lbl-o">¾ ＝ 6/8</text>
+        <text x="440" y="82" text-anchor="middle" class="s-lbl">1</text>
+        <text x="190" y="36" text-anchor="middle" class="s-lbl-o">數一數：6 個 ⅛</text>
+      </svg>
+      <figcaption>把 ¾ 換成 6/8，從 0 到 ¾ 剛好有 <b>6</b> 個 ⅛。所以 ¾ ÷ ⅛ ＝ 6。</figcaption>
+    </figure>
+    <div class="why">
+      <span class="lbl">為什麼「÷ 分數」可以變成「× 倒數」？</span>
+      看上面：¾ ÷ ⅛ ＝ 6，而 ¾ × <strong>8</strong> 也＝ 6（8 是 ⅛ 上下顛倒的<strong>倒數</strong>）。原因是：<strong>÷ <span class="fr"><span class="n">1</span><span class="d">n</span></span> 等於 × n</strong>（每 1 整體裡有 n 個 <span class="fr"><span class="n">1</span><span class="d">n</span></span>）。推廣到任意分數，<strong>÷ <span class="fr"><span class="n">m</span><span class="d">n</span></span> ＝ × <span class="fr"><span class="n">n</span><span class="d">m</span></span></strong>（除以後面那個分數，等於乘它上下顛倒）。
+    </div>
+    <div class="why">
+      <span class="lbl">另一種驗證：通分後分子相除</span>
+      <span class="fr"><span class="n">3</span><span class="d">4</span></span> ÷ <span class="fr"><span class="n">2</span><span class="d">3</span></span>：通分成同分母 → <span class="fr"><span class="n">9</span><span class="d">12</span></span> ÷ <span class="fr"><span class="n">8</span><span class="d">12</span></span> ＝ 9 ÷ 8 ＝ <span class="fr"><span class="n">9</span><span class="d">8</span></span>。<br>
+      用倒數法：<span class="fr"><span class="n">3</span><span class="d">4</span></span> × <span class="fr"><span class="n">3</span><span class="d">2</span></span> ＝ <span class="fr"><span class="n">9</span><span class="d">8</span></span>。<strong>兩種方法答案一樣</strong>，證明倒數法是對的。
+    </div>
+    <div class="keyformula"><span class="fr"><span class="n">a</span><span class="d">b</span></span> ÷ <span class="fr"><span class="n">c</span><span class="d">d</span></span> ＝ <span class="fr"><span class="n">a</span><span class="d">b</span></span> × <span class="fr"><span class="n">d</span><span class="d">c</span></span><small>除以一個分數＝乘它的倒數（上下顛倒）</small></div>
+    <div class="pitfall"><span class="lbl">易錯</span>只把<strong>除數（後面那個）</strong>顛倒，被除數不要動！而且記得是「× 倒數」，不是兩個都顛倒。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小六・乘法・除法・四則（12 題）</p>
+      <ol class="prob">
+        <li><span class="fr"><span class="n">1</span><span class="d">2</span></span> × <span class="fr"><span class="n">1</span><span class="d">3</span></span> ＝？<details><summary>解答</summary><div class="ans">1×1／2×3＝<b><span class="fr"><span class="n">1</span><span class="d">6</span></span>。</b></div></details></li>
+        <li><span class="fr"><span class="n">2</span><span class="d">3</span></span> × <span class="fr"><span class="n">3</span><span class="d">5</span></span> ＝？<details><summary>解答</summary><div class="ans">6/15＝<b>⅖。</b></div></details></li>
+        <li><span class="fr"><span class="n">3</span><span class="d">4</span></span> × <span class="fr"><span class="n">2</span><span class="d">9</span></span> ＝？<details><summary>解答</summary><div class="ans">6/36＝<b><span class="fr"><span class="n">1</span><span class="d">6</span></span>。</b>（先約分：¾×2/9，4 和 2 約、9 和 3 約 → 1/6 更快）</div></details></li>
+        <li><span class="fr"><span class="n">2</span><span class="d">3</span></span> × <span class="fr"><span class="n">3</span><span class="d">4</span></span> ＝？<details><summary>解答</summary><div class="ans">6/12＝<b>½。</b></div></details></li>
+        <li><span class="fr"><span class="n">1</span><span class="d">2</span></span> ÷ <span class="fr"><span class="n">1</span><span class="d">4</span></span> ＝？（½ 裡有幾個 ¼）<details><summary>解答</summary><div class="ans">½×4＝4/2＝<b>2。</b></div></details></li>
+        <li><span class="fr"><span class="n">3</span><span class="d">4</span></span> ÷ <span class="fr"><span class="n">1</span><span class="d">8</span></span> ＝？<details><summary>解答</summary><div class="ans">¾×8＝24/4＝<b>6。</b></div></details></li>
+        <li><span class="fr"><span class="n">2</span><span class="d">3</span></span> ÷ <span class="fr"><span class="n">4</span><span class="d">5</span></span> ＝？<details><summary>解答</summary><div class="ans">⅔×5/4＝10/12＝<b>⅚。</b></div></details></li>
+        <li><span class="fr"><span class="n">3</span><span class="d">4</span></span> ÷ <span class="fr"><span class="n">2</span><span class="d">3</span></span> ＝？<details><summary>解答</summary><div class="ans">¾×3/2＝9/8＝<b>1⅛。</b></div></details></li>
+        <li><span class="fr"><span class="n">3</span><span class="d">5</span></span> ÷ 3 ＝？（除以整數）<details><summary>解答</summary><div class="ans">⅗×⅓＝3/15＝<b>⅕。</b></div></details></li>
+        <li><span class="fr"><span class="n">1</span><span class="d">2</span></span> × <span class="fr"><span class="n">2</span><span class="d">3</span></span> ＋ <span class="fr"><span class="n">1</span><span class="d">4</span></span> ＝？<details><summary>解答</summary><div class="ans">先乘：½×⅔＝⅓；再加 ¼：通分 12 → 4/12＋3/12＝<b><span class="fr"><span class="n">7</span><span class="d">12</span></span>。</b></div></details></li>
+        <li><span class="fr"><span class="n">4</span><span class="d">5</span></span> ÷ <span class="fr"><span class="n">2</span><span class="d">5</span></span> ＝？<details><summary>解答</summary><div class="ans">同分母可直接 4÷2＝<b>2</b>（或 4/5×5/2＝20/10＝2）。</div></details></li>
+        <li>(<span class="fr"><span class="n">1</span><span class="d">2</span></span> ＋ <span class="fr"><span class="n">1</span><span class="d">3</span></span>) × <span class="fr"><span class="n">6</span><span class="d">5</span></span> ＝？<details><summary>解答</summary><div class="ans">括號先：5/6；5/6×6/5＝30/30＝<b>1。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 進階 ===== -->
+<section class="ch" id="cx">
+  <div class="ch-head"><div class="ch-num x">＋</div><div><h2>應用題＋分數與小數互換</h2><div class="grade">G5–G6 綜合｜把分數用到生活，並與小數接軌</div></div></div>
+  <div class="ch-body">
+    <h3>一、分數 ↔ 小數</h3>
+    <p>分數線就是除號，所以<strong>分數化小數＝分子 ÷ 分母</strong>。例如 <span class="fr"><span class="n">3</span><span class="d">4</span></span> ＝ 3÷4 ＝ 0.75。反過來，小數化分數＝看小數位，再約分：0.6 ＝ <span class="fr"><span class="n">6</span><span class="d">10</span></span> ＝ <span class="fr"><span class="n">3</span><span class="d">5</span></span>。</p>
+    <table>
+      <tr><th>分數</th><td>½</td><td>¼</td><td>¾</td><td>⅕</td><td>⅛</td></tr>
+      <tr><th>小數</th><td>0.5</td><td>0.25</td><td>0.75</td><td>0.2</td><td>0.125</td></tr>
+    </table>
+    <div class="why"><span class="lbl">數軸看法</span>分數和小數其實住在<strong>同一條數軸</strong>上，只是「衣服」不同。0.5 和 ½ 是同一個點。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>互換與應用（10 題）</p>
+      <ol class="prob">
+        <li><span class="fr"><span class="n">1</span><span class="d">2</span></span> ＝ 多少小數？<details><summary>解答</summary><div class="ans">1÷2＝<b>0.5。</b></div></details></li>
+        <li>¼ ＝ 多少小數？<details><summary>解答</summary><div class="ans">1÷4＝<b>0.25。</b></div></details></li>
+        <li>¾ ＝ 多少小數？<details><summary>解答</summary><div class="ans">3÷4＝<b>0.75。</b></div></details></li>
+        <li>⅕ ＝ 多少小數？<details><summary>解答</summary><div class="ans">1÷5＝<b>0.2。</b></div></details></li>
+        <li>0.5 化成最簡分數。<details><summary>解答</summary><div class="ans">5/10＝<b>½。</b></div></details></li>
+        <li>0.6 化成最簡分數。<details><summary>解答</summary><div class="ans">6/10＝<b>⅗。</b></div></details></li>
+        <li>一條 ¾ 公尺的緞帶，每 ⅛ 公尺剪一段，可剪幾段？<details><summary>解答</summary><div class="ans">¾÷⅛＝¾×8＝<b>6 段。</b></div></details></li>
+        <li>蛋糕先吃 ⅓、再吃 ¼，一共吃了多少？還剩多少？<details><summary>解答</summary><div class="ans">⅓＋¼＝4/12＋3/12＝<b><span class="fr"><span class="n">7</span><span class="d">12</span></span></b>；剩 1−7/12＝<b><span class="fr"><span class="n">5</span><span class="d">12</span></span>。</b></div></details></li>
+        <li>⅖ 公升果汁平分給 4 人，每人幾公升？<details><summary>解答</summary><div class="ans">⅖÷4＝⅖×¼＝2/20＝<b><span class="fr"><span class="n">1</span><span class="d">10</span></span> 公升。</b></div></details></li>
+        <li>一桶水 ¾ 公升，每次用 ⅛ 公升，可用幾次？<details><summary>解答</summary><div class="ans">¾÷⅛＝<b>6 次。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 記憶小卡 ===== -->
+<section class="cards-wrap" id="cards">
+  <div class="ch-head" style="max-width:none"><div class="ch-num x">★</div><div><h2>考前記憶小卡</h2><div class="grade">快速翻閱用｜每張＝規則＋一句「為什麼」＋易錯提醒</div></div></div>
+  <p class="note" style="margin-top:14px">用法：考前遮住規則，看「為什麼」那句話，試著自己把規則講出來。能講出來＝真的記住了。列印可剪成卡片。</p>
+  <div class="cards">
+    <div class="mc gx"><div class="tag">核心觀念</div><h4>分數是什麼</h4><div class="f">平分整體 ／ 數軸上的點</div><p class="pt">前提是<b>每份一樣大</b>。分數就是一個「數」，住在數軸上。</p></div>
+    <div class="mc g3"><div class="tag">G3 · 組成</div><h4>分子分母</h4><div class="f">分母＝分幾份｜分子＝取幾份</div><p class="pt"><span class="fr"><span class="n">3</span><span class="d">5</span></span>＝3 個 ⅕。分數是<b>單位分數疊出來的</b>。</p></div>
+    <div class="mc g3"><div class="tag">G3 · 比大小</div><h4>同分母比大小</h4><div class="f">分子大的就大</div><p class="pt">同一種積木，比「有幾個」。數軸上離 0 遠的大。</p></div>
+    <div class="mc g4"><div class="tag">G4 · 等值</div><h4>等值分數</h4><div class="f">分子分母同乘（除）一數</div><p class="pt">擴分／約分，<b>數軸上同一點</b>，大小不變。</p></div>
+    <div class="mc g4"><div class="tag">G4 · 互換</div><h4>假分數 ↔ 帶分數</h4><div class="f">分子÷分母 ｜ 整數×分母＋分子</div><p class="pt">數軸可以走過 1：<span class="fr"><span class="n">5</span><span class="d">4</span></span>＝1¼。</p></div>
+    <div class="mc g4"><div class="tag">G4 · 同分母</div><h4>同分母加減</h4><div class="f">分母不變，分子加減</div><p class="pt">同大小積木數數量。<b>分母千萬不要加！</b></p></div>
+    <div class="mc g5"><div class="tag">G5 · 異分母</div><h4>通分加減</h4><div class="f">先通分 → 再加減分子</div><p class="pt">積木要一樣大才能加。<b>½＋⅓≠⅖</b>，要先換成 6 分之。</p></div>
+    <div class="mc g5"><div class="tag">G5 · 除法</div><h4>分數＝除法</h4><div class="f"><span class="fr"><span class="n">a</span><span class="d">b</span></span> ＝ a ÷ b</div><p class="pt">3÷4＝¾。平分本來就是除法。</p></div>
+    <div class="mc g6"><div class="tag">G6 · 乘法</div><h4>分數乘分數</h4><div class="f">分子×分子，分母×分母</div><p class="pt">「的」＝面積：取一部分的一部分，<b>結果會變小</b>。</p></div>
+    <div class="mc g6"><div class="tag">G6 · 除法</div><h4>分數除分數</h4><div class="f">× 後面那個的倒數</div><p class="pt">÷<span class="fr"><span class="n">1</span><span class="d">n</span></span>＝×n。<b>只顛倒除數</b>，被除數不動。</p></div>
+    <div class="mc gx"><div class="tag">運算順序</div><h4>四則混合</h4><div class="f">括號 → 乘除 → 加減</div><p class="pt">乘除先做；加減要先通分。</p></div>
+    <div class="mc gx"><div class="tag">接軌 · 小數</div><h4>分數 ↔ 小數</h4><div class="f">分子÷分母</div><p class="pt">¾＝0.75。分數和小數住<b>同一條數軸</b>。</p></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>分數完全學習手冊</strong>　依十二年國教 108 課綱「數與量（N）」分數脈絡編製，涵蓋 G2–G6，並全程併用「平分」與「數軸」兩種模型。</p>
+  <p>使用建議：依年級順序學習，每章先讀「為什麼」與圖解，再做練習；考前用記憶小卡複習。各版本教科書（康軒／翰林／南一）單元順序與名稱略有差異，本手冊以概念脈絡編排。練習題答案皆已化到最簡（或帶分數），實際作答請依各校要求的表示法。</p>
+</footer>
+
+<script>
+  (function(){
+    var btn=document.getElementById('toggleAll');var open=false;
+    btn.addEventListener('click',function(){
+      open=!open;
+      document.querySelectorAll('details').forEach(function(d){d.open=open;});
+      btn.textContent=open?'收合全部解答':'展開全部解答';
+    });
+  })();
+</script>
+</body>
+</html>

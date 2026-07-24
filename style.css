@@ -1,0 +1,153 @@
+/* ===== Warm Light Theme – style.css ===== */
+
+/* Color tokens */
+:root{
+  --bg: #FFFAE5;        /* 溫暖淺黃（頁面底色） */
+  --panel: #FFF6D6;     /* 卡片/面板色 */
+  --text: #2B2B2B;      /* 主要文字 */
+  --muted: #6B6B6B;     /* 次要文字 */
+  --brand: #C76B00;     /* 品牌橘黃 */
+  --accent: #FFB347;    /* 點綴亮橘 */
+  --border: #EADFC4;    /* 邊框淡米 */
+  --shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+/* Base */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg) !important; /* 強制套用淺黃底 */
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", "PingFang TC", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img { max-width: 100%; display: block; }
+
+/* Layout */
+.container { width: min(100%, 1500px); margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+.site-header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(255,250,229,0.92);         /* 淺黃半透明 */
+  background: #FFFAE5EB;                      /* hex + alpha 作為 fallback */
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border);
+}
+.site-header .container {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 6px;
+}
+.logo, .site-header h1 { font-size: 18px; margin: 0; }
+.site-header nav a {
+  color: var(--muted); text-decoration: none; margin-left: 14px; padding: 6px 8px; border-radius: 8px;
+}
+.site-header nav a:hover { color: var(--text); background: #FFF4C6; }
+.site-header nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Hero */
+.hero { padding: 48px 0 28px; }
+.hero h2 { font-size: clamp(28px, 6vw, 40px); margin: 0 0 8px; }
+.brand { color: var(--brand); font-weight: 700; }
+.cta-wrap { margin-top: 12px; }
+
+/* Buttons */
+.btn {
+  display: inline-block; padding: 10px 14px; border-radius: 10px;
+  background: var(--brand); color: #071019; text-decoration: none; font-weight: 600;
+  margin-right: 8px; border: none; cursor: pointer; box-shadow: var(--shadow);
+}
+.btn:hover { filter: brightness(0.95); }
+.btn:active { transform: translateY(1px); }
+.btn.ghost { background: transparent; border: 1px solid var(--brand); color: var(--text); }
+.btn.ghost:hover { background: #FFE9BF; }
+
+/* Sections */
+.section { padding: 26px 0; }
+.section-head { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.section h3 { margin: 0; }
+.tools { display: flex; align-items: center; gap: 10px; }
+.tool { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+.muted { color: var(--muted); }
+
+/* Grid & Cards */
+.grid {
+  --col: 260px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--col), 1fr)); gap: 12px;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  padding: 14px;
+}
+.card h4 { margin: 0 0 6px; }
+.card p { margin: 0 0 10px; color: var(--muted); }
+.card a { display: inline-block; margin: 2px 8px 2px 0; color: var(--brand); text-decoration: none; }
+.card a:hover { text-decoration: underline; }
+.card img { width: 100%; height: 240px; object-fit: cover; border-bottom: 1px solid var(--border); }
+.card figcaption { padding: 10px 12px; color: var(--muted); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Lists in cards (你的日期連結區更好看一些) */
+.card li { list-style: none; color: var(--muted); margin: 6px 0; }
+
+/* Links */
+a { color: var(--brand); }
+a:hover { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Email */
+.email a { color: var(--brand); text-decoration: none; font-weight: 600; }
+.email a:hover { text-decoration: underline; }
+
+/* Empty */
+.empty { padding: 40px 0; color: var(--muted); text-align: center; }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--border); margin-top: 24px; }
+.site-footer .container { padding: 18px 6px; text-align: center; color: var(--muted); }
+
+/* Lightbox (僅在開燈箱時才出現深色遮罩，日常不影響淺黃底) */
+.lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,.8);
+  display: none; align-items: center; justify-content: center; flex-direction: column; padding: 30px 16px;
+}
+.lightbox.open { display: flex; }
+.lightbox img { max-width: min(100%, 1200px); max-height: 80vh; border-radius: 12px; }
+.lightbox-cap { color: #eee; margin-top: 8px; }
+.lightbox-close {
+  position: absolute; top: 10px; right: 16px; font-size: 36px;
+  background: transparent; color: #fff; border: none; cursor: pointer;
+}
+.nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(0,0,0,.5); border: none; color: #fff; font-size: 26px;
+  padding: 10px 14px; border-radius: 8px; cursor: pointer;
+}
+.nav.prev { left: 20px; }
+.nav.next { right: 20px; }
+
+/* Tables (若有) */
+table { border-collapse: collapse; width: 100%; }
+td, th { border: 1px solid var(--border); padding: 8px; }
+th { background: #FFF0BF; }
+
+/* Code blocks (若有) */
+pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Noto Sans Mono", monospace; }
+pre {
+  background: #FFF3C9; color: #2B2B2B;
+  border: 1px solid var(--border); border-radius: 10px; padding: 12px; overflow: auto;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  .card img { height: 200px; }
+  .site-header nav a { margin-left: 8px; }
+}

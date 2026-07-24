@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>關係與代數前導完全學習手冊 — G1 到 G6（108 課綱）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbfaf6;--ink:#1b2333;--ink-soft:#4b5568;--rule:#e9edf4;--line:#cfd7e3;
+    --blue:#2f6fb3;--blue-fill:rgba(47,111,179,.14);
+    --accent:#8f56a8;--accent-fill:rgba(143,86,168,.14);--indigo:#6b5bb0;--rose:#c05a7d;
+    --orange:#dd7a32;--orange-fill:rgba(221,122,50,.18);
+    --green:#2f9e85;--gold:#eaa916;--gold-fill:rgba(234,169,22,.20);
+    --card:#fff;--shadow:0 1px 2px rgba(27,35,51,.06),0 8px 24px rgba(27,35,51,.06);--maxw:880px;
+  }
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);
+    background:linear-gradient(transparent 27px,var(--rule) 27px,var(--rule) 28px,transparent 28px) 0 0/100% 28px,var(--paper);
+    line-height:1.78;-webkit-font-smoothing:antialiased}
+
+  header.hero{padding:64px 22px 40px;text-align:center}
+  .hero .kicker{font-size:.82rem;letter-spacing:.32em;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-family:"Fraunces","Noto Sans TC",serif;font-weight:900;font-size:clamp(2rem,5.4vw,3.2rem);line-height:1.06;margin:0 0 16px;letter-spacing:-.01em}
+  .hero p.sub{font-size:1.06rem;color:var(--ink-soft);max-width:610px;margin:8px auto 0}
+  .hero .heroline{max-width:320px;margin:22px auto 0}
+  .hero .tag{display:inline-block;margin-top:22px;font-size:.8rem;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:#fff}
+
+  nav.toc{max-width:var(--maxw);margin:18px auto 50px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 24px}
+  nav.toc h2{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px}
+  nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 26px}
+  nav.toc a{display:flex;gap:10px;text-decoration:none;color:var(--ink);padding:6px 4px;border-radius:8px;font-size:.96rem}
+  nav.toc a:hover{background:var(--accent-fill);color:var(--accent)}
+  nav.toc a .g{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;min-width:30px}
+  @media(max-width:620px){nav.toc ol{grid-template-columns:1fr}}
+
+  section.ch{max-width:var(--maxw);margin:0 auto;padding:34px 22px 10px}
+  .ch-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px;padding-top:18px;border-top:2px solid var(--ink)}
+  .ch-num{font-family:"Fraunces",serif;font-weight:900;font-size:2.1rem;line-height:1;color:#fff;background:var(--accent);border-radius:10px;padding:8px 12px;flex:none;min-width:62px;text-align:center}
+  .ch-num.c1{background:#6b5bb0}.ch-num.c2{background:#7e57b3}.ch-num.c3{background:#8f56a8}.ch-num.c4{background:#a0559d}.ch-num.c5{background:#b05590}.ch-num.c6{background:#c05a7d}.ch-num.x{background:#3a4253}
+  .ch-head h2{font-size:1.5rem;margin:2px 0 2px;font-weight:900;letter-spacing:-.01em}
+  .ch-head .grade{font-size:.8rem;color:var(--ink-soft);letter-spacing:.06em}
+  .ch-body{padding:6px 2px 0}
+  h3{font-size:1.16rem;margin:30px 0 8px;font-weight:700;display:flex;align-items:center;gap:9px}
+  h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg);flex:none}
+  p{margin:.6em 0}.lead{font-size:1.05rem}
+
+  .term{font-weight:700;color:var(--accent)}
+  .en{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:.82em;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+  .en::before{content:"("}.en::after{content:")"}
+  .bx{display:inline-block;min-width:1.6em;text-align:center;border:2px solid var(--accent);border-radius:5px;padding:0 .2em;color:var(--accent);font-weight:700;background:var(--accent-fill)}
+
+  .why{background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:10px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow)}
+  .why .lbl{font-weight:700;color:var(--accent);font-size:.92rem;letter-spacing:.05em;display:block;margin-bottom:4px}
+  .xref{background:#f7f2fa;border:1px solid #e3d3ec;border-left:5px solid var(--accent);border-radius:10px;padding:12px 18px;margin:18px 0;font-size:.94rem}
+  .xref .lbl{font-weight:700;color:var(--accent);font-size:.9rem;display:block;margin-bottom:2px}
+  .xref .lbl::before{content:"🔗 ";}
+  .pitfall{background:#fff7ef;border:1px solid #f1d6b5;border-left:5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:18px 0}
+  .pitfall .lbl{font-weight:700;color:var(--orange);font-size:.92rem;display:block;margin-bottom:4px}
+  .keyformula{text-align:center;background:var(--gold-fill);border:2px dashed var(--gold);border-radius:12px;padding:16px;margin:20px 0;font-size:1.2rem;font-weight:700}
+  .keyformula small{display:block;font-size:.82rem;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:.02em}
+
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;line-height:1;text-align:center;font-size:.78em;margin:0 .12em;transform:translateY(-.05em)}
+  .fr .n{border-bottom:2px solid currentColor;padding:0 .25em 1px}.fr .d{padding:1px .25em 0}
+
+  figure{margin:22px 0;text-align:center}
+  figure svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+  figcaption{font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+  .s-lbl{font:600 13px "Noto Sans TC",sans-serif;fill:var(--ink)}
+  .s-lbl-a{font:700 13px "Noto Sans TC",sans-serif;fill:var(--accent)}
+  .s-lbl-o{font:700 13px "Noto Sans TC",sans-serif;fill:var(--orange)}
+  .s-lbl-g{font:700 13px "Noto Sans TC",sans-serif;fill:#1f7a66}
+  .bloc{fill:var(--accent-fill);stroke:var(--accent);stroke-width:2}
+  .bloc-o{fill:var(--orange-fill);stroke:var(--orange);stroke-width:2}
+  .grid{stroke:#e0d4ea;stroke-width:1}
+
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:.94rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+  th{background:#f0f3f8;font-weight:700}
+  td.l,th.l{text-align:left}
+
+  .practice{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:26px 0;box-shadow:var(--shadow)}
+  .practice .ptitle{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin:0 0 4px}
+  .practice .ptitle .badge{background:var(--green);color:#fff;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+  ol.prob{counter-reset:p;list-style:none;padding:0;margin:14px 0 0}
+  ol.prob>li{counter-increment:p;position:relative;padding:14px 0 14px 40px;border-top:1px dashed var(--line)}
+  ol.prob>li:first-child{border-top:none}
+  ol.prob>li::before{content:counter(p);position:absolute;left:0;top:13px;width:26px;height:26px;background:var(--accent);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  details{margin-top:8px}
+  details>summary{cursor:pointer;display:inline-block;font-size:.86rem;font-weight:700;color:var(--green);background:#eef8f5;border:1px solid #bfe3da;border-radius:8px;padding:4px 12px;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::before{content:"▸ ";font-size:.8rem}
+  details[open]>summary::before{content:"▾ "}
+  .ans{margin-top:10px;background:#f4faf8;border:1px solid #cfe9e1;border-radius:10px;padding:12px 16px;font-size:.95rem}
+  .ans b{color:#1f7a66}.ans .calc{font-variant-numeric:tabular-nums}
+
+  .cards-wrap{max-width:var(--maxw);margin:0 auto;padding:20px 22px 40px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;position:relative;overflow:hidden}
+  .mc::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--accent)}
+  .mc.c1::before{background:#6b5bb0}.mc.c2::before{background:#7e57b3}.mc.c3::before{background:#8f56a8}.mc.c4::before{background:#a0559d}.mc.c5::before{background:#b05590}.mc.c6::before{background:#c05a7d}.mc.gx::before{background:#3a4253}
+  .mc .tag{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:var(--ink-soft)}
+  .mc h4{margin:4px 0 8px;font-size:1.05rem}
+  .mc h4 .en{font-size:.66em}
+  .mc .f{font-size:1rem;font-weight:900;color:var(--ink);background:var(--gold-fill);border-radius:8px;padding:6px 10px;display:inline-block;margin-bottom:8px}
+  .mc .pt{font-size:.86rem;color:var(--ink-soft);margin:0}
+  .mc .pt b{color:var(--orange)}
+
+  .controls{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.86);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .controls .inner{max-width:var(--maxw);margin:0 auto;padding:9px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .controls .home{font-weight:900;text-decoration:none;color:var(--ink);font-size:.95rem}
+  .controls .home .b{color:var(--gold)}
+  .btn{font:inherit;font-size:.82rem;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  footer{max-width:var(--maxw);margin:30px auto 60px;padding:24px 22px 0;border-top:2px solid var(--ink);color:var(--ink-soft);font-size:.9rem}
+  .note{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.9rem;color:var(--ink-soft)}
+
+  @media print{
+    body{background:#fff}.controls{display:none}
+    details>summary{display:none}.ans{display:block!important}
+    figure svg,.practice,.mc,.why,.xref{box-shadow:none}
+    .keyformula,.practice{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="inner">
+    <a class="home" href="#top">關係與<span class="b">代數</span>手冊</a>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="toggleAll">展開全部解答</button>
+      <button class="btn" onclick="window.print()">列印 / 存 PDF</button>
+    </div>
+  </div>
+</div>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="kicker">108 課綱 · 關係 R · 代數前導</div>
+  <h1>關係與代數前導<br>完全學習手冊</h1>
+  <p class="sub">數學不只是「算出答案」，更是「找出規律與關係」。本手冊帶你從找規律、用符號代表未知數，一路到等量公理、比與比例、百分率和速率——這些正是國中<strong>代數</strong>的種子。</p>
+  <figure class="heroline">
+    <svg viewBox="0 0 300 70" role="img" aria-label="天平兩邊平衡,左邊方塊加5,右邊12">
+      <line x1="60" y1="20" x2="240" y2="20" stroke="var(--ink)" stroke-width="3"/>
+      <line x1="150" y1="20" x2="150" y2="58" stroke="var(--ink)" stroke-width="3"/>
+      <polygon points="135,64 165,64 150,54" fill="var(--ink)"/>
+      <rect x="80" y="22" width="44" height="20" class="bloc"/><text x="102" y="37" text-anchor="middle" class="s-lbl-a" style="font-size:12px">□＋5</text>
+      <rect x="180" y="22" width="44" height="20" class="bloc-o"/><text x="202" y="37" text-anchor="middle" class="s-lbl-o" style="font-size:12px">12</text>
+    </svg>
+  </figure>
+  <div class="tag">涵蓋 G1 → G6 ｜ 規律・未知數・等量公理・比與比例・百分率・速率 ｜ 圖解・記憶小卡・練習</div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <h2>學習地圖</h2>
+  <ol>
+    <li><a href="#c0"><span class="g">核心</span><span>從「算答案」到「找關係」</span></a></li>
+    <li><a href="#c1"><span class="g">1</span><span>規律：找出通則</span></a></li>
+    <li><a href="#c2"><span class="g">2</span><span>未知數與算式</span></a></li>
+    <li><a href="#c3"><span class="g">3</span><span>等量公理（天平）</span></a></li>
+    <li><a href="#c4"><span class="g">4</span><span>比與比值</span></a></li>
+    <li><a href="#c5"><span class="g">5</span><span>百分率</span></a></li>
+    <li><a href="#c6"><span class="g">6</span><span>速率</span></a></li>
+    <li><a href="#cx"><span class="g">進階</span><span>比例尺與綜合應用</span></a></li>
+    <li><a href="#cards"><span class="g">小卡</span><span>考前記憶小卡專區</span></a></li>
+  </ol>
+</nav>
+
+<!-- ===== 核心 ===== -->
+<section class="ch" id="c0">
+  <div class="ch-head"><div class="ch-num x">★</div><div><h2>從「算答案」到「找關係」</h2><div class="grade">全部章節的共同地基</div></div></div>
+  <div class="ch-body">
+    <p class="lead">前面幾本手冊在學「怎麼算出答案」。這一本要往前一步：<strong>看出數字之間的關係與規律</strong>，並用符號把它寫下來。這正是「代數」的起點。</p>
+    <div class="keyformula">代數前導 ＝ 用符號（□、字母）表達「數與數之間的關係」<small>算術問「答案是多少」；代數問「它們之間有什麼規律」</small></div>
+    <div class="why">
+      <span class="lbl">為什麼要學「關係」，而不只是算答案？</span>
+      因為很多問題不知道確切數字，但知道<strong>關係</strong>。例如「一個數加 5 等於 12」——我們可以先用 <span class="bx">□</span> 代表那個未知的數，寫成 <span class="bx">□</span>＋5＝12，再想辦法解出來。學會「用符號表達關係、再求解」，就能處理更難、更抽象的問題，這也是國中數學的基礎。
+    </div>
+    <div class="xref"><span class="lbl">這本會用到前面所有手冊</span>解未知數用到<strong>四則運算</strong>；最簡整數比用到<strong>因數（約分）</strong>；百分率串起<strong>分數與小數</strong>；速率是一種<strong>比</strong>。等於把整套數學連成一張網。</div>
+  </div>
+</section>
+
+<!-- ===== Ch1 規律 ===== -->
+<section class="ch" id="c1">
+  <div class="ch-head"><div class="ch-num c1">1</div><div><h2>規律 <span class="en">pattern</span>：找出通則</h2><div class="grade">小一～小四｜目標：從數列或圖形中找出規律，並推到第 n 個</div></div></div>
+  <div class="ch-body">
+    <p>觀察一串數字或圖形，找出「它是怎麼變的」，就能預測下一個、甚至第 100 個。</p>
+    <figure>
+      <svg viewBox="0 0 460 90" role="img" aria-label="數列3 6 9 12每次加3">
+        <g class="bloc"><rect x="20" y="30" width="50" height="34" rx="6"/><rect x="120" y="30" width="50" height="34" rx="6"/><rect x="220" y="30" width="50" height="34" rx="6"/><rect x="320" y="30" width="50" height="34" rx="6"/></g>
+        <text x="45" y="52" text-anchor="middle" class="s-lbl-a">3</text><text x="145" y="52" text-anchor="middle" class="s-lbl-a">6</text><text x="245" y="52" text-anchor="middle" class="s-lbl-a">9</text><text x="345" y="52" text-anchor="middle" class="s-lbl-a">12</text>
+        <text x="410" y="52" text-anchor="middle" class="s-lbl" style="font-size:22px">?</text>
+        <g stroke="var(--orange)" stroke-width="2" fill="none"><path d="M70,28 Q95,10 120,28" marker-end="url(#a)"/><path d="M170,28 Q195,10 220,28" marker-end="url(#a)"/><path d="M270,28 Q295,10 320,28" marker-end="url(#a)"/></g>
+        <defs><marker id="a" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--orange)"/></marker></defs>
+        <text x="95" y="14" text-anchor="middle" class="s-lbl-o">＋3</text><text x="195" y="14" text-anchor="middle" class="s-lbl-o">＋3</text><text x="295" y="14" text-anchor="middle" class="s-lbl-o">＋3</text>
+      </svg>
+      <figcaption>規律是「每次 ＋3」，所以下一個是 15。也可以看成「第 n 個 ＝ 3×n」，第 5 個就是 3×5＝15。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">「第 n 個」就是代數的種子</span>與其一個一個往下加，不如找出<strong>通則</strong>：第 n 個 ＝ 3×n。這裡的 <strong>n 代表「第幾個」</strong>——用一個符號代表「任何一個位置」，正是代數的核心想法。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>規律（10 題）</p>
+      <ol class="prob">
+        <li>2、4、6、8、__ 下一個？<details><summary>解答</summary><div class="ans">每次＋2 → <b>10。</b></div></details></li>
+        <li>3、6、9、12、__ ？<details><summary>解答</summary><div class="ans"><b>15</b>（＋3）。</div></details></li>
+        <li>1、4、7、10、__ ？<details><summary>解答</summary><div class="ans"><b>13</b>（＋3）。</div></details></li>
+        <li>5、10、15、20…，第 10 個是？<details><summary>解答</summary><div class="ans">5×10＝<b>50。</b></div></details></li>
+        <li>△○△○△○ 下一個圖形？<details><summary>解答</summary><div class="ans"><b>△</b>（△○ 重複）。</div></details></li>
+        <li>1、2、4、8、16 的規律是？<details><summary>解答</summary><div class="ans"><b>每個是前一個的 2 倍（×2）。</b></div></details></li>
+        <li>100、90、80、70、__ ？<details><summary>解答</summary><div class="ans"><b>60</b>（−10）。</div></details></li>
+        <li>第 n 個是 3×n，第 5 個是？<details><summary>解答</summary><div class="ans">3×5＝<b>15。</b></div></details></li>
+        <li>2、5、8、11…，第 6 個是？<details><summary>解答</summary><div class="ans">首項 2、每次＋3：2＋3×5＝<b>17。</b></div></details></li>
+        <li>1、4、9、16…（正方形數），下一個？<details><summary>解答</summary><div class="ans">5×5＝<b>25。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch2 未知數 ===== -->
+<section class="ch" id="c2">
+  <div class="ch-head"><div class="ch-num c2">2</div><div><h2>未知數與算式 <span class="en">unknown</span></h2><div class="grade">小三～小五｜目標：用符號代表不知道的數、會列式</div></div></div>
+  <div class="ch-body">
+    <p>當一個數還不知道，就用一個符號（<span class="bx">□</span> 或字母）代表它。例如「某數加 5 等於 12」，寫成 <span class="bx">□</span> ＋ 5 ＝ 12。</p>
+    <div class="why"><span class="lbl">怎麼求出未知數？用「相反運算」</span><span class="bx">□</span>＋5＝12，加的相反是減，所以 <span class="bx">□</span>＝12−5＝<strong>7</strong>。同理：<br>・<span class="bx">□</span>−3＝8 → □＝8＋3＝11（減的相反是加）<br>・<span class="bx">□</span>×4＝20 → □＝20÷4＝5（乘的相反是除）<br>・<span class="bx">□</span>÷3＝6 → □＝6×3＝18（除的相反是乘）</div>
+    <div class="xref"><span class="lbl">呼應整數運算</span>這就是《整數運算手冊》講的「四則互為相反」：加↔減、乘↔除。求未知數，就是用相反運算「還原」回去。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>未知數與算式（11 題）</p>
+      <ol class="prob">
+        <li><span class="bx">□</span>＋5＝12，□＝？<details><summary>解答</summary><div class="ans">12−5＝<b>7。</b></div></details></li>
+        <li><span class="bx">□</span>−3＝8，□＝？<details><summary>解答</summary><div class="ans">8＋3＝<b>11。</b></div></details></li>
+        <li><span class="bx">□</span>×4＝20，□＝？<details><summary>解答</summary><div class="ans">20÷4＝<b>5。</b></div></details></li>
+        <li><span class="bx">□</span>÷3＝6，□＝？<details><summary>解答</summary><div class="ans">6×3＝<b>18。</b></div></details></li>
+        <li>7＋<span class="bx">□</span>＝15，□＝？<details><summary>解答</summary><div class="ans">15−7＝<b>8。</b></div></details></li>
+        <li>「某數加 7 等於 20」，列式並求出。<details><summary>解答</summary><div class="ans">□＋7＝20，□＝<b>13。</b></div></details></li>
+        <li>小明有一些糖，吃了 5 顆剩 8 顆，原有幾顆？列式。<details><summary>解答</summary><div class="ans">□−5＝8，□＝<b>13 顆。</b></div></details></li>
+        <li>3×<span class="bx">□</span>＝21，□＝？<details><summary>解答</summary><div class="ans">21÷3＝<b>7。</b></div></details></li>
+        <li><span class="bx">□</span>＋<span class="bx">□</span>＝10（兩個一樣），□＝？<details><summary>解答</summary><div class="ans">10÷2＝<b>5。</b></div></details></li>
+        <li>未知數（符號）的作用是什麼？<details><summary>解答</summary><div class="ans"><b>代表還不知道的數。</b></div></details></li>
+        <li>24÷<span class="bx">□</span>＝6，□＝？<details><summary>解答</summary><div class="ans">24÷6＝<b>4。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch3 等量公理 ===== -->
+<section class="ch" id="c3">
+  <div class="ch-head"><div class="ch-num c3">3</div><div><h2>等量公理 <span class="en">equality axiom</span></h2><div class="grade">小六｜目標：把等號看成天平，兩邊做一樣的事來解題</div></div></div>
+  <div class="ch-body">
+    <p>「＝」就像一座<strong>天平</strong>：左右兩邊一樣重，才平衡。想維持平衡，<strong>不管對一邊做什麼（加、減、乘、除），另一邊也要做一模一樣的事</strong>。這就是等量公理。</p>
+    <figure>
+      <svg viewBox="0 0 480 150" role="img" aria-label="天平□加5等於12,兩邊各拿掉5後□等於7">
+        <!-- balance 1 -->
+        <line x1="30" y1="40" x2="200" y2="40" stroke="var(--ink)" stroke-width="3"/><line x1="115" y1="40" x2="115" y2="95" stroke="var(--ink)" stroke-width="3"/><polygon points="100,100 130,100 115,90" fill="var(--ink)"/>
+        <rect x="45" y="20" width="60" height="20" class="bloc"/><text x="75" y="35" text-anchor="middle" class="s-lbl-a" style="font-size:12px">□＋5</text>
+        <rect x="130" y="20" width="55" height="20" class="bloc-o"/><text x="157" y="35" text-anchor="middle" class="s-lbl-o" style="font-size:12px">12</text>
+        <text x="115" y="128" text-anchor="middle" class="s-lbl">兩邊各拿掉 5</text>
+        <!-- arrow -->
+        <path d="M215,70 L255,70" stroke="var(--green)" stroke-width="2.4" fill="none" marker-end="url(#ah3)"/>
+        <defs><marker id="ah3" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--green)"/></marker></defs>
+        <!-- balance 2 -->
+        <line x1="280" y1="40" x2="450" y2="40" stroke="var(--ink)" stroke-width="3"/><line x1="365" y1="40" x2="365" y2="95" stroke="var(--ink)" stroke-width="3"/><polygon points="350,100 380,100 365,90" fill="var(--ink)"/>
+        <rect x="305" y="20" width="45" height="20" class="bloc"/><text x="327" y="35" text-anchor="middle" class="s-lbl-a" style="font-size:12px">□</text>
+        <rect x="385" y="20" width="45" height="20" class="bloc-o"/><text x="407" y="35" text-anchor="middle" class="s-lbl-o" style="font-size:12px">7</text>
+        <text x="365" y="128" text-anchor="middle" class="s-lbl-g">□ ＝ 7</text>
+      </svg>
+      <figcaption>□＋5＝12，兩邊各拿掉 5，天平仍平衡，變成 □＝7。這比「背相反運算」更能看懂為什麼。</figcaption>
+    </figure>
+    <div class="keyformula">等號兩邊做「一樣的事」，等式仍成立<small>兩邊同加、同減、同乘、同除一個數，天平不會失衡</small></div>
+    <div class="why"><span class="lbl">解兩步驟的式子</span>2×<span class="bx">□</span>＋1＝11：先兩邊<strong>減 1</strong> → 2×□＝10；再兩邊<strong>除以 2</strong> → □＝5。一步一步把 □ 旁邊的東西「還原」掉，就解出來了。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>等量公理（11 題）</p>
+      <ol class="prob">
+        <li>等量公理是說天平兩邊要怎樣？<details><summary>解答</summary><div class="ans"><b>相等（平衡）</b>；兩邊做一樣的事。</div></details></li>
+        <li><span class="bx">□</span>＋6＝10（兩邊減 6），□＝？<details><summary>解答</summary><div class="ans"><b>4。</b></div></details></li>
+        <li><span class="bx">□</span>＋8＝15，□＝？<details><summary>解答</summary><div class="ans"><b>7。</b></div></details></li>
+        <li><span class="bx">□</span>−4＝9，□＝？<details><summary>解答</summary><div class="ans">兩邊加 4 → <b>13。</b></div></details></li>
+        <li>5×<span class="bx">□</span>＝30（兩邊除 5），□＝？<details><summary>解答</summary><div class="ans"><b>6。</b></div></details></li>
+        <li><span class="bx">□</span>×7＝42，□＝？<details><summary>解答</summary><div class="ans"><b>6。</b></div></details></li>
+        <li><span class="bx">□</span>÷2＝9（兩邊乘 2），□＝？<details><summary>解答</summary><div class="ans"><b>18。</b></div></details></li>
+        <li>為什麼兩邊要做一樣的事？<details><summary>解答</summary><div class="ans">為了<b>保持平衡（相等）。</b></div></details></li>
+        <li>2×<span class="bx">□</span>＋1＝11，□＝？<details><summary>解答</summary><div class="ans">減 1 得 2□＝10，除 2 → <b>5。</b></div></details></li>
+        <li><span class="bx">□</span>＋<span class="bx">□</span>＋<span class="bx">□</span>＝12，□＝？<details><summary>解答</summary><div class="ans">12÷3＝<b>4。</b></div></details></li>
+        <li>3×<span class="bx">□</span>−2＝13，□＝？<details><summary>解答</summary><div class="ans">加 2 得 3□＝15，除 3 → <b>5。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch4 比與比值 ===== -->
+<section class="ch" id="c4">
+  <div class="ch-head"><div class="ch-num c4">4</div><div><h2>比與比值 <span class="en">ratio · rate</span></h2><div class="grade">小六｜目標：懂比、比值、最簡整數比</div></div></div>
+  <div class="ch-body">
+    <p>要比較兩個量的關係，用<span class="term">比</span> <span class="en">ratio</span>。3 個蘋果對 2 個橘子，記成 <strong>3:2</strong>（讀「3 比 2」）。</p>
+    <figure>
+      <svg viewBox="0 0 380 100" role="img" aria-label="3比2的方塊圖">
+        <g class="bloc"><rect x="30" y="35" width="34" height="34"/><rect x="68" y="35" width="34" height="34"/><rect x="106" y="35" width="34" height="34"/></g>
+        <text x="85" y="90" text-anchor="middle" class="s-lbl-a">蘋果 3</text>
+        <text x="170" y="58" text-anchor="middle" class="s-lbl" style="font-size:20px">:</text>
+        <g class="bloc-o"><rect x="210" y="35" width="34" height="34"/><rect x="248" y="35" width="34" height="34"/></g>
+        <text x="245" y="90" text-anchor="middle" class="s-lbl-o">橘子 2</text>
+        <text x="330" y="58" text-anchor="middle" class="s-lbl-a">3 : 2</text>
+      </svg>
+      <figcaption>比 3:2 的「3」叫前項、「2」叫後項。</figcaption>
+    </figure>
+    <table>
+      <tr><th>名詞</th><th class="l">英文</th><th class="l">意思</th></tr>
+      <tr><td><span class="term">比</span></td><td class="l en">ratio</td><td class="l">兩量的關係，如 3:2</td></tr>
+      <tr><td><span class="term">比值</span></td><td class="l en">value of ratio</td><td class="l">前項 ÷ 後項，把比化成一個數：3÷2＝<span class="fr"><span class="n">3</span><span class="d">2</span></span></td></tr>
+      <tr><td><span class="term">最簡整數比</span></td><td class="l en">simplest ratio</td><td class="l">前後項同除最大公因數，化到最簡</td></tr>
+    </table>
+    <div class="why"><span class="lbl">最簡整數比 ＝ 約分</span>把 6:4 化簡，就像約分 <span class="fr"><span class="n">6</span><span class="d">4</span></span>：前後項同除最大公因數 2 → <strong>3:2</strong>。比和分數其實是<strong>同一件事的兩種寫法</strong>（3:2 ↔ <span class="fr"><span class="n">3</span><span class="d">2</span></span>）。</div>
+    <div class="xref"><span class="lbl">呼應因數與分數</span>化最簡整數比就是《因數倍數手冊》的「除以最大公因數」＋《分數手冊》的約分。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>比與比值（11 題）</p>
+      <ol class="prob">
+        <li>3 個蘋果對 2 個橘子，比是？<details><summary>解答</summary><div class="ans"><b>3:2。</b></div></details></li>
+        <li>比 3:2 的比值是多少？<details><summary>解答</summary><div class="ans">3÷2＝<b><span class="fr"><span class="n">3</span><span class="d">2</span></span>（＝1.5）。</b></div></details></li>
+        <li>把 6:4 化成最簡整數比。<details><summary>解答</summary><div class="ans">同除 2 → <b>3:2。</b></div></details></li>
+        <li>把 10:15 化成最簡整數比。<details><summary>解答</summary><div class="ans">同除 5 → <b>2:3。</b></div></details></li>
+        <li>比 8:2 的比值是？<details><summary>解答</summary><div class="ans">8÷2＝<b>4。</b></div></details></li>
+        <li>男生 15 人、女生 10 人，男女最簡比？<details><summary>解答</summary><div class="ans">同除 5 → <b>3:2。</b></div></details></li>
+        <li>果汁 濃縮:水＝1:4，用 2 份濃縮要幾份水？<details><summary>解答</summary><div class="ans">2×4＝<b>8 份。</b></div></details></li>
+        <li>把 12:18 化成最簡整數比。<details><summary>解答</summary><div class="ans">同除 6 → <b>2:3。</b></div></details></li>
+        <li>什麼是正比？<details><summary>解答</summary><div class="ans"><b>一個量增加，另一個也按比例增加。</b></div></details></li>
+        <li>比值是把「比」看成一個什麼？<details><summary>解答</summary><div class="ans">一個<b>數</b>（前項÷後項）。</div></details></li>
+        <li>把 9:12 化成最簡整數比。<details><summary>解答</summary><div class="ans">同除 3 → <b>3:4。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch5 百分率 ===== -->
+<section class="ch" id="c5">
+  <div class="ch-head"><div class="ch-num c5">5</div><div><h2>百分率 <span class="en">percentage</span></h2><div class="grade">小六｜目標：懂百分率是「分母 100 的比」，串起分數與小數</div></div></div>
+  <div class="ch-body">
+    <p><span class="term">百分率</span>（percent，%）就是<strong>分母固定為 100 的比</strong>。25% 就是「100 份裡佔 25 份」＝ <span class="fr"><span class="n">25</span><span class="d">100</span></span> ＝ 0.25 ＝ <span class="fr"><span class="n">1</span><span class="d">4</span></span>。</p>
+    <figure>
+      <svg viewBox="0 0 220 200" role="img" aria-label="10乘10方格塗25格表示25百分比">
+        <g class="grid">
+          <rect x="30" y="20" width="160" height="160" fill="none" stroke="var(--accent)" stroke-width="2"/>
+          <line x1="46" y1="20" x2="46" y2="180"/><line x1="62" y1="20" x2="62" y2="180"/><line x1="78" y1="20" x2="78" y2="180"/><line x1="94" y1="20" x2="94" y2="180"/><line x1="110" y1="20" x2="110" y2="180"/><line x1="126" y1="20" x2="126" y2="180"/><line x1="142" y1="20" x2="142" y2="180"/><line x1="158" y1="20" x2="158" y2="180"/><line x1="174" y1="20" x2="174" y2="180"/>
+          <line x1="30" y1="36" x2="190" y2="36"/><line x1="30" y1="52" x2="190" y2="52"/><line x1="30" y1="68" x2="190" y2="68"/><line x1="30" y1="84" x2="190" y2="84"/><line x1="30" y1="100" x2="190" y2="100"/><line x1="30" y1="116" x2="190" y2="116"/><line x1="30" y1="132" x2="190" y2="132"/><line x1="30" y1="148" x2="190" y2="148"/><line x1="30" y1="164" x2="190" y2="164"/>
+        </g>
+        <rect x="30" y="20" width="80" height="80" fill="var(--accent-fill)" stroke="var(--accent)" stroke-width="2"/>
+        <text x="110" y="197" text-anchor="middle" class="s-lbl-a">塗 25 格 ／ 100 格 ＝ 25% ＝ ¼ ＝ 0.25</text>
+      </svg>
+      <figcaption>把整體切成 100 份，塗 25 份就是 25%。同一個數，三種穿法：分數 ¼、小數 0.25、百分率 25%。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">為什麼要用「100」當分母？</span>因為大家都用同一個基準（每 100 份），就很好<strong>比較</strong>——40% 一定比 35% 多，不必再通分。這也是為什麼考試成績、電池電量、折扣都愛用百分率。</div>
+    <div class="xref"><span class="lbl">三位一體</span>百分率、分數、小數是同一個數的三種寫法（住同一條數軸）。互換：分數／小數 → ×100 加上 %；百分率 → ÷100 變小數。</div>
+    <div class="keyformula">百分率 ↔ 小數：÷100 或 ×100　｜　打幾折 ＝ 幾成 ＝ ×0.幾<small>打 8 折 ＝ 付 80% ＝ ×0.8</small></div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>百分率（11 題）</p>
+      <ol class="prob">
+        <li>百分率的分母固定是多少？<details><summary>解答</summary><div class="ans"><b>100。</b></div></details></li>
+        <li>25% 等於哪個分數？哪個小數？<details><summary>解答</summary><div class="ans"><b>¼、0.25。</b></div></details></li>
+        <li>50% 等於？<details><summary>解答</summary><div class="ans"><b>½、0.5。</b></div></details></li>
+        <li>0.3 是百分之幾？<details><summary>解答</summary><div class="ans"><b>30%。</b></div></details></li>
+        <li>¾ 是百分之幾？<details><summary>解答</summary><div class="ans"><b>75%。</b></div></details></li>
+        <li>100 元的東西打 8 折，付多少？<details><summary>解答</summary><div class="ans">8 折＝80%，100×0.8＝<b>80 元。</b></div></details></li>
+        <li>一件 500 元的衣服打 9 折，付多少？<details><summary>解答</summary><div class="ans">500×0.9＝<b>450 元。</b></div></details></li>
+        <li>全班 40 人，60% 及格，幾人及格？<details><summary>解答</summary><div class="ans">40×0.6＝<b>24 人。</b></div></details></li>
+        <li>20 是 100 的百分之幾？<details><summary>解答</summary><div class="ans"><b>20%。</b></div></details></li>
+        <li>打「對折」是打幾折？百分之幾？<details><summary>解答</summary><div class="ans"><b>5 折、50%。</b></div></details></li>
+        <li>100% 代表什麼？<details><summary>解答</summary><div class="ans"><b>全部。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch6 速率 ===== -->
+<section class="ch" id="c6">
+  <div class="ch-head"><div class="ch-num c6">6</div><div><h2>速率 <span class="en">speed</span></h2><div class="grade">小六｜目標：懂速率是「每單位時間走的距離」</div></div></div>
+  <div class="ch-body">
+    <p><span class="term">速率</span>就是「跑多快」＝<strong>每一段時間走了多少距離</strong>。走 120 公尺花 60 秒，速率就是 120÷60＝<strong>每秒 2 公尺</strong>。</p>
+    <figure>
+      <svg viewBox="0 0 260 170" role="img" aria-label="距離速率時間三角關係圖">
+        <polygon points="130,20 40,150 220,150" fill="none" stroke="var(--accent)" stroke-width="2"/>
+        <line x1="130" y1="85" x2="40" y2="85" stroke="none"/>
+        <line x1="72" y1="85" x2="188" y2="85" stroke="var(--accent)" stroke-width="1.5"/>
+        <line x1="130" y1="85" x2="130" y2="150" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="130" y="60" text-anchor="middle" class="s-lbl-a" style="font-size:16px">距離</text>
+        <text x="95" y="135" text-anchor="middle" class="s-lbl-a" style="font-size:15px">速率</text>
+        <text x="168" y="135" text-anchor="middle" class="s-lbl-a" style="font-size:15px">時間</text>
+      </svg>
+      <figcaption>三角關係：遮住哪個，就是它的算法。距離＝速率×時間；速率＝距離÷時間；時間＝距離÷速率。</figcaption>
+    </figure>
+    <div class="keyformula">速率 ＝ 距離 ÷ 時間<small>距離 ＝ 速率 × 時間　｜　時間 ＝ 距離 ÷ 速率</small></div>
+    <div class="why"><span class="lbl">速率其實是一種「比」</span>速率是「距離 對 時間」的比值——每 1 單位時間走多少距離（公里/時、公尺/秒）。所以它和第 4 章的「比值」是同一個想法，只是把兩個量固定成「距離」和「時間」。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>速率（11 題）</p>
+      <ol class="prob">
+        <li>速率怎麼算？<details><summary>解答</summary><div class="ans"><b>距離 ÷ 時間。</b></div></details></li>
+        <li>走 120 公尺花 60 秒，速率？<details><summary>解答</summary><div class="ans">120÷60＝<b>每秒 2 公尺。</b></div></details></li>
+        <li>車開 180 公里花 3 小時，速率？<details><summary>解答</summary><div class="ans">180÷3＝<b>每小時 60 公里。</b></div></details></li>
+        <li>速率 60 公里/時，開 2 小時，走多遠？<details><summary>解答</summary><div class="ans">60×2＝<b>120 公里。</b></div></details></li>
+        <li>距離 300 公里、速率 60 公里/時，要幾小時？<details><summary>解答</summary><div class="ans">300÷60＝<b>5 小時。</b></div></details></li>
+        <li>距離 ＝ 速率 × 什麼？<details><summary>解答</summary><div class="ans"><b>時間。</b></div></details></li>
+        <li>每秒 5 公尺，10 秒走幾公尺？<details><summary>解答</summary><div class="ans">5×10＝<b>50 公尺。</b></div></details></li>
+        <li>每小時 4 公里，走 2 小時走幾公里？<details><summary>解答</summary><div class="ans">4×2＝<b>8 公里。</b></div></details></li>
+        <li>速率是一種特別的什麼？<details><summary>解答</summary><div class="ans"><b>比（距離對時間的比值）。</b></div></details></li>
+        <li>100 公尺跑 10 秒，速率？<details><summary>解答</summary><div class="ans">100÷10＝<b>每秒 10 公尺。</b></div></details></li>
+        <li>時間 ＝ 距離 ÷ 什麼？<details><summary>解答</summary><div class="ans"><b>速率。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 進階 ===== -->
+<section class="ch" id="cx">
+  <div class="ch-head"><div class="ch-num x">＋</div><div><h2>比例尺與綜合應用</h2><div class="grade">G6 綜合｜把關係與比例用到生活</div></div></div>
+  <div class="ch-body">
+    <div class="why"><span class="lbl">比例尺也是一種比</span>地圖的<span class="term">比例尺</span> <span class="en">scale</span> 1:100 表示「圖上 1 對實際 100」。圖上量到的長度 × 比例尺後項，就是實際長度。</div>
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>綜合應用（10 題）</p>
+      <ol class="prob">
+        <li>比例尺 1:100，圖上 3 公分是實際幾公分？<details><summary>解答</summary><div class="ans">3×100＝300 公分＝<b>3 公尺。</b></div></details></li>
+        <li>比例尺 1:1000，圖上 5 公分是實際幾公尺？<details><summary>解答</summary><div class="ans">5×1000＝5000 公分＝<b>50 公尺。</b></div></details></li>
+        <li>糖水 糖:水＝1:4，用 50 公克糖要幾公克水？<details><summary>解答</summary><div class="ans">50×4＝<b>200 公克。</b></div></details></li>
+        <li>500 元的商品打 75 折，付多少？<details><summary>解答</summary><div class="ans">500×0.75＝<b>375 元。</b></div></details></li>
+        <li>200 的 30% 是多少？<details><summary>解答</summary><div class="ans">200×0.3＝<b>60。</b></div></details></li>
+        <li>某數的 25% 是 15，這個數是多少？<details><summary>解答</summary><div class="ans">15÷0.25＝<b>60。</b></div></details></li>
+        <li>甲、乙的錢比 3:2，共 250 元，甲有多少？<details><summary>解答</summary><div class="ans">250÷5×3＝<b>150 元。</b></div></details></li>
+        <li>汽車 90 公里/時，開 4 小時走多遠？<details><summary>解答</summary><div class="ans">90×4＝<b>360 公里。</b></div></details></li>
+        <li><span class="bx">□</span>×5−3＝17，□＝？<details><summary>解答</summary><div class="ans">加 3 得 5□＝20，除 5 → <b>4。</b></div></details></li>
+        <li>地圖比例尺 1:50000，圖上 2 公分是實際幾公里？<details><summary>解答</summary><div class="ans">2×50000＝100000 公分＝<b>1 公里。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 記憶小卡 ===== -->
+<section class="cards-wrap" id="cards">
+  <div class="ch-head" style="max-width:none"><div class="ch-num x">★</div><div><h2>考前記憶小卡</h2><div class="grade">快速翻閱用｜每張＝重點＋一句「為什麼」＋易錯</div></div></div>
+  <p class="note" style="margin-top:14px">用法：考前遮住重點，看提示，試著自己講出來。列印可剪成卡片。</p>
+  <div class="cards">
+    <div class="mc gx"><div class="tag">核心觀念</div><h4>代數前導</h4><div class="f">用符號表達「關係」</div><p class="pt">從「算答案」到「找規律」。□／字母代表未知的數。</p></div>
+    <div class="mc c1"><div class="tag">CH1 · 規律</div><h4>規律 <span class="en">pattern</span></h4><div class="f">找出通則：第 n 個</div><p class="pt">用 n 代表「任何位置」＝代數的種子。</p></div>
+    <div class="mc c2"><div class="tag">CH2 · 未知數</div><h4>求未知數 <span class="en">unknown</span></h4><div class="f">用相反運算還原</div><p class="pt">□＋5＝12 → □＝12−5。加↔減、乘↔除。</p></div>
+    <div class="mc c3"><div class="tag">CH3 · 等量公理</div><h4>等量公理 <span class="en">equality</span></h4><div class="f">兩邊做一樣的事</div><p class="pt">等號＝天平。同加同減同乘同除，保持平衡。</p></div>
+    <div class="mc c4"><div class="tag">CH4 · 比</div><h4>比與比值 <span class="en">ratio</span></h4><div class="f">比值＝前項÷後項</div><p class="pt">最簡整數比＝約分（除最大公因數）。3:2 ↔ 3/2。</p></div>
+    <div class="mc c5"><div class="tag">CH5 · 百分率</div><h4>百分率 <span class="en">percentage</span></h4><div class="f">分母 100 的比</div><p class="pt">25%＝¼＝0.25。分數／小數／百分率是同一個數。</p></div>
+    <div class="mc c5"><div class="tag">CH5 · 折扣</div><h4>打折</h4><div class="f">打 8 折 ＝ ×0.8</div><p class="pt">幾折＝幾成＝付百分之幾十。對折＝5 折＝50%。</p></div>
+    <div class="mc c6"><div class="tag">CH6 · 速率</div><h4>速率 <span class="en">speed</span></h4><div class="f">距離 ÷ 時間</div><p class="pt">距＝速×時；時＝距÷速。速率是「距離對時間」的比。</p></div>
+    <div class="mc gx"><div class="tag">綜合 · 比例尺</div><h4>比例尺 <span class="en">scale</span></h4><div class="f">圖上 × 後項 ＝ 實際</div><p class="pt">1:100 → 圖上 1 對實際 100。也是一種比。</p></div>
+    <div class="mc gx"><div class="tag">必考 · 兩步驟</div><h4>解兩步驟式子</h4><div class="f">先還原加減，再還原乘除</div><p class="pt">2□＋1＝11 → 減 1、除 2 → □＝5。</p></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>關係與代數前導完全學習手冊</strong>　依十二年國教 108 課綱「關係（R）」編製，涵蓋 G1–G6 的規律、未知數、等量公理、比與比值、百分率、速率與比例尺，是銜接國中代數的關鍵基礎。本手冊大量呼應前面各本：求未知數用四則運算、最簡比用因數與分數、百分率串起分數與小數、速率是一種比。</p>
+  <p>使用建議：先讀每章「為什麼」與圖解，再做練習；考前用記憶小卡複習。英文名詞供銜接國中之用。各版本教科書（康軒／翰林／南一）順序與名詞略有差異，本手冊以概念脈絡編排。</p>
+</footer>
+
+<script>
+  (function(){
+    var btn=document.getElementById('toggleAll');var open=false;
+    btn.addEventListener('click',function(){
+      open=!open;document.querySelectorAll('details').forEach(function(d){d.open=open;});
+      btn.textContent=open?'收合全部解答':'展開全部解答';
+    });
+  })();
+</script>
+</body>
+</html>

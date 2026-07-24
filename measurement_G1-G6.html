@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>量與實測完全學習手冊 — G1 到 G6（108 課綱）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbfaf6;--ink:#1b2333;--ink-soft:#4b5568;--rule:#e9edf4;--line:#cfd7e3;
+    --blue:#2f6fb3;--blue-fill:rgba(47,111,179,.14);
+    --teal:#2f8f83;--teal-fill:rgba(47,143,131,.14);--indigo:#5566b8;--purple:#7e57b3;
+    --orange:#dd7a32;--orange-fill:rgba(221,122,50,.18);
+    --green:#2f9e85;--gold:#eaa916;--gold-fill:rgba(234,169,22,.20);
+    --card:#fff;--shadow:0 1px 2px rgba(27,35,51,.06),0 8px 24px rgba(27,35,51,.06);--maxw:880px;
+  }
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);
+    background:linear-gradient(transparent 27px,var(--rule) 27px,var(--rule) 28px,transparent 28px) 0 0/100% 28px,var(--paper);
+    line-height:1.78;-webkit-font-smoothing:antialiased}
+
+  header.hero{padding:64px 22px 40px;text-align:center}
+  .hero .kicker{font-size:.82rem;letter-spacing:.32em;color:var(--teal);font-weight:700;text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-family:"Fraunces","Noto Sans TC",serif;font-weight:900;font-size:clamp(2.1rem,5.6vw,3.4rem);line-height:1.06;margin:0 0 16px;letter-spacing:-.01em}
+  .hero p.sub{font-size:1.06rem;color:var(--ink-soft);max-width:600px;margin:8px auto 0}
+  .hero .heroline{max-width:420px;margin:22px auto 0}
+  .hero .tag{display:inline-block;margin-top:22px;font-size:.8rem;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:#fff}
+
+  nav.toc{max-width:var(--maxw);margin:18px auto 50px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 24px}
+  nav.toc h2{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px}
+  nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 26px}
+  nav.toc a{display:flex;gap:10px;text-decoration:none;color:var(--ink);padding:6px 4px;border-radius:8px;font-size:.96rem}
+  nav.toc a:hover{background:var(--teal-fill);color:var(--teal)}
+  nav.toc a .g{font-weight:700;color:var(--teal);font-variant-numeric:tabular-nums;min-width:30px}
+  @media(max-width:620px){nav.toc ol{grid-template-columns:1fr}}
+
+  section.ch{max-width:var(--maxw);margin:0 auto;padding:34px 22px 10px}
+  .ch-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px;padding-top:18px;border-top:2px solid var(--ink)}
+  .ch-num{font-family:"Fraunces",serif;font-weight:900;font-size:2.1rem;line-height:1;color:#fff;background:var(--teal);border-radius:10px;padding:8px 12px;flex:none;min-width:62px;text-align:center}
+  .ch-num.c1{background:#2f9e85}.ch-num.c2{background:#2f8f83}.ch-num.c3{background:#2f7f9f}.ch-num.c4{background:#5566b8}.ch-num.c5{background:#7e57b3}.ch-num.x{background:#3a4253}
+  .ch-head h2{font-size:1.5rem;margin:2px 0 2px;font-weight:900;letter-spacing:-.01em}
+  .ch-head .grade{font-size:.8rem;color:var(--ink-soft);letter-spacing:.06em}
+  .ch-body{padding:6px 2px 0}
+  h3{font-size:1.16rem;margin:30px 0 8px;font-weight:700;display:flex;align-items:center;gap:9px}
+  h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg);flex:none}
+  p{margin:.6em 0}.lead{font-size:1.05rem}
+
+  .term{font-weight:700;color:var(--teal)}
+  .en{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:.82em;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+  .en::before{content:"("}.en::after{content:")"}
+
+  .why{background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:10px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow)}
+  .why .lbl{font-weight:700;color:var(--teal);font-size:.92rem;letter-spacing:.05em;display:block;margin-bottom:4px}
+  .xref{background:#eef7f5;border:1px solid #c8e6df;border-left:5px solid var(--green);border-radius:10px;padding:12px 18px;margin:18px 0;font-size:.94rem}
+  .xref .lbl{font-weight:700;color:#1f7a66;font-size:.9rem;display:block;margin-bottom:2px}
+  .xref .lbl::before{content:"🔗 ";}
+  .pitfall{background:#fff7ef;border:1px solid #f1d6b5;border-left:5px solid var(--orange);border-radius:10px;padding:14px 18px;margin:18px 0}
+  .pitfall .lbl{font-weight:700;color:var(--orange);font-size:.92rem;display:block;margin-bottom:4px}
+  .keyformula{text-align:center;background:var(--gold-fill);border:2px dashed var(--gold);border-radius:12px;padding:16px;margin:20px 0;font-size:1.2rem;font-weight:700}
+  .keyformula small{display:block;font-size:.82rem;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:.02em}
+
+  figure{margin:22px 0;text-align:center}
+  figure svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+  figcaption{font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+  .sh{fill:var(--teal-fill);stroke:var(--teal);stroke-width:2}
+  .sh-o{fill:var(--orange-fill);stroke:var(--orange);stroke-width:2}
+  .sh-g{fill:var(--gold-fill);stroke:var(--gold);stroke-width:2}
+  .sh-b{fill:var(--blue-fill);stroke:var(--blue);stroke-width:2}
+  .s-lbl{font:600 13px "Noto Sans TC",sans-serif;fill:var(--ink)}
+  .s-lbl-t{font:700 13px "Noto Sans TC",sans-serif;fill:var(--teal)}
+  .s-lbl-o{font:700 13px "Noto Sans TC",sans-serif;fill:var(--orange)}
+  .s-lbl-b{font:700 13px "Noto Sans TC",sans-serif;fill:var(--blue)}
+
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:.94rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+  th{background:#f0f3f8;font-weight:700}
+  td.l,th.l{text-align:left}
+  .big{font-size:1.05rem;font-weight:700}
+
+  .practice{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:26px 0;box-shadow:var(--shadow)}
+  .practice .ptitle{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin:0 0 4px}
+  .practice .ptitle .badge{background:var(--green);color:#fff;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+  ol.prob{counter-reset:p;list-style:none;padding:0;margin:14px 0 0}
+  ol.prob>li{counter-increment:p;position:relative;padding:14px 0 14px 40px;border-top:1px dashed var(--line)}
+  ol.prob>li:first-child{border-top:none}
+  ol.prob>li::before{content:counter(p);position:absolute;left:0;top:13px;width:26px;height:26px;background:var(--teal);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  details{margin-top:8px}
+  details>summary{cursor:pointer;display:inline-block;font-size:.86rem;font-weight:700;color:var(--green);background:#eef8f5;border:1px solid #bfe3da;border-radius:8px;padding:4px 12px;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::before{content:"▸ ";font-size:.8rem}
+  details[open]>summary::before{content:"▾ "}
+  .ans{margin-top:10px;background:#f4faf8;border:1px solid #cfe9e1;border-radius:10px;padding:12px 16px;font-size:.95rem}
+  .ans b{color:#1f7a66}.ans .calc{font-variant-numeric:tabular-nums}
+
+  .cards-wrap{max-width:var(--maxw);margin:0 auto;padding:20px 22px 40px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;position:relative;overflow:hidden}
+  .mc::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--teal)}
+  .mc.c1::before{background:#2f9e85}.mc.c2::before{background:#2f8f83}.mc.c3::before{background:#2f7f9f}.mc.c4::before{background:#5566b8}.mc.c5::before{background:#7e57b3}.mc.gx::before{background:#3a4253}
+  .mc .tag{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:var(--ink-soft)}
+  .mc h4{margin:4px 0 8px;font-size:1.05rem}
+  .mc h4 .en{font-size:.66em}
+  .mc .f{font-size:1rem;font-weight:900;color:var(--ink);background:var(--gold-fill);border-radius:8px;padding:6px 10px;display:inline-block;margin-bottom:8px}
+  .mc .pt{font-size:.86rem;color:var(--ink-soft);margin:0}
+  .mc .pt b{color:var(--orange)}
+
+  .controls{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.86);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .controls .inner{max-width:var(--maxw);margin:0 auto;padding:9px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .controls .home{font-weight:900;text-decoration:none;color:var(--ink);font-size:.95rem}
+  .controls .home .b{color:var(--gold)}
+  .btn{font:inherit;font-size:.82rem;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn:hover{border-color:var(--teal);color:var(--teal)}
+  footer{max-width:var(--maxw);margin:30px auto 60px;padding:24px 22px 0;border-top:2px solid var(--ink);color:var(--ink-soft);font-size:.9rem}
+  .note{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.9rem;color:var(--ink-soft)}
+
+  @media print{
+    body{background:#fff}.controls{display:none}
+    details>summary{display:none}.ans{display:block!important}
+    figure svg,.practice,.mc,.why,.xref{box-shadow:none}
+    .keyformula,.practice{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="inner">
+    <a class="home" href="#top">量與<span class="b">實測</span>手冊</a>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="toggleAll">展開全部解答</button>
+      <button class="btn" onclick="window.print()">列印 / 存 PDF</button>
+    </div>
+  </div>
+</div>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="kicker">108 課綱 · 數與量 N</div>
+  <h1>量與實測完全學習手冊</h1>
+  <p class="sub">測量，就是「拿一個單位去量物件裡有幾個單位」。本手冊帶你搞懂長度、重量、容量、時間、體積的單位與換算——特別是<strong>為什麼時間計算比較難</strong>，以及<strong>體積其實是面積的立體版</strong>。</p>
+  <figure class="heroline">
+    <svg viewBox="0 0 420 60" role="img" aria-label="一把尺量一段物件的長度">
+      <rect x="20" y="30" width="380" height="22" class="sh"/>
+      <g stroke="var(--teal)" stroke-width="1.4">
+        <line x1="20" y1="30" x2="20" y2="52"/><line x1="58" y1="36" x2="58" y2="52"/><line x1="96" y1="36" x2="96" y2="52"/><line x1="134" y1="36" x2="134" y2="52"/><line x1="172" y1="36" x2="172" y2="52"/><line x1="210" y1="30" x2="210" y2="52"/><line x1="248" y1="36" x2="248" y2="52"/><line x1="286" y1="36" x2="286" y2="52"/><line x1="324" y1="36" x2="324" y2="52"/><line x1="362" y1="36" x2="362" y2="52"/><line x1="400" y1="30" x2="400" y2="52"/>
+      </g>
+      <text x="20" y="22" text-anchor="middle" class="s-lbl">0</text><text x="210" y="22" text-anchor="middle" class="s-lbl">5</text><text x="400" y="22" text-anchor="middle" class="s-lbl">10</text>
+    </svg>
+  </figure>
+  <div class="tag">涵蓋 G1 → G6 ｜ 長度・重量・容量・時間・體積 ｜ 單位換算・圖解・記憶小卡・練習</div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <h2>學習地圖</h2>
+  <ol>
+    <li><a href="#c0"><span class="g">核心</span><span>測量是什麼？換算的總原則</span></a></li>
+    <li><a href="#c1"><span class="g">1</span><span>長度</span></a></li>
+    <li><a href="#c2"><span class="g">2</span><span>重量</span></a></li>
+    <li><a href="#c3"><span class="g">3</span><span>容量</span></a></li>
+    <li><a href="#c4"><span class="g">4</span><span>時間（為什麼較難）</span></a></li>
+    <li><a href="#c5"><span class="g">5</span><span>體積與容積</span></a></li>
+    <li><a href="#cx"><span class="g">進階</span><span>綜合換算與應用</span></a></li>
+    <li><a href="#cards"><span class="g">小卡</span><span>考前記憶小卡專區</span></a></li>
+  </ol>
+</nav>
+
+<!-- ===== 核心 ===== -->
+<section class="ch" id="c0">
+  <div class="ch-head"><div class="ch-num x">★</div><div><h2>測量是什麼？換算的總原則</h2><div class="grade">全部章節的共同地基</div></div></div>
+  <div class="ch-body">
+    <p class="lead">測量的核心，和「數面積」一模一樣：</p>
+    <div class="keyformula">測量 ＝ 拿「一個單位」去量，看裡面有幾個單位<small>長度數幾個公分、重量數幾個公克、體積數幾個立方公分…</small></div>
+
+    <h3>一、為什麼需要「標準單位」？</h3>
+    <p>如果小明用「他的手掌」量、小華用「他的腳」量，量出來的數字根本不能比。所以全世界約定一套<strong>標準單位</strong>（公分、公斤、公升…），大家才能溝通、比較。</p>
+    <div class="xref"><span class="lbl">和面積、小數呼應</span>「用單位去數」正是《面積手冊》數方格的想法；而公制單位都是<strong>十進位</strong>（×10、×100、×1000），這又和《小數手冊》完全接得起來。</div>
+
+    <h3>二、單位換算只有一個原則</h3>
+    <figure>
+      <svg viewBox="0 0 460 130" role="img" aria-label="大單位換小單位用乘,小單位換大單位用除">
+        <rect x="60" y="30" width="150" height="34" class="sh-o" rx="6"/><text x="135" y="52" text-anchor="middle" class="s-lbl-o">大單位（公尺）</text>
+        <rect x="250" y="80" width="150" height="34" class="sh-b" rx="6"/><text x="325" y="102" text-anchor="middle" class="s-lbl-b">小單位（公分）</text>
+        <path d="M200,58 C260,58 250,86 300,86" fill="none" stroke="var(--green)" stroke-width="2.2" marker-end="url(#a1)"/>
+        <path d="M300,108 C240,108 250,80 205,80" fill="none" stroke="var(--purple)" stroke-width="2.2" marker-end="url(#a2)"/>
+        <defs>
+          <marker id="a1" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--green)"/></marker>
+          <marker id="a2" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--purple)"/></marker>
+        </defs>
+        <text x="285" y="60" class="s-lbl" style="fill:var(--green)">大→小：×</text>
+        <text x="150" y="122" class="s-lbl" style="fill:var(--purple)">小→大：÷</text>
+      </svg>
+      <figcaption>因為「1 個大單位 ＝ 很多個小單位」，所以大換小要乘（變多個），小換大要除（合成大的）。</figcaption>
+    </figure>
+    <div class="keyformula">大單位 → 小單位：× ｜ 小單位 → 大單位：÷<small>例：3 公尺 ＝ 3×100 ＝ 300 公分；500 公克 ＝ 500÷1000 ＝ 0.5 公斤</small></div>
+  </div>
+</section>
+
+<!-- ===== Ch1 長度 ===== -->
+<section class="ch" id="c1">
+  <div class="ch-head"><div class="ch-num c1">1</div><div><h2>長度 <span class="en">length</span></h2><div class="grade">小一～小三｜目標：認識長度單位並換算</div></div></div>
+  <div class="ch-body">
+    <table>
+      <tr><th>單位</th><th class="l">英文</th><th class="l">換算</th><th class="l">大約多長</th></tr>
+      <tr><td>公釐 mm</td><td class="l en">millimeter</td><td class="l">—</td><td class="l">一枚硬幣的厚度</td></tr>
+      <tr><td>公分 cm</td><td class="l en">centimeter</td><td class="l">1 cm ＝ 10 mm</td><td class="l">一根手指寬</td></tr>
+      <tr><td>公尺 m</td><td class="l en">meter</td><td class="l">1 m ＝ 100 cm</td><td class="l">一大步</td></tr>
+      <tr><td>公里 km</td><td class="l en">kilometer</td><td class="l">1 km ＝ 1000 m</td><td class="l">走路約 12 分鐘</td></tr>
+    </table>
+    <div class="why"><span class="lbl">怎麼選單位？</span>量鉛筆用<strong>公分</strong>、量教室用<strong>公尺</strong>、量城市間距離用<strong>公里</strong>。選對單位，數字才不會太大或太小。</div>
+    <div class="pitfall"><span class="lbl">易錯</span>比長短要先<strong>換成同一個單位</strong>再比。3 公尺 vs 250 公分 → 把 3 公尺換成 300 公分，300＞250，所以 3 公尺比較長。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>長度（11 題）</p>
+      <ol class="prob">
+        <li>1 公尺 ＝ 幾公分？<details><summary>解答</summary><div class="ans"><b>100 公分。</b></div></details></li>
+        <li>1 公分 ＝ 幾公釐？<details><summary>解答</summary><div class="ans"><b>10 公釐。</b></div></details></li>
+        <li>1 公里 ＝ 幾公尺？<details><summary>解答</summary><div class="ans"><b>1000 公尺。</b></div></details></li>
+        <li>300 公分 ＝ 幾公尺？<details><summary>解答</summary><div class="ans">小換大÷100：<b>3 公尺。</b></div></details></li>
+        <li>2 公尺 50 公分 ＝ 幾公分？<details><summary>解答</summary><div class="ans">200＋50＝<b>250 公分。</b></div></details></li>
+        <li>5 公里 ＝ 幾公尺？<details><summary>解答</summary><div class="ans">5×1000＝<b>5000 公尺。</b></div></details></li>
+        <li>一枝筆 15 公分，10 枝接起來幾公尺？<details><summary>解答</summary><div class="ans">150 公分＝<b>1 公尺 50 公分（1.5 公尺）。</b></div></details></li>
+        <li>一條路 2 公里，走了 800 公尺，還剩幾公尺？<details><summary>解答</summary><div class="ans">2000−800＝<b>1200 公尺。</b></div></details></li>
+        <li>40 公釐 ＝ 幾公分？<details><summary>解答</summary><div class="ans">40÷10＝<b>4 公分。</b></div></details></li>
+        <li>量鉛筆的長度用哪個單位最合適？<details><summary>解答</summary><div class="ans"><b>公分。</b></div></details></li>
+        <li>3 公尺 和 250 公分，哪個長？<details><summary>解答</summary><div class="ans">3 公尺＝300 公分＞250 → <b>3 公尺長。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch2 重量 ===== -->
+<section class="ch" id="c2">
+  <div class="ch-head"><div class="ch-num c2">2</div><div><h2>重量 <span class="en">weight</span></h2><div class="grade">小二～小四｜目標：認識重量單位並換算</div></div></div>
+  <div class="ch-body">
+    <figure>
+      <svg viewBox="0 0 300 130" role="img" aria-label="天平兩端比較輕重">
+        <line x1="60" y1="40" x2="240" y2="40" stroke="var(--ink)" stroke-width="3"/>
+        <line x1="150" y1="40" x2="150" y2="100" stroke="var(--ink)" stroke-width="3"/>
+        <polygon points="135,110 165,110 150,100" fill="var(--ink)"/>
+        <rect x="45" y="42" width="40" height="26" class="sh"/><rect x="215" y="30" width="40" height="20" class="sh-o"/>
+        <text x="65" y="90" text-anchor="middle" class="s-lbl-t">較重</text>
+        <text x="235" y="90" text-anchor="middle" class="s-lbl-o">較輕</text>
+      </svg>
+      <figcaption>用天平比較輕重：重的那端往下沉。</figcaption>
+    </figure>
+    <table>
+      <tr><th>單位</th><th class="l">英文</th><th class="l">換算</th><th class="l">大約多重</th></tr>
+      <tr><td>公克 g</td><td class="l en">gram</td><td class="l">—</td><td class="l">一枚迴紋針約 1 公克</td></tr>
+      <tr><td>公斤 kg</td><td class="l en">kilogram</td><td class="l">1 kg ＝ 1000 g</td><td class="l">一大瓶水</td></tr>
+      <tr><td>公噸 t</td><td class="l en">tonne</td><td class="l">1 公噸 ＝ 1000 kg</td><td class="l">一輛小汽車</td></tr>
+    </table>
+    <div class="why"><span class="lbl">選單位</span>秤水果、食材用<strong>公克／公斤</strong>；量人的體重用<strong>公斤</strong>；卡車載重、大象體重用<strong>公噸</strong>。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>重量（10 題）</p>
+      <ol class="prob">
+        <li>1 公斤 ＝ 幾公克？<details><summary>解答</summary><div class="ans"><b>1000 公克。</b></div></details></li>
+        <li>1 公噸 ＝ 幾公斤？<details><summary>解答</summary><div class="ans"><b>1000 公斤。</b></div></details></li>
+        <li>3 公斤 ＝ 幾公克？<details><summary>解答</summary><div class="ans">3×1000＝<b>3000 公克。</b></div></details></li>
+        <li>2500 公克 ＝ 幾公斤幾公克？<details><summary>解答</summary><div class="ans"><b>2 公斤 500 公克。</b></div></details></li>
+        <li>5000 公克 ＝ 幾公斤？<details><summary>解答</summary><div class="ans">5000÷1000＝<b>5 公斤。</b></div></details></li>
+        <li>一袋米 5 公斤，4 袋共幾公斤？<details><summary>解答</summary><div class="ans">5×4＝<b>20 公斤。</b></div></details></li>
+        <li>一顆蘋果約 200 公克，5 顆共幾公克？等於幾公斤？<details><summary>解答</summary><div class="ans">200×5＝1000 公克＝<b>1 公斤。</b></div></details></li>
+        <li>量人的體重用哪個單位？<details><summary>解答</summary><div class="ans"><b>公斤。</b></div></details></li>
+        <li>半公斤 ＝ 幾公克？<details><summary>解答</summary><div class="ans"><b>500 公克。</b></div></details></li>
+        <li>一輛車 1 公噸 500 公斤 ＝ 幾公斤？<details><summary>解答</summary><div class="ans">1000＋500＝<b>1500 公斤。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch3 容量 ===== -->
+<section class="ch" id="c3">
+  <div class="ch-head"><div class="ch-num c3">3</div><div><h2>容量 <span class="en">capacity</span></h2><div class="grade">小二～小三｜目標：認識容量單位並換算</div></div></div>
+  <div class="ch-body">
+    <table>
+      <tr><th>單位</th><th class="l">英文</th><th class="l">換算</th><th class="l">大約多少</th></tr>
+      <tr><td>毫升 mL</td><td class="l en">milliliter</td><td class="l">—</td><td class="l">一瓶養樂多約 100 毫升</td></tr>
+      <tr><td>公升 L</td><td class="l en">liter</td><td class="l">1 L ＝ 1000 mL</td><td class="l">一瓶大瓶飲料</td></tr>
+    </table>
+    <div class="why"><span class="lbl">容量 vs 容積</span><strong>容量</strong>是「能裝多少<strong>液體</strong>」（用毫升、公升）；<strong>容積</strong>是「內部有多少<strong>空間</strong>」（用立方公分）。兩者相通——第 5 章會揭曉：<strong>1 公升剛好等於 1000 立方公分</strong>，把液體和空間連起來。</div>
+    <div class="pitfall"><span class="lbl">易錯</span>換算前先看單位：1 公升＝1000 毫升。所以 1 公升 500 毫升＝1500 毫升，不是 501 或 150。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>容量（10 題）</p>
+      <ol class="prob">
+        <li>1 公升 ＝ 幾毫升？<details><summary>解答</summary><div class="ans"><b>1000 毫升。</b></div></details></li>
+        <li>2 公升 ＝ 幾毫升？<details><summary>解答</summary><div class="ans">2×1000＝<b>2000 毫升。</b></div></details></li>
+        <li>3000 毫升 ＝ 幾公升？<details><summary>解答</summary><div class="ans">3000÷1000＝<b>3 公升。</b></div></details></li>
+        <li>一瓶飲料 500 毫升，2 瓶共幾公升？<details><summary>解答</summary><div class="ans">1000 毫升＝<b>1 公升。</b></div></details></li>
+        <li>一桶水 5 公升，用掉 1500 毫升，剩幾毫升？<details><summary>解答</summary><div class="ans">5000−1500＝<b>3500 毫升。</b></div></details></li>
+        <li>一瓶養樂多用哪個單位量最合適？<details><summary>解答</summary><div class="ans"><b>毫升。</b></div></details></li>
+        <li>1 公升 500 毫升 ＝ 幾毫升？<details><summary>解答</summary><div class="ans">1000＋500＝<b>1500 毫升。</b></div></details></li>
+        <li>一杯 250 毫升，4 杯共幾公升？<details><summary>解答</summary><div class="ans">1000 毫升＝<b>1 公升。</b></div></details></li>
+        <li>用 250 毫升的杯子裝滿 2 公升的水，要幾杯？<details><summary>解答</summary><div class="ans">2000÷250＝<b>8 杯。</b></div></details></li>
+        <li>「容量」和「容積」差在哪？<details><summary>解答</summary><div class="ans">容量＝<b>能裝多少液體</b>；容積＝<b>內部空間大小</b>。</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch4 時間 ===== -->
+<section class="ch" id="c4">
+  <div class="ch-head"><div class="ch-num c4">4</div><div><h2>時間 <span class="en">time</span>：為什麼比較難？</h2><div class="grade">小一～小四｜目標：懂時間不是十進位、會做時間計算</div></div></div>
+  <div class="ch-body">
+    <h3>一、時間單位不是「逢十進位」！</h3>
+    <p>長度、重量、容量都是 ×10、×100、×1000（十進位），但<strong>時間不是</strong>：</p>
+    <figure>
+      <svg viewBox="0 0 460 90" role="img" aria-label="秒分時日的進位:60,60,24">
+        <rect x="20" y="30" width="70" height="34" class="sh" rx="6"/><text x="55" y="52" text-anchor="middle" class="s-lbl">秒</text>
+        <rect x="150" y="30" width="70" height="34" class="sh" rx="6"/><text x="185" y="52" text-anchor="middle" class="s-lbl">分</text>
+        <rect x="280" y="30" width="70" height="34" class="sh" rx="6"/><text x="315" y="52" text-anchor="middle" class="s-lbl">時</text>
+        <rect x="390" y="30" width="60" height="34" class="sh" rx="6"/><text x="420" y="52" text-anchor="middle" class="s-lbl">日</text>
+        <text x="120" y="24" text-anchor="middle" class="s-lbl-o">×60</text>
+        <text x="250" y="24" text-anchor="middle" class="s-lbl-o">×60</text>
+        <text x="370" y="24" text-anchor="middle" class="s-lbl-o">×24</text>
+        <path d="M92,47 L148,47" stroke="var(--orange)" stroke-width="2"/><path d="M222,47 L278,47" stroke="var(--orange)" stroke-width="2"/><path d="M352,47 L388,47" stroke="var(--orange)" stroke-width="2"/>
+      </svg>
+      <figcaption>1 分＝60 秒、1 時＝60 分、1 日＝24 時。進位是 60 和 24，不是 10——這就是時間計算容易錯的原因。</figcaption>
+    </figure>
+    <div class="keyformula">1 分 ＝ 60 秒　｜　1 時 ＝ 60 分　｜　1 日 ＝ 24 時<small>時間是 60 進位、24 進位，計算時要「借 60」不是「借 10」</small></div>
+
+    <h3>二、時間的加減：進位借位用 60</h3>
+    <p>算 <strong>3 時 15 分 ＋ 1 時 50 分</strong>：分先加 15＋50＝65 分，<strong>滿 60 進位成 1 時</strong>（65＝1 時 5 分），所以是 (3＋1＋1) 時 5 分 ＝ <strong>5 時 5 分</strong>。</p>
+    <p>算 <strong>2 時 20 分 − 1 時 40 分</strong>：分不夠減（20＜40），<strong>向「時」借 1，換成 60 分</strong>：20＋60＝80，80−40＝40 分；時：(2−1−1)＝0，答案 <strong>40 分</strong>。</p>
+    <div class="pitfall"><span class="lbl">最常錯</span>把時間當成小數算！2 時 20 分<strong>不是</strong> 2.20，60 分才進 1 時。借位要借 60 分，不是借 10。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>時間（12 題）</p>
+      <ol class="prob">
+        <li>1 分 ＝ 幾秒？<details><summary>解答</summary><div class="ans"><b>60 秒。</b></div></details></li>
+        <li>1 時 ＝ 幾分？<details><summary>解答</summary><div class="ans"><b>60 分。</b></div></details></li>
+        <li>1 日 ＝ 幾時？<details><summary>解答</summary><div class="ans"><b>24 時。</b></div></details></li>
+        <li>2 分 ＝ 幾秒？<details><summary>解答</summary><div class="ans">2×60＝<b>120 秒。</b></div></details></li>
+        <li>90 秒 ＝ 幾分幾秒？<details><summary>解答</summary><div class="ans"><b>1 分 30 秒。</b></div></details></li>
+        <li>1 時 30 分 ＝ 幾分？<details><summary>解答</summary><div class="ans">60＋30＝<b>90 分。</b></div></details></li>
+        <li>3 時 15 分 ＋ 1 時 50 分 ＝？<details><summary>解答</summary><div class="ans">15＋50＝65＝1 時 5 分；共 <b>5 時 5 分。</b></div></details></li>
+        <li>2 時 20 分 − 1 時 40 分 ＝？<details><summary>解答</summary><div class="ans">借 60：80−40＝40；<b>40 分。</b></div></details></li>
+        <li>從 8:30 到 10:15 經過多久？<details><summary>解答</summary><div class="ans"><b>1 時 45 分。</b></div></details></li>
+        <li>電影 1 時 50 分，2:00 開始，幾點結束？<details><summary>解答</summary><div class="ans"><b>3:50。</b></div></details></li>
+        <li>為什麼時間計算不能像長度那樣「借 10」？<details><summary>解答</summary><div class="ans">因為 1 時＝60 分、1 分＝60 秒，是 <b>60 進位</b>，要借 60。</div></details></li>
+        <li>一天有幾分鐘？<details><summary>解答</summary><div class="ans">24×60＝<b>1440 分。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Ch5 體積 ===== -->
+<section class="ch" id="c5">
+  <div class="ch-head"><div class="ch-num c5">5</div><div><h2>體積與容積 <span class="en">volume</span></h2><div class="grade">小五～小六｜目標：理解體積是「數單位立方體」、公式與容量的連結</div></div></div>
+  <div class="ch-body">
+    <h3>一、體積是什麼？——面積的立體版</h3>
+    <p>面積是「數平面上有幾個單位<strong>方格</strong>」；體積就是「數空間裡有幾個單位<strong>立方體</strong>」。邊長 1 公分的正方體＝<strong>1 立方公分（1 cm³）</strong>。</p>
+    <figure>
+      <svg viewBox="0 0 360 180" role="img" aria-label="長4寬3高2的長方體由單位立方體堆成">
+        <g class="sh-b">
+          <!-- bottom layer front -->
+          <rect x="60" y="110" width="30" height="30"/><rect x="90" y="110" width="30" height="30"/><rect x="120" y="110" width="30" height="30"/><rect x="150" y="110" width="30" height="30"/>
+          <rect x="60" y="80" width="30" height="30"/><rect x="90" y="80" width="30" height="30"/><rect x="120" y="80" width="30" height="30"/><rect x="150" y="80" width="30" height="30"/>
+        </g>
+        <!-- top face skew -->
+        <g class="sh-b" opacity=".6">
+          <polygon points="60,80 90,60 210,60 180,80"/>
+          <polygon points="180,80 210,60 210,120 180,140"/>
+        </g>
+        <text x="120" y="165" text-anchor="middle" class="s-lbl-b">底層 4×3＝12 個，共 2 層 → 12×2 ＝ 24 個</text>
+        <text x="250" y="95" class="s-lbl">＝ 24 cm³</text>
+      </svg>
+      <figcaption>長 4、寬 3、高 2 的盒子，底層鋪 4×3＝12 個小方塊，疊 2 層 → 24 個 ＝ 24 立方公分。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">為什麼體積 ＝ 長 × 寬 × 高？</span>底層能鋪「長×寬」個小方塊（就是<strong>底面積</strong>），有「高」那麼多層，所以總數＝底面積×高＝長×寬×高。這正是《面積手冊》「長×寬」數方格的立體延伸。</div>
+    <div class="keyformula">長方體體積 ＝ 長 × 寬 × 高 ＝ 底面積 × 高<small>正方體體積 ＝ 邊長 × 邊長 × 邊長</small></div>
+    <div class="xref"><span class="lbl">交叉參照</span>各種立體「體積」與「表面積」的更多計算，以及三角形、圓面積，請見《面積完全學習手冊》。</div>
+
+    <h3>二、把「體積」和「容量」連起來：1 公升 ＝ 1000 立方公分</h3>
+    <p>一個邊長 10 公分的正方體，體積是 10×10×10 ＝ <strong>1000 立方公分</strong>，它剛好能裝 <strong>1 公升</strong>的水。所以：</p>
+    <div class="keyformula">1 公升 ＝ 1000 立方公分（cm³）　｜　1 毫升 ＝ 1 立方公分<small>空間（體積）和液體（容量）在這裡接上了</small></div>
+    <p><strong>容積</strong>就是容器內部的體積，用內部的長寬高去算。例如水族箱長 20、寬 10、高 15 公分，容積＝20×10×15＝3000 cm³＝<strong>3 公升</strong>。</p>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>體積與容積（12 題）</p>
+      <ol class="prob">
+        <li>邊長 1 公分的正方體，體積多少？<details><summary>解答</summary><div class="ans"><b>1 立方公分（1 cm³）。</b></div></details></li>
+        <li>長方體 長 4、寬 3、高 2 公分，體積？<details><summary>解答</summary><div class="ans">4×3×2＝<b>24 cm³。</b></div></details></li>
+        <li>長方體 長 5、寬 4、高 3 公分，體積？<details><summary>解答</summary><div class="ans">5×4×3＝<b>60 cm³。</b></div></details></li>
+        <li>正方體 邊長 3 公分，體積？<details><summary>解答</summary><div class="ans">3×3×3＝<b>27 cm³。</b></div></details></li>
+        <li>底面積 12 cm²、高 5 公分的柱體，體積？<details><summary>解答</summary><div class="ans">12×5＝<b>60 cm³。</b></div></details></li>
+        <li>1 公升 ＝ 幾立方公分？<details><summary>解答</summary><div class="ans"><b>1000 立方公分。</b></div></details></li>
+        <li>邊長 10 公分的正方體體積？等於幾公升？<details><summary>解答</summary><div class="ans">1000 cm³＝<b>1 公升。</b></div></details></li>
+        <li>1 毫升 ＝ 幾立方公分？<details><summary>解答</summary><div class="ans"><b>1 立方公分。</b></div></details></li>
+        <li>水族箱 長 20、寬 10、高 15 公分，容積幾 cm³？幾公升？<details><summary>解答</summary><div class="ans">20×10×15＝3000 cm³＝<b>3 公升。</b></div></details></li>
+        <li>為什麼體積是「長×寬×高」？<details><summary>解答</summary><div class="ans">底層鋪長×寬個方塊，疊高層 → <b>底面積×高。</b></div></details></li>
+        <li>體積和容積的差別？<details><summary>解答</summary><div class="ans">體積＝<b>物體占的空間</b>；容積＝<b>容器內能裝的空間</b>。</div></details></li>
+        <li>盒子底部鋪 6×4 個 1 cm³ 積木，疊 3 層，共幾塊？體積？<details><summary>解答</summary><div class="ans">6×4×3＝72 塊＝<b>72 cm³。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 進階 ===== -->
+<section class="ch" id="cx">
+  <div class="ch-head"><div class="ch-num x">＋</div><div><h2>綜合換算與應用</h2><div class="grade">G3–G6 綜合｜把單位換算用到生活問題</div></div></div>
+  <div class="ch-body">
+    <div class="why"><span class="lbl">解題招</span>先把題目裡的量<strong>換成同一個單位</strong>，再計算；答案再視需要換回題目要的單位。記住總原則：大→小 ×、小→大 ÷。</div>
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>綜合應用（10 題）</p>
+      <ol class="prob">
+        <li>大單位換小單位要乘還是除？<details><summary>解答</summary><div class="ans"><b>乘（×）。</b></div></details></li>
+        <li>小單位換大單位要乘還是除？<details><summary>解答</summary><div class="ans"><b>除（÷）。</b></div></details></li>
+        <li>一條繩 3 公尺，剪成每段 25 公分，可剪幾段？<details><summary>解答</summary><div class="ans">300÷25＝<b>12 段。</b></div></details></li>
+        <li>3 公斤糖平分裝袋，每袋 250 公克，可裝幾袋？<details><summary>解答</summary><div class="ans">3000÷250＝<b>12 袋。</b></div></details></li>
+        <li>2 公升果汁倒進 200 毫升的杯子，可倒幾杯？<details><summary>解答</summary><div class="ans">2000÷200＝<b>10 杯。</b></div></details></li>
+        <li>一部影片 45 分，連看 3 部，共幾時幾分？<details><summary>解答</summary><div class="ans">45×3＝135 分＝<b>2 時 15 分。</b></div></details></li>
+        <li>水箱 長 30、寬 20、高 40 公分，裝滿水是幾公升？<details><summary>解答</summary><div class="ans">30×20×40＝24000 cm³＝<b>24 公升。</b></div></details></li>
+        <li>一天睡 8 小時，一週共睡幾小時？<details><summary>解答</summary><div class="ans">8×7＝<b>56 小時。</b></div></details></li>
+        <li>一盒餅乾 500 公克，一箱 24 盒，共幾公斤？<details><summary>解答</summary><div class="ans">500×24＝12000 公克＝<b>12 公斤。</b></div></details></li>
+        <li>家到學校 1 公里 200 公尺，來回共幾公尺？<details><summary>解答</summary><div class="ans">1200×2＝<b>2400 公尺。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 記憶小卡 ===== -->
+<section class="cards-wrap" id="cards">
+  <div class="ch-head" style="max-width:none"><div class="ch-num x">★</div><div><h2>考前記憶小卡</h2><div class="grade">快速翻閱用｜每張＝換算重點＋一句「為什麼」＋易錯</div></div></div>
+  <p class="note" style="margin-top:14px">用法：考前遮住換算，看「為什麼」那句，試著自己講出來。列印可剪成卡片。</p>
+  <div class="cards">
+    <div class="mc gx"><div class="tag">核心觀念</div><h4>換算總原則</h4><div class="f">大→小 ×｜小→大 ÷</div><p class="pt">因為 1 個大單位＝很多小單位。先<b>統一單位</b>再比較或計算。</p></div>
+    <div class="mc c1"><div class="tag">CH1 · 長度</div><h4>長度 <span class="en">length</span></h4><div class="f">1m＝100cm｜1cm＝10mm｜1km＝1000m</div><p class="pt">鉛筆用 cm、教室用 m、城市距離用 km。</p></div>
+    <div class="mc c2"><div class="tag">CH2 · 重量</div><h4>重量 <span class="en">weight</span></h4><div class="f">1kg＝1000g｜1公噸＝1000kg</div><p class="pt">體重用 kg、大卡車載重用公噸。</p></div>
+    <div class="mc c3"><div class="tag">CH3 · 容量</div><h4>容量 <span class="en">capacity</span></h4><div class="f">1L＝1000mL</div><p class="pt">容量＝裝多少液體；容積＝內部空間。</p></div>
+    <div class="mc c4"><div class="tag">CH4 · 時間</div><h4>時間 <span class="en">time</span></h4><div class="f">1分＝60秒｜1時＝60分｜1日＝24時</div><p class="pt"><b>不是十進位！</b>借位要借 60，別當小數算。</p></div>
+    <div class="mc c4"><div class="tag">CH4 · 計算</div><h4>時間加減</h4><div class="f">滿 60 進位、不夠借 60</div><p class="pt">3時15分＋1時50分＝5時5分（65 分進 1 時）。</p></div>
+    <div class="mc c5"><div class="tag">CH5 · 體積</div><h4>體積 <span class="en">volume</span></h4><div class="f">長 × 寬 × 高 ＝ 底面積 × 高</div><p class="pt">數單位立方體＝面積的立體版。邊長1cm＝1cm³。</p></div>
+    <div class="mc c5"><div class="tag">CH5 · 連結</div><h4>公升與立方公分</h4><div class="f">1公升＝1000cm³｜1毫升＝1cm³</div><p class="pt">邊長 10cm 的正方體剛好裝 1 公升。空間↔液體。</p></div>
+    <div class="mc gx"><div class="tag">跨單元 · 面積</div><h4>面積・周長・角度</h4><div class="f">見《面積》《幾何》手冊</div><p class="pt">本手冊不重複；體積推導呼應面積數方格。</p></div>
+    <div class="mc gx"><div class="tag">必考 · 易錯</div><h4>比大小先統一單位</h4><div class="f">換成同單位再比</div><p class="pt">3公尺 vs 250公分 → 300＞250，3 公尺長。</p></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>量與實測完全學習手冊</strong>　依十二年國教 108 課綱「數與量（N）」量與實測脈絡編製，涵蓋 G1–G6 的長度、重量、容量、時間、體積與容積，以及單位換算。面積、周長、角度的計算請搭配《面積》與《幾何》手冊。</p>
+  <p>使用建議：先讀每章「為什麼」與圖解，再做練習；考前用記憶小卡複習。英文名詞供銜接國中之用。各版本教科書（康軒／翰林／南一）單元順序與名詞略有差異，本手冊以概念脈絡編排。</p>
+</footer>
+
+<script>
+  (function(){
+    var btn=document.getElementById('toggleAll');var open=false;
+    btn.addEventListener('click',function(){
+      open=!open;document.querySelectorAll('details').forEach(function(d){d.open=open;});
+      btn.textContent=open?'收合全部解答':'展開全部解答';
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Starfall: Hero vs. The CPU</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --void: #05060f;
+    --void-2: #0b0e1f;
+    --panel: #10132a;
+    --cyan: #4de3ff;
+    --magenta: #ff4de3;
+    --amber: #ffb347;
+    --danger: #ff4d5e;
+    --text: #d8e4ff;
+    --text-dim: #6c78a8;
+  }
+  *{ box-sizing:border-box; }
+  html,body{
+    margin:0; height:100%;
+    background: radial-gradient(ellipse at 50% 0%, #12163a 0%, #05060f 70%);
+    font-family:'Space Mono', monospace;
+    display:flex; align-items:center; justify-content:center;
+    color: var(--text);
+  }
+  #wrap{ width:940px; max-width:100vw; padding:16px; }
+  h1{
+    font-family:'Orbitron', sans-serif;
+    font-weight:800;
+    text-align:center;
+    font-size:28px;
+    margin: 2px 0 2px 0;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    text-shadow: 0 0 16px rgba(77,227,255,0.6), 0 0 40px rgba(77,227,255,0.25);
+  }
+  .subtitle{
+    text-align:center; font-size:11px;
+    letter-spacing:3px; text-transform:uppercase;
+    color: var(--text-dim); margin-bottom:12px;
+  }
+  #hud{
+    display:flex; justify-content:space-between; align-items:center;
+    background: linear-gradient(180deg, var(--panel), #0a0c1e);
+    border: 1px solid #2a2f5a;
+    border-radius: 8px;
+    padding: 9px 16px;
+    margin-bottom: 10px;
+  }
+  .hud-block{ display:flex; align-items:center; gap:8px; }
+  .label{ font-size:10px; font-weight:700; letter-spacing:2px; color:var(--text-dim); text-transform:uppercase; }
+  #hearts{ display:flex; gap:5px; }
+  .heart{
+    width:16px; height:16px;
+    background: var(--danger);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    filter: drop-shadow(0 0 4px rgba(255,77,94,0.7));
+  }
+  .heart.empty{ background:#2a2f4a; filter:none; }
+  #planetStat{ font-family:'Orbitron',sans-serif; font-weight:700; color: var(--amber); font-size:13px; letter-spacing:1px;}
+  #canvasHolder{
+    position:relative;
+    border: 1px solid #2a2f5a;
+    border-radius: 10px;
+    overflow:hidden;
+    box-shadow: 0 0 40px rgba(77,227,255,0.08), inset 0 0 60px rgba(0,0,0,0.5);
+  }
+  canvas{ display:block; background:#05060f; cursor:crosshair; }
+  #msg{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    text-align:center;
+    background: linear-gradient(180deg, var(--panel), #090b1c);
+    border: 1px solid var(--cyan);
+    border-radius: 10px;
+    padding: 26px 34px;
+    display:none; z-index:5;
+    max-width: 440px;
+    box-shadow: 0 0 40px rgba(77,227,255,0.25);
+  }
+  #msg h2{ font-family:'Orbitron',sans-serif; color:var(--cyan); margin:0 0 8px 0; font-size:20px; letter-spacing:1px;}
+  #msg p{ margin:4px 0; font-size:12.5px; color: var(--text-dim); line-height:1.6;}
+  #msg button{
+    margin-top:14px;
+    font-family:'Orbitron',sans-serif; font-weight:700;
+    background: var(--cyan); color:#04070f; border:none;
+    padding: 10px 24px; border-radius: 4px; cursor:pointer;
+    font-size:12px; letter-spacing:1px;
+  }
+  #msg button:hover{ background:#7cedff; }
+  #controls{
+    margin-top:10px; display:flex; justify-content:space-between;
+    font-size:10.5px; color: var(--text-dim); font-weight:700;
+    flex-wrap: wrap; gap:6px;
+  }
+  #controls b{ color: var(--magenta); }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <h1>STARFALL</h1>
+  <div class="subtitle">the CPU has turned twenty worlds into weapons</div>
+
+  <div id="hud">
+    <div class="hud-block">
+      <span class="label">Hull</span>
+      <div id="hearts"></div>
+    </div>
+    <div class="hud-block">
+      <span id="planetStat">Galaxy Map</span>
+    </div>
+    <div class="hud-block">
+      <span class="label">Cleared</span>
+      <span id="clearedCount">0 / 20</span>
+    </div>
+  </div>
+
+  <div id="canvasHolder">
+    <canvas id="game" width="900" height="480"></canvas>
+    <div id="msg">
+      <h2 id="msgTitle">Title</h2>
+      <p id="msgBody">Body</p>
+      <button id="msgBtn">Continue</button>
+    </div>
+  </div>
+
+  <div id="controls">
+    <span><b>WASD / Arrows</b> move</span>
+    <span><b>Space / Click</b> fire blaster</span>
+    <span><b>Shift</b> dash</span>
+    <span><b>Esc</b> return to map (during battle)</span>
+  </div>
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  const heartsEl = document.getElementById('hearts');
+  const planetStat = document.getElementById('planetStat');
+  const clearedCountEl = document.getElementById('clearedCount');
+  const msgEl = document.getElementById('msg');
+  const msgTitle = document.getElementById('msgTitle');
+  const msgBody = document.getElementById('msgBody');
+  const msgBtn = document.getElementById('msgBtn');
+
+  const TOTAL_PLANETS = 20;
+  const MAX_HP = 3;
+
+  let keys = {};
+  let mode = 'map'; // 'map' | 'battle' | 'finalboss'
+  let cleared = new Array(TOTAL_PLANETS).fill(false);
+  let activePlanet = -1;
+  let stars = [];
+  let planetNodes = [];
+  let player, robot, bullets, particles;
+  let paused = true;
+  let shakeTime = 0;
+  let lastTime = 0;
+  let dashCooldown = 0;
+  let bossDefeated = false;
+
+  // ---------- starfield ----------
+  for(let i=0;i<140;i++){
+    stars.push({x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.6+0.3, tw:Math.random()*Math.PI*2});
+  }
+
+  // ---------- galaxy map layout ----------
+  function buildMap(){
+    planetNodes = [];
+    const cols = 5, rows = 4;
+    let idx = 0;
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        const zig = (r%2===0) ? c : (cols-1-c);
+        const px = 90 + zig * ((W-180)/(cols-1));
+        const py = 70 + r * ((H-160)/(rows-1));
+        planetNodes.push({
+          x: px, y: py, index: idx,
+          hue: (idx*47) % 360,
+          size: 16 + (idx%4)*2
+        });
+        idx++;
+      }
+    }
+  }
+  buildMap();
+
+  function difficultyFor(i){
+    // i: 0-based planet index
+    return {
+      hp: 3 + Math.floor(i/3),
+      speed: 55 + i*4,
+      fireRate: Math.max(0.5, 1.7 - i*0.055),
+      bulletSpeed: 160 + i*8,
+      spread: i > 10 ? 3 : (i > 4 ? 2 : 1)
+    };
+  }
+
+  // ---------- player ----------
+  function makePlayer(){
+    return {
+      x: W/2, y: H*0.75, r: 15,
+      hp: MAX_HP, maxHp: MAX_HP,
+      speed: 240,
+      facing: {x:0,y:-1},
+      fireCooldown: 0,
+      invuln: 0,
+      dashing: 0,
+      thrusterFlicker: 0
+    };
+  }
+
+  function updateHud(){
+    heartsEl.innerHTML = '';
+    const hp = player ? player.hp : MAX_HP;
+    const maxHp = player ? player.maxHp : MAX_HP;
+    for(let i=0;i<maxHp;i++){
+      const h = document.createElement('div');
+      h.className = 'heart' + (i < hp ? '' : ' empty');
+      heartsEl.appendChild(h);
+    }
+    const n = cleared.filter(Boolean).length;
+    clearedCountEl.textContent = n + ' / ' + TOTAL_PLANETS;
+    if(mode === 'map') planetStat.textContent = 'Galaxy Map';
+    else if(mode === 'battle') planetStat.textContent = 'Planet ' + (activePlanet+1) + ' — Destroyer Robot';
+    else planetStat.textContent = 'CPU Core — Final Battle';
+  }
+
+  function showMsg(title, body, btnText, onClick){
+    msgTitle.textContent = title;
+    msgBody.textContent = body;
+    msgBtn.textContent = btnText;
+    msgEl.style.display = 'block';
+    msgBtn.onclick = onClick;
+    paused = true;
+  }
+  function hideMsg(){ msgEl.style.display = 'none'; }
+
+  // ---------- input ----------
+  window.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+    keys[k] = true;
+    if(k === ' '){ tryFire(); e.preventDefault(); }
+    if(k === 'escape' && mode === 'battle'){ goToMap(); }
+  });
+  window.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
+  canvas.addEventListener('mousedown', e => {
+    if(mode === 'map'){
+      handleMapClick(e);
+    } else {
+      tryFire();
+    }
+  });
+
+  function handleMapClick(e){
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (W/rect.width);
+    const my = (e.clientY - rect.top) * (H/rect.height);
+    for(const p of planetNodes){
+      const d = Math.hypot(mx-p.x, my-p.y);
+      if(d < p.size + 6){
+        const nextUnlocked = cleared.filter(Boolean).length;
+        if(p.index <= nextUnlocked){
+          startBattle(p.index);
+        } else {
+          showMsg('Locked World', 'Clear the previous planets to unlock this world.', 'Understood', hideMsg);
+        }
+        return;
+      }
+    }
+  }
+
+  // ---------- battle setup ----------
+  function makeRobot(diff, boss){
+    return {
+      x: W/2, y: H*0.28, r: boss ? 44 : 26,
+      hp: boss ? 40 : diff.hp, maxHp: boss ? 40 : diff.hp,
+      speed: diff.speed, dir: 1,
+      fireCooldown: 1,
+      diff, boss: !!boss,
+      hitFlash: 0,
+      phaseTimer: 0
+    };
+  }
+
+  function startBattle(index){
+    activePlanet = index;
+    mode = 'battle';
+    player = makePlayer();
+    bullets = [];
+    particles = [];
+    const diff = difficultyFor(index);
+    robot = makeRobot(diff, false);
+    hideMsg();
+    updateHud();
+    showMsg('Planet ' + (index+1), 'A Destroyer Robot guards this world, armed and hostile. Take it down!', 'Engage', () => { hideMsg(); paused=false; });
+  }
+
+  function startFinalBoss(){
+    mode = 'finalboss';
+    player = makePlayer();
+    bullets = [];
+    particles = [];
+    robot = makeRobot(difficultyFor(19), true);
+    hideMsg();
+    updateHud();
+    showMsg('THE CPU', 'All twenty worlds are free — but the CPU itself awakens at the heart of the galaxy. This is the final battle.', 'Face the CPU', () => { hideMsg(); paused=false; });
+  }
+
+  function goToMap(){
+    mode = 'map';
+    paused = true;
+    hideMsg();
+    updateHud();
+  }
+
+  // ---------- combat ----------
+  function tryFire(){
+    if(paused || mode==='map' || player.fireCooldown > 0) return;
+    player.fireCooldown = 0.22;
+    // aim at the robot if it's alive, otherwise fall back to facing direction
+    let dir = player.facing;
+    if(robot && robot.hp > 0){
+      const dx = robot.x - player.x, dy = robot.y - player.y;
+      const d = Math.hypot(dx,dy) || 1;
+      dir = { x: dx/d, y: dy/d };
+    }
+    bullets.push({
+      x: player.x + dir.x*18, y: player.y + dir.y*18,
+      vx: dir.x*480, vy: dir.y*480,
+      r:4, fromPlayer:true, life: 1.4
+    });
+  }
+
+  function robotFire(){
+    const diff = robot.diff;
+    const baseAngle = Math.atan2(player.y-robot.y, player.x-robot.x);
+    const spreadCount = robot.boss ? 5 : diff.spread;
+    const spreadArc = 0.14;
+    for(let i=0;i<spreadCount;i++){
+      const off = spreadCount===1 ? 0 : (i/(spreadCount-1) - 0.5) * spreadArc * (spreadCount-1);
+      const a = baseAngle + off;
+      bullets.push({
+        x: robot.x, y: robot.y,
+        vx: Math.cos(a)*diff.bulletSpeed, vy: Math.sin(a)*diff.bulletSpeed,
+        r: robot.boss?6:5, fromPlayer:false, life: 3.5
+      });
+    }
+  }
+
+  function spawnParticles(x,y,color,n){
+    for(let i=0;i<n;i++){
+      const a = Math.random()*Math.PI*2;
+      const sp = 40+Math.random()*100;
+      particles.push({x,y,vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life:0.4+Math.random()*0.3, color});
+    }
+  }
+
+  function damagePlayer(n){
+    player.hp -= n;
+    player.invuln = 1.0;
+    spawnParticles(player.x, player.y, '#ff4d5e', 10);
+    if(player.hp <= 0){
+      shakeTime = 0;
+      showMsg(mode==='finalboss' ? 'Ship Destroyed' : 'Ship Destroyed', 'Your hull gave out. Return and try again — the galaxy still needs you.', 'Retry', () => {
+        if(mode === 'finalboss') startFinalBoss();
+        else startBattle(activePlanet);
+      });
+    } else {
+      shakeTime = 0.18;
+    }
+  }
+
+  // ---------- update ----------
+  function update(dt){
+    if(mode === 'map'){ return; }
+    if(paused) return;
+
+    let mx=0,my=0;
+    if(keys['w']||keys['arrowup']) my -= 1;
+    if(keys['s']||keys['arrowdown']) my += 1;
+    if(keys['a']||keys['arrowleft']) mx -= 1;
+    if(keys['d']||keys['arrowright']) mx += 1;
+    const mag = Math.hypot(mx,my);
+    if(mag>0){ mx/=mag; my/=mag; player.facing = {x:mx,y:my}; }
+
+    dashCooldown = Math.max(0, dashCooldown-dt);
+    let speedMult = 1;
+    if(keys['shift'] && dashCooldown<=0 && mag>0){
+      player.dashing = 0.14;
+      dashCooldown = 0.85;
+      player.invuln = Math.max(player.invuln, 0.3);
+    }
+    if(player.dashing>0){ speedMult = 3; player.dashing -= dt; }
+
+    player.x += mx*player.speed*speedMult*dt;
+    player.y += my*player.speed*speedMult*dt;
+    player.x = Math.max(20, Math.min(W-20, player.x));
+    player.y = Math.max(20, Math.min(H-20, player.y));
+
+    player.fireCooldown = Math.max(0, player.fireCooldown-dt);
+    if(player.invuln>0) player.invuln -= dt;
+
+    // robot behavior
+    if(robot.hp > 0){
+      robot.phaseTimer += dt;
+      const targetX = W/2 + Math.sin(robot.phaseTimer*0.6)* (robot.boss ? 220 : 160);
+      robot.x += (targetX - robot.x) * Math.min(1, dt*1.5);
+      robot.y = robot.boss ? H*0.24 + Math.sin(robot.phaseTimer*0.4)*20 : H*0.28;
+      robot.fireCooldown -= dt;
+      if(robot.fireCooldown <= 0){
+        robotFire();
+        robot.fireCooldown = robot.diff.fireRate * (robot.boss ? 0.7 : 1);
+      }
+      if(robot.hitFlash>0) robot.hitFlash -= dt;
+    }
+
+    // bullets
+    for(const b of bullets){
+      b.x += b.vx*dt; b.y += b.vy*dt; b.life -= dt;
+      if(b.fromPlayer){
+        if(robot.hp>0){
+          const d = Math.hypot(b.x-robot.x, b.y-robot.y);
+          if(d < robot.r + b.r){
+            robot.hp -= 1;
+            robot.hitFlash = 0.15;
+            b.life = 0;
+            spawnParticles(b.x,b.y,'#4de3ff',6);
+          }
+        }
+      } else {
+        if(player.invuln<=0){
+          const d = Math.hypot(b.x-player.x, b.y-player.y);
+          if(d < player.r + b.r){
+            damagePlayer(1);
+            b.life = 0;
+          }
+        }
+      }
+      if(b.x<0||b.x>W||b.y<0||b.y>H) b.life = 0;
+    }
+    bullets = bullets.filter(b=>b.life>0);
+
+    // contact damage with robot body
+    if(robot.hp>0 && player.invuln<=0){
+      const d = Math.hypot(player.x-robot.x, player.y-robot.y);
+      if(d < robot.r + player.r) damagePlayer(1);
+    }
+
+    // particles
+    for(const p of particles){
+      p.x += p.vx*dt; p.y += p.vy*dt;
+      p.vx *= 0.92; p.vy *= 0.92;
+      p.life -= dt;
+    }
+    particles = particles.filter(p=>p.life>0);
+
+    if(shakeTime>0) shakeTime -= dt;
+
+    updateHud();
+
+    // robot defeated
+    if(robot.hp <= 0 && !robot.deadHandled){
+      robot.deadHandled = true;
+      spawnParticles(robot.x, robot.y, robot.boss?'#ffb347':'#ff4de3', robot.boss?40:20);
+      shakeTime = 0.25;
+      if(robot.boss){
+        bossDefeated = true;
+        setTimeout(() => {
+          showMsg('The Galaxy Is Saved', 'The CPU core shatters into harmless light. All twenty worlds are free, and the hero is remembered as a legend from star to star.', 'Play Again', restartGame);
+        }, 300);
+      } else {
+        cleared[activePlanet] = true;
+        setTimeout(() => {
+          const allDone = cleared.every(Boolean);
+          if(allDone){
+            showMsg('World Liberated', 'Planet ' + (activePlanet+1) + ' is free. All twenty worlds are clear — the CPU itself awaits at the galaxy core.', 'Advance to the Core', () => { hideMsg(); startFinalBoss(); });
+          } else {
+            showMsg('World Liberated', 'Planet ' + (activePlanet+1) + ' is free. Return to the map to choose your next target.', 'Return to Map', () => { hideMsg(); goToMap(); });
+          }
+        }, 300);
+      }
+    }
+  }
+
+  function restartGame(){
+    cleared = new Array(TOTAL_PLANETS).fill(false);
+    bossDefeated = false;
+    goToMap();
+    showMsg('STARFALL', 'The CPU has seized twenty worlds, arming each with a Destroyer Robot. Travel the galaxy map, liberate every planet, then strike the CPU core to save the galaxy.', 'Begin', hideMsg);
+  }
+
+  // ---------- draw: shared starfield ----------
+  function drawStars(){
+    ctx.fillStyle = '#05060f';
+    ctx.fillRect(0,0,W,H);
+    for(const s of stars){
+      s.tw += 0.02;
+      ctx.globalAlpha = 0.5 + Math.sin(s.tw)*0.5;
+      ctx.fillStyle = '#dbe8ff';
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawMap(){
+    drawStars();
+    // path lines
+    ctx.strokeStyle = 'rgba(77,227,255,0.25)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6,6]);
+    ctx.beginPath();
+    for(let i=0;i<planetNodes.length-1;i++){
+      const a = planetNodes[i], b = planetNodes[i+1];
+      ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    const clearedN = cleared.filter(Boolean).length;
+    for(const p of planetNodes){
+      const isCleared = cleared[p.index];
+      const isUnlocked = p.index <= clearedN;
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      if(isUnlocked && !isCleared){
+        ctx.shadowColor = '#4de3ff';
+        ctx.shadowBlur = 18;
+      }
+      ctx.fillStyle = isCleared ? '#3a4568' : (isUnlocked ? `hsl(${p.hue} 80% 60%)` : '#20233f');
+      ctx.beginPath(); ctx.arc(0,0,p.size,0,Math.PI*2); ctx.fill();
+      if(isCleared){
+        ctx.strokeStyle = '#4de3ff'; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.moveTo(-6,0); ctx.lineTo(-2,6); ctx.lineTo(8,-7); ctx.stroke();
+      } else if(!isUnlocked){
+        ctx.fillStyle = '#0a0c1e';
+        ctx.font = '10px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('🔒', 0, 3);
+      }
+      ctx.restore();
+      ctx.fillStyle = 'rgba(216,228,255,0.6)';
+      ctx.font = '10px "Space Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText((p.index+1).toString(), p.x, p.y + p.size + 14);
+    }
+
+    // CPU core node
+    if(clearedN >= TOTAL_PLANETS){
+      const cx = W/2, cy = H-30;
+      ctx.save();
+      ctx.translate(cx,cy);
+      ctx.shadowColor = bossDefeated ? '#4de3ff' : '#ff4d5e';
+      ctx.shadowBlur = 24;
+      ctx.fillStyle = bossDefeated ? '#3a4568' : '#ff4d5e';
+      ctx.beginPath(); ctx.arc(0,0,22,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 11px "Orbitron", sans-serif';
+      ctx.fillText('CPU', 0, 4);
+      ctx.restore();
+      if(!bossDefeated){
+        ctx.fillStyle = '#ff4d5e';
+        ctx.font = '11px "Space Mono", monospace';
+        ctx.fillText('click to face the CPU', cx, cy+38);
+      }
+    }
+  }
+
+  canvas.addEventListener('mousedown', function coreClick(e){
+    if(mode !== 'map') return;
+    const clearedN = cleared.filter(Boolean).length;
+    if(clearedN < TOTAL_PLANETS || bossDefeated) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (W/rect.width);
+    const my = (e.clientY - rect.top) * (H/rect.height);
+    const cx = W/2, cy = H-30;
+    if(Math.hypot(mx-cx,my-cy) < 26) startFinalBoss();
+  });
+
+  function drawShip(x,y,facing,color,invuln,scale){
+    ctx.save();
+    ctx.translate(x,y);
+    const ang = Math.atan2(facing.y,facing.x) + Math.PI/2;
+    ctx.rotate(ang);
+    ctx.scale(scale,scale);
+    if(invuln>0 && Math.floor(invuln*20)%2===0) ctx.globalAlpha = 0.35;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(0,-16); ctx.lineTo(12,14); ctx.lineTo(0,8); ctx.lineTo(-12,14);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#dbe8ff';
+    ctx.beginPath(); ctx.arc(0,-2,4,0,Math.PI*2); ctx.fill();
+    // thruster
+    ctx.fillStyle = 'rgba(77,227,255,0.8)';
+    ctx.beginPath();
+    ctx.moveTo(-5,13); ctx.lineTo(5,13); ctx.lineTo(0, 22+Math.random()*6); ctx.fill();
+    ctx.restore();
+  }
+
+  function drawRobot(){
+    ctx.save();
+    ctx.translate(robot.x, robot.y);
+    ctx.fillStyle = robot.hitFlash>0 ? '#ffffff' : (robot.boss ? '#ffb347' : '#ff4de3');
+    // body
+    ctx.beginPath();
+    roundRectPath(-robot.r, -robot.r*0.7, robot.r*2, robot.r*1.4, 10);
+    ctx.fill();
+    // eye
+    ctx.fillStyle = '#ff4d5e';
+    ctx.beginPath(); ctx.arc(0,0, robot.r*0.28, 0, Math.PI*2); ctx.fill();
+    // gun
+    ctx.fillStyle = '#20233f';
+    ctx.fillRect(-6, robot.r*0.5, 12, robot.r*0.6);
+    if(robot.boss){
+      ctx.strokeStyle = '#ff4d5e'; ctx.lineWidth=3;
+      ctx.beginPath(); ctx.arc(0,0,robot.r+8,0,Math.PI*2); ctx.stroke();
+    }
+    ctx.restore();
+
+    if(robot.hp < robot.maxHp){
+      const w = robot.r*2.4;
+      ctx.fillStyle = 'rgba(0,0,0,0.4)';
+      ctx.fillRect(robot.x-w/2, robot.y-robot.r-16, w, 5);
+      ctx.fillStyle = '#ff4de3';
+      ctx.fillRect(robot.x-w/2, robot.y-robot.r-16, w*(robot.hp/robot.maxHp), 5);
+    }
+  }
+
+  function roundRectPath(x,y,w,h,r){
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+
+  function drawBattle(){
+    drawStars();
+    if(robot && robot.hp > 0) drawRobot();
+    for(const b of bullets){
+      ctx.fillStyle = b.fromPlayer ? '#4de3ff' : '#ff4d5e';
+      ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,Math.PI*2); ctx.fill();
+    }
+    if(player) drawShip(player.x, player.y, player.facing, '#4de3ff', player.invuln, 1);
+    for(const p of particles){
+      ctx.globalAlpha = Math.max(0,p.life/0.6);
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function draw(){
+    ctx.save();
+    if(shakeTime>0) ctx.translate((Math.random()-0.5)*6,(Math.random()-0.5)*6);
+    if(mode === 'map') drawMap();
+    else drawBattle();
+    ctx.restore();
+  }
+
+  function loop(t){
+    if(!lastTime) lastTime = t;
+    let dt = (t-lastTime)/1000;
+    dt = Math.min(dt,0.05);
+    lastTime = t;
+    update(dt);
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  updateHud();
+  showMsg('STARFALL', 'The CPU has seized twenty worlds, arming each with a Destroyer Robot. Travel the galaxy map, liberate every planet, then strike the CPU core to save the galaxy.', 'Begin', hideMsg);
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

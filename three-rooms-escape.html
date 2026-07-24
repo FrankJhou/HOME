@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Vanished Cartographer — Three Rooms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#0e1526; --ink-800:#151f38; --ink-700:#1c2a4a;
+    --paper:#ece0bd; --paper-dim:#d9c89c; --paper-dark:#c3ae7d;
+    --brass:#c9a24d; --brass-bright:#e8c876; --brass-dark:#8a6a2b;
+    --wax:#8a3324; --teal:#3f6259; --text-light:#f1e9d2; --text-muted:#a99f80;
+    --shadow: rgba(0,0,0,0.55);
+  }
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; height:100%;
+    background: radial-gradient(ellipse at 50% -10%, #22304f 0%, var(--ink-900) 55%, #060a14 100%);
+    color:var(--text-light); font-family:'EB Garamond', serif; overflow-x:hidden;
+  }
+  .app{ max-width:1020px; margin:0 auto; padding:20px 16px 40px; }
+  h1,h2,h3{ font-family:'Cormorant Garamond', serif; margin:0; letter-spacing:0.02em; }
+  .titlebar{ display:flex; align-items:flex-end; justify-content:space-between;
+    border-bottom:1px solid rgba(201,162,77,0.25); padding-bottom:10px; margin-bottom:12px; flex-wrap:wrap; gap:10px; }
+  .eyebrow{ font-family:'Courier Prime', monospace; font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:var(--brass); opacity:0.85; margin-bottom:4px; }
+  .titlebar h1{ font-size:28px; font-weight:700; color:var(--text-light); }
+  .titlebar h1 em{ font-style:italic; color:var(--brass-bright); }
+  .status{ display:flex; align-items:center; gap:12px; font-family:'Courier Prime', monospace; font-size:13px; color:var(--paper-dim); }
+  .timer{ padding:6px 12px; border:1px solid var(--brass-dark); border-radius:3px; background:rgba(0,0,0,0.25); letter-spacing:0.08em; }
+  .ghost-btn{ font-family:'Courier Prime', monospace; background:transparent; color:var(--brass-bright);
+    border:1px solid var(--brass-dark); border-radius:3px; padding:6px 12px; cursor:pointer; font-size:13px; transition:background 0.2s, color 0.2s; }
+  .ghost-btn:hover{ background:var(--brass-dark); color:var(--ink-900); }
+
+  .room-tabs{ display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+  .room-tab{ font-family:'Courier Prime', monospace; font-size:12.5px; letter-spacing:0.06em;
+    padding:8px 14px; border-radius:4px 4px 0 0; border:1px solid var(--brass-dark); border-bottom:none;
+    background:rgba(255,255,255,0.03); color:var(--text-muted); cursor:pointer; }
+  .room-tab.active{ background:var(--ink-700); color:var(--brass-bright); }
+  .room-tab.locked{ opacity:0.55; cursor:not-allowed; }
+  .room-tab .lock-ico{ margin-left:4px; }
+
+  .scene-wrap{ position:relative; border-radius:6px; overflow:hidden; border:1px solid rgba(201,162,77,0.35);
+    box-shadow:0 20px 60px var(--shadow), inset 0 0 80px rgba(0,0,0,0.5); }
+  svg.scene{ display:block; width:100%; height:auto; }
+  .hot{ cursor:pointer; }
+  .hot:hover .hot-outline{ stroke:var(--brass-bright); stroke-width:2.5; filter:drop-shadow(0 0 6px rgba(232,200,118,0.65)); }
+  .hot .hot-label{ opacity:0; transition:opacity 0.2s; font-family:'Courier Prime', monospace; font-size:12px; fill:var(--brass-bright); text-transform:uppercase; letter-spacing:0.12em; }
+  .hot:hover .hot-label{ opacity:1; }
+
+  .inventory{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; min-height:48px; align-items:center; }
+  .inv-empty{ font-family:'Courier Prime', monospace; font-size:12px; color:var(--text-muted); letter-spacing:0.05em; }
+  .inv-item{ display:flex; align-items:center; gap:8px; background:linear-gradient(180deg, var(--paper) 0%, var(--paper-dim) 100%);
+    color:#2a2314; border-radius:4px; padding:6px 12px 6px 8px; font-family:'Courier Prime', monospace; font-size:12px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.4); border:1px solid var(--brass-dark); }
+
+  .overlay{ position:fixed; inset:0; background:rgba(6,9,16,0.78); display:none; align-items:center; justify-content:center;
+    z-index:50; padding:20px; backdrop-filter: blur(2px); }
+  .overlay.show{ display:flex; }
+  .modal{ background:linear-gradient(180deg, var(--paper) 0%, var(--paper-dim) 100%); color:#2a2314;
+    max-width:500px; width:100%; border-radius:6px; padding:26px 26px 22px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--brass-dark); position:relative; animation: rise 0.28s ease;
+    max-height:88vh; overflow-y:auto; }
+  @keyframes rise{ from{ transform:translateY(14px); opacity:0; } to{ transform:translateY(0); opacity:1; } }
+  .modal h2{ font-size:22px; color:#2a2314; margin-bottom:10px; border-bottom:1px solid var(--brass-dark); padding-bottom:8px; }
+  .modal p{ line-height:1.55; font-size:16px; margin:0 0 12px; }
+  .modal .close{ position:absolute; top:12px; right:14px; background:none; border:none; font-size:20px; color:#5a4d2c; cursor:pointer; line-height:1; }
+  .modal .close:hover{ color:var(--wax); }
+  .modal-actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:16px; flex-wrap:wrap; }
+  .btn{ font-family:'Courier Prime', monospace; font-size:13px; background:var(--ink-800); color:var(--brass-bright);
+    border:1px solid var(--brass-dark); border-radius:4px; padding:9px 16px; cursor:pointer; letter-spacing:0.04em; transition:transform 0.12s, background 0.2s; }
+  .btn:hover{ background:var(--ink-700); transform:translateY(-1px); }
+  .btn.primary{ background:var(--brass-dark); color:#221a08; }
+  .btn.primary:hover{ background:var(--brass); }
+
+  .note-paper{ font-family:'Cormorant Garamond', serif; font-style:italic; font-size:18px; line-height:1.5; color:#3a2f18;
+    background:rgba(255,255,255,0.18); border-left:3px solid var(--wax); padding:12px 16px; margin:14px 0; }
+
+  .legend-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:14px 0; }
+  .legend-item{ display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.25); border-radius:4px; padding:8px 10px; font-family:'Courier Prime', monospace; font-size:14px; }
+  .legend-sym{ font-size:20px; }
+
+  .keypad-display{ font-family:'Courier Prime', monospace; font-size:26px; letter-spacing:0.4em; text-align:center;
+    background:#1a1408; color:var(--brass-bright); border-radius:4px; padding:12px 0; margin:14px 0 10px; min-height:22px; }
+  .keypad-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+  .keypad-grid button{ font-family:'Courier Prime', monospace; font-size:18px; padding:12px 0; border-radius:4px; border:1px solid var(--brass-dark); background:var(--paper-dark); color:#2a2314; cursor:pointer; }
+  .keypad-grid button:hover{ background:var(--brass); }
+  .keypad-msg{ min-height:20px; font-family:'Courier Prime', monospace; font-size:13px; color:var(--wax); text-align:center; margin-top:6px; }
+
+  .word-input{ width:100%; font-family:'Courier Prime', monospace; font-size:22px; letter-spacing:0.5em; text-align:center;
+    text-transform:uppercase; background:#1a1408; color:var(--brass-bright); border:1px solid var(--brass-dark); border-radius:4px;
+    padding:12px 0; margin:14px 0 10px; }
+
+  .dial-wrap{ display:flex; flex-direction:column; align-items:center; gap:10px; margin:14px 0; }
+  .dial-svg{ touch-action:none; cursor:grab; }
+  .dial-svg:active{ cursor:grabbing; }
+  .dial-msg{ font-family:'Courier Prime', monospace; font-size:13px; min-height:18px; color:var(--wax); text-align:center; }
+  .shake{ animation:shake 0.4s; }
+  @keyframes shake{ 0%,100%{ transform:translateX(0); } 20%{ transform:translateX(-8px); } 40%{ transform:translateX(8px); }
+    60%{ transform:translateX(-5px); } 80%{ transform:translateX(5px); } }
+
+  .journal-list{ display:flex; flex-direction:column; gap:12px; }
+  .journal-entry{ border-bottom:1px dashed var(--brass-dark); padding-bottom:10px; }
+  .journal-entry h3{ font-size:15px; color:var(--wax); margin-bottom:4px; }
+  .journal-entry p{ font-size:14.5px; margin:0; }
+  .journal-room{ font-size:11px; text-transform:uppercase; letter-spacing:0.12em; color:var(--brass-dark); margin:10px 0 2px; }
+
+  footer{ margin-top:20px; text-align:center; font-family:'Courier Prime', monospace; font-size:11px; color:var(--text-muted); letter-spacing:0.08em; }
+
+  @media (max-width:560px){ .titlebar h1{ font-size:22px; } .modal{ padding:20px 18px 18px; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="titlebar">
+    <div>
+      <div class="eyebrow">A Harder Interactive Puzzle · 3 Rooms</div>
+      <h1>The Vanished <em>Cartographer</em></h1>
+    </div>
+    <div class="status">
+      <button class="ghost-btn" id="journalBtn">📖 Journal</button>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+  </div>
+
+  <div class="room-tabs" id="roomTabs"></div>
+
+  <div class="scene-wrap">
+    <div id="sceneContainer"></div>
+  </div>
+
+  <div class="inventory" id="inventory">
+    <span class="inv-empty">Your findings will appear here.</span>
+  </div>
+
+  <footer>STUDY → LIBRARY → OBSERVATORY — EACH ROOM HIDES WHAT THE NEXT ONE NEEDS</footer>
+</div>
+
+<div class="overlay" id="overlay"><div class="modal" id="modalBox"></div></div>
+
+<script>
+/* ---------------- STATE ---------------- */
+const state = {
+  started:false, startTime:null, timerInt:null, solved:false,
+  currentRoom:'study',
+  roomsUnlocked:{ study:true, library:false, observatory:false },
+  clues:[], // {room,title,text}
+  inv:[],   // {ico,label}
+  study:{ paintingRead:false, clockRead:false, cipherRead:false, drawerOpen:false, safeOpen:false },
+  library:{ atlasRead:false, cabinetOpen:false, globeOpen:false },
+  observatory:{ chartRead:false, telescopeSolved:false, doorOpen:false }
+};
+const DRAWER_CODE = "4729";
+const SAFE_BEARING = 315, SAFE_TOL = 12;      // NW
+const CABINET_WORD = "TIDE";
+const GLOBE_BEARING = 200, GLOBE_TOL = 12;    // southern route
+const CHART_BEARING = 65, CHART_TOL = 10;     // azimuth
+const FINAL_CODE = "2953";
+
+const overlay = document.getElementById('overlay');
+const modalBox = document.getElementById('modalBox');
+const inventoryEl = document.getElementById('inventory');
+const timerEl = document.getElementById('timer');
+const sceneContainer = document.getElementById('sceneContainer');
+const roomTabsEl = document.getElementById('roomTabs');
+
+function openModal(html){ modalBox.innerHTML = html; overlay.classList.add('show');
+  const c = modalBox.querySelector('.close'); if(c) c.addEventListener('click', closeModal); }
+function closeModal(){ overlay.classList.remove('show'); modalBox.innerHTML=''; }
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+
+function addClue(room, title, text){
+  if(!state.clues.find(c=>c.title===title)) state.clues.push({room, title, text});
+}
+function addItem(ico, label){
+  if(!state.inv.find(i=>i.label===label)) state.inv.push({ico, label});
+  renderInventory();
+}
+function renderInventory(){
+  if(state.inv.length===0){ inventoryEl.innerHTML = '<span class="inv-empty">Your findings will appear here.</span>'; return; }
+  inventoryEl.innerHTML = state.inv.map(i=>`<div class="inv-item"><span>${i.ico}</span>${i.label}</div>`).join('');
+}
+function ensureStarted(){
+  if(state.started) return;
+  state.started = true; state.startTime = Date.now();
+  state.timerInt = setInterval(updateTimer, 1000);
+}
+function updateTimer(){
+  const el = Math.floor((Date.now()-state.startTime)/1000);
+  timerEl.textContent = `${String(Math.floor(el/60)).padStart(2,'0')}:${String(el%60).padStart(2,'0')}`;
+}
+function stopTimer(){ clearInterval(state.timerInt); }
+
+/* ---------------- ROOM TABS ---------------- */
+function renderTabs(){
+  const rooms = [ ['study','Study'], ['library','Library'], ['observatory','Observatory'] ];
+  roomTabsEl.innerHTML = rooms.map(([key,label])=>{
+    const unlocked = state.roomsUnlocked[key];
+    const active = state.currentRoom===key ? 'active' : '';
+    const locked = unlocked ? '' : 'locked';
+    return `<button class="room-tab ${active} ${locked}" data-room="${key}">${label}${unlocked?'':' <span class="lock-ico">🔒</span>'}</button>`;
+  }).join('');
+  roomTabsEl.querySelectorAll('.room-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const key = btn.dataset.room;
+      if(!state.roomsUnlocked[key]){
+        openModal(`<button class="close">✕</button><h2>Locked</h2><p>That door hasn't opened yet. There must be something more to find first.</p><div class="modal-actions"><button class="btn primary" onclick="closeModal()">Back</button></div>`);
+        return;
+      }
+      switchRoom(key);
+    });
+  });
+}
+function switchRoom(key){
+  state.currentRoom = key;
+  renderTabs();
+  sceneContainer.innerHTML = ROOMS[key]();
+}
+function unlockRoom(key, msg){
+  state.roomsUnlocked[key] = true;
+  renderTabs();
+  setTimeout(()=>{
+    openModal(`<button class="close">✕</button><h2>A Way Through</h2><p>${msg}</p>
+    <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Onward</button></div>`);
+  }, 50);
+}
+
+/* ---------------- SHARED DIAL WIDGET ---------------- */
+function dialSVG(id, labels){
+  return `
+  <div class="dial-wrap">
+    <svg class="dial-svg" id="${id}" width="210" height="210" viewBox="0 0 220 220">
+      <circle cx="110" cy="110" r="98" fill="#0e1526" stroke="#c9a24d" stroke-width="3"/>
+      <circle cx="110" cy="110" r="98" fill="none" stroke="#8a6a2b" stroke-width="1" stroke-dasharray="2 6"/>
+      <text x="110" y="26" text-anchor="middle" fill="#a99f80" font-family="Courier Prime, monospace" font-size="12">${labels[0]}</text>
+      <text x="110" y="202" text-anchor="middle" fill="#a99f80" font-family="Courier Prime, monospace" font-size="12">${labels[1]}</text>
+      <text x="196" y="115" text-anchor="middle" fill="#a99f80" font-family="Courier Prime, monospace" font-size="12">${labels[2]}</text>
+      <text x="24" y="115" text-anchor="middle" fill="#a99f80" font-family="Courier Prime, monospace" font-size="12">${labels[3]}</text>
+      <g id="${id}-needle" transform="rotate(0 110 110)">
+        <polygon points="110,42 118,110 110,122 102,110" fill="#e8c876"/>
+        <polygon points="110,178 118,110 110,98 102,110" fill="#8a3324"/>
+      </g>
+      <circle cx="110" cy="110" r="7" fill="#c9a24d"/>
+    </svg>
+    <div class="dial-msg" id="${id}-msg">Drag the needle, then lock it in.</div>
+  </div>`;
+}
+function initDial(id, target, tol, onSuccess){
+  const svg = document.getElementById(id);
+  const needle = document.getElementById(id+'-needle');
+  let bearing = 0, dragging = false; const cx=110, cy=110;
+  function pointFromEvent(e){
+    const rect = svg.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return { x:(clientX-rect.left)*(220/rect.width), y:(clientY-rect.top)*(220/rect.height) };
+  }
+  function setBearing(p){
+    let b = Math.atan2(p.x-cx, -(p.y-cy)) * 180/Math.PI;
+    if(b<0) b+=360; bearing=b;
+    needle.setAttribute('transform', `rotate(${bearing} ${cx} ${cy})`);
+  }
+  function start(e){ dragging=true; setBearing(pointFromEvent(e)); e.preventDefault(); }
+  function move(e){ if(!dragging) return; setBearing(pointFromEvent(e)); e.preventDefault(); }
+  function end(){ dragging=false; }
+  svg.addEventListener('mousedown', start);
+  svg.addEventListener('touchstart', start, {passive:false});
+  window.addEventListener('mousemove', move);
+  window.addEventListener('touchmove', move, {passive:false});
+  window.addEventListener('mouseup', end);
+  window.addEventListener('touchend', end);
+  return {
+    check(){
+      const diff = Math.min(Math.abs(bearing-target), 360-Math.abs(bearing-target));
+      const msg = document.getElementById(id+'-msg');
+      if(diff<=tol){ onSuccess(); }
+      else{
+        const wrap = svg.closest('.dial-wrap'); wrap.classList.add('shake');
+        msg.textContent = "Not quite. It resists.";
+        setTimeout(()=>wrap.classList.remove('shake'), 400);
+      }
+    }
+  };
+}
+
+/* ---------------- SHARED KEYPAD WIDGET ---------------- */
+function buildKeypad(targetCode, onSuccess, onFail){
+  let buf = "";
+  const grid = document.getElementById('keypadGrid');
+  const display = document.getElementById('keypadDisplay');
+  const msg = document.getElementById('keypadMsg');
+  const digits = ['1','2','3','4','5','6','7','8','9','Clear','0','Enter'];
+  grid.innerHTML = digits.map(d=>`<button data-d="${d}">${d}</button>`).join('');
+  grid.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const d = btn.dataset.d;
+      if(d==='Clear'){ buf=""; msg.textContent=""; }
+      else if(d==='Enter'){
+        if(buf===targetCode) onSuccess();
+        else { msg.textContent="That isn't it."; buf=""; if(onFail) onFail(); }
+      } else if(buf.length<targetCode.length){ buf+=d; }
+      display.textContent = buf.length ? buf.split('').join(' ') : '\u00A0';
+    });
+  });
+}
+
+/* ================= ROOM 1: STUDY ================= */
+function studySVG(){
+  return `
+  <svg class="scene" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22304f"/><stop offset="100%" stop-color="#101a30"/></linearGradient>
+      <linearGradient id="floorGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1d1408"/><stop offset="100%" stop-color="#0d0904"/></linearGradient>
+    </defs>
+    <rect width="1000" height="470" fill="url(#wallGrad)"/>
+    <rect y="470" width="1000" height="150" fill="url(#floorGrad)"/>
+    <line x1="0" y1="470" x2="1000" y2="470" stroke="#0c1428" stroke-width="2"/>
+
+    <g class="hot" data-hot="study-painting">
+      <rect x="60" y="270" width="170" height="130" fill="#0a1122" stroke="#8a6a2b" stroke-width="8" class="hot-outline"/>
+      <rect x="72" y="282" width="146" height="106" fill="#1c2a4a"/>
+      <path d="M85 365 L120 320 L150 350 L185 300 L205 365 Z" fill="#22304f"/>
+      <text x="145" y="250" text-anchor="middle" class="hot-label">A painting</text>
+    </g>
+
+    <g class="hot" data-hot="study-clock">
+      <circle cx="500" cy="140" r="55" fill="#0a1122" stroke="#8a6a2b" stroke-width="6" class="hot-outline"/>
+      <circle cx="500" cy="140" r="42" fill="#ece0bd"/>
+      <line x1="500" y1="140" x2="500" y2="108" stroke="#2a2314" stroke-width="4"/>
+      <line x1="500" y1="140" x2="524" y2="152" stroke="#2a2314" stroke-width="3"/>
+      <circle cx="500" cy="140" r="4" fill="#8a3324"/>
+      <text x="500" y="70" text-anchor="middle" class="hot-label">Stopped clock</text>
+    </g>
+
+    <g class="hot" data-hot="study-bookshelf">
+      <rect x="800" y="40" width="160" height="410" fill="#241708" stroke="#8a6a2b" stroke-width="6" class="hot-outline"/>
+      <line x1="800" y1="150" x2="960" y2="150" stroke="#0c1428" stroke-width="4"/>
+      <line x1="800" y1="260" x2="960" y2="260" stroke="#0c1428" stroke-width="4"/>
+      <line x1="800" y1="360" x2="960" y2="360" stroke="#0c1428" stroke-width="4"/>
+      <rect x="810" y="60" width="14" height="86" fill="#7a2e2e"/><rect x="827" y="60" width="14" height="86" fill="#3f6259"/>
+      <rect x="844" y="55" width="14" height="91" fill="#c9a24d"/><rect x="861" y="65" width="14" height="81" fill="#4a3a1c"/>
+      <rect x="878" y="60" width="14" height="86" fill="#7a2e2e"/><rect x="895" y="58" width="14" height="88" fill="#3f6259"/>
+      <text x="880" y="20" text-anchor="middle" class="hot-label">Bookshelf</text>
+    </g>
+
+    <g class="hot" data-hot="study-safe">
+      <circle cx="500" cy="330" r="80" fill="#1a2440" stroke="#8a6a2b" stroke-width="6" class="hot-outline"/>
+      <circle cx="500" cy="330" r="62" fill="#0e1526" stroke="#c9a24d" stroke-width="2"/>
+      <g id="studyWallNeedle" transform="rotate(35 500 330)">
+        <polygon points="500,280 507,330 500,339 493,330" fill="#e8c876"/>
+        <polygon points="500,380 507,330 500,321 493,330" fill="#8a3324"/>
+      </g>
+      <text x="500" y="240" text-anchor="middle" class="hot-label">Wall safe</text>
+    </g>
+
+    <g class="hot" data-hot="study-drawer">
+      <rect x="330" y="440" width="340" height="30" fill="#3a2a12"/>
+      <rect x="345" y="470" width="310" height="90" fill="#2a1d0c"/>
+      <rect x="410" y="485" width="180" height="55" rx="3" fill="#4a3418" stroke="#8a6a2b" stroke-width="4" class="hot-outline"/>
+      <circle cx="500" cy="512" r="8" fill="#c9a24d"/>
+      <text x="500" y="590" text-anchor="middle" class="hot-label">Desk drawer</text>
+    </g>
+  </svg>`;
+}
+
+const studyHandlers = {
+  'study-painting': ()=>{
+    ensureStarted();
+    state.study.paintingRead = true;
+    addClue('Study','Behind the Painting','A riddle etched into the backing: "Take the letters in MIDNIGHT, subtract the letters in DUSK. That is my first digit."');
+    openModal(`<button class="close">✕</button><h2>Behind the Painting</h2>
+      <p>The frame swings out on a hidden hinge. Scratched into the wood backing:</p>
+      <div class="note-paper">"Take the letters in MIDNIGHT, subtract the letters in DUSK. That is my first digit."</div>
+      <p>MIDNIGHT has 8 letters. DUSK has 4. <strong>8 − 4 = 4.</strong> First digit: <strong>4</strong>.</p>
+      <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Keep looking</button></div>`);
+  },
+  'study-clock': ()=>{
+    ensureStarted();
+    state.study.clockRead = true;
+    addClue('Study','The Stopped Clock','The clock is frozen at 2:09. The hour and minute\'s tens digit give two more numbers: 2 and 9.');
+    openModal(`<button class="close">✕</button><h2>The Stopped Clock</h2>
+      <p>Its hands haven't moved in years — frozen at <strong>2:09</strong>. Someone stopped it on purpose. Two digits worth remembering: <strong>2</strong> and <strong>9</strong>.</p>
+      <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Keep looking</button></div>`);
+  },
+  'study-bookshelf': ()=>{
+    ensureStarted();
+    state.study.cipherRead = true;
+    addClue('Study','The Ledger Cipher','A page reads "WIZIR" with a note: "shift by the digit behind the painting." Shifting each letter back 4 places gives SEVEN — digit 7.');
+    openModal(`<button class="close">✕</button><h2>The Bookshelf</h2>
+      <p>A slim ledger is wedged between two atlases. One page bears a single scrawled word and an instruction:</p>
+      <div class="note-paper">WIZIR<br><small>"shift by the digit behind the painting"</small></div>
+      <p>Shift each letter back by 4 (the digit you found behind the painting): W→S, I→E, Z→V, I→E, R→N. That spells <strong>SEVEN</strong>. Third digit: <strong>7</strong>.</p>
+      <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Keep looking</button></div>`);
+  },
+  'study-drawer': ()=>{
+    ensureStarted();
+    if(state.study.drawerOpen){
+      openModal(`<button class="close">✕</button><h2>The Drawer</h2><p>Empty now, save for a blotting cloth. You already took what mattered.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Close</button></div>`);
+      return;
+    }
+    openModal(`<button class="close">✕</button><h2>Desk Drawer — Combination Lock</h2>
+      <p>Four digits. You've gathered clues from the painting, the clock, and the ledger.</p>
+      <div class="keypad-display" id="keypadDisplay">&nbsp;</div>
+      <div class="keypad-grid" id="keypadGrid"></div>
+      <div class="keypad-msg" id="keypadMsg"></div>`);
+    buildKeypad(DRAWER_CODE, ()=>{
+      state.study.drawerOpen = true;
+      addItem('🗝️','Brass Key (Study)');
+      addClue('Study','Inside the Drawer','A note: "The passage north lies past due north-west." — a bearing for the wall safe.');
+      openModal(`<button class="close">✕</button><h2>The Drawer Opens</h2>
+        <p>Inside: a small brass key, and a note.</p>
+        <div class="note-paper">"The passage north lies past due north-west."</div>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Take the key</button></div>`);
+    });
+  },
+  'study-safe': ()=>{
+    ensureStarted();
+    if(state.study.safeOpen){
+      openModal(`<button class="close">✕</button><h2>Wall Safe</h2><p>Already open — the passage beyond leads to the library.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Close</button></div>`);
+      return;
+    }
+    if(!state.study.drawerOpen){
+      openModal(`<button class="close">✕</button><h2>Wall Safe</h2><p>A compass rose is set into a brass door. The needle spins freely — it won't hold without a key to engage it.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Find a key</button></div>`);
+      return;
+    }
+    openModal(`<button class="close">✕</button><h2>Wall Safe</h2>
+      <p>The key engages the mechanism. Somewhere in this room, a note mentioned a bearing.</p>
+      ${dialSVG('studyDial', ['N','S','E','W'])}
+      <div class="modal-actions"><button class="btn primary" id="studyDialBtn">Lock it in</button></div>`);
+    const dial = initDial('studyDial', SAFE_BEARING, SAFE_TOL, ()=>{
+      state.study.safeOpen = true;
+      document.getElementById('studyWallNeedle').setAttribute('transform', `rotate(${SAFE_BEARING} 500 330)`);
+      unlockRoom('library', 'The wall safe swings inward, revealing a narrow passage lined with bookshelves. The Library is open.');
+      closeModal();
+    });
+    document.getElementById('studyDialBtn').addEventListener('click', ()=>dial.check());
+  }
+};
+
+/* ================= ROOM 2: LIBRARY ================= */
+function librarySVG(){
+  return `
+  <svg class="scene" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1000" height="470" fill="url(#wallGrad)"/>
+    <rect y="470" width="1000" height="150" fill="url(#floorGrad)"/>
+    <line x1="0" y1="470" x2="1000" y2="470" stroke="#0c1428" stroke-width="2"/>
+
+    <g class="hot" data-hot="lib-atlas">
+      <rect x="60" y="330" width="200" height="140" fill="#2a1d0c" stroke="#8a6a2b" stroke-width="6" class="hot-outline"/>
+      <rect x="80" y="350" width="160" height="100" fill="#ece0bd"/>
+      <line x1="160" y1="350" x2="160" y2="450" stroke="#8a6a2b" stroke-width="2"/>
+      <text x="160" y="315" text-anchor="middle" class="hot-label">Star Atlas</text>
+    </g>
+
+    <g class="hot" data-hot="lib-cabinet">
+      <rect x="420" y="260" width="160" height="210" fill="#241708" stroke="#8a6a2b" stroke-width="6" class="hot-outline"/>
+      <rect x="440" y="285" width="120" height="70" fill="#0e1526" stroke="#c9a24d" stroke-width="2"/>
+      <text x="500" y="325" text-anchor="middle" font-size="26" fill="#e8c876">☀ ☾ ★ ⚓</text>
+      <circle cx="500" cy="410" r="8" fill="#c9a24d"/>
+      <text x="500" y="245" text-anchor="middle" class="hot-label">Locked cabinet</text>
+    </g>
+
+    <g class="hot" data-hot="lib-globe">
+      <circle cx="820" cy="360" r="85" fill="#1a2440" stroke="#8a6a2b" stroke-width="6" class="hot-outline"/>
+      <circle cx="820" cy="360" r="65" fill="#0e1526" stroke="#c9a24d" stroke-width="2"/>
+      <g id="libGlobeNeedle" transform="rotate(10 820 360)">
+        <polygon points="820,305 827,360 820,369 813,360" fill="#e8c876"/>
+        <polygon points="820,415 827,360 820,351 813,360" fill="#3f6259"/>
+      </g>
+      <text x="820" y="255" text-anchor="middle" class="hot-label">Globe</text>
+    </g>
+
+    <g>
+      <rect x="770" y="40" width="180" height="380" fill="#241708" stroke="#0c1428" stroke-width="2" opacity="0.5"/>
+      <line x1="770" y1="130" x2="950" y2="130" stroke="#0c1428" stroke-width="4" opacity="0.5"/>
+      <line x1="770" y1="220" x2="950" y2="220" stroke="#0c1428" stroke-width="4" opacity="0.5"/>
+    </g>
+  </svg>`;
+}
+
+const libraryHandlers = {
+  'lib-atlas': ()=>{
+    ensureStarted();
+    state.library.atlasRead = true;
+    addClue('Library','The Star Atlas Legend','A symbol legend: ☀ = T, ☾ = I, ★ = D, ⚓ = E.');
+    openModal(`<button class="close">✕</button><h2>The Star Atlas</h2>
+      <p>An open page shows a legend of hand-drawn symbols, each paired with a letter:</p>
+      <div class="legend-grid">
+        <div class="legend-item"><span class="legend-sym">☀</span> = T</div>
+        <div class="legend-item"><span class="legend-sym">☾</span> = I</div>
+        <div class="legend-item"><span class="legend-sym">★</span> = D</div>
+        <div class="legend-item"><span class="legend-sym">⚓</span> = E</div>
+      </div>
+      <p>Worth remembering — something else in this room uses these symbols.</p>
+      <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Keep looking</button></div>`);
+  },
+  'lib-cabinet': ()=>{
+    ensureStarted();
+    if(state.library.cabinetOpen){
+      openModal(`<button class="close">✕</button><h2>The Cabinet</h2><p>Already open and empty.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Close</button></div>`);
+      return;
+    }
+    if(!state.library.atlasRead){
+      openModal(`<button class="close">✕</button><h2>The Cabinet</h2>
+        <p>Four symbols are carved into the lock face: <strong>☀ ☾ ★ ⚓</strong>. They mean nothing to you — yet.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Keep looking</button></div>`);
+      return;
+    }
+    openModal(`<button class="close">✕</button><h2>The Cabinet — Symbol Lock</h2>
+      <p>Four symbols: <strong>☀ ☾ ★ ⚓</strong>. Using the atlas legend, translate them into a word and enter it below.</p>
+      <input class="word-input" id="wordInput" maxlength="4" placeholder="----">
+      <div class="keypad-msg" id="wordMsg"></div>
+      <div class="modal-actions"><button class="btn primary" id="wordBtn">Turn the lock</button></div>`);
+    document.getElementById('wordBtn').addEventListener('click', ()=>{
+      const val = document.getElementById('wordInput').value.trim().toUpperCase();
+      const msg = document.getElementById('wordMsg');
+      if(val === CABINET_WORD){
+        state.library.cabinetOpen = true;
+        addItem('🗝️','Brass Key (Library)');
+        addClue('Library','Inside the Cabinet','A note: "Turn the globe to 200 — the southern trade route." Also a plaque: "Five shelves. Three compass roses." Digits: 5 and 3.');
+        openModal(`<button class="close">✕</button><h2>The Lock Turns</h2>
+          <p>Inside: a second brass key, a note, and a small brass plaque.</p>
+          <div class="note-paper">"Turn the globe to 200 — the southern trade route."</div>
+          <div class="note-paper">Plaque: "Five shelves. Three compass roses." — digits <strong>5</strong> and <strong>3</strong>.</div>
+          <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Take the key</button></div>`);
+      } else {
+        msg.textContent = "The lock doesn't budge.";
+      }
+    });
+  },
+  'lib-globe': ()=>{
+    ensureStarted();
+    if(state.library.globeOpen){
+      openModal(`<button class="close">✕</button><h2>The Globe</h2><p>Already set — the passage beyond leads onward.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Close</button></div>`);
+      return;
+    }
+    if(!state.library.cabinetOpen){
+      openModal(`<button class="close">✕</button><h2>The Globe</h2><p>An old brass globe on gimbals. It spins loosely, waiting for a bearing you don't yet know.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Keep looking</button></div>`);
+      return;
+    }
+    openModal(`<button class="close">✕</button><h2>The Globe</h2>
+      <p>The note said 200 — the southern trade route.</p>
+      ${dialSVG('libDial', ['0°','180°','90°','270°'])}
+      <div class="modal-actions"><button class="btn primary" id="libDialBtn">Lock it in</button></div>`);
+    const dial = initDial('libDial', GLOBE_BEARING, GLOBE_TOL, ()=>{
+      state.library.globeOpen = true;
+      document.getElementById('libGlobeNeedle').setAttribute('transform', `rotate(${GLOBE_BEARING} 820 360)`);
+      unlockRoom('observatory', 'The globe clicks into place and a section of shelving slides aside, revealing a spiral stair. The Observatory is open.');
+      closeModal();
+    });
+    document.getElementById('libDialBtn').addEventListener('click', ()=>dial.check());
+  }
+};
+
+/* ================= ROOM 3: OBSERVATORY ================= */
+function observatorySVG(){
+  return `
+  <svg class="scene" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="domeGrad" cx="50%" cy="0%" r="90%"><stop offset="0%" stop-color="#1a2244"/><stop offset="100%" stop-color="#0b1122"/></radialGradient>
+    </defs>
+    <rect width="1000" height="470" fill="url(#domeGrad)"/>
+    <rect y="470" width="1000" height="150" fill="url(#floorGrad)"/>
+    <circle cx="150" cy="80" r="2" fill="#e9dfb8"/><circle cx="260" cy="140" r="1.5" fill="#e9dfb8"/>
+    <circle cx="700" cy="60" r="2" fill="#e9dfb8"/><circle cx="880" cy="110" r="1.5" fill="#e9dfb8"/>
+    <circle cx="400" cy="50" r="1.5" fill="#e9dfb8"/><circle cx="950" cy="200" r="2" fill="#e9dfb8"/>
+
+    <g class="hot" data-hot="obs-chart">
+      <rect x="60" y="70" width="200" height="150" fill="#241708" stroke="#8a6a2b" stroke-width="6" class="hot-outline"/>
+      <rect x="80" y="90" width="160" height="110" fill="#0e1526"/>
+      <circle cx="160" cy="145" r="6" fill="#e8c876"/><circle cx="190" cy="120" r="3" fill="#e8c876"/><circle cx="130" cy="170" r="3" fill="#e8c876"/>
+      <text x="160" y="55" text-anchor="middle" class="hot-label">Star chart</text>
+    </g>
+
+    <g class="hot" data-hot="obs-telescope">
+      <rect x="460" y="300" width="26" height="160" fill="#3a2a12"/>
+      <g transform="translate(500,260) rotate(-30)">
+        <rect x="-14" y="0" width="28" height="130" rx="8" fill="#4a3418" stroke="#8a6a2b" stroke-width="4" class="hot-outline"/>
+      </g>
+      <circle cx="500" cy="460" r="14" fill="#241708"/>
+      <text x="500" y="220" text-anchor="middle" class="hot-label">Telescope</text>
+    </g>
+
+    <g class="hot" data-hot="obs-door">
+      <rect x="760" y="180" width="180" height="290" fill="#241708" stroke="#8a6a2b" stroke-width="8" class="hot-outline"/>
+      <circle cx="850" cy="325" r="34" fill="#0e1526" stroke="#c9a24d" stroke-width="3"/>
+      <rect x="832" y="315" width="36" height="20" rx="3" fill="#c9a24d"/>
+      <text x="850" y="160" text-anchor="middle" class="hot-label">Final door</text>
+    </g>
+  </svg>`;
+}
+
+const observatoryHandlers = {
+  'obs-chart': ()=>{
+    ensureStarted();
+    state.observatory.chartRead = true;
+    addClue('Observatory','The Star Chart','A note pinned beside it: "Aim true: azimuth 65°, and you\'ll find what\'s hidden among the stars."');
+    openModal(`<button class="close">✕</button><h2>The Star Chart</h2>
+      <p>Pinned beside a hand-drawn chart of the winter sky, a note in a familiar hand:</p>
+      <div class="note-paper">"Aim true: azimuth 65°, and you'll find what's hidden among the stars."</div>
+      <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Go to the telescope</button></div>`);
+  },
+  'obs-telescope': ()=>{
+    ensureStarted();
+    if(state.observatory.telescopeSolved){
+      openModal(`<button class="close">✕</button><h2>The Telescope</h2><p>Already aligned. You've read what it revealed.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Close</button></div>`);
+      return;
+    }
+    if(!state.observatory.chartRead){
+      openModal(`<button class="close">✕</button><h2>The Telescope</h2><p>A heavy brass telescope on a swivel mount. It could be aimed — if only you knew where.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Check the star chart</button></div>`);
+      return;
+    }
+    openModal(`<button class="close">✕</button><h2>The Telescope</h2>
+      <p>The chart said azimuth 65°. Aim carefully — this dial resists more than the others.</p>
+      ${dialSVG('obsDial', ['0°','180°','90°','270°'])}
+      <div class="modal-actions"><button class="btn primary" id="obsDialBtn">Lock it in</button></div>`);
+    const dial = initDial('obsDial', CHART_BEARING, CHART_TOL, ()=>{
+      state.observatory.telescopeSolved = true;
+      addItem('🗝️','Brass Key (Observatory)');
+      addClue('Observatory','Through the Telescope','A slip of paper taped inside the eyepiece: "The final code — 2 9 5 3."');
+      openModal(`<button class="close">✕</button><h2>Through the Eyepiece</h2>
+        <p>The stars align and something rattles loose from inside the barrel — a third brass key, and a slip of paper.</p>
+        <div class="note-paper">"The final code — 2 9 5 3."</div>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Take the key</button></div>`);
+    });
+    document.getElementById('obsDialBtn').addEventListener('click', ()=>dial.check());
+  },
+  'obs-door': ()=>{
+    ensureStarted();
+    if(state.solved){
+      openModal(`<button class="close">✕</button><h2>The Final Door</h2><p>Open, just as you left it.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Close</button></div>`);
+      return;
+    }
+    if(state.inv.length < 3){
+      openModal(`<button class="close">✕</button><h2>The Final Door</h2><p>A heavy door, triple-locked. It won't even accept a code until all three brass keys are in your hand.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Keep searching</button></div>`);
+      return;
+    }
+    if(!state.observatory.telescopeSolved){
+      openModal(`<button class="close">✕</button><h2>The Final Door</h2><p>You have the keys, but no code. Best find your bearings first.</p>
+        <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Keep searching</button></div>`);
+      return;
+    }
+    openModal(`<button class="close">✕</button><h2>The Final Door — Four Digits</h2>
+      <p>Three brass keys turn in their locks. One dial remains.</p>
+      <div class="keypad-display" id="keypadDisplay">&nbsp;</div>
+      <div class="keypad-grid" id="keypadGrid"></div>
+      <div class="keypad-msg" id="keypadMsg"></div>`);
+    buildKeypad(FINAL_CODE, ()=>{
+      state.solved = true; stopTimer();
+      const elapsed = timerEl.textContent;
+      openModal(`<button class="close">✕</button>
+        <div style="text-align:center;">
+          <h2 style="border:none;">You Escape</h2>
+          <p>The door swings open onto a rope bridge and the grey light of dawn. Somewhere below, the cartographer's final map is finally where it belongs — in your hands.</p>
+          <p style="font-family:'Courier Prime', monospace; letter-spacing:0.08em; color:#8a3324; font-size:28px; margin:12px 0 4px;">${elapsed}</p>
+          <p style="font-size:13px; color:#5a4d2c;">TIME TO ESCAPE — THREE ROOMS</p>
+          <div class="modal-actions" style="justify-content:center;"><button class="btn primary" onclick="location.reload()">Play again</button></div>
+        </div>`);
+    });
+  }
+};
+
+/* ---------------- ROOM REGISTRY + DELEGATION ---------------- */
+const ROOMS = { study: studySVG, library: librarySVG, observatory: observatorySVG };
+const ALL_HANDLERS = Object.assign({}, studyHandlers, libraryHandlers, observatoryHandlers);
+
+sceneContainer.addEventListener('click', (e)=>{
+  const hot = e.target.closest('[data-hot]');
+  if(!hot) return;
+  const key = hot.dataset.hot;
+  if(ALL_HANDLERS[key]) ALL_HANDLERS[key]();
+});
+
+/* ---------------- JOURNAL ---------------- */
+document.getElementById('journalBtn').addEventListener('click', ()=>{
+  if(state.clues.length===0){
+    openModal(`<button class="close">✕</button><h2>Journal</h2><p style="font-size:15px;">Nothing recorded yet. Start exploring the Study.</p>`);
+    return;
+  }
+  const byRoom = { Study:[], Library:[], Observatory:[] };
+  state.clues.forEach(c=>byRoom[c.room].push(c));
+  let html = '<button class="close">✕</button><h2>Journal</h2><div class="journal-list">';
+  Object.entries(byRoom).forEach(([room, entries])=>{
+    if(entries.length===0) return;
+    html += `<div class="journal-room">${room}</div>`;
+    entries.forEach(c=> html += `<div class="journal-entry"><h3>${c.title}</h3><p>${c.text}</p></div>`);
+  });
+  html += '</div>';
+  openModal(html);
+});
+
+/* ---------------- INIT ---------------- */
+renderTabs();
+sceneContainer.innerHTML = ROOMS.study();
+renderInventory();
+openModal(`<button class="close">✕</button><h2>The Vanished Cartographer</h2>
+  <p>Three nights ago the cartographer disappeared, leaving his manor locked from within. Three rooms stand between you and the door at dawn: the Study, the Library, and the Observatory. Each hides what the next one needs.</p>
+  <p style="font-size:14px; color:#5a4d2c;">Nothing is handed to you twice — keep your Journal open in spirit, if not on screen.</p>
+  <div class="modal-actions"><button class="btn primary" onclick="closeModal()">Begin</button></div>`);
+</script>
+</body>
+</html>

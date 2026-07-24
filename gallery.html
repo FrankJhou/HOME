@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>相簿｜Gallery</title>
+    <meta name="description" content="把照片丟進 /images/ 就會自動出現在這個相簿。">
+    <link rel="stylesheet" href="gallery.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1>我的相簿</h1>
+        <nav><a href="./">回首頁</a></nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="intro">
+        <p>把照片（JPG/PNG/WebP/AVIF/GIF）放在 <code>/images/</code> 資料夾，重新整理此頁即可看到更新。</p>
+        <details>
+          <summary>遇到圖片沒出現？</summary>
+          <ul>
+            <li>確認這個 Repository 是 <strong>Public</strong>（GitHub API 需要公開）</li>
+            <li>檔名請不要有空格或奇怪符號（建議用英文、數字、-、_）</li>
+            <li>第一次部署後等數十秒再重整，讓 Pages/快取完成</li>
+          </ul>
+        </details>
+      </section>
+
+      <div id="gallery" class="gallery" aria-live="polite"></div>
+      <div id="emptyState" class="empty" hidden>還沒有找到任何圖片。請把照片放到 <code>/images/</code> 後重整此頁。</div>
+      <template id="cardTpl">
+        <figure class="card">
+          <a class="card-link" target="_blank" rel="noopener">
+            <img loading="lazy" decoding="async" alt="" />
+          </a>
+          <figcaption></figcaption>
+        </figure>
+      </template>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <small>© <span id="year"></span> · 建置於 GitHub Pages</small>
+      </div>
+    </footer>
+
+    <script src="gallery.js"></script>
+    <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  </body>
+</html>

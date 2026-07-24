@@ -1,0 +1,46 @@
+{
+  "Naphtha": {
+    "price": 599,
+    "basis": "CFR Japan（OSN M1）",
+    "source": "Reuters/Refinitiv"
+  },
+  "Isomer Xylene": {
+    "price": 680,
+    "basis": "FOB Korea",
+    "source": "Echemi (2025-08-14)"
+  },
+  "Ethylene": {
+    "price": 825,
+    "basis": "CFR NE Asia",
+    "source": "Echemi (2025-08-15)"
+  },
+  "Propylene": {
+    "price": 775,
+    "basis": "CFR China",
+    "source": "Echemi (2025-08-15)"
+  },
+  "Benzene": {
+    "price": 732,
+    "basis": "FOB Korea",
+    "source": "Echemi (2025-08-18)"
+  },
+  "Toluene": {
+    "price": 682,
+    "basis": "FOB Korea",
+    "source": "Echemi (2025-08-14)"
+  },
+  "OX": {
+    "price": 830,
+    "basis": "FOB Korea",
+    "source": "Public dashboard"
+  },
+  "PX": {
+    "price": 828,
+    "basis": "CFR Taiwan/China",
+    "source": "Public report (2025-06-03)"
+  },
+  "analysis_notes": [
+    "原油（Brent、WTI）：留意 EIA/IEA/OPEC 月報與主要產油國供需指引。",
+    "Naphtha：汽油裂解與裂解廠開工/檢修是核心變量。"
+  ]
+}

@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>面積完全學習手冊 — 從 G2 到 G6（108 課綱）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbfaf6;
+    --ink:#1b2333;
+    --ink-soft:#4b5568;
+    --grid:#e7ecf3;
+    --grid-strong:#d7dfea;
+    --line:#cfd7e3;
+    --blue:#2f6fb3;       /* 原本的圖形 */
+    --blue-fill:rgba(47,111,179,.14);
+    --orange:#dd7a32;     /* 被剪下、移動的那一塊 */
+    --orange-fill:rgba(221,122,50,.18);
+    --green:#2f9e85;
+    --gold:#eaa916;
+    --gold-fill:rgba(234,169,22,.16);
+    --card:#ffffff;
+    --shadow:0 1px 2px rgba(27,35,51,.06),0 8px 24px rgba(27,35,51,.06);
+    --maxw:880px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+    color:var(--ink);
+    background:
+      linear-gradient(var(--grid) 1px,transparent 1px) 0 0/24px 24px,
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/24px 24px,
+      var(--paper);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding:64px 22px 40px;
+    text-align:center;
+    position:relative;
+  }
+  .hero .kicker{
+    font-size:.82rem;letter-spacing:.32em;color:var(--blue);
+    font-weight:700;text-transform:uppercase;margin-bottom:14px;
+  }
+  .hero h1{
+    font-family:"Fraunces","Noto Sans TC",serif;
+    font-weight:900;
+    font-size:clamp(2.2rem,6vw,3.6rem);
+    line-height:1.05;margin:0 0 10px;letter-spacing:-.01em;
+  }
+  .hero h1 .area-box{
+    display:inline-block;background:var(--gold-fill);
+    border:2px solid var(--gold);border-radius:8px;padding:0 .18em;
+  }
+  .hero p.sub{font-size:1.06rem;color:var(--ink-soft);max-width:560px;margin:8px auto 0}
+  .hero .tag{
+    display:inline-block;margin-top:22px;font-size:.8rem;color:var(--ink-soft);
+    border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:#fff;
+  }
+
+  /* ---------- TOC ---------- */
+  nav.toc{
+    max-width:var(--maxw);margin:18px auto 50px;background:#fff;
+    border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+    padding:20px 24px;
+  }
+  nav.toc h2{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px}
+  nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 26px}
+  nav.toc a{display:flex;gap:10px;text-decoration:none;color:var(--ink);padding:6px 4px;border-radius:8px;font-size:.96rem}
+  nav.toc a:hover{background:var(--blue-fill);color:var(--blue)}
+  nav.toc a .g{font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums;min-width:42px}
+  @media(max-width:620px){nav.toc ol{grid-template-columns:1fr}}
+
+  /* ---------- SECTIONS ---------- */
+  section.ch{max-width:var(--maxw);margin:0 auto;padding:34px 0 10px}
+  .ch-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px;padding-top:18px;border-top:2px solid var(--ink);}
+  .ch-num{
+    font-family:"Fraunces",serif;font-weight:900;font-size:2.1rem;line-height:1;
+    color:#fff;background:var(--blue);border-radius:10px;padding:8px 12px;flex:none;min-width:62px;text-align:center;
+  }
+  .ch-num.g2{background:#3a8fb0}.ch-num.g3{background:#2f7fb3}.ch-num.g4{background:#2f6fb3}
+  .ch-num.g5{background:#5566b8}.ch-num.g6{background:#7e57b3}.ch-num.x{background:#3a4253}
+  .ch-head h2{font-size:1.6rem;margin:2px 0 2px;font-weight:900;letter-spacing:-.01em}
+  .ch-head .grade{font-size:.8rem;color:var(--ink-soft);letter-spacing:.08em}
+  .ch-body{padding:6px 2px 0}
+  h3{font-size:1.16rem;margin:30px 0 8px;font-weight:700;display:flex;align-items:center;gap:9px}
+  h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg);flex:none}
+  p{margin:.6em 0}
+  .lead{font-size:1.05rem}
+
+  /* concept callouts */
+  .why{
+    background:linear-gradient(0deg,#fff,#fff) padding-box,var(--paper);
+    border:1px solid var(--line);border-left:5px solid var(--blue);
+    border-radius:10px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow);
+  }
+  .why .lbl{font-weight:700;color:var(--blue);font-size:.92rem;letter-spacing:.05em;display:block;margin-bottom:4px}
+  .pitfall{
+    background:#fff7ef;border:1px solid #f1d6b5;border-left:5px solid var(--orange);
+    border-radius:10px;padding:14px 18px;margin:18px 0;
+  }
+  .pitfall .lbl{font-weight:700;color:var(--orange);font-size:.92rem;display:block;margin-bottom:4px}
+  .keyformula{
+    text-align:center;background:var(--gold-fill);border:2px dashed var(--gold);
+    border-radius:12px;padding:16px;margin:20px 0;font-size:1.25rem;font-weight:700;
+  }
+  .keyformula small{display:block;font-size:.82rem;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:.02em}
+
+  /* figures */
+  figure{margin:22px 0;text-align:center}
+  figure svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+  figcaption{font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+  .svg-orig{fill:var(--blue-fill);stroke:var(--blue);stroke-width:2}
+  .svg-move{fill:var(--orange-fill);stroke:var(--orange);stroke-width:2}
+  .svg-dash{stroke:var(--ink-soft);stroke-width:1.5;stroke-dasharray:5 4;fill:none}
+  .svg-tick{stroke:var(--ink);stroke-width:1.4}
+  .svg-lbl{font:600 14px "Noto Sans TC",sans-serif;fill:var(--ink)}
+  .svg-lbl-b{font:700 14px "Noto Sans TC",sans-serif;fill:var(--blue)}
+  .svg-lbl-o{font:700 14px "Noto Sans TC",sans-serif;fill:var(--orange)}
+  .svg-grid{stroke:var(--grid-strong);stroke-width:1;fill:none}
+  .svg-arrow{stroke:var(--green);stroke-width:2.4;fill:none;marker-end:url(#ah)}
+
+  /* tables */
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:.95rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+  th{background:#f0f3f8;font-weight:700}
+  td.l,th.l{text-align:left}
+
+  /* practice */
+  .practice{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:26px 0;box-shadow:var(--shadow)}
+  .practice .ptitle{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin:0 0 4px}
+  .practice .ptitle .badge{background:var(--green);color:#fff;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+  ol.prob{counter-reset:p;list-style:none;padding:0;margin:14px 0 0}
+  ol.prob>li{counter-increment:p;position:relative;padding:14px 0 14px 40px;border-top:1px dashed var(--line)}
+  ol.prob>li:first-child{border-top:none}
+  ol.prob>li::before{content:counter(p);position:absolute;left:0;top:13px;width:26px;height:26px;background:var(--blue);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  details{margin-top:8px}
+  details>summary{cursor:pointer;display:inline-block;font-size:.86rem;font-weight:700;color:var(--green);background:#eef8f5;border:1px solid #bfe3da;border-radius:8px;padding:4px 12px;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::before{content:"▸ ";font-size:.8rem}
+  details[open]>summary::before{content:"▾ "}
+  details[open]>summary{color:#1f7a66}
+  .ans{margin-top:10px;background:#f4faf8;border:1px solid #cfe9e1;border-radius:10px;padding:12px 16px;font-size:.95rem}
+  .ans b{color:#1f7a66}
+  .ans .calc{font-variant-numeric:tabular-nums;color:var(--ink)}
+
+  /* memory cards */
+  .cards-wrap{max-width:var(--maxw);margin:0 auto;padding:20px 0 40px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:620px){.cards{grid-template-columns:1fr}}
+  .mc{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;position:relative;overflow:hidden}
+  .mc::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--blue)}
+  .mc.g2::before{background:#3a8fb0}.mc.g4::before{background:#2f6fb3}.mc.g5::before{background:#5566b8}.mc.g6::before{background:#7e57b3}.mc.gx::before{background:#3a4253}
+  .mc .tag{font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--ink-soft)}
+  .mc h4{margin:4px 0 8px;font-size:1.05rem}
+  .mc .f{font-size:1.18rem;font-weight:900;color:var(--ink);background:var(--gold-fill);border-radius:8px;padding:6px 10px;display:inline-block;margin-bottom:8px}
+  .mc .pt{font-size:.86rem;color:var(--ink-soft);margin:0}
+  .mc .pt b{color:var(--orange)}
+
+  /* misc */
+  .controls{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.86);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .controls .inner{max-width:var(--maxw);margin:0 auto;padding:9px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .controls .home{font-weight:900;text-decoration:none;color:var(--ink);font-size:.95rem}
+  .controls .home .b{color:var(--gold)}
+  .btn{font:inherit;font-size:.82rem;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn:hover{border-color:var(--blue);color:var(--blue)}
+  footer{max-width:var(--maxw);margin:30px auto 60px;padding:24px 22px 0;border-top:2px solid var(--ink);color:var(--ink-soft);font-size:.9rem}
+  .note{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.9rem;color:var(--ink-soft)}
+  hr.soft{border:none;border-top:1px dashed var(--line);margin:30px 0}
+  kbd{background:#eef1f6;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;font:inherit;font-size:.85em}
+
+  @media print{
+    body{background:#fff}
+    .controls,nav.toc .hint{display:none}
+    details{display:block}
+    details>summary{display:none}
+    .ans{display:block!important}
+    figure svg,.practice,.mc,.why{box-shadow:none}
+    section.ch{page-break-inside:auto}
+    .keyformula,.practice{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="inner">
+    <a class="home" href="#top">面<span class="b">積</span>學習手冊</a>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="toggleAll">展開全部解答</button>
+      <button class="btn" onclick="window.print()">列印 / 存 PDF</button>
+    </div>
+  </div>
+</div>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="kicker">108 課綱 · 數與量 N</div>
+  <h1>面積<span class="area-box">完全</span>學習手冊</h1>
+  <p class="sub">從小二到小六，一條主線講透「面積」。每個公式都先弄懂<strong>為什麼</strong>，再記起來——因為理解過的東西，忘了也能自己推回來。</p>
+  <div class="tag">涵蓋 G2 → G6 ｜ 概念推導 ＋ 圖解 ＋ 記憶小卡 ＋ 練習題（附詳解）</div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <h2>學習地圖</h2>
+  <ol>
+    <li><a href="#c0"><span class="g">核心</span><span>面積到底是什麼？</span></a></li>
+    <li><a href="#c2"><span class="g">G2</span><span>面積初步：比較與覆蓋</span></a></li>
+    <li><a href="#c3"><span class="g">G3</span><span>用單位量面積＋認識周長</span></a></li>
+    <li><a href="#c4"><span class="g">G4</span><span>長方形・正方形面積</span></a></li>
+    <li><a href="#c5"><span class="g">G5</span><span>平行四邊形・三角形・梯形</span></a></li>
+    <li><a href="#c6"><span class="g">G6</span><span>圓周長與圓面積</span></a></li>
+    <li><a href="#cx"><span class="g">進階</span><span>複合圖形與不規則圖形</span></a></li>
+    <li><a href="#cu"><span class="g">工具</span><span>單位換算總整理</span></a></li>
+    <li><a href="#cards"><span class="g">小卡</span><span>考前記憶小卡專區</span></a></li>
+  </ol>
+</nav>
+
+<!-- ============ CH0 核心概念 ============ -->
+<section class="ch" id="c0">
+  <div class="ch-head">
+    <div class="ch-num x">★</div>
+    <div><h2>面積到底是什麼？</h2><div class="grade">全部章節的共同地基</div></div>
+  </div>
+  <div class="ch-body">
+    <p class="lead">在背任何公式之前，先記住一句話：</p>
+    <div class="keyformula">面積，就是一個平面「鋪滿了多少個一樣大的小方格」<small>所有面積公式，都只是「數方格」的聰明捷徑</small></div>
+
+    <p>想像你要鋪地磚。一塊地板能鋪下幾片同樣大小的方磚，這個「片數」就是它的面積。如果兩塊地板，一塊要 12 片、另一塊要 20 片，那第二塊比較大——這就是比大小。</p>
+
+    <figure>
+      <svg viewBox="0 0 520 200" role="img" aria-label="同一塊長方形被一個個單位方格鋪滿">
+        <g class="svg-grid">
+          <!-- 6 x 4 grid -->
+          <rect x="60" y="40" width="240" height="120" class="svg-orig"/>
+          <line x1="100" y1="40" x2="100" y2="160"/><line x1="140" y1="40" x2="140" y2="160"/>
+          <line x1="180" y1="40" x2="180" y2="160"/><line x1="220" y1="40" x2="220" y2="160"/>
+          <line x1="260" y1="40" x2="260" y2="160"/>
+          <line x1="60" y1="80" x2="300" y2="80"/><line x1="60" y1="120" x2="300" y2="120"/>
+        </g>
+        <text x="180" y="28" text-anchor="middle" class="svg-lbl">數一數：橫 6 格 × 直 4 格 ＝ 24 格</text>
+        <text x="360" y="95" class="svg-lbl">一個方格</text>
+        <text x="360" y="115" class="svg-lbl">＝ 1 個「面積單位」</text>
+        <rect x="420" y="125" width="34" height="34" class="svg-orig"/>
+      </svg>
+      <figcaption>不管圖形怎麼變，面積的本質永遠是「裡面裝得下幾個單位方格」。</figcaption>
+    </figure>
+
+    <div class="why">
+      <span class="lbl">為什麼要強調這件事？</span>
+      因為到了高年級，三角形、梯形、圓的公式看起來都不一樣、好像要硬背。但其實它們<strong>全部</strong>都在回答同一個問題：「這個形狀裡面，可以放進幾個單位方格？」。把每個形狀想辦法「變回長方形來數方格」，就是後面所有推導的核心招式——我們會一直用到它。
+    </div>
+
+    <div class="pitfall">
+      <span class="lbl">最常見的大混淆：周長 ≠ 面積</span>
+      <strong>周長</strong>是「沿著邊界走一圈的長度」（像繞操場跑一圈），單位是公分、公尺。<strong>面積</strong>是「裡面蓋住的大小」（像操場要鋪多少草皮），單位是平方公分、平方公尺。一個量「邊線」，一個量「裡面」，千萬別搞混。
+    </div>
+  </div>
+</section>
+
+<!-- ============ G2 ============ -->
+<section class="ch" id="c2">
+  <div class="ch-head">
+    <div class="ch-num g2">G2</div>
+    <div><h2>面積初步：比較與覆蓋</h2><div class="grade">第一學習階段 · 小二｜目標：知道「面積是面的大小」，會比大小</div></div>
+  </div>
+  <div class="ch-body">
+
+    <h3>一、用「疊疊看」直接比較</h3>
+    <p>兩片葉子、兩張色紙，誰比較大？最直接的方法是<strong>疊在一起（疊合）</strong>。如果 A 完全蓋住 B 還有剩，A 就比較大。這叫<strong>直接比較</strong>。</p>
+
+    <h3>二、疊不準的時候，用「同樣的小東西」去鋪</h3>
+    <p>但有些形狀疊不整齊（例如一個是長的、一個是胖的），這時候就用同一種小卡片或小方格，把兩個形狀分別鋪滿，<strong>數數看各用了幾個</strong>，用得多的比較大。這叫<strong>間接比較</strong>。</p>
+
+    <div class="why">
+      <span class="lbl">為什麼一定要用「同樣大小」的東西去鋪？</span>
+      如果一個形狀用大磁磚鋪、另一個用小磁磚鋪，數出來的「片數」就不能直接比——大磁磚 5 片可能比小磁磚 8 片還大。<strong>只有單位一樣大，數字才公平。</strong>這就是日後規定全世界統一用「平方公分」的原因。
+    </div>
+
+    <figure>
+      <svg viewBox="0 0 520 190" role="img" aria-label="兩個形狀用同樣的方格鋪滿後比較格數">
+        <g class="svg-grid">
+          <rect x="40" y="50" width="120" height="90" class="svg-orig"/>
+          <line x1="70" y1="50" x2="70" y2="140"/><line x1="100" y1="50" x2="100" y2="140"/><line x1="130" y1="50" x2="130" y2="140"/>
+          <line x1="40" y1="80" x2="160" y2="80"/><line x1="40" y1="110" x2="160" y2="110"/>
+          <rect x="300" y="50" width="150" height="60" class="svg-orig"/>
+          <line x1="330" y1="50" x2="330" y2="110"/><line x1="360" y1="50" x2="360" y2="110"/><line x1="390" y1="50" x2="390" y2="110"/><line x1="420" y1="50" x2="420" y2="110"/>
+          <line x1="300" y1="80" x2="450" y2="80"/>
+        </g>
+        <text x="100" y="40" text-anchor="middle" class="svg-lbl-b">圖形甲：12 格</text>
+        <text x="375" y="40" text-anchor="middle" class="svg-lbl-b">圖形乙：10 格</text>
+        <text x="260" y="100" text-anchor="middle" class="svg-lbl" style="font-size:22px">＞</text>
+      </svg>
+      <figcaption>用一樣大的方格鋪滿：甲用 12 格、乙用 10 格，所以甲的面積比較大。</figcaption>
+    </figure>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小二・面積初步（10 題）</p>
+      <p class="note">提示：這一關重點是「數格子」和「用同樣單位才公平」的觀念，不需要公式。</p>
+      <ol class="prob">
+        <li>一個形狀用同樣的方格鋪滿用了 8 格，另一個用了 11 格。哪一個面積比較大？
+          <details><summary>解答</summary><div class="ans"><b>11 格的那個比較大。</b>因為單位（方格）一樣大，格數多的面積就大。</div></details></li>
+        <li>小明用「邊長 2 公分的正方形」鋪桌面，小華用「邊長 1 公分的正方形」鋪同一張桌面。誰會用比較多片？
+          <details><summary>解答</summary><div class="ans"><b>小華（小方格）會用比較多片。</b>單位越小，要鋪滿同一個面就需要越多片。</div></details></li>
+        <li>一張圖鋪了 6 個整格，沒有半格。它的面積是幾格？
+          <details><summary>解答</summary><div class="ans"><b>6 格。</b></div></details></li>
+        <li>甲圖鋪了 9 格、乙圖鋪了 9 格，但甲圖看起來比較長、乙圖比較方。它們的面積一樣大嗎？
+          <details><summary>解答</summary><div class="ans"><b>一樣大。</b>面積看「鋪了幾格」，與形狀長或方無關，格數相同就一樣大。</div></details></li>
+        <li>要比較兩片不同形狀葉子的大小，但它們疊不整齊。可以用什麼方法？
+          <details><summary>解答</summary><div class="ans"><b>用同樣大小的方格（或方格紙）分別把兩片葉子鋪／描下來，數格子比多少。</b></div></details></li>
+        <li>用「○」當單位，甲圖排了 7 個○，用「□」當單位，乙圖排了 7 個□。可以直接說兩圖一樣大嗎？
+          <details><summary>解答</summary><div class="ans"><b>不行。</b>○和□大小不同，單位不一樣，數字不能直接比。要用同一種單位才公平。</div></details></li>
+        <li>一個長方形可以剛好排成 2 排、每排 5 格。它一共有幾格？
+          <details><summary>解答</summary><div class="ans"><span class="calc">5 ＋ 5 ＝ 10</span>（或 5×2）。<b>共 10 格。</b></div></details></li>
+        <li>把一個圖形剪成兩塊再拼起來，總共的格數會不會改變？
+          <details><summary>解答</summary><div class="ans"><b>不會改變。</b>只是換位置，方格總數一樣，所以面積不變。（這是高年級「剪拼」推導的基礎！）</div></details></li>
+        <li>桌面甲要 20 片地磚才鋪滿，桌面乙要 15 片同樣的地磚。哪張桌面面積大？大多少片？
+          <details><summary>解答</summary><div class="ans"><b>甲比較大，</b>多 <span class="calc">20 − 15 ＝ 5</span> 片。</div></details></li>
+        <li>用同樣的小正方形鋪，A 用 4 格、B 用 8 格。B 的面積是 A 的幾倍？
+          <details><summary>解答</summary><div class="ans"><span class="calc">8 ÷ 4 ＝ 2</span>。<b>B 是 A 的 2 倍。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ G3 ============ -->
+<section class="ch" id="c3">
+  <div class="ch-head">
+    <div class="ch-num g3">G3</div>
+    <div><h2>用單位量面積＋認識周長</h2><div class="grade">第二學習階段 · 小三｜目標：熟練數方格（含半格）、清楚分辨周長與面積</div></div>
+  </div>
+  <div class="ch-body">
+
+    <h3>一、數方格進階：遇到半格怎麼辦？</h3>
+    <p>有些圖形邊緣是斜的，會壓到「半格」。方法是：<strong>整格先數清楚，再把兩個半格拼成一個整格</strong>。</p>
+
+    <figure>
+      <svg viewBox="0 0 360 220" role="img" aria-label="一個直角三角形蓋在方格上,含整格與半格">
+        <g class="svg-grid">
+          <rect x="40" y="40" width="160" height="160" fill="none" stroke="var(--grid-strong)"/>
+          <line x1="80" y1="40" x2="80" y2="200"/><line x1="120" y1="40" x2="120" y2="200"/><line x1="160" y1="40" x2="160" y2="200"/>
+          <line x1="40" y1="80" x2="200" y2="80"/><line x1="40" y1="120" x2="200" y2="120"/><line x1="40" y1="160" x2="200" y2="160"/>
+        </g>
+        <polygon points="40,200 200,200 40,40" class="svg-orig"/>
+        <text x="230" y="100" class="svg-lbl">整格：6 格</text>
+        <text x="230" y="124" class="svg-lbl">半格：4 個 = 2 格</text>
+        <text x="230" y="150" class="svg-lbl-b">合計：8 格</text>
+      </svg>
+      <figcaption>沿斜邊壓到的半格，兩個半格＝一個整格。整格 6 ＋ 半格湊成 2 ＝ 8 格。</figcaption>
+    </figure>
+
+    <h3>二、周長：沿著邊界走一圈</h3>
+    <p><strong>周長</strong>是圖形「最外圈一圈」的長度總和。長方形把四邊長度全部加起來就是周長。</p>
+    <div class="why">
+      <span class="lbl">為什麼要在學面積的時候同時學周長？</span>
+      因為它們最容易被搞混，<strong>放在一起對照，反而最清楚</strong>。記住對照口訣：<br>
+      ・<strong>周長</strong>＝走「邊」一圈 → 用尺量「線」 → 單位：公分(cm)<br>
+      ・<strong>面積</strong>＝鋪「裡面」 → 數「格子」 → 單位：平方公分(cm²)
+    </div>
+
+    <div class="pitfall">
+      <span class="lbl">易錯：周長一樣，面積不一定一樣！</span>
+      周長 12 公分的長方形，可能是「5×1」（面積 5）也可能是「3×3」（面積 9）。<strong>邊一樣長，裡面裝的格子卻不同。</strong>
+    </div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小三・數面積與周長（11 題）</p>
+      <ol class="prob">
+        <li>一個圖形有 7 個整格，再加上 2 個半格。面積是幾格？
+          <details><summary>解答</summary><div class="ans">2 個半格＝1 格。<span class="calc">7 ＋ 1 ＝ 8</span>。<b>面積 8 格。</b></div></details></li>
+        <li>一個圖形有 10 個整格、6 個半格，面積是幾格？
+          <details><summary>解答</summary><div class="ans">6 個半格＝3 格。<span class="calc">10 ＋ 3 ＝ 13</span>。<b>13 格。</b></div></details></li>
+        <li>長方形長 6 公分、寬 4 公分，它的周長是幾公分？
+          <details><summary>解答</summary><div class="ans"><span class="calc">6 ＋ 4 ＋ 6 ＋ 4 ＝ 20</span>，或 (6＋4)×2 ＝ 20。<b>周長 20 公分。</b></div></details></li>
+        <li>正方形邊長 5 公分，周長是幾公分？
+          <details><summary>解答</summary><div class="ans"><span class="calc">5 × 4 ＝ 20</span>。<b>周長 20 公分。</b></div></details></li>
+        <li>「繞學校操場跑一圈」測量的是周長還是面積？
+          <details><summary>解答</summary><div class="ans"><b>周長</b>（走邊界一圈的長度）。</div></details></li>
+        <li>「操場要鋪多少草皮」算的是周長還是面積？
+          <details><summary>解答</summary><div class="ans"><b>面積</b>（裡面要蓋滿的大小）。</div></details></li>
+        <li>甲長方形 2×6、乙長方形 3×4，用方格數面積，誰大？
+          <details><summary>解答</summary><div class="ans">甲＝12 格、乙＝12 格。<b>一樣大。</b></div></details></li>
+        <li>上題的甲、乙周長各是多少？會一樣嗎？
+          <details><summary>解答</summary><div class="ans">甲 (2＋6)×2＝16；乙 (3＋4)×2＝14。<b>不一樣（甲 16、乙 14）。</b>說明面積相同周長可不同。</div></details></li>
+        <li>一個長方形周長 18 公分，長是 6 公分，寬是幾公分？
+          <details><summary>解答</summary><div class="ans">長＋寬＝18÷2＝9；<span class="calc">9 − 6 ＝ 3</span>。<b>寬 3 公分。</b></div></details></li>
+        <li>一個圖形數出整格 12 格、半格 0 個，但旁邊另一個只有 9 整格。哪個面積大？大幾格？
+          <details><summary>解答</summary><div class="ans"><b>12 格的大，</b>多 <span class="calc">12 − 9 ＝ 3</span> 格。</div></details></li>
+        <li>用邊長 1 公分的方格鋪一個長方形，橫排 7 格、直排 3 排，面積是幾格？（想想有沒有不用一個一個數的方法）
+          <details><summary>解答</summary><div class="ans"><span class="calc">7 × 3 ＝ 21</span>。<b>21 格。</b>（這就是 G4 長方形面積公式的由來！）</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ G4 ============ -->
+<section class="ch" id="c4">
+  <div class="ch-head">
+    <div class="ch-num g4">G4</div>
+    <div><h2>長方形・正方形面積（最重要的一章）</h2><div class="grade">第二學習階段 · 小四｜目標：理解並推導「長×寬」，認識平方公分／平方公尺</div></div>
+  </div>
+  <div class="ch-body">
+
+    <h3>一、為什麼長方形面積＝長 × 寬？（重點推導）</h3>
+    <p>很多人直接背「長乘寬」，但其實它的道理非常簡單，<strong>就是把「數方格」變快</strong>。我們來看一個長 5 公分、寬 3 公分的長方形，用 1 平方公分的小方格鋪滿：</p>
+
+    <figure>
+      <svg viewBox="0 0 460 260" role="img" aria-label="5乘3的長方形被單位方格填滿,說明每排5格共3排">
+        <g class="svg-grid">
+          <rect x="60" y="50" width="250" height="150" class="svg-orig"/>
+          <line x1="110" y1="50" x2="110" y2="200"/><line x1="160" y1="50" x2="160" y2="200"/>
+          <line x1="210" y1="50" x2="210" y2="200"/><line x1="260" y1="50" x2="260" y2="200"/>
+          <line x1="60" y1="100" x2="310" y2="100"/><line x1="60" y1="150" x2="310" y2="150"/>
+        </g>
+        <!-- highlight first row -->
+        <rect x="60" y="50" width="250" height="50" fill="var(--gold-fill)"/>
+        <g class="svg-grid" opacity=".0"></g>
+        <text x="185" y="40" text-anchor="middle" class="svg-lbl">長 ＝ 5 公分（每一排放 5 格）</text>
+        <text x="30" y="130" class="svg-lbl" transform="rotate(-90 30,130)" text-anchor="middle">寬 ＝ 3 公分（共 3 排）</text>
+        <text x="335" y="78" class="svg-lbl-o">第 1 排：5 格</text>
+        <text x="335" y="128" class="svg-lbl">第 2 排：5 格</text>
+        <text x="335" y="178" class="svg-lbl">第 3 排：5 格</text>
+        <text x="185" y="230" text-anchor="middle" class="svg-lbl-b">5 格 × 3 排 ＝ 15 個方格 ＝ 15 平方公分</text>
+      </svg>
+      <figcaption>每一排剛好放「長」那麼多格（5 格），有「寬」那麼多排（3 排）。所以總格數＝5×3。</figcaption>
+    </figure>
+
+    <div class="why">
+      <span class="lbl">推導：長×寬其實是「一排幾格 × 有幾排」</span>
+      鋪滿後，<strong>每一排的格子數就等於「長」</strong>（長 5 公分 → 一排 5 個 1 公分方格），<strong>排數就等於「寬」</strong>（寬 3 公分 → 有 3 排）。要算總格數，不必一個一個數，用乘法「每排格數 × 排數」＝ 5 × 3 ＝ 15 最快。這個「每排 × 排數」就是你在二年級學的乘法（陣列），所以——<br>
+      <strong>長方形面積＝長 × 寬，是「數方格」用乘法走的捷徑，不是憑空規定的。</strong>
+    </div>
+
+    <div class="keyformula">長方形面積 ＝ 長 × 寬<small>原因：一排放「長」個格子，共有「寬」排 → 格子總數＝長×寬</small></div>
+
+    <h3>二、正方形面積＝邊長 × 邊長</h3>
+    <p>正方形是「長和寬一樣長」的特別長方形。所以把長×寬裡的長、寬都換成「邊長」就好：</p>
+    <div class="keyformula">正方形面積 ＝ 邊長 × 邊長<small>因為正方形的長和寬一樣，都是邊長</small></div>
+
+    <h3>三、面積的標準單位：平方公分、平方公尺</h3>
+    <p>為了全世界都公平，規定一個<strong>邊長 1 公分的正方形＝1 平方公分（cm²）</strong>；邊長 1 公尺的正方形＝1 平方公尺（m²）。</p>
+
+    <h3>四、為什麼 1 平方公尺＝10000 平方公分？（推導，不是死背）</h3>
+    <figure>
+      <svg viewBox="0 0 300 280" role="img" aria-label="邊長1公尺的正方形,每邊是100公分,所以是100乘100格">
+        <rect x="50" y="50" width="200" height="200" class="svg-orig"/>
+        <g class="svg-grid">
+          <line x1="90" y1="50" x2="90" y2="250"/><line x1="130" y1="50" x2="130" y2="250"/><line x1="170" y1="50" x2="170" y2="250"/><line x1="210" y1="50" x2="210" y2="250"/>
+          <line x1="50" y1="90" x2="250" y2="90"/><line x1="50" y1="130" x2="250" y2="130"/><line x1="50" y1="170" x2="250" y2="170"/><line x1="50" y1="210" x2="250" y2="210"/>
+        </g>
+        <text x="150" y="38" text-anchor="middle" class="svg-lbl">1 公尺 ＝ 100 公分（一排放 100 個 1cm 格）</text>
+        <text x="30" y="150" text-anchor="middle" class="svg-lbl" transform="rotate(-90 30,150)">1 公尺 ＝ 100 公分（共 100 排）</text>
+        <text x="150" y="270" text-anchor="middle" class="svg-lbl-b">100 × 100 ＝ 10000 平方公分</text>
+      </svg>
+      <figcaption>1 公尺＝100 公分，所以邊長 1 公尺的正方形，一排能放 100 個小方格、共 100 排 → 100×100＝10000。</figcaption>
+    </figure>
+    <div class="why"><span class="lbl">關鍵</span>長度換算 1 m＝100 cm 只是「乘以 100」；但面積是「長和寬都要換」，所以要乘兩次 100，變成 <strong>100 × 100 ＝ 10000</strong>。這也是面積換算最容易錯的地方。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小四・長方形與正方形（12 題）</p>
+      <ol class="prob">
+        <li>長方形長 8 公分、寬 5 公分，面積是多少？
+          <details><summary>解答</summary><div class="ans"><span class="calc">8 × 5 ＝ 40</span>。<b>40 平方公分。</b></div></details></li>
+        <li>長方形長 12 公分、寬 7 公分，面積是多少？
+          <details><summary>解答</summary><div class="ans"><span class="calc">12 × 7 ＝ 84</span>。<b>84 平方公分。</b></div></details></li>
+        <li>正方形邊長 9 公分，面積是多少？
+          <details><summary>解答</summary><div class="ans"><span class="calc">9 × 9 ＝ 81</span>。<b>81 平方公分。</b></div></details></li>
+        <li>正方形邊長 15 公分，面積是多少？
+          <details><summary>解答</summary><div class="ans"><span class="calc">15 × 15 ＝ 225</span>。<b>225 平方公分。</b></div></details></li>
+        <li>長方形面積 60 平方公分，長是 10 公分，寬是多少？
+          <details><summary>解答</summary><div class="ans">寬＝面積÷長＝<span class="calc">60 ÷ 10 ＝ 6</span>。<b>寬 6 公分。</b></div></details></li>
+        <li>長方形面積 72 平方公分，寬是 8 公分，長是多少？
+          <details><summary>解答</summary><div class="ans"><span class="calc">72 ÷ 8 ＝ 9</span>。<b>長 9 公分。</b></div></details></li>
+        <li>正方形面積 49 平方公分，邊長是多少？
+          <details><summary>解答</summary><div class="ans">想「幾乘幾＝49」→ <span class="calc">7 × 7 ＝ 49</span>。<b>邊長 7 公分。</b></div></details></li>
+        <li>一間房間長 5 公尺、寬 4 公尺，地板面積是多少平方公尺？
+          <details><summary>解答</summary><div class="ans"><span class="calc">5 × 4 ＝ 20</span>。<b>20 平方公尺。</b></div></details></li>
+        <li>1 平方公尺等於多少平方公分？
+          <details><summary>解答</summary><div class="ans">1 公尺＝100 公分 → <span class="calc">100 × 100 ＝ 10000</span>。<b>10000 平方公分。</b></div></details></li>
+        <li>30000 平方公分等於多少平方公尺？
+          <details><summary>解答</summary><div class="ans"><span class="calc">30000 ÷ 10000 ＝ 3</span>。<b>3 平方公尺。</b></div></details></li>
+        <li>長方形長 25 公分、寬 4 公分；正方形邊長 10 公分。哪一個面積大？
+          <details><summary>解答</summary><div class="ans">長方形＝25×4＝100；正方形＝10×10＝100。<b>一樣大（都是 100 平方公分）。</b></div></details></li>
+        <li>一個正方形周長 24 公分，它的面積是多少？
+          <details><summary>解答</summary><div class="ans">邊長＝24÷4＝6；面積＝<span class="calc">6 × 6 ＝ 36</span>。<b>36 平方公分。</b>（先用周長求邊長，再算面積）</div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ G5 ============ -->
+<section class="ch" id="c5">
+  <div class="ch-head">
+    <div class="ch-num g5">G5</div>
+    <div><h2>平行四邊形・三角形・梯形</h2><div class="grade">第三學習階段 · 小五｜目標：用「剪拼變回長方形」的方法推導三個公式</div></div>
+  </div>
+  <div class="ch-body">
+    <p class="lead">這一章的三個公式，全部用<strong>同一招</strong>推導：<em>想辦法把它變成我們已經會算的形狀（長方形或平行四邊形）</em>。看懂了，就再也不會記錯。先約定：<span class="svg-lbl-b">藍色＝原本的圖形</span>，<span class="svg-lbl-o">橘色＝被剪下來、搬家的那一塊</span>。</p>
+
+    <h3>一、平行四邊形面積＝底 × 高</h3>
+    <figure>
+      <svg viewBox="0 0 560 220" role="img" aria-label="平行四邊形剪下左邊直角三角形移到右邊變成長方形">
+        <!-- left: parallelogram with cut -->
+        <polygon points="60,170 110,60 250,60 200,170" class="svg-orig"/>
+        <polygon points="60,170 110,60 110,170" class="svg-move"/>
+        <line x1="110" y1="60" x2="110" y2="170" class="svg-dash"/>
+        <text x="155" y="195" text-anchor="middle" class="svg-lbl">底</text>
+        <line x1="120" y1="60" x2="120" y2="170" class="svg-tick" stroke-dasharray="3 3"/>
+        <text x="135" y="120" class="svg-lbl">高</text>
+        <!-- arrow -->
+        <path d="M280,115 L330,115" class="svg-arrow"/>
+        <text x="305" y="105" text-anchor="middle" class="svg-lbl-o">搬過去</text>
+        <!-- right: rectangle -->
+        <rect x="360" y="60" width="140" height="110" class="svg-orig"/>
+        <polygon points="360,60 360,170 410,170 410,60" class="svg-move" opacity=".5"/>
+        <text x="430" y="195" text-anchor="middle" class="svg-lbl">底（不變）</text>
+        <text x="515" y="120" class="svg-lbl">高</text>
+      </svg>
+      <figcaption>把左邊的直角三角形剪下，平移到右邊——剛好補成一個長方形。它的長＝底、寬＝高。</figcaption>
+    </figure>
+    <div class="why">
+      <span class="lbl">為什麼是底×高，而不是底×斜邊？</span>
+      剪下橘色三角形搬到另一邊後，平行四邊形變成一個長方形，<strong>面積完全沒變</strong>（只是換位置）。這個長方形的長＝原來的底，寬＝原來的高。所以平行四邊形面積＝長方形面積＝底×高。<br>
+      注意：「高」是<strong>底到對邊的垂直距離</strong>（要垂直！），不是傾斜的那條邊。
+    </div>
+    <div class="keyformula">平行四邊形面積 ＝ 底 × 高<small>剪一塊補成長方形：長＝底、寬＝高</small></div>
+    <div class="pitfall"><span class="lbl">易錯</span>看到斜斜的邊長千萬別拿來乘！高一定是「和底垂直」的那條虛線高度。</div>
+
+    <h3>二、三角形面積＝底 × 高 ÷ 2</h3>
+    <figure>
+      <svg viewBox="0 0 520 210" role="img" aria-label="兩個相同三角形拼成一個平行四邊形">
+        <polygon points="60,170 260,170 130,60" class="svg-orig"/>
+        <polygon points="260,170 330,60 130,60" class="svg-move"/>
+        <line x1="130" y1="60" x2="130" y2="170" class="svg-dash"/>
+        <text x="160" y="120" class="svg-lbl">高</text>
+        <text x="160" y="195" text-anchor="middle" class="svg-lbl">底</text>
+        <text x="195" y="48" text-anchor="middle" class="svg-lbl-o">複製一個、轉 180°</text>
+        <path d="M360,115 L405,115" class="svg-arrow"/>
+        <text x="470" y="100" text-anchor="middle" class="svg-lbl">= 平行四邊形</text>
+        <text x="470" y="122" text-anchor="middle" class="svg-lbl">的一半</text>
+      </svg>
+      <figcaption>拿兩個一模一樣的三角形，把其中一個轉 180° 拼上去，剛好變成一個平行四邊形。</figcaption>
+    </figure>
+    <div class="why">
+      <span class="lbl">推導</span>兩個相同的三角形可以拼成一個平行四邊形，這個平行四邊形的底和高，就是三角形的底和高。平行四邊形面積＝底×高，而一個三角形只是它的<strong>一半</strong>，所以三角形面積＝底×高÷2。
+    </div>
+    <div class="keyformula">三角形面積 ＝ 底 × 高 ÷ 2<small>兩個相同三角形＝一個平行四邊形，所以取一半</small></div>
+
+    <h3>三、梯形面積＝（上底＋下底）× 高 ÷ 2</h3>
+    <figure>
+      <svg viewBox="0 0 540 220" role="img" aria-label="兩個相同梯形拼成平行四邊形,底為上底加下底">
+        <polygon points="60,170 230,170 180,70 100,70" class="svg-orig"/>
+        <polygon points="230,170 100,70 180,70 310,170" class="svg-move"/>
+        <text x="140" y="62" text-anchor="middle" class="svg-lbl">上底</text>
+        <text x="145" y="190" text-anchor="middle" class="svg-lbl">下底</text>
+        <line x1="100" y1="70" x2="100" y2="170" class="svg-dash"/>
+        <text x="72" y="125" class="svg-lbl">高</text>
+        <path d="M340,120 L385,120" class="svg-arrow"/>
+        <text x="465" y="108" text-anchor="middle" class="svg-lbl">平行四邊形的底</text>
+        <text x="465" y="130" text-anchor="middle" class="svg-lbl">＝上底＋下底</text>
+      </svg>
+      <figcaption>兩個相同梯形轉一個拼上去，變成平行四邊形，它的底＝上底＋下底，高不變。</figcaption>
+    </figure>
+    <div class="why">
+      <span class="lbl">推導</span>兩個一樣的梯形拼成平行四邊形後，新的底＝（上底＋下底），高不變。這個平行四邊形面積＝（上底＋下底）×高，而一個梯形是它的一半，所以要÷2。
+    </div>
+    <div class="keyformula">梯形面積 ＝（上底 ＋ 下底）× 高 ÷ 2<small>兩個梯形拼成平行四邊形，底變成上底＋下底，再取一半</small></div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小五・三大公式（12 題）</p>
+      <ol class="prob">
+        <li>平行四邊形底 10 公分、高 6 公分，面積？
+          <details><summary>解答</summary><div class="ans"><span class="calc">10 × 6 ＝ 60</span>。<b>60 平方公分。</b></div></details></li>
+        <li>平行四邊形底 15 公分、高 8 公分，面積？
+          <details><summary>解答</summary><div class="ans"><span class="calc">15 × 8 ＝ 120</span>。<b>120 平方公分。</b></div></details></li>
+        <li>三角形底 12 公分、高 5 公分，面積？
+          <details><summary>解答</summary><div class="ans"><span class="calc">12 × 5 ÷ 2 ＝ 30</span>。<b>30 平方公分。</b></div></details></li>
+        <li>三角形底 9 公分、高 8 公分，面積？
+          <details><summary>解答</summary><div class="ans"><span class="calc">9 × 8 ÷ 2 ＝ 36</span>。<b>36 平方公分。</b></div></details></li>
+        <li>三角形面積 24 平方公分、底 8 公分，高是多少？
+          <details><summary>解答</summary><div class="ans">高＝面積×2÷底＝<span class="calc">24 × 2 ÷ 8 ＝ 6</span>。<b>高 6 公分。</b></div></details></li>
+        <li>梯形上底 4、下底 8、高 5 公分，面積？
+          <details><summary>解答</summary><div class="ans"><span class="calc">(4 ＋ 8) × 5 ÷ 2 ＝ 30</span>。<b>30 平方公分。</b></div></details></li>
+        <li>梯形上底 6、下底 10、高 7 公分，面積？
+          <details><summary>解答</summary><div class="ans"><span class="calc">(6 ＋ 10) × 7 ÷ 2 ＝ 56</span>。<b>56 平方公分。</b></div></details></li>
+        <li>平行四邊形面積 96 平方公分、底 12 公分，高是多少？
+          <details><summary>解答</summary><div class="ans">高＝面積÷底＝<span class="calc">96 ÷ 12 ＝ 8</span>。<b>高 8 公分。</b></div></details></li>
+        <li>一個直角三角形的兩股（互相垂直的兩邊）分別是 6 公分、8 公分，面積？
+          <details><summary>解答</summary><div class="ans">兩股互相垂直，可當底和高：<span class="calc">6 × 8 ÷ 2 ＝ 24</span>。<b>24 平方公分。</b></div></details></li>
+        <li>梯形上底 5、下底 9、高 6 公分，面積？
+          <details><summary>解答</summary><div class="ans"><span class="calc">(5 ＋ 9) × 6 ÷ 2 ＝ 42</span>。<b>42 平方公分。</b></div></details></li>
+        <li>一個平行四邊形，底 7 公分、高 4 公分，旁邊的斜邊長 5 公分。面積是多少？
+          <details><summary>解答</summary><div class="ans">用底×高，<strong>不可</strong>用斜邊：<span class="calc">7 × 4 ＝ 28</span>。<b>28 平方公分。</b>（斜邊 5 是陷阱）</div></details></li>
+        <li>梯形面積 60 平方公分、上底 5、下底 7，高是多少？
+          <details><summary>解答</summary><div class="ans">高＝面積×2÷(上底＋下底)＝<span class="calc">60 × 2 ÷ 12 ＝ 10</span>。<b>高 10 公分。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ G6 ============ -->
+<section class="ch" id="c6">
+  <div class="ch-head">
+    <div class="ch-num g6">G6</div>
+    <div><h2>圓周長與圓面積</h2><div class="grade">第三學習階段 · 小六｜目標：理解圓周率 π，推導圓周長與圓面積（本手冊 π 取 3.14）</div></div>
+  </div>
+  <div class="ch-body">
+
+    <h3>一、圓周率 π 是什麼？（一切的起點）</h3>
+    <p>拿一條繩子繞圓一圈量出<strong>周長</strong>，再量它的<strong>直徑</strong>，把周長除以直徑——<strong>不管圓是大是小，答案都差不多是 3.14</strong>。這個固定的倍數就叫<strong>圓周率 π</strong>。</p>
+    <div class="why"><span class="lbl">關鍵體會</span>「圓的一圈，大約是它直徑的 3.14 倍」。π 是一個固定不變的數，所有圓共用。</div>
+
+    <h3>二、圓周長＝直徑 × π＝2 × 半徑 × π</h3>
+    <figure>
+      <svg viewBox="0 0 420 200" role="img" aria-label="圓的直徑與半徑,周長約為直徑的3.14倍">
+        <circle cx="110" cy="100" r="70" class="svg-orig"/>
+        <line x1="40" y1="100" x2="180" y2="100" class="svg-tick"/>
+        <circle cx="110" cy="100" r="3" fill="var(--ink)"/>
+        <text x="110" y="92" text-anchor="middle" class="svg-lbl">直徑</text>
+        <line x1="110" y1="100" x2="180" y2="100" stroke="var(--orange)" stroke-width="3"/>
+        <text x="150" y="118" class="svg-lbl-o">半徑</text>
+        <text x="250" y="90" class="svg-lbl">繞一圈（周長）</text>
+        <text x="250" y="115" class="svg-lbl-b">≈ 直徑 × 3.14</text>
+      </svg>
+      <figcaption>直徑＝2 個半徑。所以周長＝直徑×π，也＝2×半徑×π。</figcaption>
+    </figure>
+    <div class="keyformula">圓周長 ＝ 直徑 × π ＝ 2 × 半徑 × π<small>π ≈ 3.14；圓繞一圈大約是直徑的 3.14 倍</small></div>
+
+    <h3>三、為什麼圓面積＝π × 半徑 × 半徑？（剪拼推導）</h3>
+    <p>把圓像切披薩一樣切成很多片細細的扇形，再上下交錯拼起來，會接近一個<strong>長方形</strong>：</p>
+    <figure>
+      <svg viewBox="0 0 520 230" role="img" aria-label="圓切成扇形交錯排成近似長方形">
+        <circle cx="95" cy="110" r="70" class="svg-orig"/>
+        <g stroke="var(--blue)" stroke-width="1">
+          <line x1="95" y1="110" x2="95" y2="40"/><line x1="95" y1="110" x2="160" y2="80"/>
+          <line x1="95" y1="110" x2="165" y2="120"/><line x1="95" y1="110" x2="150" y2="160"/>
+          <line x1="95" y1="110" x2="95" y2="180"/><line x1="95" y1="110" x2="40" y2="160"/>
+          <line x1="95" y1="110" x2="25" y2="120"/><line x1="95" y1="110" x2="30" y2="80"/>
+        </g>
+        <path d="M195,110 L240,110" class="svg-arrow"/>
+        <!-- rearranged sawtooth rectangle -->
+        <g>
+          <rect x="285" y="80" width="200" height="60" class="svg-orig" opacity=".55"/>
+          <g stroke="var(--blue)" stroke-width="1" fill="none">
+            <path d="M285,80 L310,140 L335,80 L360,140 L385,80 L410,140 L435,80 L460,140 L485,80"/>
+          </g>
+        </g>
+        <text x="385" y="68" text-anchor="middle" class="svg-lbl">長 ≈ 半個圓周 ＝ π × 半徑</text>
+        <text x="500" y="115" class="svg-lbl" transform="rotate(-90 500,115)" text-anchor="middle">寬 ≈ 半徑</text>
+      </svg>
+      <figcaption>切得越細，拼出來越接近長方形。它的長≈半個圓周（π×半徑），寬≈半徑。</figcaption>
+    </figure>
+    <div class="why">
+      <span class="lbl">推導</span>拼成的長方形，<strong>寬</strong>就是圓的半徑 r；<strong>長</strong>是圓周的一半（因為上下交錯，各佔一半圓周），也就是 (2×r×π)÷2 ＝ π×r。長方形面積＝長×寬＝(π×r)×r＝π×r×r。所以圓面積＝π×半徑×半徑。
+    </div>
+    <div class="keyformula">圓面積 ＝ π × 半徑 × 半徑<small>切成扇形拼成長方形：長＝π×半徑、寬＝半徑</small></div>
+    <div class="pitfall"><span class="lbl">易錯</span>題目給<strong>直徑</strong>時，要先除以 2 變半徑再代入！例如直徑 10 → 半徑 5 → 面積＝3.14×5×5。</div>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>小六・圓（12 題，π 取 3.14）</p>
+      <ol class="prob">
+        <li>半徑 5 公分的圓，周長是多少？
+          <details><summary>解答</summary><div class="ans"><span class="calc">2 × 5 × 3.14 ＝ 31.4</span>。<b>31.4 公分。</b></div></details></li>
+        <li>直徑 10 公分的圓，周長是多少？
+          <details><summary>解答</summary><div class="ans"><span class="calc">10 × 3.14 ＝ 31.4</span>。<b>31.4 公分。</b>（和上題一樣，因為直徑 10＝半徑 5×2）</div></details></li>
+        <li>半徑 8 公分的圓，周長是多少？
+          <details><summary>解答</summary><div class="ans"><span class="calc">2 × 8 × 3.14 ＝ 50.24</span>。<b>50.24 公分。</b></div></details></li>
+        <li>半徑 5 公分的圓，面積是多少？
+          <details><summary>解答</summary><div class="ans"><span class="calc">3.14 × 5 × 5 ＝ 78.5</span>。<b>78.5 平方公分。</b></div></details></li>
+        <li>半徑 10 公分的圓，面積是多少？
+          <details><summary>解答</summary><div class="ans"><span class="calc">3.14 × 10 × 10 ＝ 314</span>。<b>314 平方公分。</b></div></details></li>
+        <li>直徑 12 公分的圓，面積是多少？
+          <details><summary>解答</summary><div class="ans">半徑＝12÷2＝6；<span class="calc">3.14 × 6 × 6 ＝ 113.04</span>。<b>113.04 平方公分。</b></div></details></li>
+        <li>半徑 4 公分的<strong>半圓</strong>，面積是多少？
+          <details><summary>解答</summary><div class="ans">整圓 3.14×4×4＝50.24；半圓＝<span class="calc">50.24 ÷ 2 ＝ 25.12</span>。<b>25.12 平方公分。</b></div></details></li>
+        <li>半徑 6 公分的半圓，「周長」是多少？（含直線那一邊）
+          <details><summary>解答</summary><div class="ans">半圓弧＝2×6×3.14÷2＝18.84；加上直徑 12：<span class="calc">18.84 ＋ 12 ＝ 30.84</span>。<b>30.84 公分。</b></div></details></li>
+        <li>一個環形（甜甜圈）：外圓半徑 10 公分、內圓半徑 6 公分，環形面積是多少？
+          <details><summary>解答</summary><div class="ans">大圓 3.14×100＝314；小圓 3.14×36＝113.04；<span class="calc">314 − 113.04 ＝ 200.96</span>。<b>200.96 平方公分。</b>（也可 3.14×(100−36)＝3.14×64＝200.96）</div></details></li>
+        <li>一個圓面積是 314 平方公分，它的半徑是多少？
+          <details><summary>解答</summary><div class="ans">半徑×半徑＝314÷3.14＝100；<span class="calc">10 × 10 ＝ 100</span> → <b>半徑 10 公分。</b></div></details></li>
+        <li>半徑 7 公分的圓，周長和面積各是多少？
+          <details><summary>解答</summary><div class="ans">周長＝2×7×3.14＝<b>43.96 公分</b>；面積＝3.14×7×7＝<b>153.86 平方公分</b>。</div></details></li>
+        <li>一個直徑 20 公分的圓形披薩，整片面積是多少？
+          <details><summary>解答</summary><div class="ans">半徑＝10；<span class="calc">3.14 × 10 × 10 ＝ 314</span>。<b>314 平方公分。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 進階 複合圖形 ============ -->
+<section class="ch" id="cx">
+  <div class="ch-head">
+    <div class="ch-num x">＋</div>
+    <div><h2>複合圖形與不規則圖形</h2><div class="grade">G5–G6 綜合應用｜目標：把複雜圖形拆成會算的形狀</div></div>
+  </div>
+  <div class="ch-body">
+    <p class="lead">考試最常出、也最能看出有沒有真懂的題型。心法只有兩招：</p>
+    <table>
+      <tr><th style="width:90px">招式</th><th class="l">做法</th><th class="l">什麼時候用</th></tr>
+      <tr><td><b>切割法</b></td><td class="l">用虛線把圖形<strong>切成</strong>幾個長方形／三角形，分別算面積再<strong>相加</strong>。</td><td class="l">凸出去、L 形、組合形狀</td></tr>
+      <tr><td><b>填補法</b></td><td class="l">先當作一個<strong>完整大圖形</strong>，再<strong>減掉</strong>多出來（被挖掉）的部分。</td><td class="l">缺角、中間挖洞、陰影面積</td></tr>
+    </table>
+
+    <figure>
+      <svg viewBox="0 0 520 200" role="img" aria-label="L形用虛線切成兩個長方形">
+        <polygon points="50,40 170,40 170,100 110,100 110,160 50,160" class="svg-orig"/>
+        <line x1="50" y1="100" x2="110" y2="100" class="svg-dash"/>
+        <text x="105" y="75" text-anchor="middle" class="svg-lbl">①</text>
+        <text x="78" y="135" text-anchor="middle" class="svg-lbl">②</text>
+        <text x="260" y="80" class="svg-lbl">切割法：</text>
+        <text x="260" y="105" class="svg-lbl">① 上面長方形 ＋ ② 下面長方形</text>
+        <text x="260" y="130" class="svg-lbl">→ 兩塊面積相加</text>
+      </svg>
+      <figcaption>L 形用一條虛線切成兩個長方形，分別算再相加。</figcaption>
+    </figure>
+
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>複合圖形（10 題，π 取 3.14）</p>
+      <ol class="prob">
+        <li>一個大長方形 12×8，右上角缺一個 5×4 的長方形（L 形）。剩下面積？
+          <details><summary>解答</summary><div class="ans">填補法：<span class="calc">12 × 8 − 5 × 4 ＝ 96 − 20 ＝ 76</span>。<b>76 平方公分。</b></div></details></li>
+        <li>兩個長方形並排：一個 6×4、一個 3×4。合起來面積？
+          <details><summary>解答</summary><div class="ans">切割法相加：<span class="calc">6×4 ＋ 3×4 ＝ 24 ＋ 12 ＝ 36</span>。<b>36 平方公分。</b></div></details></li>
+        <li>邊長 10 公分的正方形，正中間挖掉一個半徑 5 公分的圓。剩下面積？
+          <details><summary>解答</summary><div class="ans"><span class="calc">10×10 − 3.14×5×5 ＝ 100 − 78.5 ＝ 21.5</span>。<b>21.5 平方公分。</b></div></details></li>
+        <li>房子形：下面是長方形 8×6，上面接一個底 8、高 3 的三角形屋頂。總面積？
+          <details><summary>解答</summary><div class="ans">長方形 48 ＋ 三角形 8×3÷2＝12；<span class="calc">48 ＋ 12 ＝ 60</span>。<b>60 平方公分。</b></div></details></li>
+        <li>長方形 10×6，左右兩端各接一個半徑 3 公分的半圓（合起來剛好一個整圓）。總面積？
+          <details><summary>解答</summary><div class="ans">長方形 60 ＋ 整圓 3.14×3×3＝28.26；<span class="calc">60 ＋ 28.26 ＝ 88.26</span>。<b>88.26 平方公分。</b></div></details></li>
+        <li>梯形（上底 6、下底 10、高 4）裡，挖掉一個底 10、高 4 的三角形。剩下面積？
+          <details><summary>解答</summary><div class="ans">梯形 (6＋10)×4÷2＝32；三角形 10×4÷2＝20；<span class="calc">32 − 20 ＝ 12</span>。<b>12 平方公分。</b></div></details></li>
+        <li>一個正方形邊長 8 公分，四個角各剪掉一個邊長 2 公分的小正方形。剩下面積？
+          <details><summary>解答</summary><div class="ans"><span class="calc">8×8 − 4×(2×2) ＝ 64 − 16 ＝ 48</span>。<b>48 平方公分。</b></div></details></li>
+        <li>大正方形邊長 14 公分，裡面有一個內接圓（直徑＝14）。正方形內、圓外的面積（四個角）是多少？
+          <details><summary>解答</summary><div class="ans">半徑 7；<span class="calc">14×14 − 3.14×7×7 ＝ 196 − 153.86 ＝ 42.14</span>。<b>42.14 平方公分。</b></div></details></li>
+        <li>一個 L 形：整體外框 9×9，缺右下角 5×5。面積？
+          <details><summary>解答</summary><div class="ans"><span class="calc">9×9 − 5×5 ＝ 81 − 25 ＝ 56</span>。<b>56 平方公分。</b></div></details></li>
+        <li>跑道形：中間長方形 20×10，左右兩端各接半徑 5 公分的半圓（合成整圓）。整個面積？
+          <details><summary>解答</summary><div class="ans">長方形 20×10＝200 ＋ 整圓 3.14×5×5＝78.5；<span class="calc">200 ＋ 78.5 ＝ 278.5</span>。<b>278.5 平方公分。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 單位換算 ============ -->
+<section class="ch" id="cu">
+  <div class="ch-head">
+    <div class="ch-num x">⇄</div>
+    <div><h2>面積單位換算總整理</h2><div class="grade">工具章｜核心原則：長度換 1 次，面積要換 2 次</div></div>
+  </div>
+  <div class="ch-body">
+    <div class="why"><span class="lbl">唯一要懂的原則</span>面積是「長 × 寬」，長和寬<strong>各換算一次</strong>，所以倍數要<strong>用兩次（相乘）</strong>。例如長度 1 公尺＝100 公分（×100），面積就要 ×100×100＝×10000。</div>
+    <table>
+      <tr><th>換算式</th><th>怎麼來的</th><th>常見年級</th></tr>
+      <tr><td>1 平方公分 ＝ 100 平方公釐(mm²)</td><td>10 mm × 10 mm</td><td>G4</td></tr>
+      <tr><td>1 平方公尺 ＝ 10000 平方公分</td><td>100 cm × 100 cm</td><td>G4</td></tr>
+      <tr><td>1 公畝(a) ＝ 100 平方公尺</td><td>10 m × 10 m</td><td>G5</td></tr>
+      <tr><td>1 公頃(ha) ＝ 10000 平方公尺</td><td>100 m × 100 m</td><td>G5</td></tr>
+      <tr><td>1 平方公里 ＝ 1000000 平方公尺</td><td>1000 m × 1000 m</td><td>G5</td></tr>
+      <tr><td>1 平方公里 ＝ 100 公頃</td><td>由上面兩式推得</td><td>G5</td></tr>
+    </table>
+    <div class="practice">
+      <p class="ptitle"><span class="badge">練習</span>單位換算（10 題）</p>
+      <ol class="prob">
+        <li>5 平方公尺＝幾平方公分？
+          <details><summary>解答</summary><div class="ans"><span class="calc">5 × 10000 ＝ 50000</span>。<b>50000 平方公分。</b></div></details></li>
+        <li>70000 平方公分＝幾平方公尺？
+          <details><summary>解答</summary><div class="ans"><span class="calc">70000 ÷ 10000 ＝ 7</span>。<b>7 平方公尺。</b></div></details></li>
+        <li>3 平方公分＝幾平方公釐？
+          <details><summary>解答</summary><div class="ans"><span class="calc">3 × 100 ＝ 300</span>。<b>300 平方公釐。</b></div></details></li>
+        <li>1 公頃＝幾平方公尺？
+          <details><summary>解答</summary><div class="ans"><b>10000 平方公尺。</b></div></details></li>
+        <li>2 公頃＝幾平方公尺？
+          <details><summary>解答</summary><div class="ans"><span class="calc">2 × 10000 ＝ 20000</span>。<b>20000 平方公尺。</b></div></details></li>
+        <li>1 平方公里＝幾公頃？
+          <details><summary>解答</summary><div class="ans"><b>100 公頃。</b></div></details></li>
+        <li>一塊地 30000 平方公尺＝幾公頃？
+          <details><summary>解答</summary><div class="ans"><span class="calc">30000 ÷ 10000 ＝ 3</span>。<b>3 公頃。</b></div></details></li>
+        <li>長 200 公分、寬 150 公分的桌面，面積是多少平方公尺？
+          <details><summary>解答</summary><div class="ans">200×150＝30000 cm²；<span class="calc">30000 ÷ 10000 ＝ 3</span>。<b>3 平方公尺。</b></div></details></li>
+        <li>為什麼 1 公尺＝100 公分，但 1 平方公尺卻是 10000 平方公分？
+          <details><summary>解答</summary><div class="ans">因為面積＝長×寬，長和寬都要 ×100，<span class="calc">100 × 100 ＝ 10000</span>。<b>長度換 1 次、面積換 2 次。</b></div></details></li>
+        <li>500 平方公分＝幾平方公釐？
+          <details><summary>解答</summary><div class="ans"><span class="calc">500 × 100 ＝ 50000</span>。<b>50000 平方公釐。</b></div></details></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 記憶小卡 ============ -->
+<section class="cards-wrap" id="cards">
+  <div class="ch-head" style="max-width:none">
+    <div class="ch-num x">★</div>
+    <div><h2>考前記憶小卡</h2><div class="grade">快速翻閱用｜每張＝公式＋一句「為什麼」＋易錯提醒</div></div>
+  </div>
+  <p class="note" style="margin-top:14px">建議用法：考前先遮住公式，看著「為什麼」那句話，試著自己把公式講出來——能講出來，才是真的記住了。列印時可剪成卡片。</p>
+  <div class="cards">
+    <div class="mc gx"><div class="tag">核心觀念</div><h4>面積是什麼</h4><div class="f">面積 ＝ 鋪滿幾個單位方格</div><p class="pt">所有公式都是<b>數方格的捷徑</b>。周長量「邊」、面積量「裡面」，別搞混。</p></div>
+    <div class="mc g4"><div class="tag">G4 · 長方形</div><h4>長方形面積</h4><div class="f">長 × 寬</div><p class="pt">一排放「長」個格、共「寬」排 → <b>每排格數 × 排數</b>。</p></div>
+    <div class="mc g4"><div class="tag">G4 · 正方形</div><h4>正方形面積</h4><div class="f">邊長 × 邊長</div><p class="pt">正方形是長＝寬的長方形，<b>兩邊都是邊長</b>。</p></div>
+    <div class="mc g5"><div class="tag">G5 · 平行四邊形</div><h4>平行四邊形面積</h4><div class="f">底 × 高</div><p class="pt">剪一角補成長方形（長＝底、寬＝高）。高要<b>垂直</b>，別用斜邊！</p></div>
+    <div class="mc g5"><div class="tag">G5 · 三角形</div><h4>三角形面積</h4><div class="f">底 × 高 ÷ 2</div><p class="pt">兩個相同三角形＝一個平行四邊形，所以<b>取一半</b>。</p></div>
+    <div class="mc g5"><div class="tag">G5 · 梯形</div><h4>梯形面積</h4><div class="f">(上底 ＋ 下底) × 高 ÷ 2</div><p class="pt">兩個梯形拼成平行四邊形，底＝上底＋下底，<b>再取一半</b>。</p></div>
+    <div class="mc g6"><div class="tag">G6 · 圓</div><h4>圓周率 π</h4><div class="f">π ≈ 3.14</div><p class="pt">圓繞一圈 <b>≈ 直徑的 3.14 倍</b>，所有圓都一樣。</p></div>
+    <div class="mc g6"><div class="tag">G6 · 圓</div><h4>圓周長</h4><div class="f">直徑 × π ＝ 2 × 半徑 × π</div><p class="pt">給直徑就直接 ×π；給半徑記得 ×2。</p></div>
+    <div class="mc g6"><div class="tag">G6 · 圓</div><h4>圓面積</h4><div class="f">π × 半徑 × 半徑</div><p class="pt">切扇形拼成長方形（長＝π×半徑、寬＝半徑）。給直徑要<b>先 ÷2</b>！</p></div>
+    <div class="mc gx"><div class="tag">綜合 · 複合圖形</div><h4>複合圖形</h4><div class="f">切割相加 ／ 填補相減</div><p class="pt">凸出來→切開相加；有缺角或挖洞→<b>大圖形減掉缺的</b>。</p></div>
+    <div class="mc gx"><div class="tag">工具 · 換算</div><h4>面積單位換算</h4><div class="f">長度倍數 × 兩次</div><p class="pt">1 m²＝10000 cm²。<b>長度換 1 次、面積換 2 次（相乘）</b>。</p></div>
+    <div class="mc gx"><div class="tag">必考 · 易錯</div><h4>周長 vs 面積</h4><div class="f">邊 ↔ 裡面</div><p class="pt">周長相同，面積<b>不一定相同</b>；高一定要取<b>垂直</b>那條。</p></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>面積完全學習手冊</strong>　依十二年國教 108 課綱「數與量（N）」量與實測脈絡編製，涵蓋 G2–G6。</p>
+  <p>使用建議：依年級順序學習，每章先讀「為什麼」與圖解，再做練習；考前用記憶小卡快速複習。各版本教科書（康軒／翰林／南一）單元順序略有差異，本手冊以概念脈絡編排。圓的計算 π 統一取 3.14；實際作答請依各校規定（有些題目要求保留 π 或用 22/7）。</p>
+</footer>
+
+<script>
+  // 一鍵展開/收合所有解答
+  (function(){
+    var btn=document.getElementById('toggleAll');
+    var open=false;
+    btn.addEventListener('click',function(){
+      open=!open;
+      document.querySelectorAll('details').forEach(function(d){d.open=open;});
+      btn.textContent=open?'收合全部解答':'展開全部解答';
+    });
+  })();
+</script>
+</body>
+</html>
