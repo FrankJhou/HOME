@@ -314,6 +314,47 @@
   .sector-sources a:hover{color:#134F65;}
   .sector-sources .sep{color:var(--ink-faint); margin:0 6px;}
 
+  .indices-row{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    margin:0 0 24px;
+  }
+  .index-card{
+    flex:1 1 200px;
+    min-width:170px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:14px 18px;
+  }
+  .index-card .idx-name{
+    font-family:var(--serif);
+    font-size:15px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:2px;
+  }
+  .index-card .idx-en{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-faint);
+    letter-spacing:0.03em;
+  }
+  .index-card .idx-value{
+    font-family:var(--mono);
+    font-size:26px;
+    font-weight:700;
+    color:var(--ink);
+    margin:8px 0 2px;
+    letter-spacing:-0.01em;
+  }
+  .index-card .idx-change{
+    font-family:var(--mono);
+    font-size:14px;
+    font-weight:600;
+  }
+
   .movers-news{
     padding:4px 16px 14px;
     border-top:1px solid var(--border);
@@ -384,142 +425,152 @@
 
 <script>
 const US_DATA = {
-  "2026-07-23": {
-    label: "2026/07/23",
-    dow: "週五更新（台灣時間）／美股7/23收盤資料",
-    range: "資料範圍：2026/07/23美股收盤（美東週四）",
-    desc: "美股週四全面重挫，三大指數同步走跌：道瓊下跌506.93點（-0.97%）收51,711.65，S&amp;P 500下跌1.21%收7,408.30，那斯達克重挫2.15%收25,137.69，創逾一個月最大單日跌幅。市場最大焦點是「兩大巨頭財報後崩跌」：Alphabet（Google母公司）財報優於預期（Q2營收$119.8B、年增24%，雲端業務成長82%），但因大幅上修2026年資本支出至$195-205B（原先$180-190B）並出現首次單季自由現金流為負，股價重挫7.24%；特斯拉Q2營收優於預期但每股盈餘大幅未達預期（$0.33 vs預期$0.54），自由現金流同樣轉負，執行長馬斯克稱2026年將是「資本支出大年」，股價暴跌14.52%收$319.69，創下自2025年4月關稅風暴以來最慘單日表現之一；Meta、微軟、Amazon等其他雲端巨頭同步走跌，反映市場對AI基礎建設支出報酬率的疑慮升溫。中東情勢方面，葉門親伊朗武裝組織胡塞宣稱攻擊了兩艘沙烏地阿拉伯油輪，布蘭特原油時隔逾一個月重新站上每桶100美元，推升通膨疑慮與美債殖利率（10年期升至4.67%、52週新高），黃金現貨因殖利率走高及避險需求轉移而下跌2.36%收$4,048.76。財報季持續有大型驚奇：洛克希德馬丁因Q2財報優於預期、上修全年財測、訂單積壓創紀錄，單日大漲10.8%；漢威聯合完成航太部門分拆並優於預期後大漲6.3%；羅普科技（Roper Technologies）財報強勁大漲7.3%；相對地，勞氏害蟲防治（Rollins）因財報令人失望遭大摩降評重挫；全美航空因燃油成本上升下修財測而重挫；好市多同業Albertsons因財報不如預期、大砍全年展望而重挫15.1%；醫學研究外包商Medpace因財報優於預期、上修財測，單日狂飆18.4%；克利夫蘭鋼鐵因第三季展望樂觀、鋼鐵需求改善，單日大漲12.2%；電力設備廠GE Vernova財報優於預期，帶動公用事業類股整體上漲2.3%，是標普500當日表現最佳的類股。英特爾雖然本業盤收黑（-2.33%），但盤後公布優於預期的Q2財報與亮眼的Q3財測，股後大漲逾12%。本頁已將科技、通訊服務、工業、非必需消費、醫療保健、必需消費、原物料、公用事業等8個類股更新至7/23收盤資料，金融、能源、不動產3個類股因今日未查到具體個股層級的收盤數據，暫維持先前確認的最新資料並標明原始日期。",
+  "2026-07-24": {
+    label: "2026/07/24",
+    dow: "週六更新（台灣時間）／美股7/24收盤資料",
+    range: "資料範圍：2026/07/24美股收盤（美東週五）",
+    desc: "美股週五收盤漲跌互見：道瓊上漲235.60點（+0.46%）收51,947.25，S&amp;P 500小漲0.05%收7,411.98，那斯達克小跌0.64%收24,975.82，三大指數本週均收黑，那斯達克單週跌近2%。蘋果單日大漲逾3.5%，一度逼近歷史新高$344.99，是道瓊當日最大貢獻股，市場預期7/30財報季度營收年增可望達16%；IBM、Salesforce同步走高逾3.6%及4%。另一方面，英特爾儘管公布17年來最強營收成長，仍重挫7.9%，市場對半導體類股波動性依舊敏感，SanDisk同日重挫近11%；美國運通公布Q2優於預期的獲利（EPS $4.53優於預期$4.40），但因費用年增12%、有效稅率由19%升至24%，加上營收微幅不及預期，股價逆勢重挫4.3%；漢威聯合、高盛同步走低。威訊電信因用戶淨增數優於預期，單日大漲5.8%；Meta則因對AI支出報酬率疑慮持續發酵，小跌1.8%；特斯拉續跌2.1%。中東情勢方面，市場消息指巴基斯坦正推動促成美伊新一輪和談（由中國發起），加上白宮豁免部分能源產品關稅，油價從一度衝上每桶100美元的高點回落，布蘭特原油單日下跌約4%至96美元下方，10年期公債殖利率則升至4.71%附近的高檔。本頁已將科技、通訊服務、金融、非必需消費、工業等類股更新至7/24收盤資料，其餘類股暫維持先前確認的最新資料並標明原始日期。",
+    indices:[
+      ["道瓊工業指數","Dow Jones","51,947.25","+235.60","+0.46%","up"],
+      ["S&amp;P 500","S&amp;P 500","7,411.98","+3.68","+0.05%","up"],
+      ["那斯達克綜合指數","Nasdaq Composite","24,975.82","-161.87","-0.64%","down"],
+    ],
     movers: [
-      ["LMT","洛克希德馬丁 Lockheed Martin","約$505","約$559","約+$54","+10.8%","未創新高，Q2財報優於預期，訂單積壓創紀錄新高","第二季財報優於預期並上修全年財測，訂單積壓創歷史新高，23年連續調升股息"],
-      ["CLF","克利夫蘭鋼鐵 Cleveland-Cliffs","約$11","約$12.3","約+$1.3","+12.2%","未創新高，鋼鐵類股領漲個股","公布優於預期的第三季展望，鋼鐵需求改善帶動獲利連續改善"],
-      ["MEDP","Medpace Holdings","約$280","約$331","約+$51","+18.4%","未創新高，醫療保健類股本日表現最佳個股之一","第二季財報優於預期，新訂單增加，同步上修全年財測"],
-      ["TSLA","特斯拉 Tesla","約$374","$319.69","約-$54","-14.52%","未創新高，Q2每股盈餘大幅未達預期，自由現金流轉負","Q2營收優於預期但EPS $0.33遠低於預期$0.54，營運利益率崩跌至1.4%，馬斯克稱2026年為資本支出大年"],
-      ["GOOG","Alphabet（Google）","約$369","約$342","約-$27","-7.24%","未創新高，財報優於預期但資本支出展望上修引發疑慮","Q2營收$119.8B優於預期，但2026資本支出展望上修至$195-205B，首度出現單季自由現金流為負"]
+      ["AAPL","蘋果 Apple","約$321.66","$333.02","約+$11.36","+3.53%","未創新高，逼近歷史新高$344.99，7/30將公布財報","分析師預期Q3營收年增16%，接近財測上緣，AI整合與新興市場表現樂觀"],
+      ["VZ","威訊 Verizon","—","—","—","+5.8%","未創新高","用戶淨增數優於預期，訂閱成長表現強勁"],
+      ["CRM","賽富時 Salesforce","—","—","—","+4.05%","未創新高","帶動道瓊當日漲幅居前個股之一"],
+      ["IBM","IBM","—","—","—","+3.61%","未創新高","AI企業採用（Watsonx平台）持續推升企業評價"],
+      ["AXP","美國運通 American Express","$340.84","$326.17","-$14.67","-4.3%","未創新高","Q2 EPS $4.53優於預期$4.40，但費用年增12%、有效稅率由19%升至24%，營收微幅不及預期，市場聚焦成本壓力"],
+      ["INTC","英特爾 Intel","$100.23","$92.32","-$7.91","-7.89%","未創新高","公布17年來最強營收成長，但市場對半導體類股評價波動依舊敏感"],
     ],
     moversSources:[
-      ["The Motley Fool","https://www.fool.com/coverage/stock-market-today/2026/07/23/stock-market-today-july-23-tesla-stock-crashes-on-earnings-miss-and-rising-ai-spending/"],
-      ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-23-2026"],
-      ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262050362-market-movers-meta-20260723"],
-      ["CNBC","https://www.cnbc.com/2026/07/23/intel-intc-earnings-report-q2-2026.html"],
-      ["24/7 Wall St.","https://247wallst.com/investing/2026/07/23/two-blowout-quarters-two-selloffs-what-tesla-and-alphabet-reveal-about-our-price-target/"],
-      ["Yahoo Finance","https://finance.yahoo.com/markets/live/stock-market-today-thursday-july-23-dow-sp-500-nasdaq-oil-bonds-earnings-084444369.html"]
+      ["TradingEconomics","https://tradingeconomics.com/united-states/stock-market"],
+      ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262053121-market-movers-aapl-20260724"],
+      ["The Motley Fool","https://www.fool.com/coverage/stock-market-today/2026/07/24/stock-market-today-july-24-dow-recovers-and-sandisk-tumbles-11-as-tech-stocks-fall-further/"],
+      ["TS2.tech","https://ts2.tech/en/american-express-company-nyseaxp-shares-fall-after-costs-offset-89-of-revenue-increase/"],
+      ["24/7 Wall St.","https://247wallst.com/investing/2026/07/24/american-express-sinks-6-after-q2-earnings-beat-as-visa-mastercard-hold-steady/"],
+      ["Yahoo Finance","https://finance.yahoo.com/markets/live/stock-market-today-friday-july-24-dow-sp-500-nasdaq-081854465.html"],
     ],
     sectors: [
       {
         zh:"科技", en:"Technology", color:"#2563EB",
         rows:[
-          ["INTC","英特爾 Intel","-2.33%","down","7/23（單日）","收$100.23，本業盤收黑，但財報後大漲逾12%（Q2營收$16.13B優於預期$14.42B，Q3財測優於預期）"],
-          ["MSFT","微軟 Microsoft","-2.24%","down","7/23（單日）","收$381.58，隨Alphabet資本支出疑慮同步走跌，雲端類股普遍承壓"],
-          ["MU","美光 Micron","+12.34%","up","7/21（單日）","記憶體類股延續反彈，為本日晶片股中最大漲幅之一，帶動SanDisk同步走高"],
-          ["AMD","超微 AMD","+8.11%","up","7/21（單日）","Advancing AI 2026活動前動能強勁，週三起登場，Zen 6 Venice CPU為焦點"],
-          ["ARM","Arm控股 Arm Holdings","+7.46%","up","7/21（單日）","收$289.73，市場對半導體IP授權商重新評價，本季表現強勢"],
-          ["MRVL","邁威爾 Marvell","+6.61%","up","7/21（單日）","客製化晶片業務樂觀情緒推動反彈，扭轉上週跌勢"],
-          ["NVDA","輝達 Nvidia","+1.84%","up","7/21（單日）","晶片股延續反彈，市場關注AI基礎設施支出前景與雲端投資"],
-          ["AAPL","蘋果 Apple","+0.35%","up","7/21（單日）","收$327.74，從週一逾2%跌幅中喘息回穩，7/30將公布財報"],
-          ["SNPS","新思科技 Synopsys","-7.85%","down","7/17（單日）","Moonshot AI「Kimi K3」繞開專屬EDA軟體獨立完成晶片設計，單日市值蒸發逾60億美元"],
-          ["GLW","康寧 Corning","-19%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"]
+          ["AAPL","蘋果 Apple","約$321.67","約$333.02","約+$11.35","+3.53%","up","7/24（單日）","收約$333.02，逼近歷史新高$344.99，是道瓊當日最大貢獻股，7/30將公布財報"],
+          ["CRM","賽富時 Salesforce","—","—","—","+4.05%","up","7/24（單日）","道瓊當日漲幅居前個股之一"],
+          ["IBM","IBM","—","—","—","+3.61%","up","7/24（單日）","AI企業採用（Watsonx平台）持續推升企業評價"],
+          ["INTC","英特爾 Intel","$100.23","$92.32","-$7.91","-7.89%","down","7/24（單日）","公布17年來最強營收成長，但市場對半導體類股評價波動依舊敏感，財報後隔日本業回落"],
+          ["MU","美光 Micron","—","—","—","+12.34%","up","7/21（單日）","記憶體類股延續反彈，為本日晶片股中最大漲幅之一，帶動SanDisk同步走高"],
+          ["AMD","超微 AMD","$539.71","$521.95","-$17.76","-3.29%","down","7/24（單日）","隨半導體類股同步走弱，反映市場對晶片股評價的疑慮"],
+          ["ARM","Arm控股 Arm Holdings","$269.62","$289.73","+$20.11","+7.46%","up","7/21（單日）","收$289.73，市場對半導體IP授權商重新評價，本季表現強勢"],
+          ["MRVL","邁威爾 Marvell","—","—","—","+6.61%","up","7/21（單日）","客製化晶片業務樂觀情緒推動反彈，扭轉上週跌勢"],
+          ["NVDA","輝達 Nvidia","$208.76","$206.66","-$2.10","-1.0%","down","7/24（單日）","隨半導體類股同步小幅走弱"],
+          ["SNPS","新思科技 Synopsys","—","—","—","-7.85%","down","7/17（單日）","Moonshot AI「Kimi K3」繞開專屬EDA軟體獨立完成晶片設計，單日市值蒸發逾60億美元"],
         ],
+        gap:"目前已確認到10檔，已達成十檔目標。",
         sources:[
+          ["TradingEconomics","https://tradingeconomics.com/united-states/stock-market"],
+          ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262053121-market-movers-aapl-20260724"],
           ["CNBC","https://www.cnbc.com/2026/07/23/intel-intc-earnings-report-q2-2026.html"],
-          ["The Motley Fool","https://www.fool.com/coverage/stock-market-today/2026/07/23/stock-market-today-july-23-alphabet-slides-7-after-announcing-2026-capex-of-roughly-usd200-billion/"],
-          ["FX Leaders","https://www.fxleaders.com/news/2026/07/23/intel-intc-stock-jumps-to-110-as-q2-earnings-beat-and-revenue-surges-25-to-16-1-billion/"],
+          ["The Motley Fool","https://www.fool.com/coverage/stock-market-today/2026/07/24/stock-market-today-july-24-dow-recovers-and-sandisk-tumbles-11-as-tech-stocks-fall-further/"],
           ["StartupHub.ai","https://www.startuphub.ai/ai-news/ai-stocks-daily/2026/ai-stocks-2026-07-21"],
           ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262045082-market-movers-mrvl-20260721"],
-          ["StockAnalysis.com","https://stockanalysis.com/stocks/aapl/history/"],
           ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["Investing.com","https://www.investing.com/news/stock-market-news/why-is-cadence-design-systems-stock-plummeting-today-93CH-4798909"]
+          ["Investing.com","https://www.investing.com/news/stock-market-news/why-is-cadence-design-systems-stock-plummeting-today-93CH-4798909"],
         ]
       },
       {
         zh:"通訊服務", en:"Communication Services", color:"#7C3AED",
         rows:[
-          ["GOOG","Alphabet（Google）","-7.24%","down","7/23（單日）","收約$342，Q2財報優於預期但2026資本支出展望上修至$195-205B，首度單季自由現金流為負，引發市場疑慮"],
-          ["CMCSA","康卡斯特 Comcast","-6.61%","down","7/23（單日）","財報顯示寬頻用戶持續流失，遭Bernstein、Wells Fargo調降目標價，星鏈競爭疑慮加劇"],
-          ["TMUS","T-Mobile US","-5%","down","7/23（單日）","Q2營收未達預期（EPS $2.99優於預期，但營收略微不及），用戶淨增數優於預期"],
-          ["META","Meta Platforms","-3.36%","down","7/23（單日）","收$606.10，隨Alphabet資本支出疑慮同步走跌，AI支出報酬率遭市場質疑"],
-          ["NFLX","Netflix","-7.26%","down","7/17（單日）","第三季展望不如預期"],
-          ["DIS","迪士尼 Disney","-2.05%","down","7/17（單日）","串流同業Netflix財報拖累"],
-          ["VZ","威訊 Verizon","-0.66%","down","7/17（單日）","收$43.59，遭剔出道瓊工業指數的利空持續發酵"],
-          ["T","美國電話電報 AT&amp;T","+0.64%","up","7/20（單日）","收$21.95，市場關注SpaceX/Starlink威脅"],
-          ["WBD","華納兄弟探索 Warner Bros Discovery","-1.54%","down","7/17（單日）","收$26.87，Paramount併購案面臨多州檢察總長反壟斷訴訟，英國監管審查亦未明朗"],
-          ["CHTR","特許通訊 Charter Communications","-3.85%","down","7/23（單日）","收約$124.24，明日（7/24）將公布Q2財報，寬頻類股持續承壓，市場憂心用戶流失"]
+          ["VZ","威訊 Verizon","—","—","—","+5.8%","up","7/24（單日）","用戶淨增數優於預期，訂閱成長表現強勁，一舉扭轉7/17因遭剔出道瓊指數的跌勢"],
+          ["META","Meta Platforms","$606.10","$595.20","-$10.90","-1.8%","down","7/24（單日）","AI支出報酬率疑慮持續發酵，惟跌幅較前日收斂，週三將公布財報"],
+          ["GOOG","Alphabet（Google）","約$368.69","約$342","約$26.69","-7.24%","down","7/23（單日）","收約$342，Q2財報優於預期但2026資本支出展望上修至$195-205B，首度單季自由現金流為負，引發市場疑慮"],
+          ["CMCSA","康卡斯特 Comcast","—","—","—","-6.61%","down","7/23（單日）","財報顯示寬頻用戶持續流失，遭Bernstein、Wells Fargo調降目標價，星鏈競爭疑慮加劇"],
+          ["TMUS","T-Mobile US","—","—","—","-5%","down","7/23（單日）","Q2營收未達預期（EPS $2.99優於預期，但營收略微不及），用戶淨增數優於預期"],
+          ["NFLX","Netflix","—","—","—","-7.26%","down","7/17（單日）","第三季展望不如預期"],
+          ["DIS","迪士尼 Disney","—","—","—","-2.05%","down","7/17（單日）","串流同業Netflix財報拖累"],
+          ["T","美國電話電報 AT&amp;T","$21.81","$21.95","+$0.14","+0.64%","up","7/20（單日）","收$21.95，市場關注SpaceX/Starlink威脅"],
+          ["WBD","華納兄弟探索 Warner Bros Discovery","$27.29","$26.87","$0.42","-1.54%","down","7/17（單日）","收$26.87，Paramount併購案面臨多州檢察總長反壟斷訴訟，英國監管審查亦未明朗"],
+          ["CHTR","特許通訊 Charter Communications","約$129.21","約$124.24","約$4.97","-3.85%","down","7/23（單日）","收約$124.24，寬頻類股持續承壓，市場憂心用戶流失"],
         ],
         gap:"目前已確認到10檔，已達成十檔目標。",
         sources:[
+          ["TradingEconomics","https://tradingeconomics.com/united-states/stock-market"],
           ["The Motley Fool","https://www.fool.com/coverage/stock-market-today/2026/07/23/stock-market-today-july-23-alphabet-slides-7-after-announcing-2026-capex-of-roughly-usd200-billion/"],
           ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262050362-market-movers-meta-20260723"],
           ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262050782-market-movers-cmcsa-20260723"],
           ["Proactive Investors","https://www.proactiveinvestors.com/companies/news/1095957/market-movers-rtx-american-airlines-comcast-1095957.html"],
           ["The Motley Fool（Yahoo Finance轉載）","https://www.fool.com/coverage/stock-market-today/2026/07/17/stock-market-today-july-17-netflix-plunges-but-are-investors-missing-the-point/"],
           ["CNN Markets","https://www.cnn.com/markets/stocks/TMUS"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/vz/quote"],
           ["StockAnalysis.com","https://stockanalysis.com/stocks/t/history/"],
           ["StockInvest.us","https://stockinvest.us/stock/WBD"],
-          ["Google Finance","https://www.google.com/finance/beta/quote/CHTR:NASDAQ"]
+          ["Google Finance","https://www.google.com/finance/beta/quote/CHTR:NASDAQ"],
         ]
       },
       {
         zh:"金融", en:"Financials", color:"#059669",
         rows:[
-          ["GS","高盛 Goldman Sachs","+7.3%","up","7/13–7/17（週）","Q2財報大幅超預期，創歷史新高"],
-          ["JPM","摩根大通 JPMorgan","+1%","up","7/13–7/17（週）","Q2獲利創美國銀行業史上新高，創歷史新高"],
-          ["BAC","美國銀行 Bank of America","+1.8%","up","7/14（單日）","Q2財報優於預期"],
-          ["PYPL","PayPal","+22.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股"],
-          ["BLK","貝萊德 BlackRock","+6.15%","up","7/15（單日）","Q2 EPS $13.91優於預期$12.59，AUM成長至$15.345兆，財報後大漲"],
-          ["MS","摩根士丹利 Morgan Stanley","+0.4%","up","7/15（單日）","Q2 EPS $3.46優於預期$2.81，獲利年增58%，股權交易營收創紀錄，惟股價反應相對溫和"],
-          ["C","花旗 Citigroup","-4.3%","down","7/14（單日）","市場擔憂下半年費用上升"],
-          ["WFC","富國銀行 Wells Fargo","-2.6%","down","7/14（單日）","財報後獲利了結賣壓"],
-          ["V","Visa","創52週新高","up","7/13–7/17（週）","本週新高的24檔金融股之一"],
-          ["MSCI","MSCI Inc.","-10.7%","down","7/21（單日）","第二季獲利未達市場預期，單日重挫"]
+          ["AXP","美國運通 American Express","$340.83","$326.17","$14.66","-4.3%","down","7/24（單日）","收$326.17，Q2 EPS優於預期但費用年增12%、稅率由19%升至24%，市場聚焦成本壓力"],
+          ["GS","高盛 Goldman Sachs","—","—","—","-1.37%","down","7/24（單日）","隨金融類股同步小幅回落"],
+          ["JPM","摩根大通 JPMorgan","—","—","—","+1%","up","7/13–7/17（週）","Q2獲利創美國銀行業史上新高，創歷史新高"],
+          ["BAC","美國銀行 Bank of America","—","—","—","+0.92%","up","7/24（單日）","隨大型銀行股同步走高"],
+          ["PYPL","PayPal","—","—","—","+22.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股"],
+          ["BLK","貝萊德 BlackRock","—","—","—","+6.15%","up","7/15（單日）","Q2 EPS $13.91優於預期$12.59，AUM成長至$15.345兆，財報後大漲"],
+          ["MS","摩根士丹利 Morgan Stanley","—","—","—","+0.4%","up","7/15（單日）","Q2 EPS $3.46優於預期$2.81，獲利年增58%，股權交易營收創紀錄，惟股價反應相對溫和"],
+          ["WFC","富國銀行 Wells Fargo","—","—","—","-2.6%","down","7/14（單日）","財報後獲利了結賣壓"],
+          ["V","Visa","—","—","—","創52週新高","up","7/13–7/17（週）","本週新高的24檔金融股之一"],
+          ["MSCI","MSCI Inc.","—","—","—","-10.7%","down","7/21（單日）","第二季獲利未達市場預期，單日重挫"],
         ],
+        gap:"目前已確認到10檔，已達成十檔目標。",
         sources:[
+          ["TradingEconomics","https://tradingeconomics.com/united-states/stock-market"],
+          ["TS2.tech","https://ts2.tech/en/american-express-company-nyseaxp-shares-fall-after-costs-offset-89-of-revenue-increase/"],
           ["Tech Times","https://www.techtimes.com/articles/320491/20260714/all-five-major-banks-beat-estimates-jpmorgan-posts-highest-profit-us-history.htm"],
           ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-21-2026"],
           ["TimothySykes.com","https://www.timothysykes.com/news/blackrock-inc-blk-news-2026_07_15/"],
           ["CNBC","https://www.cnbc.com/2026/07/14/stock-market-today-live-updates.html"],
-          ["Reuters（KFGO轉載）","https://kfgo.com/2026/07/15/morgan-stanley-profit-rises-on-dealmaking-boost/"]
+          ["Reuters（KFGO轉載）","https://kfgo.com/2026/07/15/morgan-stanley-profit-rises-on-dealmaking-boost/"],
         ]
       },
       {
         zh:"能源", en:"Energy", color:"#B45309",
         rows:[
-          ["Brent原油","Brent Crude","+4%（收$90.79）","up","7/20（收盤）","美伊衝突升級、荷莫茲海峽航運受阻，收盤價創6月中以來新高"],
-          ["WTI原油","WTI Crude","+2.65%（收$84.68）","up","7/20（收盤）","同步走高，創6月12日以來新高，上週單週漲幅達15.5%"],
-          ["XOM","埃克森美孚 ExxonMobil","+6.1%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
-          ["CVX","雪佛龍 Chevron","+6.2%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
-          ["VLO","Valero能源","+10.3%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
-          ["MPC","馬拉松石油 Marathon Petroleum","+10.2%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
-          ["COP","康菲石油 ConocoPhillips","+1.18%","up","7/17（單日）","BP合資取得伊拉克Kirkuk油田開發權，單日漲幅逾大盤"],
-          ["OXY","西方石油 Occidental Petroleum","+2.26%","up","7/17（單日）","收$54.86，中東地緣政治緊張持續推升油價，油氣生產股同步走高"],
-          ["SLB","斯倫貝謝 SLB（Schlumberger）","-0.65%","down","7/13–7/17（週）","中東營運中斷疑慮及美伊和談降低短線需求預期，股價承壓"]
+          ["SLB","斯倫貝謝 SLB（Schlumberger）","—","—","—","+10.4%","up","7/24（單日）","Q2調整後EPS $0.55優於預期$0.51，儘管獲利年減，仍是標普500當日表現最佳個股之一"],
+          ["Brent原油","Brent Crude","—","—","—","+4%（收$90.79）","up","7/20（收盤）","美伊衝突升級、荷莫茲海峽航運受阻，收盤價創6月中以來新高"],
+          ["WTI原油","WTI Crude","—","—","—","+2.65%（收$84.68）","up","7/20（收盤）","同步走高，創6月12日以來新高，上週單週漲幅達15.5%"],
+          ["XOM","埃克森美孚 ExxonMobil","—","—","—","+6.1%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
+          ["CVX","雪佛龍 Chevron","—","—","—","+0.50%","up","7/24（單日）","隨油價回落但仍處高檔，能源股表現平穩"],
+          ["VLO","Valero能源","—","—","—","+10.3%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
+          ["MPC","馬拉松石油 Marathon Petroleum","—","—","—","+10.2%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
+          ["COP","康菲石油 ConocoPhillips","—","—","—","+1.18%","up","7/17（單日）","BP合資取得伊拉克Kirkuk油田開發權，單日漲幅逾大盤"],
+          ["OXY","西方石油 Occidental Petroleum","$53.65","$54.86","+$1.21","+2.26%","up","7/17（單日）","收$54.86，中東地緣政治緊張持續推升油價，油氣生產股同步走高"],
+          ["DVN","戴文能源 Devon Energy","$45.29","$45.04","$0.25","-0.55%","down","7/24（單日）","收$45.04，8/4將公布財報，市場預期EPS年增近60%"],
         ],
-        gap:"能源類股整體本週上漲4.7%，目前已確認到7檔個股數據，仍差3檔（如Kinder Morgan、Halliburton等中游／油服類股，因資料來源對單週漲跌幅記載不一致，暫未收錄），可再補充搜尋。",
+        gap:"目前已確認到10檔，已達成十檔目標。",
         sources:[
+          ["GuruFocus","https://www.gurufocus.com/news/8978290/slb-reports-strong-q2-earnings-shares-surge-104"],
+          ["Quiver Quantitative","https://www.quiverquant.com/news/SCHLUMBERGER+($SLB)+Releases+Q2+2026+Earnings"],
+          ["Devon Energy官方投資人關係網站","https://investors.devonenergy.com/investors/stock-information/default.aspx"],
           ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
           ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
           ["Reuters（Yahoo Finance轉載）","https://finance.yahoo.com/news/brent-oil-tops-90-us-001615973.html"],
           ["CNBC","https://www.cnbc.com/2026/07/20/oil-prices-today-brent-wti-crude-us-iran-centcom-hormuz.html"],
-          ["The Sunday Guardian","https://sundayguardianlive.com/business/brent-crude-oil-price-today-july-20-brent-crosses-90-wti-climbs-above-84-as-us-iran-conflict-escalates-strait-of-hormuz-supply-fears-intensify-check-latest-brent-crude-wti-oil-rates-today-241883/"],
           ["The Motley Fool","https://www.fool.com/investing/2026/07/17/why-conocophillips-stock-flew-higher-on-friday/"],
-          ["eToro","https://www.etoro.com/markets/slb"],
-          ["Tickeron","https://tickeron.com/ticker/SLB/"],
-          ["Yahoo Finance","https://finance.yahoo.com/quote/OXY/history/"]
+          ["Yahoo Finance","https://finance.yahoo.com/quote/OXY/history/"],
         ]
       },
       {
         zh:"醫療保健", en:"Healthcare", color:"#DC2626",
         rows:[
-          ["ISRG","直覺外科 Intuitive Surgical","約-9%","down","7/17（單日）","財報優但健保補貼疑慮拖累，創52週新低"],
-          ["UNH","聯合健康 UnitedHealth","創52週新高","up","7/13–7/17（週）","本週新高名單之一"],
-          ["DHR","丹納赫 Danaher","-13.7%","down","7/21（單日）","第三季營收展望疲弱，生物製程業務銷售疲軟，單日重挫"],
-          ["LLY","禮來 Eli Lilly","-0.97%","down","7/7 資料","GLP-1藥物龍頭，近期股價回落"],
-          ["JNJ","嬌生 Johnson &amp; Johnson","-1.35%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["ABBV","艾伯維 AbbVie","-2.44%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["MRK","默沙東 Merck","-2.08%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["PFE","輝瑞 Pfizer","+3.6%","up","近期（單週）","股息強勁吸引買盤，同業比較中表現居前，惟盈餘預估並未上修"],
-          ["MEDP","Medpace Holdings","+18.4%","up","7/23（單日）","第二季財報優於預期，新訂單增加，同步上修全年財測，醫療保健類股本日表現最佳個股"],
-          ["MOH","莫利納健康照護 Molina Healthcare","-11.16%","down","7/23（單日）","Q2調整後EPS $1.51優於預期，但醫療損失率升至92.2%、Marketplace會員數年減近60%，展望疑慮蓋過財報優於預期"]
+          ["ISRG","直覺外科 Intuitive Surgical","—","—","—","+2.38%","up","7/24（單日）","從近期JNJ機器人手術平台獲批的跌勢中回穩反彈"],
+          ["UNH","聯合健康 UnitedHealth","—","—","—","創52週新高","up","7/13–7/17（週）","本週新高名單之一"],
+          ["DHR","丹納赫 Danaher","—","—","—","-13.7%","down","7/21（單日）","第三季營收展望疲弱，生物製程業務銷售疲軟，單日重挫"],
+          ["LLY","禮來 Eli Lilly","$1,185.77","約$1,200.47","約+$14.70","+1.24%","up","7/24（單日）","GLP-1藥物龍頭持續走高"],
+          ["JNJ","嬌生 Johnson &amp; Johnson","—","—","—","-1.35%","down","7/7 資料","醫療保健類股中市值前段"],
+          ["ABBV","艾伯維 AbbVie","—","—","—","-2.44%","down","7/7 資料","醫療保健類股中市值前段"],
+          ["MRK","默沙東 Merck","—","—","—","-2.08%","down","7/7 資料","醫療保健類股中市值前段"],
+          ["PFE","輝瑞 Pfizer","—","—","—","+3.6%","up","近期（單週）","股息強勁吸引買盤，同業比較中表現居前，惟盈餘預估並未上修"],
+          ["MEDP","Medpace Holdings","—","—","—","+18.4%","up","7/23（單日）","第二季財報優於預期，新訂單增加，同步上修全年財測，醫療保健類股本日表現最佳個股"],
+          ["MOH","莫利納健康照護 Molina Healthcare","—","—","—","-11.16%","down","7/23（單日）","Q2調整後EPS $1.51優於預期，但醫療損失率升至92.2%、Marketplace會員數年減近60%，展望疑慮蓋過財報優於預期"],
         ],
         gap:"目前已確認到10檔，已達成十檔目標。",
         sources:[
@@ -530,25 +581,26 @@ const US_DATA = {
           ["TS2.tech","https://ts2.tech/en/pfizer-nysepfe-shares-rise-3-6-on-dividend-strength-as-analyst-forecasts-remain-unchanged/"],
           ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-23-2026"],
           ["GuruFocus","https://www.gurufocus.com/news/8974988/molina-healthcare-moh-reports-strong-earnings-but-shares-decline-amid-cost-concerns"],
-          ["Yahoo Finance","https://finance.yahoo.com/quote/MOH/"]
+          ["Yahoo Finance","https://finance.yahoo.com/quote/MOH/"],
         ]
       },
       {
         zh:"工業", en:"Industrials", color:"#4B5563",
         rows:[
-          ["LMT","洛克希德馬丁 Lockheed Martin","+10.8%","up","7/23（單日）","Q2財報優於預期，上修全年財測，訂單積壓創歷史新高"],
-          ["ROP","羅普科技 Roper Technologies","+7.3%","up","7/23（單日）","第二季財報表現強勁"],
-          ["HON","漢威聯合 Honeywell","+6.3%","up","7/23（單日）","財報優於預期，上修全年獲利展望，航太部門分割順利完成"],
-          ["MMM","3M","+7%左右","up","7/21（單日）","第二季獲利與營收皆超預期，調升全年財測，單日大漲逾7%"],
-          ["UNP","聯合太平洋 Union Pacific","+4%左右","up","7/16（單日）","分析師調升目標價，市場看好經濟復甦帶動運輸業獲利改善"],
-          ["CTAS","金泰克斯 Cintas","+13.8%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"],
-          ["DAL","達美航空 Delta Air Lines","+0.44%","up","7/20（單日）","收$84.54，第二季高階艙位營收年增17%，維持全年獲利展望"],
-          ["AAL","全美航空 American Airlines","-7.4%","down","7/23（單日）","財報優於預期但下修第三季展望，燃油成本因中東情勢上升侵蝕獲利"],
-          ["ROL","勞氏害蟲防治 Rollins","-18.5%","down","7/23（單日）","第二季財報令人失望，遭RBC Capital降評並大砍目標價"],
-          ["CAT","開拓重工 Caterpillar","-1.17%","down","7/20（單日）","收$869.98，Q2財報將於7/22公布，市場預期EPS年增逾30%"]
+          ["LMT","洛克希德馬丁 Lockheed Martin","—","—","—","+10.8%","up","7/23（單日）","Q2財報優於預期，上修全年財測，訂單積壓創歷史新高"],
+          ["ROP","羅普科技 Roper Technologies","—","—","—","+7.3%","up","7/23（單日）","第二季財報表現強勁"],
+          ["HON","漢威聯合 Honeywell","—","—","—","-1.85%","down","7/24（單日）","隨大盤震盪小幅回落，此前7/23曾因財報優於預期大漲6.3%"],
+          ["MMM","3M","—","—","—","+7%左右","up","7/21（單日）","第二季獲利與營收皆超預期，調升全年財測，單日大漲逾7%"],
+          ["UNP","聯合太平洋 Union Pacific","—","—","—","+4%左右","up","7/16（單日）","分析師調升目標價，市場看好經濟復甦帶動運輸業獲利改善"],
+          ["CTAS","金泰克斯 Cintas","—","—","—","+13.8%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"],
+          ["DAL","達美航空 Delta Air Lines","$84.17","$84.54","+$0.37","+0.44%","up","7/20（單日）","收$84.54，第二季高階艙位營收年增17%，維持全年獲利展望"],
+          ["AAL","全美航空 American Airlines","—","—","—","-7.4%","down","7/23（單日）","財報優於預期但下修第三季展望，燃油成本因中東情勢上升侵蝕獲利"],
+          ["ROL","勞氏害蟲防治 Rollins","—","—","—","-18.5%","down","7/23（單日）","第二季財報令人失望，遭RBC Capital降評並大砍目標價"],
+          ["CAT","開拓重工 Caterpillar","$880.28","$869.98","$10.30","-1.17%","down","7/20（單日）","收$869.98，Q2財報將於7/22公布，市場預期EPS年增逾30%"],
         ],
         gap:"目前已確認到10檔，已達成十檔目標。",
         sources:[
+          ["TradingEconomics","https://tradingeconomics.com/united-states/stock-market"],
           ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-23-2026"],
           ["TimothySykes.com","https://timothysykes.com/news/lockheed-martin-corporation-lmt-news-2026_07_23-2/"],
           ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
@@ -557,64 +609,65 @@ const US_DATA = {
           ["Google Finance","https://www.google.com/finance/beta/quote/MMM:NYSE"],
           ["The Motley Fool","https://www.fool.com/investing/2026/07/16/why-union-pacific-stock-chugged-almost-4-higher-on/"],
           ["StocksToTrade","https://stockstotrade.com/news/american-airlines-group-inc-aal-news-2026_07_23/"],
-          ["Bloomberg","https://www.bloomberg.com/news/videos/2026-07-23/american-airlines-earnings-lockheed-martin-fy-guidance-video"]
+          ["Bloomberg","https://www.bloomberg.com/news/videos/2026-07-23/american-airlines-earnings-lockheed-martin-fy-guidance-video"],
         ]
       },
       {
         zh:"非必需消費", en:"Consumer Discretionary", color:"#DB2777",
         rows:[
-          ["TSLA","特斯拉 Tesla","-14.52%","down","7/23（單日）","收$319.69，Q2 EPS $0.33遠低於預期$0.54，自由現金流轉負，馬斯克稱2026為資本支出大年"],
-          ["RIVN","Rivian Automotive","-4.19%","down","7/23（單日）","收$16.46，隨電動車類股同步走跌"],
-          ["LCID","Lucid Group","-4.87%","down","7/23（單日）","收$6.45，隨電動車類股同步走跌"],
-          ["GM","通用汽車 General Motors","+4.9%","up","7/21（單日）","第二季獲利優於預期，第二度上調全年財測"],
-          ["F","福特汽車 Ford Motor","+1.97%","up","7/21（單日）","隨汽車類股同步走高"],
-          ["GPC","Genuine Parts（NAPA母公司）","-7.4%","down","7/21（單日）","財報獲利超預期但下修全年展望，股價逆勢重挫"],
-          ["SBUX","星巴克 Starbucks","+3.3%","up","7/16（單日）","分析師調升目標價，轉型信心回升"],
-          ["NKE","耐吉 Nike","-1.23%","down","7/20（單日）","收$43.21，靠近52週低點$40.00，品牌復甦仍待觀察"]
+          ["TSLA","特斯拉 Tesla","$319.69","$312.84","-$6.85","-2.1%","down","7/24（單日）","財報後賣壓延續，惟跌幅較前日的14.52%明顯收斂"],
+          ["RIVN","Rivian Automotive","$17.18","$16.46","$0.72","-4.19%","down","7/23（單日）","收$16.46，隨電動車類股同步走跌"],
+          ["LCID","Lucid Group","$6.78","$6.45","$0.33","-4.87%","down","7/23（單日）","收$6.45，隨電動車類股同步走跌"],
+          ["GM","通用汽車 General Motors","—","—","—","+4.9%","up","7/21（單日）","第二季獲利優於預期，第二度上調全年財測"],
+          ["F","福特汽車 Ford Motor","—","—","—","+1.97%","up","7/21（單日）","隨汽車類股同步走高"],
+          ["GPC","Genuine Parts（NAPA母公司）","—","—","—","-7.4%","down","7/21（單日）","財報獲利超預期但下修全年展望，股價逆勢重挫"],
+          ["SBUX","星巴克 Starbucks","—","—","—","+3.3%","up","7/16（單日）","分析師調升目標價，轉型信心回升"],
+          ["NKE","耐吉 Nike","$43.75","$43.21","$0.54","-1.23%","down","7/20（單日）","收$43.21，靠近52週低點$40.00，品牌復甦仍待觀察"],
         ],
         gap:"目前已確認到8檔，可再補充Amazon、Home Depot、Booking Holdings等數據（因缺乏明確日期標註的乾淨收盤價，暫未收錄）湊滿10檔。",
         sources:[
+          ["TradingEconomics","https://tradingeconomics.com/united-states/stock-market"],
           ["The Motley Fool","https://www.fool.com/coverage/stock-market-today/2026/07/23/stock-market-today-july-23-tesla-stock-crashes-on-earnings-miss-and-rising-ai-spending/"],
           ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
           ["Quiver Quantitative","https://www.quiverquant.com/news/Why+Starbucks+(SBUX)+Stock+Is+Up+Today"],
           ["Morningstar","https://www.morningstar.com/stocks/xnys/nke/quote"],
           ["CNBC","https://www.cnbc.com/2026/07/21/general-motors-gm-earnings-q2-2026.html"],
           ["FinanceCharts","https://www.financecharts.com/stocks/F/summary/price"],
-          ["Benzinga","https://www.benzinga.com/markets/earnings/26/07/60584481/genuine-parts-stock-slips-7-despite-earnings-beat-cautious-outlook-weighs-on-napa-parent"]
+          ["Benzinga","https://www.benzinga.com/markets/earnings/26/07/60584481/genuine-parts-stock-slips-7-despite-earnings-beat-cautious-outlook-weighs-on-napa-parent"],
         ]
       },
       {
         zh:"必需消費", en:"Consumer Staples", color:"#0D9488",
         rows:[
-          ["KO","可口可樂 Coca-Cola","-4%","down","7/17（單日）","從歷史高點拉回，獲利了結賣壓"],
-          ["WMT","沃爾瑪 Walmart","-0.62%","down","7/7 資料","必需消費類股市值龍頭"],
-          ["COST","好市多 Costco","-0.50%","down","7/7 資料","必需消費類股市值第二"],
-          ["PG","寶僑 Procter &amp; Gamble","-1.08%","down","7/7 資料","家用品類股代表"],
-          ["PM","菲利普莫里斯 Philip Morris","+1.65%","up","7/7 資料","菸草類股逆勢上漲"],
-          ["PEP","百事公司 PepsiCo","-4%","down","7/9（單日）","Q2調整後EPS $2.20小幅低於預期$2.21，營收$24.18B優於預期，但北美業務疲弱、全年展望轉保守"],
-          ["ACI","Albertsons","-15.1%","down","7/23（單日）","財報未達分析師預期，大幅下修全年展望"]
+          ["KO","可口可樂 Coca-Cola","—","—","—","+1.21%","up","7/24（單日）","必需消費股逆勢走高，防禦性資金流入"],
+          ["WMT","沃爾瑪 Walmart","—","—","—","-0.62%","down","7/7 資料","必需消費類股市值龍頭"],
+          ["COST","好市多 Costco","—","—","—","-0.50%","down","7/7 資料","必需消費類股市值第二"],
+          ["PG","寶僑 Procter &amp; Gamble","—","—","—","-1.08%","down","7/7 資料","家用品類股代表"],
+          ["PM","菲利普莫里斯 Philip Morris","—","—","—","+1.65%","up","7/7 資料","菸草類股逆勢上漲"],
+          ["PEP","百事公司 PepsiCo","$25.19","$24.18","$1.01","-4%","down","7/9（單日）","Q2調整後EPS $2.20小幅低於預期$2.21，營收$24.18B優於預期，但北美業務疲弱、全年展望轉保守"],
+          ["ACI","Albertsons","—","—","—","-15.1%","down","7/23（單日）","財報未達分析師預期，大幅下修全年展望"],
         ],
         gap:"目前已確認到7檔，仍差3檔（如高露潔、億滋國際、通用磨坊等，因缺乏近期明確日期標註的乾淨數據，暫未收錄），可再補充搜尋。",
         sources:[
           ["FX Leaders","https://www.fxleaders.com/news/2026/07/17/coca-cola-ko-stock-falls-4-risking-uptrend-as-consumer-weakness-weighs/"],
           ["The Motley Fool","https://www.fool.com/research/largest-consumer-staples-companies/"],
           ["Investing.com","https://www.investing.com/news/transcripts/earnings-call-transcript-pepsico-q2-2026-results-miss-eps-as-shares-fall-premarket-93CH-4784227"],
-          ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-23-2026"]
+          ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-23-2026"],
         ]
       },
       {
         zh:"原物料", en:"Materials", color:"#92400E",
         rows:[
-          ["CLF","克利夫蘭鋼鐵 Cleveland-Cliffs","+12.2%","up","7/23（單日）","公布優於預期的第三季展望，鋼鐵需求改善帶動獲利連續改善"],
-          ["黃金現貨","Gold Spot","-2.36%（收$4,048.76）","down","7/23（單日）","美債殖利率升至52週新高（4.67%），避險買盤轉向原油，金價回落"],
-          ["SCCO","南方銅業 Southern Copper","+3.83%","up","7/22（單日）","電氣化與資料中心需求推升銅市場緊俏題材，銅礦股集體走高"],
-          ["FCX","自由港邁克墨倫 Freeport-McMoRan","+3.90%","up","7/22（單日）","收$65.00，Q2財報將於7/23公布，市場關注銅價與Grasberg礦區產能展望"],
-          ["NEM","紐蒙特礦業 Newmont","+4.41%","up","7/22（單日）","黃金現貨同日走高，銅礦類股同步走高，帶動貴金屬礦業股表現"],
-          ["HL","赫克拉礦業 Hecla Mining","+5.23%","up","7/22（單日）","銀價與銅價同步走高，中小型礦業股漲幅領先大型同業"],
-          ["SHW","宣偉塗料 Sherwin-Williams","+13.3%","up","7月（月）","工業與原物料類股領漲個股之一"],
-          ["NUE","紐柯鋼鐵 Nucor","-2.07%","down","7/20（單日）","收約$231.72，鋼鐵類股隨大盤震盪走弱"],
-          ["LIN","林德集團 Linde","-0.29%","down","7/14（單日）","工業氣體龍頭，股價小幅回落，距52週高點$548.20約5%"],
-          ["ECL","藝康集團 Ecolab","-1.66%","down","近期（單日）","收$264.20，7/28將公布財報，特用化學品類股小幅回落"]
+          ["CLF","克利夫蘭鋼鐵 Cleveland-Cliffs","—","—","—","+12.2%","up","7/23（單日）","公布優於預期的第三季展望，鋼鐵需求改善帶動獲利連續改善"],
+          ["黃金現貨","Gold Spot","—","—","—","-2.36%（收$4,048.76）","down","7/23（單日）","美債殖利率升至52週新高（4.67%），避險買盤轉向原油，金價回落"],
+          ["SCCO","南方銅業 Southern Copper","—","—","—","+3.83%","up","7/22（單日）","電氣化與資料中心需求推升銅市場緊俏題材，銅礦股集體走高"],
+          ["FCX","自由港邁克墨倫 Freeport-McMoRan","$62.56","$65","+$2.44","+3.90%","up","7/22（單日）","收$65.00，Q2財報將於7/23公布，市場關注銅價與Grasberg礦區產能展望"],
+          ["NEM","紐蒙特礦業 Newmont","—","—","—","+4.41%","up","7/22（單日）","黃金現貨同日走高，銅礦類股同步走高，帶動貴金屬礦業股表現"],
+          ["HL","赫克拉礦業 Hecla Mining","—","—","—","+5.23%","up","7/22（單日）","銀價與銅價同步走高，中小型礦業股漲幅領先大型同業"],
+          ["SHW","宣偉塗料 Sherwin-Williams","—","—","—","+13.3%","up","7月（月）","工業與原物料類股領漲個股之一"],
+          ["NUE","紐柯鋼鐵 Nucor","約$236.62","約$231.72","約$4.90","-2.07%","down","7/20（單日）","收約$231.72，鋼鐵類股隨大盤震盪走弱"],
+          ["LIN","林德集團 Linde","—","—","—","-0.29%","down","7/14（單日）","工業氣體龍頭，股價小幅回落，距52週高點$548.20約5%"],
+          ["ECL","藝康集團 Ecolab","$268.66","$264.20","$4.46","-1.66%","down","近期（單日）","收$264.20，7/28將公布財報，特用化學品類股小幅回落"],
         ],
         gap:"目前已確認到10檔，已達成十檔目標。",
         sources:[
@@ -625,987 +678,41 @@ const US_DATA = {
           ["Morningstar","https://www.morningstar.com/stocks/xnys/ecl/quote"],
           ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262047715-market-movers-scco-20260722"],
           ["CNN Markets","https://www.cnn.com/markets/stocks/FCX"],
-          ["Rio Times（Copper Wrap）","https://www.riotimesonline.com/copper-markets-latam-wednesday-july-22-2026/"]
+          ["Rio Times（Copper Wrap）","https://www.riotimesonline.com/copper-markets-latam-wednesday-july-22-2026/"],
         ]
       },
       {
         zh:"公用事業", en:"Utilities", color:"#CA8A04",
         rows:[
-          ["GEV","GE Vernova","+4.29%","up","7/23（單日）","第二季財報優於預期，發電與電氣化部門毛利率擴張，帶動公用事業類股本日成為標普500表現最佳類股（+2.3%）"],
-          ["NEE","新紀元能源 NextEra Energy","-0.94%","down","7/7 資料","全球市值最大電力公司"],
-          ["CEG","星座能源 Constellation Energy","+0.57%（惟月線約-16%）","flat","7/7 資料／近期","核能發電廠授權延續申請中"],
-          ["DUK","杜克能源 Duke Energy","-0.87%","down","7/17（單日）","收$125.01，距52週高點$134.49約7%"]
+          ["GEV","GE Vernova","—","—","—","+4.29%","up","7/23（單日）","第二季財報優於預期，發電與電氣化部門毛利率擴張，帶動公用事業類股本日成為標普500表現最佳類股（+2.3%）"],
+          ["NEE","新紀元能源 NextEra Energy","—","—","—","-0.94%","down","7/7 資料","全球市值最大電力公司"],
+          ["CEG","星座能源 Constellation Energy","—","—","—","+0.57%（惟月線約-16%）","flat","7/7 資料／近期","核能發電廠授權延續申請中"],
+          ["DUK","杜克能源 Duke Energy","$126.11","$125.01","$1.10","-0.87%","down","7/17（單日）","收$125.01，距52週高點$134.49約7%"],
         ],
         gap:"目前已確認到4檔，可再補充Southern Company、Vistra等本週數據（因資料時間點不夠明確，暫未收錄）。",
         sources:[
           ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262050541-market-movers-gev-20260723"],
           ["The Motley Fool","https://www.fool.com/research/largest-utilities-companies/"],
           ["Simply Wall St","https://simplywall.st/markets/us/utilities"],
-          ["Google Finance","https://www.google.com/finance/beta/quote/DUK:NYSE"]
+          ["Google Finance","https://www.google.com/finance/beta/quote/DUK:NYSE"],
         ]
       },
       {
         zh:"不動產", en:"Real Estate (REIT)", color:"#4338CA",
         rows:[
-          ["PLD","普洛斯 Prologis","股價創一年新高","up","7/16–7/17","Q2財報大幅超預期並上調全年財測"],
-          ["EQIX","Equinix","+1.32%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
-          ["DLR","Digital Realty","+1.15%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
-          ["O","Realty Income","+1.36%","up","近期","淨租賃型REIT代表"],
-          ["AMT","美國電塔 American Tower","+0.54%","up","近期","電信基礎設施REIT"],
-          ["SPG","西蒙地產 Simon Property","+0.33%","up","近期","零售商場REIT代表"]
+          ["PLD","普洛斯 Prologis","—","—","—","+1.71%","up","7/24（單日）","不動產類股本日領漲，收購Segro交易持續推進"],
+          ["EQIX","Equinix","—","—","—","+5.88%","up","7/24（單日）","資料中心REIT本日大漲，AI需求帶動，7/29將公布財報"],
+          ["DLR","Digital Realty","—","—","—","+1.15%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
+          ["O","Realty Income","—","—","—","+1.36%","up","近期","淨租賃型REIT代表"],
+          ["AMT","美國電塔 American Tower","—","—","—","+0.54%","up","近期","電信基礎設施REIT"],
+          ["SPG","西蒙地產 Simon Property","—","—","—","+0.33%","up","近期","零售商場REIT代表"],
         ],
         sources:[
           ["The Markets Daily","https://www.themarketsdaily.com/2026/07/17/prologis-nysepld-reaches-new-1-year-high-after-better-than-expected-earnings.html"],
           ["The Motley Fool","https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/"],
-          ["Dividend.com","https://www.dividend.com/reit-industry-dividend-stocks-etfs-and-funds/"]
-        ]
-      }
-    ]
-  },
-  "2026-07-22": {
-    label: "2026/07/22",
-    dow: "週四更新（台灣時間）／美股7/22收盤資料",
-    range: "資料範圍：2026/07/22美股收盤（美東週三）",
-    desc: "美股週三收盤漲跌互見：道瓊小跌6.06點（-0.01%）收52,218.58，S&amp;P 500下跌0.14%收7,498.96，那斯達克跌0.57%收25,690.90，投資人在Alphabet、特斯拉盤後公布財報前轉趨觀望，同時油價走高也壓抑部分成長股表現。原物料類股是本日焦點：銅礦股全面走高，Southern Copper、Freeport-McMoRan、Newmont、Hecla Mining均收紅，市場解讀為電氣化與資料中心需求支撐銅價中期基本面，儘管盤中一度因COMEX銅期貨走弱而承壓，但收盤仍收復失土；布蘭特原油大漲3.4%收在每桶94.07美元、逾一個月新高，西德州原油同步大漲3%收$86.83，主因是美國對伊朗的第11輪軍事行動持續進行。個股方面，Super Micro Computer因公布創紀錄訂單積壓，單日大漲近20%；美國電話電報（AT&amp;T）財報每股盈餘優於預期，股價大漲4%；Reddit則因傳出考慮封鎖Google取用其內容供AI訓練使用，股價重挫9%。軟體股在Alphabet財報公布前普遍承壓，ServiceNow、Workday等雲端服務股跌逾6%。本頁本次已將原物料類股更新至7/22收盤資料（新增4檔銅礦相關個股），其餘類股暫維持先前確認的最新資料並標明原始日期。",
-    movers: [
-      ["SCCO","南方銅業 Southern Copper","約$179","約$185.85","約+$6.85","+3.83%","未創新高，本波銅礦股反彈領先個股","電氣化與資料中心需求推升銅市場緊俏題材，銅礦股集體走高，儘管盤中COMEX銅期貨一度走弱"],
-      ["FCX","自由港邁克墨倫 Freeport-McMoRan","$62.56","$65.00","+$2.44","+3.90%","未創新高，Q2財報將於7/23公布","銅礦股同步走高，市場關注明日財報中管理層對銅價與Grasberg礦區產能的展望"],
-      ["NEM","紐蒙特礦業 Newmont","約$62","約$65（估）","約+$2.7","+4.41%","未創新高，黃金與銅雙重曝險受惠","黃金現貨同日上漲，銅礦類股同步走高，帶動貴金屬礦業股表現"],
-      ["HL","赫克拉礦業 Hecla Mining","約$8.5","約$8.9（估）","約+$0.4","+5.23%","未創新高，貴金屬礦業股表現最佳之一","銀價與銅價同步走高，中小型礦業股漲幅領先大型同業"]
-    ],
-    moversSources:[
-      ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262047715-market-movers-scco-20260722"],
-      ["CNN Markets","https://www.cnn.com/markets/stocks/FCX"],
-      ["24/7 Wall St.","https://247wallst.com/investing/2026/07/22/coppers-biggest-intraday-drop-in-2026-5-stocks-most-at-risk-today/"],
-      ["Rio Times（Copper Wrap）","https://www.riotimesonline.com/copper-markets-latam-wednesday-july-22-2026/"],
-      ["The Motley Fool","https://www.fool.com/coverage/stock-market-today/2026/07/22/stock-market-today-july-22-nasdaq-slides-prior-to-tesla-and-alphabet-s-earnings-after-market-close/"],
-      ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-22-2026"],
-      ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/stock-market-news-july-22-131800656.html"]
-    ],
-    sectors: [
-      {
-        zh:"科技", en:"Technology", color:"#2563EB",
-        rows:[
-          ["MU","美光 Micron","+12.34%","up","7/21（單日）","記憶體類股延續反彈，為本日晶片股中最大漲幅之一，帶動SanDisk同步走高"],
-          ["INTC","英特爾 Intel","+8.64%","up","7/21（單日）","財報前動能強勁，帶動費城半導體指數本日創數週最佳單日表現，週四（7/23）將公布Q2財報"],
-          ["AMD","超微 AMD","+8.11%","up","7/21（單日）","Advancing AI 2026活動前動能強勁，週三起登場，Zen 6 Venice CPU為焦點"],
-          ["ARM","Arm控股 Arm Holdings","+7.46%","up","7/21（單日）","收$289.73，市場對半導體IP授權商重新評價，本季表現強勢"],
-          ["MRVL","邁威爾 Marvell","+6.61%","up","7/21（單日）","客製化晶片業務樂觀情緒推動反彈，扭轉上週跌勢"],
-          ["NVDA","輝達 Nvidia","+1.84%","up","7/21（單日）","晶片股延續反彈，市場關注AI基礎設施支出前景與雲端投資"],
-          ["AAPL","蘋果 Apple","+0.35%","up","7/21（單日）","收$327.74，從週一逾2%跌幅中喘息回穩，7/30將公布財報"],
-          ["IBM","IBM","-0.61%","down","7/21（單日）","財報公布前一日小跌，週三（7/22）將公布Q2財報，此前7/13-7/17當週因財報預警重挫逾25%"],
-          ["SNPS","新思科技 Synopsys","-7.85%","down","7/17（單日）","Moonshot AI「Kimi K3」繞開專屬EDA軟體獨立完成晶片設計，單日市值蒸發逾60億美元"],
-          ["CDNS","益華電腦 Cadence","-9.6%","down","7/17（單日）","同受Kimi K3衝擊，兩大EDA廠商合計蒸發約158億美元市值"],
-          ["GLW","康寧 Corning","-19%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"],
-          ["PANW","帕羅奧圖網路 Palo Alto Networks","+10.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"]
-        ],
-        sources:[
-          ["StartupHub.ai","https://www.startuphub.ai/ai-news/ai-stocks-daily/2026/ai-stocks-2026-07-21"],
-          ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262045082-market-movers-mrvl-20260721"],
-          ["StockAnalysis.com","https://stockanalysis.com/stocks/aapl/history/"],
-          ["MarketBeat","https://www.marketbeat.com/instant-alerts/nvidia-nasdaqnvda-stock-price-up-2-still-a-buy-2026-07-21/"],
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Investing.com","https://www.investing.com/news/stock-market-news/why-is-cadence-design-systems-stock-plummeting-today-93CH-4798909"],
-          ["TS2.tech","https://ts2.tech/en/synopsys-nasdaqsnps-loses-6-3-billion-following-kimi-k3-chip-design-demonstration/"],
-          ["TipRanks","https://www.tipranks.com/news/intel-stock-nasdaqintc-jumps-with-new-layoff-plans"]
+          ["Dividend.com","https://www.dividend.com/reit-industry-dividend-stocks-etfs-and-funds/"],
         ]
       },
-      {
-        zh:"通訊服務", en:"Communication Services", color:"#7C3AED",
-        rows:[
-          ["NFLX","Netflix","-7.26%","down","7/17（單日）","第三季展望不如預期"],
-          ["GOOG","Alphabet（Google）","+1.52%","up","7/20（單日）","AI晶片開發消息激勵股價走高，週三將公布Q2財報"],
-          ["META","Meta Platforms","-2.79%","down","7/17（單日）","隨AI晶片類股同步走跌"],
-          ["DIS","迪士尼 Disney","-2.05%","down","7/17（單日）","串流同業Netflix財報拖累"],
-          ["CMCSA","康卡斯特 Comcast","-1.29%","down","7/17（單日）","串流同業Netflix財報拖累"],
-          ["TMUS","T-Mobile US","-0.22%","down","7/17（單日）","收$192.43，接近52週低點，市場消化衛星直連手機競爭疑慮"],
-          ["VZ","威訊 Verizon","-0.66%","down","7/17（單日）","收$43.59，遭剔出道瓊工業指數的利空持續發酵"],
-          ["T","美國電話電報 AT&amp;T","+0.64%","up","7/20（單日）","收$21.95，週三（7/22）將公布Q2財報，市場關注SpaceX/Starlink威脅"],
-          ["WBD","華納兄弟探索 Warner Bros Discovery","-1.54%","down","7/17（單日）","收$26.87，Paramount併購案面臨多州檢察總長反壟斷訴訟，英國監管審查亦未明朗"]
-        ],
-        gap:"目前已確認到9檔具體漲跌數字，仍差1檔湊滿10檔（如Charter Communications、EchoStar等），可再補充搜尋。",
-        sources:[
-          ["The Motley Fool（Yahoo Finance轉載）","https://www.fool.com/coverage/stock-market-today/2026/07/17/stock-market-today-july-17-netflix-plunges-but-are-investors-missing-the-point/"],
-          ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/alphabet-94-meta-down-5-230002079.html"],
-          ["Yahoo Finance","https://finance.yahoo.com/markets/live/stock-market-today-monday-july-20-dow-sp-500-nasdaq-111429441.html"],
-          ["GuruFocus","https://www.gurufocus.com/news/8967145/us-semiconductor-stocks-surge-amid-ai-market-recovery"],
-          ["CNN Markets","https://www.cnn.com/markets/stocks/TMUS"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/vz/quote"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/t/quote"],
-          ["StockAnalysis.com","https://stockanalysis.com/stocks/t/history/"],
-          ["MacroTrends","https://www.macrotrends.net/stocks/charts/T/at-t/stock-price-history"],
-          ["StockInvest.us","https://stockinvest.us/stock/WBD"]
-        ]
-      },
-      {
-        zh:"金融", en:"Financials", color:"#059669",
-        rows:[
-          ["GS","高盛 Goldman Sachs","+7.3%","up","7/13–7/17（週）","Q2財報大幅超預期，創歷史新高"],
-          ["JPM","摩根大通 JPMorgan","+1%","up","7/13–7/17（週）","Q2獲利創美國銀行業史上新高，創歷史新高"],
-          ["BAC","美國銀行 Bank of America","+1.8%","up","7/14（單日）","Q2財報優於預期"],
-          ["PYPL","PayPal","+22.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股"],
-          ["BLK","貝萊德 BlackRock","+6.15%","up","7/15（單日）","Q2 EPS $13.91優於預期$12.59，AUM成長至$15.345兆，財報後大漲"],
-          ["MS","摩根士丹利 Morgan Stanley","+0.4%","up","7/15（單日）","Q2 EPS $3.46優於預期$2.81，獲利年增58%，股權交易營收創紀錄，惟股價反應相對溫和"],
-          ["C","花旗 Citigroup","-4.3%","down","7/14（單日）","市場擔憂下半年費用上升"],
-          ["WFC","富國銀行 Wells Fargo","-2.6%","down","7/14（單日）","財報後獲利了結賣壓"],
-          ["V","Visa","創52週新高","up","7/13–7/17（週）","本週新高的24檔金融股之一"],
-          ["MSCI","MSCI Inc.","-10.7%","down","7/21（單日）","第二季獲利未達市場預期，單日重挫"]
-        ],
-        sources:[
-          ["Tech Times","https://www.techtimes.com/articles/320491/20260714/all-five-major-banks-beat-estimates-jpmorgan-posts-highest-profit-us-history.htm"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-21-2026"],
-          ["TimothySykes.com","https://www.timothysykes.com/news/blackrock-inc-blk-news-2026_07_15/"],
-          ["CNBC","https://www.cnbc.com/2026/07/14/stock-market-today-live-updates.html"],
-          ["Reuters（KFGO轉載）","https://kfgo.com/2026/07/15/morgan-stanley-profit-rises-on-dealmaking-boost/"]
-        ]
-      },
-      {
-        zh:"能源", en:"Energy", color:"#B45309",
-        rows:[
-          ["Brent原油","Brent Crude","+4%（收$90.79）","up","7/20（收盤）","美伊衝突升級、荷莫茲海峽航運受阻，收盤價創6月中以來新高"],
-          ["WTI原油","WTI Crude","+2.65%（收$84.68）","up","7/20（收盤）","同步走高，創6月12日以來新高，上週單週漲幅達15.5%"],
-          ["XOM","埃克森美孚 ExxonMobil","+6.1%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
-          ["CVX","雪佛龍 Chevron","+6.2%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
-          ["VLO","Valero能源","+10.3%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
-          ["MPC","馬拉松石油 Marathon Petroleum","+10.2%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
-          ["COP","康菲石油 ConocoPhillips","+1.18%","up","7/17（單日）","BP合資取得伊拉克Kirkuk油田開發權，單日漲幅逾大盤"],
-          ["OXY","西方石油 Occidental Petroleum","+2.26%","up","7/17（單日）","收$54.86，中東地緣政治緊張持續推升油價，油氣生產股同步走高"],
-          ["SLB","斯倫貝謝 SLB（Schlumberger）","-0.65%","down","7/13–7/17（週）","中東營運中斷疑慮及美伊和談降低短線需求預期，股價承壓"]
-        ],
-        gap:"能源類股整體本週上漲4.7%，目前已確認到7檔個股數據，仍差3檔（如Kinder Morgan、Halliburton等中游／油服類股，因資料來源對單週漲跌幅記載不一致，暫未收錄），可再補充搜尋。",
-        sources:[
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Reuters（Yahoo Finance轉載）","https://finance.yahoo.com/news/brent-oil-tops-90-us-001615973.html"],
-          ["CNBC","https://www.cnbc.com/2026/07/20/oil-prices-today-brent-wti-crude-us-iran-centcom-hormuz.html"],
-          ["The Sunday Guardian","https://sundayguardianlive.com/business/brent-crude-oil-price-today-july-20-brent-crosses-90-wti-climbs-above-84-as-us-iran-conflict-escalates-strait-of-hormuz-supply-fears-intensify-check-latest-brent-crude-wti-oil-rates-today-241883/"],
-          ["The Motley Fool","https://www.fool.com/investing/2026/07/17/why-conocophillips-stock-flew-higher-on-friday/"],
-          ["eToro","https://www.etoro.com/markets/slb"],
-          ["Tickeron","https://tickeron.com/ticker/SLB/"],
-          ["Yahoo Finance","https://finance.yahoo.com/quote/OXY/history/"]
-        ]
-      },
-      {
-        zh:"醫療保健", en:"Healthcare", color:"#DC2626",
-        rows:[
-          ["ISRG","直覺外科 Intuitive Surgical","約-9%","down","7/17（單日）","財報優但健保補貼疑慮拖累，創52週新低"],
-          ["UNH","聯合健康 UnitedHealth","創52週新高","up","7/13–7/17（週）","本週新高名單之一"],
-          ["DHR","丹納赫 Danaher","-13.7%","down","7/21（單日）","第三季營收展望疲弱，生物製程業務銷售疲軟，單日重挫"],
-          ["LLY","禮來 Eli Lilly","-0.97%","down","7/7 資料","GLP-1藥物龍頭，近期股價回落"],
-          ["JNJ","嬌生 Johnson &amp; Johnson","-1.35%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["ABBV","艾伯維 AbbVie","-2.44%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["MRK","默沙東 Merck","-2.08%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["PFE","輝瑞 Pfizer","+3.6%","up","近期（單週）","股息強勁吸引買盤，同業比較中表現居前，惟盈餘預估並未上修"]
-        ],
-        gap:"目前已確認到8檔，仍差2檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["CNBC","https://www.cnbc.com/2026/07/16/stock-market-today-live-updates.html"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["The Motley Fool","https://www.fool.com/research/largest-healthcare-companies/"],
-          ["Yahoo Finance","https://finance.yahoo.com/quote/GM/history/"],
-          ["TS2.tech","https://ts2.tech/en/pfizer-nysepfe-shares-rise-3-6-on-dividend-strength-as-analyst-forecasts-remain-unchanged/"]
-        ]
-      },
-      {
-        zh:"工業", en:"Industrials", color:"#4B5563",
-        rows:[
-          ["MMM","3M","+7%左右","up","7/21（單日）","第二季獲利與營收皆超預期，調升全年財測，單日大漲逾7%"],
-          ["CTAS","金泰克斯 Cintas","+13.8%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"],
-          ["GE","奇異航空 GE Aerospace","約-2%至-6%","down","7/16（單日）","財報優於預期並上調全年展望，但毛利率承壓"],
-          ["BA","波音 Boeing","-0.14%","down","7/17（單日）","收$214.03，FAA恢復波音自行簽署737 MAX／787適航證書"],
-          ["CAT","開拓重工 Caterpillar","-1.17%","down","7/20（單日）","收$869.98，Q2財報將於7/22公布，市場預期EPS年增逾30%"],
-          ["DAL","達美航空 Delta Air Lines","+0.44%","up","7/20（單日）","收$84.54，第二季高階艙位營收年增17%，維持全年獲利展望"],
-          ["UNP","聯合太平洋 Union Pacific","+4%左右","up","7/16（單日）","分析師調升目標價，市場看好經濟復甦帶動運輸業獲利改善"]
-        ],
-        gap:"目前已確認到7檔具體數字，仍差3檔（如聯合包裹UPS、漢威聯合Honeywell等，因近期涉及企業分割／股票分拆，資料時間點難以乾淨比對，暫未收錄），可再補充搜尋。",
-        sources:[
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Quartz (qz.com)","https://qz.com/ge-aerospace-q2-2026-earnings-raised-guidance-071626"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/ba/quote"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/cat/quote"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/dal/quote"],
-          ["Google Finance","https://www.google.com/finance/beta/quote/MMM:NYSE"],
-          ["MarketBeat","https://www.marketbeat.com/instant-alerts/3m-nysemmm-trading-up-102-following-strong-earnings-2026-07-21/"],
-          ["The Motley Fool","https://www.fool.com/investing/2026/07/16/why-union-pacific-stock-chugged-almost-4-higher-on/"]
-        ]
-      },
-      {
-        zh:"非必需消費", en:"Consumer Discretionary", color:"#DB2777",
-        rows:[
-          ["GM","通用汽車 General Motors","+4.9%","up","7/21（單日）","第二季獲利優於預期，第二度上調全年財測"],
-          ["TSLA","特斯拉 Tesla","+2.5%左右","up","7/21（單日）","收約$378.95，週三將公布Q2財報，市場關注交車數與毛利率"],
-          ["F","福特汽車 Ford Motor","+1.97%","up","7/21（單日）","隨汽車類股同步走高"],
-          ["GPC","Genuine Parts（NAPA母公司）","-7.4%","down","7/21（單日）","財報獲利超預期但下修全年展望，股價逆勢重挫"],
-          ["SBUX","星巴克 Starbucks","+3.3%","up","7/16（單日）","分析師調升目標價，轉型信心回升"],
-          ["MCD","麥當勞 McDonald's","創52週新低","down","7/13–7/17（週）","本週新低名單之一"],
-          ["ORLY","O'Reilly汽車零件","創52週新低","down","7/13–7/17（週）","本週新低名單之一"],
-          ["NKE","耐吉 Nike","-1.23%","down","7/20（單日）","收$43.21，靠近52週低點$40.00，品牌復甦仍待觀察"]
-        ],
-        gap:"目前已確認到8檔，可再補充Amazon、Home Depot、Booking Holdings等數據（因缺乏明確日期標註的乾淨收盤價，暫未收錄）湊滿10檔。",
-        sources:[
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Quiver Quantitative","https://www.quiverquant.com/news/Why+Starbucks+(SBUX)+Stock+Is+Up+Today"],
-          ["TS2.tech","https://ts2.tech/en/stock-market-today-20-07-2026/"],
-          ["Bloomberg","https://www.bloomberg.com/news/articles/2026-07-20/us-stocks-rebound-from-selloff-as-nvidia-other-chipmakers-rise"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/nke/quote"],
-          ["CNBC","https://www.cnbc.com/2026/07/21/general-motors-gm-earnings-q2-2026.html"],
-          ["Yahoo Finance","https://finance.yahoo.com/quote/GM/history/"],
-          ["FinanceCharts","https://www.financecharts.com/stocks/F/summary/price"],
-          ["Benzinga","https://www.benzinga.com/markets/earnings/26/07/60584481/genuine-parts-stock-slips-7-despite-earnings-beat-cautious-outlook-weighs-on-napa-parent"],
-          ["ChartMill","https://www.chartmill.com/stock/quote/GPC/profile"],
-          ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-21-2026"]
-        ]
-      },
-      {
-        zh:"必需消費", en:"Consumer Staples", color:"#0D9488",
-        rows:[
-          ["KO","可口可樂 Coca-Cola","-4%","down","7/17（單日）","從歷史高點拉回，獲利了結賣壓"],
-          ["WMT","沃爾瑪 Walmart","-0.62%","down","7/7 資料","必需消費類股市值龍頭"],
-          ["COST","好市多 Costco","-0.50%","down","7/7 資料","必需消費類股市值第二"],
-          ["PG","寶僑 Procter &amp; Gamble","-1.08%","down","7/7 資料","家用品類股代表"],
-          ["PM","菲利普莫里斯 Philip Morris","+1.65%","up","7/7 資料","菸草類股逆勢上漲"],
-          ["PEP","百事公司 PepsiCo","-4%","down","7/9（單日）","Q2調整後EPS $2.20小幅低於預期$2.21，營收$24.18B優於預期，但北美業務疲弱、全年展望轉保守"]
-        ],
-        gap:"目前已確認到6檔，仍差4檔（如高露潔、億滋國際、通用磨坊等，因缺乏近期明確日期標註的乾淨數據，暫未收錄），可再補充搜尋。",
-        sources:[
-          ["FX Leaders","https://www.fxleaders.com/news/2026/07/17/coca-cola-ko-stock-falls-4-risking-uptrend-as-consumer-weakness-weighs/"],
-          ["The Motley Fool","https://www.fool.com/research/largest-consumer-staples-companies/"],
-          ["Investing.com","https://www.investing.com/news/transcripts/earnings-call-transcript-pepsico-q2-2026-results-miss-eps-as-shares-fall-premarket-93CH-4784227"],
-          ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/pepsico-shares-fall-slight-earnings-145900215.html"]
-        ]
-      },
-      {
-        zh:"原物料", en:"Materials", color:"#92400E",
-        rows:[
-          ["黃金現貨","Gold Spot","+1.49%（收$4,137.10）","up","7/22（單日）","中東情勢與油價走高，避險買盤推升金價"],
-          ["SHW","宣偉塗料 Sherwin-Williams","+13.3%","up","7月（月）","工業與原物料類股領漲個股之一"],
-          ["NUE","紐柯鋼鐵 Nucor","-2.07%","down","7/20（單日）","收約$231.72，鋼鐵類股隨大盤震盪走弱"],
-          ["LIN","林德集團 Linde","-0.29%","down","7/14（單日）","工業氣體龍頭，股價小幅回落，距52週高點$548.20約5%"],
-          ["ECL","藝康集團 Ecolab","-1.66%","down","近期（單日）","收$264.20，7/28將公布財報，特用化學品類股小幅回落"],
-          ["SCCO","南方銅業 Southern Copper","+3.83%","up","7/22（單日）","電氣化與資料中心需求推升銅市場緊俏題材，銅礦股集體走高"],
-          ["FCX","自由港邁克墨倫 Freeport-McMoRan","+3.90%","up","7/22（單日）","收$65.00，Q2財報將於7/23公布，市場關注銅價與Grasberg礦區產能展望"],
-          ["NEM","紐蒙特礦業 Newmont","+4.41%","up","7/22（單日）","黃金現貨同日走高，銅礦類股同步走高，帶動貴金屬礦業股表現"],
-          ["HL","赫克拉礦業 Hecla Mining","+5.23%","up","7/22（單日）","銀價與銅價同步走高，中小型礦業股漲幅領先大型同業"]
-        ],
-        gap:"目前已確認到9檔具體數字，仍差1檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["Trading Economics","https://tradingeconomics.com/commodity/gold"],
-          ["StockMarketWatch","https://stockmarketwatch.com/indices/dowjones/reports/july-2026"],
-          ["Investing.com","https://www.investing.com/equities/nucor"],
-          ["FinanceCharts","https://www.financecharts.com/stocks/LIN/summary/price"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/ecl/quote"],
-          ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262047715-market-movers-scco-20260722"],
-          ["CNN Markets","https://www.cnn.com/markets/stocks/FCX"],
-          ["24/7 Wall St.","https://247wallst.com/investing/2026/07/22/coppers-biggest-intraday-drop-in-2026-5-stocks-most-at-risk-today/"],
-          ["Rio Times（Copper Wrap）","https://www.riotimesonline.com/copper-markets-latam-wednesday-july-22-2026/"],
-          ["The Motley Fool","https://www.fool.com/coverage/stock-market-today/2026/07/22/stock-market-today-july-22-nasdaq-slides-prior-to-tesla-and-alphabet-s-earnings-after-market-close/"]
-        ]
-      },
-      {
-        zh:"公用事業", en:"Utilities", color:"#CA8A04",
-        rows:[
-          ["NEE","新紀元能源 NextEra Energy","-0.94%","down","7/7 資料","全球市值最大電力公司"],
-          ["CEG","星座能源 Constellation Energy","+0.57%（惟月線約-16%）","flat","7/7 資料／近期","核能發電廠授權延續申請中"],
-          ["DUK","杜克能源 Duke Energy","-0.87%","down","7/17（單日）","收$125.01，距52週高點$134.49約7%"]
-        ],
-        gap:"目前已確認到3檔，可再補充Southern Company、Vistra等本週數據（因資料時間點不夠明確，暫未收錄）。",
-        sources:[
-          ["The Motley Fool","https://www.fool.com/research/largest-utilities-companies/"],
-          ["Simply Wall St","https://simplywall.st/markets/us/utilities"],
-          ["Google Finance","https://www.google.com/finance/beta/quote/DUK:NYSE"]
-        ]
-      },
-      {
-        zh:"不動產", en:"Real Estate (REIT)", color:"#4338CA",
-        rows:[
-          ["PLD","普洛斯 Prologis","股價創一年新高","up","7/16–7/17","Q2財報大幅超預期並上調全年財測"],
-          ["EQIX","Equinix","+1.32%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
-          ["DLR","Digital Realty","+1.15%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
-          ["O","Realty Income","+1.36%","up","近期","淨租賃型REIT代表"],
-          ["AMT","美國電塔 American Tower","+0.54%","up","近期","電信基礎設施REIT"],
-          ["SPG","西蒙地產 Simon Property","+0.33%","up","近期","零售商場REIT代表"]
-        ],
-        sources:[
-          ["The Markets Daily","https://www.themarketsdaily.com/2026/07/17/prologis-nysepld-reaches-new-1-year-high-after-better-than-expected-earnings.html"],
-          ["The Motley Fool","https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/"],
-          ["Dividend.com","https://www.dividend.com/reit-industry-dividend-stocks-etfs-and-funds/"]
-        ]
-      }
-    ]
-  },
-  "2026-07-21": {
-    label: "2026/07/21",
-    dow: "週三更新（台灣時間）／美股7/21收盤資料",
-    range: "資料範圍：2026/07/21美股收盤（美東週二）",
-    desc: "美股週二收盤全面上漲，道瓊、S&amp;P 500、那斯達克三大指數同步終止連續3日跌勢：道瓊上漲385.38點（+0.74%）收52,224.64，S&amp;P 500上漲0.89%收7,509.20，那斯達克大漲1.29%收25,837.21。半導體類股是本日最大亮點：英特爾、超微分別在財報／產品發表會前動能強勁，單日大漲逾8%，帶動費城半導體指數（SOXX）創數週最佳單日表現（+5.45%），美光、Arm控股、邁威爾等晶片股同步走強。財報季持續發威：3M第二季獲利與營收皆超預期，單日大漲逾7%，並調升全年財測；通用汽車第二季調整後每股盈餘$3.57優於預期的$3.20，同時上調全年財測，股價大漲4.9%；福特同步走高近2%。另一方面，丹納赫因第三季營收展望疲弱、生物製程業務銷售疲軟，單日重挫13.7%；MSCI因第二季獲利未達市場預期，重挫10.7%；車廠零件通路商Genuine Parts（NAPA母公司）雖獲利超預期，但下修全年展望，股價下跌7.4%。IBM在財報公布前一日（週三將公布Q2財報）小跌0.61%。中東情勢方面，美伊衝突與葉門胡塞武裝對沙烏地阿拉伯的海運封鎖宣示持續推升油價，但週二市場情緒整體仍偏向樂觀，市場關注本週稍晚Alphabet、特斯拉等重量級財報（週三盤後公布）。本頁已將科技、工業、非必需消費、醫療保健、金融等類股更新至7/21收盤資料，其餘類股暫維持先前確認的最新資料並標明原始日期。",
-    movers: [
-      ["MMM","3M","$159.11","約$170.25","約+$11.14","+7%左右","未創新高，距52週高點$177.41仍有約4%空間","第二季調整後每股盈餘$2.40優於預期的$2.24，調升全年財測至$8.80–$8.95，單日大漲逾7%"],
-      ["GM","通用汽車 General Motors","$75.80","$79.52","+$3.72","+4.9%","未創新高，較52週高點$87.62仍低約9%","第二季調整後EPS $3.57優於預期的$3.20，營收$48.03B優於預期，第二度上調全年財測至$14–$16B調整後EBIT"],
-      ["TSLA","特斯拉 Tesla","$369.57","約$378.95","約+$9.38","+2.5%左右","未創新高，距52週高點$498.83仍有約24%空間","週三（7/22）將公布Q2財報，市場關注交車數與毛利率；股價提前反彈"],
-      ["F","福特汽車 Ford Motor","$13.99","約$14.27","約+$0.28","+1.97%","未創新高，較52週高點$17.78仍低約20%","隨汽車類股同步走高，本身財報將於7/28公布"]
-    ],
-    moversSources:[
-      ["CNBC","https://www.cnbc.com/2026/07/21/general-motors-gm-earnings-q2-2026.html"],
-      ["Google Finance","https://www.google.com/finance/beta/quote/MMM:NYSE"],
-      ["MarketBeat","https://www.marketbeat.com/instant-alerts/3m-nysemmm-trading-up-102-following-strong-earnings-2026-07-21/"],
-      ["Robinhood","https://robinhood.com/us/en/stocks/TSLA/"],
-      ["MarketBeat","https://www.marketbeat.com/instant-alerts/tesla-nasdaqtsla-stock-price-up-25-should-you-buy-2026-07-21/"],
-      ["Yahoo Finance","https://finance.yahoo.com/quote/GM/history/"],
-      ["FinanceCharts","https://www.financecharts.com/stocks/F/summary/price"],
-      ["The Globe and Mail（Barchart數據）","https://www.theglobeandmail.com/investing/markets/stocks/CAT/pressreleases/3385048/stock-market-news-for-july-21-2026/"],
-      ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-21-2026"],
-      ["Qz","https://qz.com/general-motors-earnings-q2-2026-guidance-raise-072126"]
-    ],
-    sectors: [
-      {
-        zh:"科技", en:"Technology", color:"#2563EB",
-        rows:[
-          ["MU","美光 Micron","+12.34%","up","7/21（單日）","記憶體類股延續反彈，為本日晶片股中最大漲幅之一，帶動SanDisk同步走高"],
-          ["INTC","英特爾 Intel","+8.64%","up","7/21（單日）","財報前動能強勁，帶動費城半導體指數本日創數週最佳單日表現，週四（7/23）將公布Q2財報"],
-          ["AMD","超微 AMD","+8.11%","up","7/21（單日）","Advancing AI 2026活動前動能強勁，週三起登場，Zen 6 Venice CPU為焦點"],
-          ["ARM","Arm控股 Arm Holdings","+7.46%","up","7/21（單日）","收$289.73，市場對半導體IP授權商重新評價，本季表現強勢"],
-          ["MRVL","邁威爾 Marvell","+6.61%","up","7/21（單日）","客製化晶片業務樂觀情緒推動反彈，扭轉上週跌勢"],
-          ["NVDA","輝達 Nvidia","+1.84%","up","7/21（單日）","晶片股延續反彈，市場關注AI基礎設施支出前景與雲端投資"],
-          ["AAPL","蘋果 Apple","+0.35%","up","7/21（單日）","收$327.74，從週一逾2%跌幅中喘息回穩，7/30將公布財報"],
-          ["IBM","IBM","-0.61%","down","7/21（單日）","財報公布前一日小跌，週三（7/22）將公布Q2財報，此前7/13-7/17當週因財報預警重挫逾25%"],
-          ["SNPS","新思科技 Synopsys","-7.85%","down","7/17（單日）","Moonshot AI「Kimi K3」繞開專屬EDA軟體獨立完成晶片設計，單日市值蒸發逾60億美元"],
-          ["CDNS","益華電腦 Cadence","-9.6%","down","7/17（單日）","同受Kimi K3衝擊，兩大EDA廠商合計蒸發約158億美元市值"],
-          ["GLW","康寧 Corning","-19%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"],
-          ["PANW","帕羅奧圖網路 Palo Alto Networks","+10.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"]
-        ],
-        sources:[
-          ["StartupHub.ai","https://www.startuphub.ai/ai-news/ai-stocks-daily/2026/ai-stocks-2026-07-21"],
-          ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262045082-market-movers-mrvl-20260721"],
-          ["StockAnalysis.com","https://stockanalysis.com/stocks/aapl/history/"],
-          ["MarketBeat","https://www.marketbeat.com/instant-alerts/nvidia-nasdaqnvda-stock-price-up-2-still-a-buy-2026-07-21/"],
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Investing.com","https://www.investing.com/news/stock-market-news/why-is-cadence-design-systems-stock-plummeting-today-93CH-4798909"],
-          ["TS2.tech","https://ts2.tech/en/synopsys-nasdaqsnps-loses-6-3-billion-following-kimi-k3-chip-design-demonstration/"],
-          ["TipRanks","https://www.tipranks.com/news/intel-stock-nasdaqintc-jumps-with-new-layoff-plans"]
-        ]
-      },
-      {
-        zh:"通訊服務", en:"Communication Services", color:"#7C3AED",
-        rows:[
-          ["NFLX","Netflix","-7.26%","down","7/17（單日）","第三季展望不如預期"],
-          ["GOOG","Alphabet（Google）","+1.52%","up","7/20（單日）","AI晶片開發消息激勵股價走高，週三將公布Q2財報"],
-          ["META","Meta Platforms","-2.79%","down","7/17（單日）","隨AI晶片類股同步走跌"],
-          ["DIS","迪士尼 Disney","-2.05%","down","7/17（單日）","串流同業Netflix財報拖累"],
-          ["CMCSA","康卡斯特 Comcast","-1.29%","down","7/17（單日）","串流同業Netflix財報拖累"],
-          ["TMUS","T-Mobile US","-0.22%","down","7/17（單日）","收$192.43，接近52週低點，市場消化衛星直連手機競爭疑慮"],
-          ["VZ","威訊 Verizon","-0.66%","down","7/17（單日）","收$43.59，遭剔出道瓊工業指數的利空持續發酵"],
-          ["T","美國電話電報 AT&amp;T","+0.64%","up","7/20（單日）","收$21.95，週三（7/22）將公布Q2財報，市場關注SpaceX/Starlink威脅"],
-          ["WBD","華納兄弟探索 Warner Bros Discovery","-1.54%","down","7/17（單日）","收$26.87，Paramount併購案面臨多州檢察總長反壟斷訴訟，英國監管審查亦未明朗"]
-        ],
-        gap:"目前已確認到9檔具體漲跌數字，仍差1檔湊滿10檔（如Charter Communications、EchoStar等），可再補充搜尋。",
-        sources:[
-          ["The Motley Fool（Yahoo Finance轉載）","https://www.fool.com/coverage/stock-market-today/2026/07/17/stock-market-today-july-17-netflix-plunges-but-are-investors-missing-the-point/"],
-          ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/alphabet-94-meta-down-5-230002079.html"],
-          ["Yahoo Finance","https://finance.yahoo.com/markets/live/stock-market-today-monday-july-20-dow-sp-500-nasdaq-111429441.html"],
-          ["GuruFocus","https://www.gurufocus.com/news/8967145/us-semiconductor-stocks-surge-amid-ai-market-recovery"],
-          ["CNN Markets","https://www.cnn.com/markets/stocks/TMUS"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/vz/quote"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/t/quote"],
-          ["StockAnalysis.com","https://stockanalysis.com/stocks/t/history/"],
-          ["MacroTrends","https://www.macrotrends.net/stocks/charts/T/at-t/stock-price-history"],
-          ["StockInvest.us","https://stockinvest.us/stock/WBD"]
-        ]
-      },
-      {
-        zh:"金融", en:"Financials", color:"#059669",
-        rows:[
-          ["GS","高盛 Goldman Sachs","+7.3%","up","7/13–7/17（週）","Q2財報大幅超預期，創歷史新高"],
-          ["JPM","摩根大通 JPMorgan","+1%","up","7/13–7/17（週）","Q2獲利創美國銀行業史上新高，創歷史新高"],
-          ["BAC","美國銀行 Bank of America","+1.8%","up","7/14（單日）","Q2財報優於預期"],
-          ["PYPL","PayPal","+22.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股"],
-          ["BLK","貝萊德 BlackRock","+6.15%","up","7/15（單日）","Q2 EPS $13.91優於預期$12.59，AUM成長至$15.345兆，財報後大漲"],
-          ["MS","摩根士丹利 Morgan Stanley","+0.4%","up","7/15（單日）","Q2 EPS $3.46優於預期$2.81，獲利年增58%，股權交易營收創紀錄，惟股價反應相對溫和"],
-          ["C","花旗 Citigroup","-4.3%","down","7/14（單日）","市場擔憂下半年費用上升"],
-          ["WFC","富國銀行 Wells Fargo","-2.6%","down","7/14（單日）","財報後獲利了結賣壓"],
-          ["V","Visa","創52週新高","up","7/13–7/17（週）","本週新高的24檔金融股之一"],
-          ["MSCI","MSCI Inc.","-10.7%","down","7/21（單日）","第二季獲利未達市場預期，單日重挫"]
-        ],
-        sources:[
-          ["Tech Times","https://www.techtimes.com/articles/320491/20260714/all-five-major-banks-beat-estimates-jpmorgan-posts-highest-profit-us-history.htm"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-21-2026"],
-          ["TimothySykes.com","https://www.timothysykes.com/news/blackrock-inc-blk-news-2026_07_15/"],
-          ["CNBC","https://www.cnbc.com/2026/07/14/stock-market-today-live-updates.html"],
-          ["Reuters（KFGO轉載）","https://kfgo.com/2026/07/15/morgan-stanley-profit-rises-on-dealmaking-boost/"]
-        ]
-      },
-      {
-        zh:"能源", en:"Energy", color:"#B45309",
-        rows:[
-          ["Brent原油","Brent Crude","+4%（收$90.79）","up","7/20（收盤）","美伊衝突升級、荷莫茲海峽航運受阻，收盤價創6月中以來新高"],
-          ["WTI原油","WTI Crude","+2.65%（收$84.68）","up","7/20（收盤）","同步走高，創6月12日以來新高，上週單週漲幅達15.5%"],
-          ["XOM","埃克森美孚 ExxonMobil","+6.1%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
-          ["CVX","雪佛龍 Chevron","+6.2%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
-          ["VLO","Valero能源","+10.3%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
-          ["MPC","馬拉松石油 Marathon Petroleum","+10.2%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
-          ["COP","康菲石油 ConocoPhillips","+1.18%","up","7/17（單日）","BP合資取得伊拉克Kirkuk油田開發權，單日漲幅逾大盤"],
-          ["OXY","西方石油 Occidental Petroleum","+2.26%","up","7/17（單日）","收$54.86，中東地緣政治緊張持續推升油價，油氣生產股同步走高"],
-          ["SLB","斯倫貝謝 SLB（Schlumberger）","-0.65%","down","7/13–7/17（週）","中東營運中斷疑慮及美伊和談降低短線需求預期，股價承壓"]
-        ],
-        gap:"能源類股整體本週上漲4.7%，目前已確認到7檔個股數據，仍差3檔（如Kinder Morgan、Halliburton等中游／油服類股，因資料來源對單週漲跌幅記載不一致，暫未收錄），可再補充搜尋。",
-        sources:[
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Reuters（Yahoo Finance轉載）","https://finance.yahoo.com/news/brent-oil-tops-90-us-001615973.html"],
-          ["CNBC","https://www.cnbc.com/2026/07/20/oil-prices-today-brent-wti-crude-us-iran-centcom-hormuz.html"],
-          ["The Sunday Guardian","https://sundayguardianlive.com/business/brent-crude-oil-price-today-july-20-brent-crosses-90-wti-climbs-above-84-as-us-iran-conflict-escalates-strait-of-hormuz-supply-fears-intensify-check-latest-brent-crude-wti-oil-rates-today-241883/"],
-          ["The Motley Fool","https://www.fool.com/investing/2026/07/17/why-conocophillips-stock-flew-higher-on-friday/"],
-          ["eToro","https://www.etoro.com/markets/slb"],
-          ["Tickeron","https://tickeron.com/ticker/SLB/"],
-          ["Yahoo Finance","https://finance.yahoo.com/quote/OXY/history/"]
-        ]
-      },
-      {
-        zh:"醫療保健", en:"Healthcare", color:"#DC2626",
-        rows:[
-          ["ISRG","直覺外科 Intuitive Surgical","約-9%","down","7/17（單日）","財報優但健保補貼疑慮拖累，創52週新低"],
-          ["UNH","聯合健康 UnitedHealth","創52週新高","up","7/13–7/17（週）","本週新高名單之一"],
-          ["DHR","丹納赫 Danaher","-13.7%","down","7/21（單日）","第三季營收展望疲弱，生物製程業務銷售疲軟，單日重挫"],
-          ["LLY","禮來 Eli Lilly","-0.97%","down","7/7 資料","GLP-1藥物龍頭，近期股價回落"],
-          ["JNJ","嬌生 Johnson &amp; Johnson","-1.35%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["ABBV","艾伯維 AbbVie","-2.44%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["MRK","默沙東 Merck","-2.08%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["PFE","輝瑞 Pfizer","+3.6%","up","近期（單週）","股息強勁吸引買盤，同業比較中表現居前，惟盈餘預估並未上修"]
-        ],
-        gap:"目前已確認到8檔，仍差2檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["CNBC","https://www.cnbc.com/2026/07/16/stock-market-today-live-updates.html"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["The Motley Fool","https://www.fool.com/research/largest-healthcare-companies/"],
-          ["Yahoo Finance","https://finance.yahoo.com/quote/GM/history/"],
-          ["TS2.tech","https://ts2.tech/en/pfizer-nysepfe-shares-rise-3-6-on-dividend-strength-as-analyst-forecasts-remain-unchanged/"]
-        ]
-      },
-      {
-        zh:"工業", en:"Industrials", color:"#4B5563",
-        rows:[
-          ["MMM","3M","+7%左右","up","7/21（單日）","第二季獲利與營收皆超預期，調升全年財測，單日大漲逾7%"],
-          ["CTAS","金泰克斯 Cintas","+13.8%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"],
-          ["GE","奇異航空 GE Aerospace","約-2%至-6%","down","7/16（單日）","財報優於預期並上調全年展望，但毛利率承壓"],
-          ["BA","波音 Boeing","-0.14%","down","7/17（單日）","收$214.03，FAA恢復波音自行簽署737 MAX／787適航證書"],
-          ["CAT","開拓重工 Caterpillar","-1.17%","down","7/20（單日）","收$869.98，Q2財報將於7/22公布，市場預期EPS年增逾30%"],
-          ["DAL","達美航空 Delta Air Lines","+0.44%","up","7/20（單日）","收$84.54，第二季高階艙位營收年增17%，維持全年獲利展望"],
-          ["UNP","聯合太平洋 Union Pacific","+4%左右","up","7/16（單日）","分析師調升目標價，市場看好經濟復甦帶動運輸業獲利改善"]
-        ],
-        gap:"目前已確認到7檔具體數字，仍差3檔（如聯合包裹UPS、漢威聯合Honeywell等，因近期涉及企業分割／股票分拆，資料時間點難以乾淨比對，暫未收錄），可再補充搜尋。",
-        sources:[
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Quartz (qz.com)","https://qz.com/ge-aerospace-q2-2026-earnings-raised-guidance-071626"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/ba/quote"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/cat/quote"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/dal/quote"],
-          ["Google Finance","https://www.google.com/finance/beta/quote/MMM:NYSE"],
-          ["MarketBeat","https://www.marketbeat.com/instant-alerts/3m-nysemmm-trading-up-102-following-strong-earnings-2026-07-21/"],
-          ["The Motley Fool","https://www.fool.com/investing/2026/07/16/why-union-pacific-stock-chugged-almost-4-higher-on/"]
-        ]
-      },
-      {
-        zh:"非必需消費", en:"Consumer Discretionary", color:"#DB2777",
-        rows:[
-          ["GM","通用汽車 General Motors","+4.9%","up","7/21（單日）","第二季獲利優於預期，第二度上調全年財測"],
-          ["TSLA","特斯拉 Tesla","+2.5%左右","up","7/21（單日）","收約$378.95，週三將公布Q2財報，市場關注交車數與毛利率"],
-          ["F","福特汽車 Ford Motor","+1.97%","up","7/21（單日）","隨汽車類股同步走高"],
-          ["GPC","Genuine Parts（NAPA母公司）","-7.4%","down","7/21（單日）","財報獲利超預期但下修全年展望，股價逆勢重挫"],
-          ["SBUX","星巴克 Starbucks","+3.3%","up","7/16（單日）","分析師調升目標價，轉型信心回升"],
-          ["MCD","麥當勞 McDonald's","創52週新低","down","7/13–7/17（週）","本週新低名單之一"],
-          ["ORLY","O'Reilly汽車零件","創52週新低","down","7/13–7/17（週）","本週新低名單之一"],
-          ["NKE","耐吉 Nike","-1.23%","down","7/20（單日）","收$43.21，靠近52週低點$40.00，品牌復甦仍待觀察"]
-        ],
-        gap:"目前已確認到8檔，可再補充Amazon、Home Depot、Booking Holdings等數據（因缺乏明確日期標註的乾淨收盤價，暫未收錄）湊滿10檔。",
-        sources:[
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Quiver Quantitative","https://www.quiverquant.com/news/Why+Starbucks+(SBUX)+Stock+Is+Up+Today"],
-          ["TS2.tech","https://ts2.tech/en/stock-market-today-20-07-2026/"],
-          ["Bloomberg","https://www.bloomberg.com/news/articles/2026-07-20/us-stocks-rebound-from-selloff-as-nvidia-other-chipmakers-rise"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/nke/quote"],
-          ["CNBC","https://www.cnbc.com/2026/07/21/general-motors-gm-earnings-q2-2026.html"],
-          ["Yahoo Finance","https://finance.yahoo.com/quote/GM/history/"],
-          ["FinanceCharts","https://www.financecharts.com/stocks/F/summary/price"],
-          ["Benzinga","https://www.benzinga.com/markets/earnings/26/07/60584481/genuine-parts-stock-slips-7-despite-earnings-beat-cautious-outlook-weighs-on-napa-parent"],
-          ["ChartMill","https://www.chartmill.com/stock/quote/GPC/profile"],
-          ["TheStreet","https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-july-21-2026"]
-        ]
-      },
-      {
-        zh:"必需消費", en:"Consumer Staples", color:"#0D9488",
-        rows:[
-          ["KO","可口可樂 Coca-Cola","-4%","down","7/17（單日）","從歷史高點拉回，獲利了結賣壓"],
-          ["WMT","沃爾瑪 Walmart","-0.62%","down","7/7 資料","必需消費類股市值龍頭"],
-          ["COST","好市多 Costco","-0.50%","down","7/7 資料","必需消費類股市值第二"],
-          ["PG","寶僑 Procter &amp; Gamble","-1.08%","down","7/7 資料","家用品類股代表"],
-          ["PM","菲利普莫里斯 Philip Morris","+1.65%","up","7/7 資料","菸草類股逆勢上漲"],
-          ["PEP","百事公司 PepsiCo","-4%","down","7/9（單日）","Q2調整後EPS $2.20小幅低於預期$2.21，營收$24.18B優於預期，但北美業務疲弱、全年展望轉保守"]
-        ],
-        gap:"目前已確認到6檔，仍差4檔（如高露潔、億滋國際、通用磨坊等，因缺乏近期明確日期標註的乾淨數據，暫未收錄），可再補充搜尋。",
-        sources:[
-          ["FX Leaders","https://www.fxleaders.com/news/2026/07/17/coca-cola-ko-stock-falls-4-risking-uptrend-as-consumer-weakness-weighs/"],
-          ["The Motley Fool","https://www.fool.com/research/largest-consumer-staples-companies/"],
-          ["Investing.com","https://www.investing.com/news/transcripts/earnings-call-transcript-pepsico-q2-2026-results-miss-eps-as-shares-fall-premarket-93CH-4784227"],
-          ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/pepsico-shares-fall-slight-earnings-145900215.html"]
-        ]
-      },
-      {
-        zh:"原物料", en:"Materials", color:"#92400E",
-        rows:[
-          ["黃金現貨","Gold Spot","+1.03%（惟單週跌逾3%）","flat","7/17（單日／週）","中東緊張推升油價，壓抑降息預期"],
-          ["SHW","宣偉塗料 Sherwin-Williams","+13.3%","up","7月（月）","工業與原物料類股領漲個股之一"],
-          ["NUE","紐柯鋼鐵 Nucor","-2.07%","down","7/20（單日）","收約$231.72，鋼鐵類股隨大盤震盪走弱"],
-          ["LIN","林德集團 Linde","-0.29%","down","7/14（單日）","工業氣體龍頭，股價小幅回落，距52週高點$548.20約5%"],
-          ["ECL","藝康集團 Ecolab","-1.66%","down","近期（單日）","收$264.20，7/28將公布財報，特用化學品類股小幅回落"]
-        ],
-        gap:"目前已確認到5項數據，可再補充Freeport-McMoRan、Newmont等個股（因財報日在本頁資料範圍之後，尚無收盤後反應數據）的本週數據。",
-        sources:[
-          ["Trading Economics","https://tradingeconomics.com/commodity/gold"],
-          ["StockMarketWatch","https://stockmarketwatch.com/indices/dowjones/reports/july-2026"],
-          ["Investing.com","https://www.investing.com/equities/nucor"],
-          ["FinanceCharts","https://www.financecharts.com/stocks/LIN/summary/price"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/ecl/quote"]
-        ]
-      },
-      {
-        zh:"公用事業", en:"Utilities", color:"#CA8A04",
-        rows:[
-          ["NEE","新紀元能源 NextEra Energy","-0.94%","down","7/7 資料","全球市值最大電力公司"],
-          ["CEG","星座能源 Constellation Energy","+0.57%（惟月線約-16%）","flat","7/7 資料／近期","核能發電廠授權延續申請中"],
-          ["DUK","杜克能源 Duke Energy","-0.87%","down","7/17（單日）","收$125.01，距52週高點$134.49約7%"]
-        ],
-        gap:"目前已確認到3檔，可再補充Southern Company、Vistra等本週數據（因資料時間點不夠明確，暫未收錄）。",
-        sources:[
-          ["The Motley Fool","https://www.fool.com/research/largest-utilities-companies/"],
-          ["Simply Wall St","https://simplywall.st/markets/us/utilities"],
-          ["Google Finance","https://www.google.com/finance/beta/quote/DUK:NYSE"]
-        ]
-      },
-      {
-        zh:"不動產", en:"Real Estate (REIT)", color:"#4338CA",
-        rows:[
-          ["PLD","普洛斯 Prologis","股價創一年新高","up","7/16–7/17","Q2財報大幅超預期並上調全年財測"],
-          ["EQIX","Equinix","+1.32%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
-          ["DLR","Digital Realty","+1.15%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
-          ["O","Realty Income","+1.36%","up","近期","淨租賃型REIT代表"],
-          ["AMT","美國電塔 American Tower","+0.54%","up","近期","電信基礎設施REIT"],
-          ["SPG","西蒙地產 Simon Property","+0.33%","up","近期","零售商場REIT代表"]
-        ],
-        sources:[
-          ["The Markets Daily","https://www.themarketsdaily.com/2026/07/17/prologis-nysepld-reaches-new-1-year-high-after-better-than-expected-earnings.html"],
-          ["The Motley Fool","https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/"],
-          ["Dividend.com","https://www.dividend.com/reit-industry-dividend-stocks-etfs-and-funds/"]
-        ]
-      }
-    ]
-  },
-  "2026-07-20": {
-    label: "2026/07/20",
-    dow: "週二更新（台灣時間）／美股7/20收盤資料",
-    range: "資料範圍：2026/07/20美股收盤（美東週一）",
-    desc: "美股週一收盤漲跌互見：道瓊下跌307.16點（-0.59%）收51,839.26，S&amp;P 500小跌0.19%收7,443.28，那斯達克僅微跌0.05%收25,508.07。蘋果重挫逾2%是拖累道瓊主因；特斯拉續跌3.0%至369.57美元，靜待週三財報。半導體類股在上週重挫後強勁反彈，輝達、超微、英特爾、美光、博通全面上漲，Alphabet（Google）則因AI晶片開發消息激勵走高。中東局勢方面，美伊已連續9晚互襲，布蘭特原油盤中一度衝上每桶90美元、收在90.79美元（+4%），創6月中以來新高；隨後伊朗外交部發言人釋出談判意願，市場情緒略為緩和。英特爾同時宣布新一輪資料中心部門裁員。本頁已將科技、通訊服務、能源、非必需消費等類股更新至7/20收盤資料，其餘類股暫維持先前確認的最新資料並標明原始日期。",
-    movers: [
-      ["MU","美光 Micron","$848.95","$888.57","+$39.62","+4.67%","未創新高，較6/25歷史高點$1,255.00仍低約29%","記憶體類股全面反彈，SanDisk、Western Digital同步大漲，市場解讀為上週重挫後的超跌買盤"],
-      ["AMD","超微 AMD","$495.76","$516.48","+$20.72","+4.18%","未創新高，較6/30歷史高點$580.91仍低約11.1%","與微軟擴大策略合作，Azure將導入AMD Helios機架式AI伺服器（Instinct MI455X GPU），H2 2026開始出貨；Rosenblatt、UBS同步調升目標價"],
-      ["SNDK","晟碟／SanDisk","$1,354.82","約$1,402.91","約+$48.09","+3.55%","未創新高，仍遠低於6/25歷史高點$2,335～2,354","記憶體與儲存類股同步反彈，惟上週已重挫近30%，本次反彈僅收復一小部分跌幅"],
-      ["AVGO","博通 Broadcom","$370.83","$381.23","+$10.40","+2.81%","未創新高，較52週高點$495.00仍低約23%","隨半導體類股同步反彈，無單一公司特定消息"],
-      ["INTC","英特爾 Intel","$95.04","$97.06","+$2.02","+2.13%","未創新高，較52週高點$142.35仍低約32%","市場傳出晶圓代工部門可能取得雲端大廠長期合約，驗證18A製程IDM 2.0策略；同日公布資料中心部門新一輪裁員"],
-      ["GOOG","Alphabet（Google）","$346.12","$351.37","+$5.25","+1.52%","未創新高，距5月歷史高點$408.61仍有約14%空間","《The Information》報導Google正開發新一代AI晶片「Frozen v2」，優化Gemini運算效率；週三（7/22）將公布Q2財報"]
-    ],
-    moversSources:[
-      ["Google Finance","https://www.google.com/finance/beta/quote/GOOG:NASDAQ"],
-      ["Seeking Alpha","https://seekingalpha.com/symbol/GOOG"],
-      ["CNN Markets（Barchart數據）","https://www.cnn.com/markets/stocks/INTC"],
-      ["CNN Markets（Barchart數據）","https://www.cnn.com/markets/stocks/AMD"],
-      ["Investing.com","https://www.investing.com/equities/intel-corp"],
-      ["Investing.com","https://www.investing.com/equities/adv-micro-device"],
-      ["Morningstar","https://www.morningstar.com/stocks/xnas/mu/quote"],
-      ["TradingKey（引用TradingView圖表）","https://www.tradingkey.com/analysis/stocks/us-stocks/262037492-amd-stock-forecast-week-july-20-2026-advancing-ai-july-22-tradingkey"],
-      ["TradingKey Market Movers","https://www.tradingkey.com/news/market-movers/262041913-market-movers-sndk-20260720"],
-      ["StockAnalysis.com","https://stockanalysis.com/markets/gainers/"]
-    ],
-    sectors: [
-      {
-        zh:"科技", en:"Technology", color:"#2563EB",
-        rows:[
-          ["SNPS","新思科技 Synopsys","-7.85%","down","7/17（單日）","Moonshot AI「Kimi K3」繞開專屬EDA軟體獨立完成晶片設計，單日市值蒸發逾60億美元"],
-          ["CDNS","益華電腦 Cadence","-9.6%","down","7/17（單日）","同受Kimi K3衝擊，兩大EDA廠商合計蒸發約158億美元市值"],
-          ["NVDA","輝達 Nvidia","+2%以上","up","7/20（單日）","上週重挫後強勁反彈，晶片股全面回升，費半指數收漲"],
-          ["AMD","超微 AMD","+2.83%","up","7/20（單日）","隨半導體類股同步反彈"],
-          ["INTC","英特爾 Intel","+3.61%","up","7/20（單日）","晶圓代工業務利多消息帶動大漲，同日宣布資料中心部門新一輪裁員"],
-          ["MU","美光 Micron","+4.67%","up","7/20（單日）","記憶體類股領漲晶片股反彈"],
-          ["AVGO","博通 Broadcom","+2.81%","up","7/20（單日）","隨半導體類股同步反彈"],
-          ["IBM","IBM","-26.0%","down","7/13–7/17（週）","第二季初步財報令投資人失望，單週重挫"],
-          ["MRVL","邁威爾 Marvell","-20%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"],
-          ["GLW","康寧 Corning","-19%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"],
-          ["AAPL","蘋果 Apple","-2%以上","down","7/20（單日）","單日跌幅逾2%，是拖累道瓊主因；毛利率展望疑慮浮現"],
-          ["PANW","帕羅奧圖網路 Palo Alto Networks","+10.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"]
-        ],
-        sources:[
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Investing.com","https://www.investing.com/news/stock-market-news/why-is-cadence-design-systems-stock-plummeting-today-93CH-4798909"],
-          ["TS2.tech","https://ts2.tech/en/synopsys-nasdaqsnps-loses-6-3-billion-following-kimi-k3-chip-design-demonstration/"],
-          ["Bloomberg","https://www.bloomberg.com/news/articles/2026-07-20/us-stocks-rebound-from-selloff-as-nvidia-other-chipmakers-rise"],
-          ["Yahoo Finance","https://finance.yahoo.com/quote/NVDA/history/"],
-          ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/why-apple-stock-dropped-today-192518253.html"],
-          ["TipRanks","https://www.tipranks.com/news/intel-stock-nasdaqintc-jumps-with-new-layoff-plans"]
-        ]
-      },
-      {
-        zh:"通訊服務", en:"Communication Services", color:"#7C3AED",
-        rows:[
-          ["NFLX","Netflix","-7.26%","down","7/17（單日）","第三季展望不如預期"],
-          ["GOOG","Alphabet（Google）","+1.52%","up","7/20（單日）","AI晶片開發消息激勵股價走高，週三將公布Q2財報"],
-          ["META","Meta Platforms","-2.79%","down","7/17（單日）","隨AI晶片類股同步走跌"],
-          ["DIS","迪士尼 Disney","-2.05%","down","7/17（單日）","串流同業Netflix財報拖累"],
-          ["CMCSA","康卡斯特 Comcast","-1.29%","down","7/17（單日）","串流同業Netflix財報拖累"],
-          ["TMUS","T-Mobile US","-0.22%","down","7/17（單日）","收$192.43，接近52週低點，市場消化衛星直連手機競爭疑慮"],
-          ["VZ","威訊 Verizon","-0.66%","down","7/17（單日）","收$43.59，遭剔出道瓊工業指數的利空持續發酵"],
-          ["T","美國電話電報 AT&amp;T","+0.64%","up","7/20（單日）","收$21.95，週三（7/22）將公布Q2財報，市場關注SpaceX/Starlink威脅"],
-          ["WBD","華納兄弟探索 Warner Bros Discovery","-1.54%","down","7/17（單日）","收$26.87，Paramount併購案面臨多州檢察總長反壟斷訴訟，英國監管審查亦未明朗"]
-        ],
-        gap:"目前已確認到9檔具體漲跌數字，仍差1檔湊滿10檔（如Charter Communications、EchoStar等），可再補充搜尋。",
-        sources:[
-          ["The Motley Fool（Yahoo Finance轉載）","https://www.fool.com/coverage/stock-market-today/2026/07/17/stock-market-today-july-17-netflix-plunges-but-are-investors-missing-the-point/"],
-          ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/alphabet-94-meta-down-5-230002079.html"],
-          ["Yahoo Finance","https://finance.yahoo.com/markets/live/stock-market-today-monday-july-20-dow-sp-500-nasdaq-111429441.html"],
-          ["GuruFocus","https://www.gurufocus.com/news/8967145/us-semiconductor-stocks-surge-amid-ai-market-recovery"],
-          ["CNN Markets","https://www.cnn.com/markets/stocks/TMUS"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/vz/quote"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/t/quote"],
-          ["StockAnalysis.com","https://stockanalysis.com/stocks/t/history/"],
-          ["MacroTrends","https://www.macrotrends.net/stocks/charts/T/at-t/stock-price-history"],
-          ["StockInvest.us","https://stockinvest.us/stock/WBD"]
-        ]
-      },
-      {
-        zh:"金融", en:"Financials", color:"#059669",
-        rows:[
-          ["GS","高盛 Goldman Sachs","+7.3%","up","7/13–7/17（週）","Q2財報大幅超預期，創歷史新高"],
-          ["JPM","摩根大通 JPMorgan","+1%","up","7/13–7/17（週）","Q2獲利創美國銀行業史上新高，創歷史新高"],
-          ["BAC","美國銀行 Bank of America","+1.8%","up","7/14（單日）","Q2財報優於預期"],
-          ["PYPL","PayPal","+22.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股"],
-          ["C","花旗 Citigroup","-4.3%","down","7/14（單日）","市場擔憂下半年費用上升"],
-          ["WFC","富國銀行 Wells Fargo","-2.6%","down","7/14（單日）","財報後獲利了結賣壓"],
-          ["V","Visa","創52週新高","up","7/13–7/17（週）","本週新高的24檔金融股之一"]
-        ],
-        sources:[
-          ["Tech Times","https://www.techtimes.com/articles/320491/20260714/all-five-major-banks-beat-estimates-jpmorgan-posts-highest-profit-us-history.htm"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"]
-        ]
-      },
-      {
-        zh:"能源", en:"Energy", color:"#B45309",
-        rows:[
-          ["Brent原油","Brent Crude","+4%（收$90.79）","up","7/20（收盤）","美伊衝突升級、荷莫茲海峽航運受阻，收盤價創6月中以來新高"],
-          ["WTI原油","WTI Crude","+2.65%（收$84.68）","up","7/20（收盤）","同步走高，創6月12日以來新高，上週單週漲幅達15.5%"],
-          ["XOM","埃克森美孚 ExxonMobil","+6.1%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
-          ["CVX","雪佛龍 Chevron","+6.2%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
-          ["VLO","Valero能源","+10.3%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
-          ["MPC","馬拉松石油 Marathon Petroleum","+10.2%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
-          ["COP","康菲石油 ConocoPhillips","+1.18%","up","7/17（單日）","BP合資取得伊拉克Kirkuk油田開發權，單日漲幅逾大盤"],
-          ["SLB","斯倫貝謝 SLB（Schlumberger）","-0.65%","down","7/13–7/17（週）","中東營運中斷疑慮及美伊和談降低短線需求預期，股價承壓"]
-        ],
-        gap:"能源類股整體本週上漲4.7%，目前已確認到6檔個股數據，仍差4檔（如Kinder Morgan、Halliburton等中游／油服類股，因資料來源對單週漲跌幅記載不一致，暫未收錄），可再補充搜尋。",
-        sources:[
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Reuters（Yahoo Finance轉載）","https://finance.yahoo.com/news/brent-oil-tops-90-us-001615973.html"],
-          ["CNBC","https://www.cnbc.com/2026/07/20/oil-prices-today-brent-wti-crude-us-iran-centcom-hormuz.html"],
-          ["The Sunday Guardian","https://sundayguardianlive.com/business/brent-crude-oil-price-today-july-20-brent-crosses-90-wti-climbs-above-84-as-us-iran-conflict-escalates-strait-of-hormuz-supply-fears-intensify-check-latest-brent-crude-wti-oil-rates-today-241883/"],
-          ["The Motley Fool","https://www.fool.com/investing/2026/07/17/why-conocophillips-stock-flew-higher-on-friday/"],
-          ["eToro","https://www.etoro.com/markets/slb"],
-          ["Tickeron","https://tickeron.com/ticker/SLB/"]
-        ]
-      },
-      {
-        zh:"醫療保健", en:"Healthcare", color:"#DC2626",
-        rows:[
-          ["ISRG","直覺外科 Intuitive Surgical","約-9%","down","7/17（單日）","財報優但健保補貼疑慮拖累，創52週新低"],
-          ["UNH","聯合健康 UnitedHealth","創52週新高","up","7/13–7/17（週）","本週新高名單之一"],
-          ["LLY","禮來 Eli Lilly","-0.97%","down","7/7 資料","GLP-1藥物龍頭，近期股價回落"],
-          ["JNJ","嬌生 Johnson &amp; Johnson","-1.35%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["ABBV","艾伯維 AbbVie","-2.44%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["MRK","默沙東 Merck","-2.08%","down","7/7 資料","醫療保健類股中市值前段"]
-        ],
-        sources:[
-          ["CNBC","https://www.cnbc.com/2026/07/16/stock-market-today-live-updates.html"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["The Motley Fool","https://www.fool.com/research/largest-healthcare-companies/"]
-        ]
-      },
-      {
-        zh:"工業", en:"Industrials", color:"#4B5563",
-        rows:[
-          ["CTAS","金泰克斯 Cintas","+13.8%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"],
-          ["GE","奇異航空 GE Aerospace","約-2%至-6%","down","7/16（單日）","財報優於預期並上調全年展望，但毛利率承壓"],
-          ["BA","波音 Boeing","-0.14%","down","7/17（單日）","收$214.03，FAA恢復波音自行簽署737 MAX／787適航證書"],
-          ["CAT","開拓重工 Caterpillar","-1.17%","down","7/20（單日）","收$869.98，Q2財報將於7/22公布，市場預期EPS年增逾30%"],
-          ["DAL","達美航空 Delta Air Lines","+0.44%","up","7/20（單日）","收$84.54，第二季高階艙位營收年增17%，維持全年獲利展望"]
-        ],
-        gap:"目前已確認到5檔具體數字，仍差5檔（如聯合包裹UPS、漢威聯合Honeywell等，因近期涉及企業分割／股票分拆，資料時間點難以乾淨比對，暫未收錄），可再補充搜尋。",
-        sources:[
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Quartz (qz.com)","https://qz.com/ge-aerospace-q2-2026-earnings-raised-guidance-071626"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/ba/quote"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/cat/quote"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/dal/quote"]
-        ]
-      },
-      {
-        zh:"非必需消費", en:"Consumer Discretionary", color:"#DB2777",
-        rows:[
-          ["TSLA","特斯拉 Tesla","-3.0%（收$369.57）","down","7/20（單日）","蘋果、特斯拉領跌道瓊成分股；週三將公布Q2財報，市場關注自由現金流與毛利率"],
-          ["SBUX","星巴克 Starbucks","+3.3%","up","7/16（單日）","分析師調升目標價，轉型信心回升"],
-          ["MCD","麥當勞 McDonald's","創52週新低","down","7/13–7/17（週）","本週新低名單之一"],
-          ["ORLY","O'Reilly汽車零件","創52週新低","down","7/13–7/17（週）","本週新低名單之一"],
-          ["NKE","耐吉 Nike","-1.23%","down","7/20（單日）","收$43.21，靠近52週低點$40.00，品牌復甦仍待觀察"]
-        ],
-        gap:"目前確認到5檔，可再補充Amazon、Home Depot、Booking Holdings等數據（因缺乏明確日期標註的乾淨收盤價，暫未收錄）湊滿10檔。",
-        sources:[
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Quiver Quantitative","https://www.quiverquant.com/news/Why+Starbucks+(SBUX)+Stock+Is+Up+Today"],
-          ["TS2.tech","https://ts2.tech/en/stock-market-today-20-07-2026/"],
-          ["Bloomberg","https://www.bloomberg.com/news/articles/2026-07-20/us-stocks-rebound-from-selloff-as-nvidia-other-chipmakers-rise"],
-          ["Morningstar","https://www.morningstar.com/stocks/xnys/nke/quote"]
-        ]
-      },
-      {
-        zh:"必需消費", en:"Consumer Staples", color:"#0D9488",
-        rows:[
-          ["KO","可口可樂 Coca-Cola","-4%","down","7/17（單日）","從歷史高點拉回，獲利了結賣壓"],
-          ["WMT","沃爾瑪 Walmart","-0.62%","down","7/7 資料","必需消費類股市值龍頭"],
-          ["COST","好市多 Costco","-0.50%","down","7/7 資料","必需消費類股市值第二"],
-          ["PG","寶僑 Procter &amp; Gamble","-1.08%","down","7/7 資料","家用品類股代表"],
-          ["PM","菲利普莫里斯 Philip Morris","+1.65%","up","7/7 資料","菸草類股逆勢上漲"]
-        ],
-        sources:[
-          ["FX Leaders","https://www.fxleaders.com/news/2026/07/17/coca-cola-ko-stock-falls-4-risking-uptrend-as-consumer-weakness-weighs/"],
-          ["The Motley Fool","https://www.fool.com/research/largest-consumer-staples-companies/"]
-        ]
-      },
-      {
-        zh:"原物料", en:"Materials", color:"#92400E",
-        rows:[
-          ["黃金現貨","Gold Spot","+1.03%（惟單週跌逾3%）","flat","7/17（單日／週）","中東緊張推升油價，壓抑降息預期"],
-          ["SHW","宣偉塗料 Sherwin-Williams","+13.3%","up","7月（月）","工業與原物料類股領漲個股之一"],
-          ["NUE","紐柯鋼鐵 Nucor","-2.07%","down","7/20（單日）","收約$231.72，鋼鐵類股隨大盤震盪走弱"],
-          ["LIN","林德集團 Linde","-0.29%","down","7/14（單日）","工業氣體龍頭，股價小幅回落，距52週高點$548.20約5%"]
-        ],
-        gap:"目前已確認到4項數據，可再補充Freeport-McMoRan、Newmont等個股（因近期股價資料時間點不一致，暫未收錄）的本週數據。",
-        sources:[
-          ["Trading Economics","https://tradingeconomics.com/commodity/gold"],
-          ["StockMarketWatch","https://stockmarketwatch.com/indices/dowjones/reports/july-2026"],
-          ["Investing.com","https://www.investing.com/equities/nucor"],
-          ["FinanceCharts","https://www.financecharts.com/stocks/LIN/summary/price"]
-        ]
-      },
-      {
-        zh:"公用事業", en:"Utilities", color:"#CA8A04",
-        rows:[
-          ["NEE","新紀元能源 NextEra Energy","-0.94%","down","7/7 資料","全球市值最大電力公司"],
-          ["CEG","星座能源 Constellation Energy","+0.57%（惟月線約-16%）","flat","7/7 資料／近期","核能發電廠授權延續申請中"],
-          ["DUK","杜克能源 Duke Energy","-0.87%","down","7/17（單日）","收$125.01，距52週高點$134.49約7%"]
-        ],
-        gap:"目前已確認到3檔，可再補充Southern Company、Vistra等本週數據（因資料時間點不夠明確，暫未收錄）。",
-        sources:[
-          ["The Motley Fool","https://www.fool.com/research/largest-utilities-companies/"],
-          ["Simply Wall St","https://simplywall.st/markets/us/utilities"],
-          ["Google Finance","https://www.google.com/finance/beta/quote/DUK:NYSE"]
-        ]
-      },
-      {
-        zh:"不動產", en:"Real Estate (REIT)", color:"#4338CA",
-        rows:[
-          ["PLD","普洛斯 Prologis","股價創一年新高","up","7/16–7/17","Q2財報大幅超預期並上調全年財測"],
-          ["EQIX","Equinix","+1.32%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
-          ["DLR","Digital Realty","+1.15%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
-          ["O","Realty Income","+1.36%","up","近期","淨租賃型REIT代表"],
-          ["AMT","美國電塔 American Tower","+0.54%","up","近期","電信基礎設施REIT"],
-          ["SPG","西蒙地產 Simon Property","+0.33%","up","近期","零售商場REIT代表"]
-        ],
-        sources:[
-          ["The Markets Daily","https://www.themarketsdaily.com/2026/07/17/prologis-nysepld-reaches-new-1-year-high-after-better-than-expected-earnings.html"],
-          ["The Motley Fool","https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/"],
-          ["Dividend.com","https://www.dividend.com/reit-industry-dividend-stocks-etfs-and-funds/"]
-        ]
-      }
-    ]
-  },
-  "2026-07-19": {
-    label: "2026/07/19",
-    dow: "週日彙整",
-    range: "資料範圍：2026/07/12 – 07/19（近1週滾動）",
-    desc: "本週美股呈現明顯輪動：AI／半導體交易獲利了結，科技類股領跌；資金轉向能源、不動產與部份防禦類股。以下依十一大類股列出個股層級漲跌，皆標明資料日期或期間。",
-    sectors: [
-      {
-        zh:"科技", en:"Technology", color:"#2563EB",
-        rows:[
-          ["NVDA","輝達 Nvidia","-3.9%","down","7/13–7/17（週）","AI晶片交易獲利了結，投資人轉趨保守"],
-          ["AMD","超微 AMD","-11.1%","down","7/13–7/17（週）","半導體類股全面下修拖累"],
-          ["INTC","英特爾 Intel","-13.5%","down","7/13–7/17（週）","AI資本支出報酬疑慮升溫"],
-          ["MU","美光 Micron","-13.3%","down","7/13–7/17（週）","記憶體漲勢降溫，隨SK海力士回落"],
-          ["AVGO","博通 Broadcom","-7.3%","down","7/13–7/17（週）","隨半導體類股同步走跌"],
-          ["IBM","IBM","-26.0%","down","7/13–7/17（週）","第二季初步財報令投資人失望，單週重挫"],
-          ["MRVL","邁威爾 Marvell","-20%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"],
-          ["GLW","康寧 Corning","-19%","down","7/13–7/17（週）","本週S&amp;P 500表現最差個股之一"],
-          ["AAPL","蘋果 Apple","+5.8%","up","7/13–7/17（週）","逆勢上漲，緩衝科技類股跌勢"],
-          ["PANW","帕羅奧圖網路 Palo Alto Networks","+10.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"]
-        ],
-        sources:[
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"]
-        ]
-      },
-      {
-        zh:"通訊服務", en:"Communication Services", color:"#7C3AED",
-        rows:[
-          ["NFLX","Netflix","-7.26%","down","7/17（單日）","第三季展望不如預期"],
-          ["GOOG","Alphabet（Google）","-2.17%","down","7/17（單日）","隨AI晶片類股同步走跌"],
-          ["META","Meta Platforms","-2.79%","down","7/17（單日）","隨AI晶片類股同步走跌"],
-          ["DIS","迪士尼 Disney","-2.05%","down","7/17（單日）","串流同業Netflix財報拖累"],
-          ["CMCSA","康卡斯特 Comcast","-1.29%","down","7/17（單日）","串流同業Netflix財報拖累"]
-        ],
-        gap:"目前僅確認到5檔具體漲跌數字，若需湊滿10檔（如T-Mobile、Verizon、AT&amp;T、Warner Bros Discovery等），可再補充搜尋。",
-        sources:[
-          ["The Motley Fool（Yahoo Finance轉載）","https://www.fool.com/coverage/stock-market-today/2026/07/17/stock-market-today-july-17-netflix-plunges-but-are-investors-missing-the-point/"],
-          ["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/alphabet-94-meta-down-5-230002079.html"]
-        ]
-      },
-      {
-        zh:"金融", en:"Financials", color:"#059669",
-        rows:[
-          ["GS","高盛 Goldman Sachs","+7.3%","up","7/13–7/17（週）","Q2財報大幅超預期，創歷史新高"],
-          ["JPM","摩根大通 JPMorgan","+1%","up","7/13–7/17（週）","Q2獲利創美國銀行業史上新高，創歷史新高"],
-          ["BAC","美國銀行 Bank of America","+1.8%","up","7/14（單日）","Q2財報優於預期"],
-          ["PYPL","PayPal","+22.1%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股"],
-          ["C","花旗 Citigroup","-4.3%","down","7/14（單日）","市場擔憂下半年費用上升"],
-          ["WFC","富國銀行 Wells Fargo","-2.6%","down","7/14（單日）","財報後獲利了結賣壓"],
-          ["V","Visa","創52週新高","up","7/13–7/17（週）","本週新高的24檔金融股之一"]
-        ],
-        sources:[
-          ["Tech Times","https://www.techtimes.com/articles/320491/20260714/all-five-major-banks-beat-estimates-jpmorgan-posts-highest-profit-us-history.htm"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"]
-        ]
-      },
-      {
-        zh:"能源", en:"Energy", color:"#B45309",
-        rows:[
-          ["XOM","埃克森美孚 ExxonMobil","+6.1%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
-          ["CVX","雪佛龍 Chevron","+6.2%","up","7/13–7/17（週）","荷莫茲海峽緊張推升油價"],
-          ["VLO","Valero能源","+10.3%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"],
-          ["MPC","馬拉松石油 Marathon Petroleum","+10.2%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一（煉油商）"]
-        ],
-        gap:"能源類股整體本週上漲4.7%，目前僅確認到4檔個股數據，可再補充中游／油服類股（如Kinder Morgan、Halliburton、ConocoPhillips）。",
-        sources:[
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"]
-        ]
-      },
-      {
-        zh:"醫療保健", en:"Healthcare", color:"#DC2626",
-        rows:[
-          ["ISRG","直覺外科 Intuitive Surgical","約-9%","down","7/17（單日）","財報優但健保補貼疑慮拖累，創52週新低"],
-          ["UNH","聯合健康 UnitedHealth","創52週新高","up","7/13–7/17（週）","本週新高名單之一"],
-          ["LLY","禮來 Eli Lilly","-0.97%","down","7/7 資料","GLP-1藥物龍頭，近期股價回落"],
-          ["JNJ","嬌生 Johnson &amp; Johnson","-1.35%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["ABBV","艾伯維 AbbVie","-2.44%","down","7/7 資料","醫療保健類股中市值前段"],
-          ["MRK","默沙東 Merck","-2.08%","down","7/7 資料","醫療保健類股中市值前段"]
-        ],
-        sources:[
-          ["CNBC","https://www.cnbc.com/2026/07/16/stock-market-today-live-updates.html"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["The Motley Fool","https://www.fool.com/research/largest-healthcare-companies/"]
-        ]
-      },
-      {
-        zh:"工業", en:"Industrials", color:"#4B5563",
-        rows:[
-          ["CTAS","金泰克斯 Cintas","+13.8%","up","7/13–7/17（週）","本週S&amp;P 500表現最佳個股之一"],
-          ["GE","奇異航空 GE Aerospace","約-2%至-6%","down","7/16（單日）","財報優於預期並上調全年展望，但毛利率承壓"]
-        ],
-        gap:"目前僅確認到2檔具體數字，可再補充波音、開拓重工、聯合包裹、達美航空等的本週數據以湊滿10檔。",
-        sources:[
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Quartz (qz.com)","https://qz.com/ge-aerospace-q2-2026-earnings-raised-guidance-071626"]
-        ]
-      },
-      {
-        zh:"非必需消費", en:"Consumer Discretionary", color:"#DB2777",
-        rows:[
-          ["TSLA","特斯拉 Tesla","-6.6%","down","7/13–7/17（週）","AI／成長股輪動賣壓，拖累類股表現"],
-          ["SBUX","星巴克 Starbucks","+3.3%","up","7/16（單日）","分析師調升目標價，轉型信心回升"],
-          ["MCD","麥當勞 McDonald's","創52週新低","down","7/13–7/17（週）","本週新低名單之一"],
-          ["ORLY","O'Reilly汽車零件","創52週新低","down","7/13–7/17（週）","本週新低名單之一"]
-        ],
-        gap:"目前確認到4檔，可再補充Amazon、Home Depot、Booking Holdings、Nike等數據湊滿10檔。",
-        sources:[
-          ["Stock Market Update (Igor Rotor)","https://atranicapital.substack.com/p/week-29-market-update-for-july-13"],
-          ["My Weekly Stock","https://myweeklystock.substack.com/p/weekly-market-recap-jul-13-17-choppy"],
-          ["Quiver Quantitative","https://www.quiverquant.com/news/Why+Starbucks+(SBUX)+Stock+Is+Up+Today"]
-        ]
-      },
-      {
-        zh:"必需消費", en:"Consumer Staples", color:"#0D9488",
-        rows:[
-          ["KO","可口可樂 Coca-Cola","-4%","down","7/17（單日）","從歷史高點拉回，獲利了結賣壓"],
-          ["WMT","沃爾瑪 Walmart","-0.62%","down","7/7 資料","必需消費類股市值龍頭"],
-          ["COST","好市多 Costco","-0.50%","down","7/7 資料","必需消費類股市值第二"],
-          ["PG","寶僑 Procter &amp; Gamble","-1.08%","down","7/7 資料","家用品類股代表"],
-          ["PM","菲利普莫里斯 Philip Morris","+1.65%","up","7/7 資料","菸草類股逆勢上漲"]
-        ],
-        sources:[
-          ["FX Leaders","https://www.fxleaders.com/news/2026/07/17/coca-cola-ko-stock-falls-4-risking-uptrend-as-consumer-weakness-weighs/"],
-          ["The Motley Fool","https://www.fool.com/research/largest-consumer-staples-companies/"]
-        ]
-      },
-      {
-        zh:"原物料", en:"Materials", color:"#92400E",
-        rows:[
-          ["黃金現貨","Gold Spot","+1.03%（惟單週跌逾3%）","flat","7/17（單日／週）","中東緊張推升油價，壓抑降息預期"],
-          ["SHW","宣偉塗料 Sherwin-Williams","+13.3%","up","7月（月）","工業與原物料類股領漲個股之一"]
-        ],
-        gap:"目前僅確認到2項數據，可再補充Freeport-McMoRan、Newmont、Linde、Nucor等個股的本週數據。",
-        sources:[
-          ["Trading Economics","https://tradingeconomics.com/commodity/gold"],
-          ["StockMarketWatch","https://stockmarketwatch.com/indices/dowjones/reports/july-2026"]
-        ]
-      },
-      {
-        zh:"公用事業", en:"Utilities", color:"#CA8A04",
-        rows:[
-          ["NEE","新紀元能源 NextEra Energy","-0.94%","down","7/7 資料","全球市值最大電力公司"],
-          ["CEG","星座能源 Constellation Energy","+0.57%（惟月線約-16%）","flat","7/7 資料／近期","核能發電廠授權延續申請中"]
-        ],
-        gap:"目前僅確認到2檔，可再補充Duke Energy、Southern Company、Vistra等本週數據。",
-        sources:[
-          ["The Motley Fool","https://www.fool.com/research/largest-utilities-companies/"],
-          ["Simply Wall St","https://simplywall.st/markets/us/utilities"]
-        ]
-      },
-      {
-        zh:"不動產", en:"Real Estate (REIT)", color:"#4338CA",
-        rows:[
-          ["PLD","普洛斯 Prologis","股價創一年新高","up","7/16–7/17","Q2財報大幅超預期並上調全年財測"],
-          ["EQIX","Equinix","+1.32%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
-          ["DLR","Digital Realty","+1.15%","up","7/17（單日）","資料中心REIT，AI需求帶動"],
-          ["O","Realty Income","+1.36%","up","近期","淨租賃型REIT代表"],
-          ["AMT","美國電塔 American Tower","+0.54%","up","近期","電信基礎設施REIT"],
-          ["SPG","西蒙地產 Simon Property","+0.33%","up","近期","零售商場REIT代表"]
-        ],
-        sources:[
-          ["The Markets Daily","https://www.themarketsdaily.com/2026/07/17/prologis-nysepld-reaches-new-1-year-high-after-better-than-expected-earnings.html"],
-          ["The Motley Fool","https://www.fool.com/investing/2026/07/17/data-centers-are-hot-new-reits-should-you-invest/"],
-          ["Dividend.com","https://www.dividend.com/reit-industry-dividend-stocks-etfs-and-funds/"]
-        ]
-      }
     ]
   }
 };
@@ -1616,11 +723,14 @@ const JP_DATA = {
     dow: "週五更新（台灣時間）／日股7/24收盤資料",
     range: "資料範圍：2026/07/24東京股市收盤（台北時間18:00前）",
     desc: "日股週五重挫：日經225指數收64,611.15點，下跌1,811.45點（-2.7%），跌幅為歷史第6大。主因是前一晚美股半導體類股全面走弱（Alphabet、特斯拉財報後資本支出疑慮延燒至整體科技股），海外資金主導賣壓湧現，早盤一度重挫逾1,850點。東證33業種中，電機類股（電子零組件、半導體相關）跌幅領先，揖斐電重挫4%被視為「AI特需能否持續」疑慮的縮影；鎧俠控股、迪思科、KONICA MINOLTA、武田藥品等成為當日熱搜個股。值得注意的是，武田藥品工業與中外製藥兩檔醫藥品股逆勢走高：武田因近期技術面轉強（一目均衡表雲上突破、拋物線轉買訊號）延續漲勢，收¥5,635（+2.36%）；中外製藥則在今日（7/24）盤後公布財報前，出現止跌反彈訊號，來到¥7,458附近（+3.41%）。三井松島控股連續數日的漲勢再延續，今日盤中一度大漲14.75%，為東證主板漲幅領先個股之一。本頁本次新增醫藥品（醫薬品）業種，收錄武田藥品、中外製藥2檔個股；其餘業種暫維持先前確認的最新資料並標明原始日期。",
+    indices:[
+      ["日經225指數","Nikkei 225","64,611.15","-1,811.45","-2.7%","down"],
+    ],
     movers: [
       ["1518","三井松島控股 Mitsui Matsushima HD","約¥1,673","約¥1,920","約+¥247","約+14.75%","東證主板漲幅領先個股之一，延續近期增配利多","上修財測與增配題材持續發酵，籌碼面偏多"],
       ["4519","中外製藥 Chugai Pharmaceutical","¥7,212","約¥7,458","約+¥246","約+3.41%","醫藥品代表個股，本日新增收錄","7/24盤後將公布財報，止跌反彈訊號浮現，本季營收與Core營業利益雙位數成長"],
       ["4502","武田藥品工業 Takeda Pharmaceutical","¥5,505","¥5,635","+¥130","+2.36%","醫藥品代表個股，本日新增收錄","技術面轉強（一目均衡表雲上突破、拋物線轉買訊號），延續近期漲勢，7/30將公布財報"],
-      ["4062","揖斐電 Ibiden","—","—","—","約-4%","AI特需持續性疑慮的縮影個股","隨美股半導體類股走弱，市場對AI伺服器需求能否延續產生疑慮"]
+      ["4062","揖斐電 Ibiden","—","—","—","約-4%","AI特需持續性疑慮的縮影個股","隨美股半導體類股走弱，市場對AI伺服器需求能否延續產生疑慮"],
     ],
     moversSources:[
       ["日本經濟新聞（日経電子版）","https://www.nikkei.com/article/DGXZQOUB240HFTU6A720C2000000/"],
@@ -1628,910 +738,272 @@ const JP_DATA = {
       ["松井證券","https://finance.matsui.co.jp/stock/4502/index"],
       ["松井證券","https://finance.matsui.co.jp/stock/4519/index"],
       ["日本經濟新聞（4502個股頁）","https://www.nikkei.com/nkd/company/?scode=4502"],
-      ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607240177"]
+      ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607240177"],
     ],
     sectors: [
       {
         zh:"零售業", en:"小売業", color:"#DB2777",
         rows:[
-          ["3382","7&amp;iHD Seven &amp; i Holdings","+2.84%","up","7/24（單日）","收¥2,139（前引け），便利商店龍頭逆勢走高，日經225正貢獻個股之一"],
-          ["9983","迅銷（優衣庫母公司） Fast Retailing","-0.38%","down","7/24（單日）","收¥76,800（前引け），跌幅較前兩日明顯收斂"],
-          ["8237","松屋 Matsuya","-7.69%","down","7/22（單日）","收¥1,741，受迅銷等零售權值股走弱波及，本日零售業下跌領先業種之一"],
-          ["3086","Ｊ．Front零售控股 J.Front Retailing","-5.75%","down","7/22（單日）","大丸松坂屋百貨母公司，隨零售業整體疲弱同步走跌"],
-          ["7453","良品計畫（無印良品） Ryohin Keikaku","-0.35%","down","7/21（單日）","小幅回落"],
-          ["3099","三越伊勢丹控股 Isetan Mitsukoshi","-0.62%","down","7/21（單日）","百貨類股小幅走弱"],
-          ["8267","永旺 Aeon","-2.04%","down","7/21（單日）","綜合零售類股獲利了結"],
-          ["3092","ZOZO（服飾電商） ZOZO","-2.14%","down","7/21（單日）","服飾電商類股獲利了結"]
+          ["3382","7&amp;iHD Seven &amp; i Holdings","¥2,079.93","¥2,139","+¥59.07","+2.84%","up","7/24（單日）","收¥2,139（前引け），便利商店龍頭逆勢走高，日經225正貢獻個股之一"],
+          ["9983","迅銷（優衣庫母公司） Fast Retailing","¥77,092.95","¥76,800","¥292.95","-0.38%","down","7/24（單日）","收¥76,800（前引け），跌幅較前兩日明顯收斂"],
+          ["8237","松屋 Matsuya","¥1,886.04","¥1,741","¥145.04","-7.69%","down","7/22（單日）","收¥1,741，受迅銷等零售權值股走弱波及，本日零售業下跌領先業種之一"],
+          ["3086","Ｊ．Front零售控股 J.Front Retailing","—","—","—","-5.75%","down","7/22（單日）","大丸松坂屋百貨母公司，隨零售業整體疲弱同步走跌"],
+          ["7453","良品計畫（無印良品） Ryohin Keikaku","—","—","—","-0.35%","down","7/21（單日）","小幅回落"],
+          ["3099","三越伊勢丹控股 Isetan Mitsukoshi","—","—","—","-0.62%","down","7/21（單日）","百貨類股小幅走弱"],
+          ["8267","永旺 Aeon","—","—","—","-2.04%","down","7/21（單日）","綜合零售類股獲利了結"],
+          ["3092","ZOZO（服飾電商） ZOZO","—","—","—","-2.14%","down","7/21（單日）","服飾電商類股獲利了結"],
         ],
         gap:"目前已確認到8檔具體漲跌數字，仍差2檔湊滿10檔，可再補充搜尋。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
           ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
           ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["Yahoo!ファイナンス（ファーストリテイリング）","https://finance.yahoo.co.jp/quote/9983.T"]
+          ["Yahoo!ファイナンス（ファーストリテイリング）","https://finance.yahoo.co.jp/quote/9983.T"],
         ]
       },
       {
         zh:"電機／電子機器", en:"電気機器", color:"#2563EB",
         rows:[
-          ["6146","迪思科 Disco","-14.02%","down","7/24（單日）","收¥59,680（前引け），單日跌幅居電機類股之冠，AI伺服器需求持續性疑慮"],
-          ["285A","鎧俠控股 Kioxia HD","-9.89%","down","7/24（單日）","收¥55,760（前引け），日經225負貢獻第4名個股，隨美股半導體股走弱同步重挫"],
-          ["8035","東京威力科創 Tokyo Electron","-6.76%","down","7/24（單日）","收¥61,490（前引け），日經225負貢獻最大個股，單日拖累指數約448點"],
-          ["6976","太陽誘電 Taiyo Yuden","-6.71%","down","7/24（單日）","收¥11,340（前引け），電子零組件類股同步重挫"],
-          ["6857","愛德萬測試 Advantest","-5.42%","down","7/24（單日）","收¥29,130（前引け），日經225負貢獻第2名個股"],
-          ["7735","迪恩士 SCREEN Holdings","-4.26%","down","7/24（單日）","收¥15,940（前引け），半導體清洗設備廠隨類股走弱"],
-          ["6920","雷射科技 Lasertec","-4.30%","down","7/24（單日）","收¥43,190（前引け），半導體檢測設備廠同步重挫"],
-          ["4062","揖斐電 Ibiden","-4.76%","down","7/24（單日）","收¥17,215（前引け），AI特需能否持續的疑慮縮影個股"],
-          ["6981","村田製作所 Murata","-3.21%","down","7/24（單日）","收¥8,264（前引け），電子零組件廠隨半導體類股走弱"],
-          ["6762","TDK","-3.24%","down","7/24（單日）","收¥3,015（前引け），電子零組件廠同步下跌"]
+          ["6146","迪思科 Disco","¥69,411.49","¥59,680","¥9,731.49","-14.02%","down","7/24（單日）","收¥59,680（前引け），單日跌幅居電機類股之冠，AI伺服器需求持續性疑慮"],
+          ["285A","鎧俠控股 Kioxia HD","¥61,879.92","¥55,760","¥6,119.92","-9.89%","down","7/24（單日）","收¥55,760（前引け），日經225負貢獻第4名個股，隨美股半導體股走弱同步重挫"],
+          ["8035","東京威力科創 Tokyo Electron","¥65,948.09","¥61,490","¥4,458.09","-6.76%","down","7/24（單日）","收¥61,490（前引け），日經225負貢獻最大個股，單日拖累指數約448點"],
+          ["6976","太陽誘電 Taiyo Yuden","¥12,155.64","¥11,340","¥815.64","-6.71%","down","7/24（單日）","收¥11,340（前引け），電子零組件類股同步重挫"],
+          ["6857","愛德萬測試 Advantest","¥30,799.32","¥29,130","¥1,669.32","-5.42%","down","7/24（單日）","收¥29,130（前引け），日經225負貢獻第2名個股"],
+          ["7735","迪恩士 SCREEN Holdings","¥16,649.26","¥15,940","¥709.26","-4.26%","down","7/24（單日）","收¥15,940（前引け），半導體清洗設備廠隨類股走弱"],
+          ["6920","雷射科技 Lasertec","¥45,130.62","¥43,190","¥1,940.62","-4.30%","down","7/24（單日）","收¥43,190（前引け），半導體檢測設備廠同步重挫"],
+          ["4062","揖斐電 Ibiden","¥18,075.39","¥17,215","¥860.39","-4.76%","down","7/24（單日）","收¥17,215（前引け），AI特需能否持續的疑慮縮影個股"],
+          ["6981","村田製作所 Murata","¥8,538.07","¥8,264","¥274.07","-3.21%","down","7/24（單日）","收¥8,264（前引け），電子零組件廠隨半導體類股走弱"],
+          ["6762","TDK","¥3,115.96","¥3,015","¥100.96","-3.24%","down","7/24（單日）","收¥3,015（前引け），電子零組件廠同步下跌"],
         ],
         gap:"目前已確認到10檔，已達成十檔目標（惟本次數字為7/24前引け11:30時點資料，非最終收盤價，收盤時指數已略為收復跌幅，個股實際收盤%可能略有差異）。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
           ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gentosha GOLD ONLINE","https://gentosha-go.com/articles/-/80268"]
+          ["Gentosha GOLD ONLINE","https://gentosha-go.com/articles/-/80268"],
         ]
       },
       {
         zh:"化學", en:"化学", color:"#CA8A04",
         rows:[
-          ["4025","多木化學 Taki Chemical","+9.46%","up","7/22（單日）","收¥5,380，英國AVI基金大量持股曝光，市場預期提出企業價值提升方案，東證主板漲幅第1名"],
-          ["4063","信越化學工業 Shin-Etsu Chemical","-4.12%","down","7/24（單日）","收¥6,683（前引け），隨電子材料類股同步走弱，日經225負貢獻個股之一"],
-          ["4021","日產化學 Nissan Chemical","-3.34%","down","7/24（單日）","收¥7,574（前引け），隨化學類股同步走弱"],
-          ["4452","花王 Kao","-1.15%","down","7/21（單日）","家用品化學類股小幅回落"]
+          ["4025","多木化學 Taki Chemical","¥4,915.04","¥5,380","+¥464.96","+9.46%","up","7/22（單日）","收¥5,380，英國AVI基金大量持股曝光，市場預期提出企業價值提升方案，東證主板漲幅第1名"],
+          ["4063","信越化學工業 Shin-Etsu Chemical","¥6,970.17","¥6,683","¥287.17","-4.12%","down","7/24（單日）","收¥6,683（前引け），隨電子材料類股同步走弱，日經225負貢獻個股之一"],
+          ["4021","日產化學 Nissan Chemical","¥7,835.71","¥7,574","¥261.71","-3.34%","down","7/24（單日）","收¥7,574（前引け），隨化學類股同步走弱"],
+          ["4452","花王 Kao","—","—","—","-1.15%","down","7/21（單日）","家用品化學類股小幅回落"],
         ],
         gap:"目前已確認到4檔，可再補充資生堂、三菱化學等個股數據，湊滿10檔。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
           ["Gold Online","https://gentosha-go.com/articles/-/80301"],
           ["Gold Online（頁2，個別漲幅トップ3）","https://gentosha-go.com/articles/-/80301?page=2"],
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
+          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
         ]
       },
       {
         zh:"服務業", en:"サービス業", color:"#4338CA",
         rows:[
-          ["6200","INSOURCE インソース","+9.35%","up","7/22（單日）","收¥690，第三季累計決算增收增益，上市10週年紀念增配及庫藏股買回計畫帶動，東證主板漲幅第2名"],
-          ["6532","貝克蘭特顧問 Baycurrent","+4.16%","up","7/24（單日）","收¥6,489（前引け），今日逆勢走高，日經225正貢獻個股之一"],
-          ["9735","世紀科姆 Secom","+1.63%","up","7/24（單日）","收¥6,791（前引け），保全服務類股逆勢走高"],
-          ["4324","電通集團 Dentsu Group","-1.17%","down","7/21（單日）","廣告服務類股小幅回落"]
+          ["6200","INSOURCE インソース","¥631","¥690","+¥59","+9.35%","up","7/22（單日）","收¥690，第三季累計決算增收增益，上市10週年紀念增配及庫藏股買回計畫帶動，東證主板漲幅第2名"],
+          ["6532","貝克蘭特顧問 Baycurrent","¥6,229.84","¥6,489","+¥259.16","+4.16%","up","7/24（單日）","收¥6,489（前引け），今日逆勢走高，日經225正貢獻個股之一"],
+          ["9735","世紀科姆 Secom","¥6,682.08","¥6,791","+¥108.92","+1.63%","up","7/24（單日）","收¥6,791（前引け），保全服務類股逆勢走高"],
+          ["4324","電通集團 Dentsu Group","—","—","—","-1.17%","down","7/21（單日）","廣告服務類股小幅回落"],
         ],
         gap:"目前已確認到4檔，可再補充瑞可利控股（本日負貢獻個股）等其他服務類股個股數據，湊滿10檔。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
           ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
+          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
         ]
       },
       {
         zh:"其他製品", en:"その他製品", color:"#4B5563",
         rows:[
-          ["7974","任天堂 Nintendo","-4.13%","down","7/21（單日）","娛樂股逆勢重挫"],
-          ["9766","科樂美集團 Konami Group","-1.99%","down","7/21（單日）","遊戲娛樂股同步走弱"],
-          ["7867","Takara Tomy タカラトミー","-6.37%","down","7/22（單日）","收¥3,455，當日無特定個股利多消息，東證主板跌幅第3名"],
-          ["7832","萬代南夢宮控股 Bandai Namco","+0.86%","up","7/24（單日）","收¥4,128（前引け），娛樂股逆勢走高"]
+          ["7974","任天堂 Nintendo","—","—","—","-4.13%","down","7/21（單日）","娛樂股逆勢重挫"],
+          ["9766","科樂美集團 Konami Group","—","—","—","-1.99%","down","7/21（單日）","遊戲娛樂股同步走弱"],
+          ["7867","Takara Tomy タカラトミー","¥3,690.06","¥3,455","¥235.06","-6.37%","down","7/22（單日）","收¥3,455，當日無特定個股利多消息，東證主板跌幅第3名"],
+          ["7832","萬代南夢宮控股 Bandai Namco","¥4,092.80","¥4,128","+¥35.20","+0.86%","up","7/24（單日）","收¥4,128（前引け），娛樂股逆勢走高"],
         ],
         gap:"目前已確認到4檔，仍差6檔湊滿10檔，可再補充搜尋。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
           ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
+          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
         ]
       },
       {
         zh:"批發業", en:"卸売業", color:"#B45309",
         rows:[
-          ["8058","三菱商事 Mitsubishi Corp","+0.49%","up","7/24（單日）","收¥4,940（前引け），綜合商社類股微幅走高"],
-          ["8015","豐田通商 Toyota Tsusho","-1.85%","down","7/24（單日）","收¥6,472（前引け），隨大盤同步回落，7/21曾因油價走高而上漲"],
-          ["8031","三井物產 Mitsui &amp; Co","+3.48%","up","7/21（單日）","綜合商社類股同步走高"]
+          ["8058","三菱商事 Mitsubishi Corp","¥4,915.91","¥4,940","+¥24.09","+0.49%","up","7/24（單日）","收¥4,940（前引け），綜合商社類股微幅走高"],
+          ["8015","豐田通商 Toyota Tsusho","¥6,593.99","¥6,472","¥121.99","-1.85%","down","7/24（單日）","收¥6,472（前引け），隨大盤同步回落，7/21曾因油價走高而上漲"],
+          ["8031","三井物產 Mitsui &amp; Co","—","—","—","+3.48%","up","7/21（單日）","綜合商社類股同步走高"],
         ],
         gap:"目前已確認到3檔，仍差7檔湊滿10檔，可再補充搜尋。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
           ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
+          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
         ]
       },
       {
         zh:"精密儀器", en:"精密機器", color:"#DC2626",
         rows:[
-          ["7731","尼康 Nikon","-1.41%","down","7/21（單日）","精密儀器類股逆勢走弱"],
-          ["4543","泰爾茂 Terumo","-1.19%","down","7/21（單日）","醫療器材類股獲利了結"],
-          ["7733","奧林巴斯 Olympus","-0.93%","down","7/21（單日）","精密儀器類股小幅回落"],
-          ["7719","東京計器 Tokyo Keiki","+6.38%","up","7/23（單日）","計測儀器廠走高，帶動精密儀器類股表現"]
+          ["7731","尼康 Nikon","—","—","—","-1.41%","down","7/21（單日）","精密儀器類股逆勢走弱"],
+          ["4543","泰爾茂 Terumo","—","—","—","-1.19%","down","7/21（單日）","醫療器材類股獲利了結"],
+          ["7733","奧林巴斯 Olympus","—","—","—","-0.93%","down","7/21（單日）","精密儀器類股小幅回落"],
+          ["7719","東京計器 Tokyo Keiki","—","—","—","+6.38%","up","7/23（單日）","計測儀器廠走高，帶動精密儀器類股表現"],
         ],
         gap:"目前已確認到4檔，仍差6檔湊滿10檔，可再補充搜尋。",
         sources:[
           ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
           ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["日本經濟新聞","https://www.nikkei.com/markets/stocks/"]
+          ["日本經濟新聞","https://www.nikkei.com/markets/stocks/"],
         ]
       },
       {
         zh:"食品", en:"食料品", color:"#0D9488",
         rows:[
-          ["2801","龜甲萬 Kikkoman","-2.49%","down","7/21（單日）","食品類股獲利了結"],
-          ["2269","明治控股 Meiji Holdings","-1.60%","down","7/21（單日）","食品類股小幅回落"]
+          ["2801","龜甲萬 Kikkoman","—","—","—","-2.49%","down","7/21（單日）","食品類股獲利了結"],
+          ["2269","明治控股 Meiji Holdings","—","—","—","-1.60%","down","7/21（單日）","食品類股小幅回落"],
         ],
         gap:"目前已確認到2檔，且皆為下跌個股，仍差8檔湊滿10檔，可再補充搜尋。",
         sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
+          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
         ]
       },
       {
         zh:"非鐵金屬", en:"非鉄金属", color:"#92400E",
         rows:[
-          ["5803","藤倉 Fujikura","-3.09%","down","7/24（單日）","收¥4,581（前引け），隨電機類股同步走弱，7/21曾因資料中心需求題材上漲"],
-          ["5802","住友電工 Sumitomo Electric","-2.77%","down","7/24（單日）","收¥2,443（前引け），電線電纜類股同步回落"]
+          ["5803","藤倉 Fujikura","¥4,727.07","¥4,581","¥146.07","-3.09%","down","7/24（單日）","收¥4,581（前引け），隨電機類股同步走弱，7/21曾因資料中心需求題材上漲"],
+          ["5802","住友電工 Sumitomo Electric","¥2,512.60","¥2,443","¥69.60","-2.77%","down","7/24（單日）","收¥2,443（前引け），電線電纜類股同步回落"],
         ],
         gap:"目前已確認到2項，仍差8檔湊滿10檔，可再補充搜尋。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
           ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
+          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
         ]
       },
       {
         zh:"保險業", en:"保険業", color:"#059669",
         rows:[
-          ["8766","東京海上控股 Tokio Marine","+2.45%","up","7/24（單日）","收¥8,153（前引け），保險業為本日上漲領先業種之一"],
-          ["8630","SOMPO控股 SOMPO Holdings","+1.87%","up","7/24（單日）","收¥7,076（前引け），保險股同步走高"]
+          ["8766","東京海上控股 Tokio Marine","¥7,958.03","¥8,153","+¥194.97","+2.45%","up","7/24（單日）","收¥8,153（前引け），保險業為本日上漲領先業種之一"],
+          ["8630","SOMPO控股 SOMPO Holdings","¥6,946.11","¥7,076","+¥129.89","+1.87%","up","7/24（單日）","收¥7,076（前引け），保險股同步走高"],
         ],
         gap:"目前已確認到2檔，可再補充MS&amp;AD保險集團、第一生命控股等個股數據，湊滿10檔。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
+          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
         ]
       },
       {
         zh:"機械", en:"機械", color:"#6B21A8",
         rows:[
-          ["6301","小松製作所 Komatsu","+1.13%","up","7/24（單日）","收¥6,697（前引け），工程機械廠逆勢走高，本日上漲個股之一"],
-          ["6954","發那科 Fanuc","-3.72%","down","7/24（單日）","收¥6,680（前引け），工具機／工業機器人廠隨大盤同步走弱"],
-          ["6315","TOWA","+5.77%","up","7/23（單日）","半導體封裝設備廠走高，隨AI/半導體類股動能延續"],
-          ["6104","芝浦機械 Shibaura Machine","+5.64%","up","7/23（單日）","工具機廠同步走高"]
+          ["6301","小松製作所 Komatsu","¥6,622.17","¥6,697","+¥74.83","+1.13%","up","7/24（單日）","收¥6,697（前引け），工程機械廠逆勢走高，本日上漲個股之一"],
+          ["6954","發那科 Fanuc","¥6,938.10","¥6,680","¥258.10","-3.72%","down","7/24（單日）","收¥6,680（前引け），工具機／工業機器人廠隨大盤同步走弱"],
+          ["6315","TOWA","—","—","—","+5.77%","up","7/23（單日）","半導體封裝設備廠走高，隨AI/半導體類股動能延續"],
+          ["6104","芝浦機械 Shibaura Machine","—","—","—","+5.64%","up","7/23（單日）","工具機廠同步走高"],
         ],
         gap:"目前已確認到4檔，可再補充川崎重工等個股數據，湊滿10檔。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
           ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["日本經濟新聞","https://www.nikkei.com/markets/stocks/"]
+          ["日本經濟新聞","https://www.nikkei.com/markets/stocks/"],
         ]
       },
       {
         zh:"資訊通信業", en:"情報・通信業", color:"#7C3AED",
         rows:[
-          ["9433","KDDI","+1.01%","up","7/24（單日）","收¥2,899（前引け），電信類股逆勢走高，日經225正貢獻個股之一"],
-          ["4704","趨勢科技 Trend Micro","+0.84%","up","7/24（單日）","收¥6,217（前引け），資安類股今日逆勢走高"],
-          ["3659","Nexon","+1.11%","up","7/24（單日）","收¥2,272（前引け），遊戲類股今日逆勢走高"],
-          ["9984","軟銀集團 SoftBank Group","-7.00%","down","7/24（單日）","收¥5,504（前引け），日經225負貢獻第3名個股，隨美股科技股疑慮同步重挫"],
-          ["6098","瑞可利控股 Recruit Holdings","-2.27%","down","7/24（單日）","收¥12,075（前引け），成長股評價疑慮持續"],
-          ["2413","M3（醫療資訊服務） M3","-0.60%","down","7/21（單日）","獲利了結賣壓，隨成長股評價回落"],
-          ["4385","Mercari（二手交易平台） Mercari","-1.06%","down","7/21（單日）","電商平台股獲利了結"],
-          ["4751","賽博代理 CyberAgent","-2.36%","down","7/21（單日）","網路廣告類股獲利了結賣壓較重"]
+          ["9433","KDDI","¥2,870.01","¥2,899","+¥28.99","+1.01%","up","7/24（單日）","收¥2,899（前引け），電信類股逆勢走高，日經225正貢獻個股之一"],
+          ["4704","趨勢科技 Trend Micro","¥6,165.21","¥6,217","+¥51.79","+0.84%","up","7/24（單日）","收¥6,217（前引け），資安類股今日逆勢走高"],
+          ["3659","Nexon","¥2,247.06","¥2,272","+¥24.94","+1.11%","up","7/24（單日）","收¥2,272（前引け），遊戲類股今日逆勢走高"],
+          ["9984","軟銀集團 SoftBank Group","¥5,918.28","¥5,504","¥414.28","-7.00%","down","7/24（單日）","收¥5,504（前引け），日經225負貢獻第3名個股，隨美股科技股疑慮同步重挫"],
+          ["6098","瑞可利控股 Recruit Holdings","¥12,355.47","¥12,075","¥280.47","-2.27%","down","7/24（單日）","收¥12,075（前引け），成長股評價疑慮持續"],
+          ["2413","M3（醫療資訊服務） M3","—","—","—","-0.60%","down","7/21（單日）","獲利了結賣壓，隨成長股評價回落"],
+          ["4385","Mercari（二手交易平台） Mercari","—","—","—","-1.06%","down","7/21（單日）","電商平台股獲利了結"],
+          ["4751","賽博代理 CyberAgent","—","—","—","-2.36%","down","7/21（單日）","網路廣告類股獲利了結賣壓較重"],
         ],
         gap:"目前已確認到8檔，仍差2檔湊滿10檔，可再補充搜尋。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
           ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
+          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
         ]
       },
       {
         zh:"銀行業", en:"銀行業", color:"#0EA5E9",
         rows:[
-          ["8306","三菱UFJ金融集團 MUFG","約+2.7%","up","7/22（單日）","收約¥3,675（盤中價），銀行業為本日領漲業種之一，大型銀行股走強帶動"]
+          ["8306","三菱UFJ金融集團 MUFG","約¥3,578.38","約¥3,675","約+¥96.62","約+2.7%","up","7/22（單日）","收約¥3,675（盤中價），銀行業為本日領漲業種之一，大型銀行股走強帶動"],
         ],
         gap:"新收錄業種。目前僅確認到1檔，且為盤中估算值（非正式收盤價），可再補充瑞穗金融集團、三井住友金融集團等個股精確收盤數據，湊滿10檔。",
         sources:[
           ["みんかぶ（MUFG株價圖表）","https://minkabu.jp/stock/8306/chart"],
           ["Yahoo!ファイナンス（MUFG AI解說）","https://finance.yahoo.co.jp/quote/8306.T/ai-topics"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
+          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
         ]
       },
       {
         zh:"纖維製品", en:"繊維製品", color:"#EC4899",
         rows:[
-          ["3104","富士紡控股 Fujibo Holdings","+9.22%","up","7/22（單日）","收¥4,085，當日無特定個股利多消息，近5個交易日累計上漲4.48%，東證主板漲幅第3名"]
+          ["3104","富士紡控股 Fujibo Holdings","¥3,740.16","¥4,085","+¥344.84","+9.22%","up","7/22（單日）","收¥4,085，當日無特定個股利多消息，近5個交易日累計上漲4.48%，東證主板漲幅第3名"],
         ],
         gap:"新收錄業種。目前僅確認到1檔，可再補充東麗、帝人等個股數據，湊滿10檔。",
         sources:[
-          ["Gold Online（頁2，個別漲幅トップ3）","https://gentosha-go.com/articles/-/80301?page=2"]
+          ["Gold Online（頁2，個別漲幅トップ3）","https://gentosha-go.com/articles/-/80301?page=2"],
         ]
       },
       {
         zh:"倉儲‧運輸相關業", en:"倉庫・運輸関連業", color:"#65A30D",
         rows:[
-          ["9304","澁澤倉庫 Shibusawa Warehouse","-13.95%","down","7/22（單日）","收¥1,838，籌碼面持續疲弱，近5個交易日累計下跌7.55%，東證主板跌幅第1名，本業種本日為下跌領先業種之一"]
+          ["9304","澁澤倉庫 Shibusawa Warehouse","¥2,135.97","¥1,838","¥297.97","-13.95%","down","7/22（單日）","收¥1,838，籌碼面持續疲弱，近5個交易日累計下跌7.55%，東證主板跌幅第1名，本業種本日為下跌領先業種之一"],
         ],
         gap:"目前僅確認到1檔，可再補充三菱倉庫、日本通運等個股數據，湊滿10檔。",
         sources:[
           ["Gold Online（頁3，個別跌幅ワースト3）","https://gentosha-go.com/articles/-/80301?page=3"],
-          ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607221046"]
+          ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607221046"],
         ]
       },
       {
         zh:"礦業", en:"鉱業", color:"#78716C",
         rows:[
-          ["1518","三井松島控股 Mitsui Matsushima HD","約+14.75%","up","7/24（單日）","延續7/22上修財測與大幅增配（年配74円→130円）利多，連續數日為東證主板漲幅領先個股之一"]
+          ["1518","三井松島控股 Mitsui Matsushima HD","—","—","—","約+14.75%","up","7/24（單日）","延續7/22上修財測與大幅增配（年配74円→130円）利多，連續數日為東證主板漲幅領先個股之一"],
         ],
         gap:"目前僅確認到1檔，且為煤炭類股，可再補充INPEX、石油資源開發等石油／天然氣上游個股數據，湊滿10檔。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862685.html"],
           ["日本經濟新聞","https://www.nikkei.com/article/DGXZQOUB240HFTU6A720C2000000/"],
-          ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607230314"]
+          ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607230314"],
         ]
       },
       {
         zh:"醫藥品", en:"医薬品", color:"#DB2777",
         rows:[
-          ["4519","中外製藥 Chugai Pharmaceutical","+3.44%","up","7/24（單日）","收¥7,460（前引け），日經225正貢獻最大個股，本日盤後將公布財報，止跌反彈訊號浮現"],
-          ["4502","武田藥品工業 Takeda Pharmaceutical","+2.20%","up","7/24（單日）","收¥5,626（前引け），技術面轉強延續近期漲勢，7/30將公布財報"],
-          ["4578","大塚控股 Otsuka Holdings","+2.34%","up","7/24（單日）","收¥11,170（前引け），醫藥品股逆勢走高"],
-          ["4523","衛采 Eisai","+1.44%","up","7/24（單日）","收¥4,648（前引け），醫藥品股逆勢走高"],
-          ["4568","第一三共 Daiichi Sankyo","+1.20%","up","7/24（單日）","收¥2,788（前引け），醫藥品股逆勢走高"],
-          ["4507","鹽野義製藥 Shionogi","+0.84%","up","7/24（單日）","收¥2,872（前引け），醫藥品股逆勢走高"]
+          ["4519","中外製藥 Chugai Pharmaceutical","¥7,211.91","¥7,460","+¥248.09","+3.44%","up","7/24（單日）","收¥7,460（前引け），日經225正貢獻最大個股，本日盤後將公布財報，止跌反彈訊號浮現"],
+          ["4502","武田藥品工業 Takeda Pharmaceutical","¥5,504.89","¥5,626","+¥121.11","+2.20%","up","7/24（單日）","收¥5,626（前引け），技術面轉強延續近期漲勢，7/30將公布財報"],
+          ["4578","大塚控股 Otsuka Holdings","¥10,914.60","¥11,170","+¥255.40","+2.34%","up","7/24（單日）","收¥11,170（前引け），醫藥品股逆勢走高"],
+          ["4523","衛采 Eisai","¥4,582.02","¥4,648","+¥65.98","+1.44%","up","7/24（單日）","收¥4,648（前引け），醫藥品股逆勢走高"],
+          ["4568","第一三共 Daiichi Sankyo","¥2,754.94","¥2,788","+¥33.06","+1.20%","up","7/24（單日）","收¥2,788（前引け），醫藥品股逆勢走高"],
+          ["4507","鹽野義製藥 Shionogi","¥2,848.08","¥2,872","+¥23.92","+0.84%","up","7/24（單日）","收¥2,872（前引け），醫藥品股逆勢走高"],
         ],
         gap:"目前已確認到6檔，皆為上漲個股（今日醫藥品為東證33業種中上漲領先業種之一），仍差4檔湊滿10檔，可再補充安斯泰來（Astellas）等個股數據。",
         sources:[
           ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
           ["日本經濟新聞","https://www.nikkei.com/article/DGXZQOUB240HFTU6A720C2000000/"],
           ["松井證券（武田薬品）","https://finance.matsui.co.jp/stock/4502/index"],
-          ["松井證券（中外製薬）","https://finance.matsui.co.jp/stock/4519/index"]
+          ["松井證券（中外製薬）","https://finance.matsui.co.jp/stock/4519/index"],
         ]
       },
       {
         zh:"運輸用機器", en:"輸送用機器", color:"#0891B2",
         rows:[
-          ["7203","豐田汽車 Toyota Motor","-2.03%","down","7/24（單日）","收¥2,890（前引け），隨大盤同步走弱"]
+          ["7203","豐田汽車 Toyota Motor","¥2,949.88","¥2,890","¥59.88","-2.03%","down","7/24（單日）","收¥2,890（前引け），隨大盤同步走弱"],
         ],
         gap:"新收錄業種。目前僅確認到1檔，可再補充本田、日產、SUBARU等汽車類股個股數據，湊滿10檔。",
         sources:[
-          ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"]
+          ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260724/862679.html"],
         ]
-      }
+      },
     ],
     missingIndustries:"水產‧農林業、建設業、紙漿‧紙、石油‧煤炭製品、橡膠製品、玻璃‧土石製品、鋼鐵、金屬製品、電氣‧瓦斯業、陸運業、海運業、空運業、證券‧商品期貨交易業、其他金融業、不動產業（共14個，運輸用機器已於本次新增收錄）"
-  },
-  "2026-07-23": {
-    label: "2026/07/23",
-    dow: "週五更新（台灣時間）／日股7/23收盤資料",
-    range: "資料範圍：2026/07/23東京股市收盤（台北時間18:00前）",
-    desc: "日股週四反彈：日經225指數收66,422.60點，上漲307.00點（+0.46%），早盤一度大漲逾900點、重返67,000點關卡（最高67,022.37點），主因是前一晚美股半導體類股走穩、南韓綜合股價指數同步走高，加上美股Alphabet公布財報並上修AI投資計畫，帶動市場對AI基礎建設需求的樂觀情緒延續。惟買盤湧入後動能未能持續，午盤起转趋钝化，全天多在66,000點區間整理，6月以來AI／半導體類股的强勢動能已明顯消退，目前市場仍在消化整理。前一日美股道瓊小跌6美元，主因中東情勢緊張推升油價與美債殖利率。台北時間週四晚間，川普總統在社群媒體發文警告，若伊朗在荷莫茲海峽攻擊民間船隻，美方將攻擊伊朗發電設施；伊朗隨即回應將攻擊波灣國家基礎設施作為報復，帶動油價進一步走高。東證主板成交量19.14億股、成交金額約8兆5,663億日圓（皆較前一日減少）。銀行股吸引資金流入，資源股與商社股同步走高。個股方面，三井松島控股因22日盤後宣布上修全年獲利預測並大幅增加配息（年配由74円上修至130円）、同時取得棉花棒製造商山洋子公司化，早盤一度觸及漲停買氣，收盤大漲約7.7%，為本頁新增的礦業類股代表個股；機械類股中，TOWA、芝浦機械等半導體設備／工具機廠同步走高；精密儀器類股中，東京計器同步上漲。本頁本次新增礦業（鉱業）1個先前未收錄的業種，並將機械、精密儀器兩個業種更新至7/23最新資料；其餘業種暫維持先前確認的最新資料並標明原始日期。誠實說明：儘管本次搜尋已涵蓋建設業、不動產業、陸運業、海運業、空運業、醫藥品、鋼鐵、電氣瓦斯業等仍缺資料的業種，但因這些業種當日個股新聞覆蓋率低、多數搜尋結果僅提供區間漲跌幅或过期资料、缺乏可核對的當日精確收盤%數字，故本次僅新增礦業1個業種，其餘17個業種仍待後續補充搜尋。",
-    movers: [
-      ["1518","三井松島控股 Mitsui Matsushima HD","約¥1,553","約¥1,673","約+¥120","約+7.7%","礦業（鉱業）代表個股，早盤一度觸及漲停買氣（+25.75%）但未完全成交","22日盤後宣布上修27年3月期獲利預測（經常利益上修4%）並大幅增配（年配由74円上修至130円），同時取得棉花棒製造商山洋子公司化，利多消息帶動早盤強勢表現"],
-      ["285A","鎧俠控股 Kioxia HD","¥52,110","¥61,060","+¥8,950","+17.18%","上週日經225最大貢獻個股（延續7/21表現）","半導體記憶體類股延續反彈行情"],
-      ["9983","迅銷（優衣庫母公司） Fast Retailing","¥80,840","約¥78,580","約-¥2,260","約-2.80%","零售業權值股，延續7/22弱勢","獲利了結賣壓持續"]
-    ],
-    moversSources:[
-      ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260723/862434.html"],
-      ["日本經濟新聞（日経電子版）","https://www.nikkei.com/article/DGXZQOFL230R20T20C26A7000000/"],
-      ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607230314"],
-      ["Yahoo!ファイナンス（株探ニュース轉載）","https://finance.yahoo.co.jp/news/detail/f38b7335a17a842fa6991defbd96aa911a7a6f24"],
-      ["Yahoo!ファイナンス（マーケット日報）","https://finance.yahoo.co.jp/news/detail/06934b4b063a7d7075d334d39b32afafb13cc032"]
-    ],
-    sectors: [
-      {
-        zh:"零售業", en:"小売業", color:"#DB2777",
-        rows:[
-          ["8237","松屋 Matsuya","-7.69%","down","7/22（單日）","收¥1,741，受迅銷等零售權值股走弱波及，本日零售業下跌領先業種之一"],
-          ["3086","Ｊ．Front零售控股 J.Front Retailing","-5.75%","down","7/22（單日）","大丸松坂屋百貨母公司，隨零售業整體疲弱同步走跌"],
-          ["9983","迅銷（優衣庫母公司） Fast Retailing","約-2.80%","down","7/22（單日）","收約¥78,580，週二大漲後獲利了結賣壓，對日經225指數負貢獻最大"],
-          ["7453","良品計畫（無印良品） Ryohin Keikaku","-0.35%","down","7/21（單日）","小幅回落"],
-          ["3099","三越伊勢丹控股 Isetan Mitsukoshi","-0.62%","down","7/21（單日）","百貨類股小幅走弱"],
-          ["8267","永旺 Aeon","-2.04%","down","7/21（單日）","綜合零售類股獲利了結"],
-          ["3092","ZOZO（服飾電商） ZOZO","-2.14%","down","7/21（單日）","服飾電商類股獲利了結"]
-        ],
-        gap:"目前已確認到7檔具體漲跌數字，本日零售業為東證33業種中下跌領先業種之一，仍差3檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["Gold Online（頁3，個別跌幅ワースト3）","https://gentosha-go.com/articles/-/80301?page=3"],
-          ["Yahoo!ファイナンス（ファーストリテイリング）","https://finance.yahoo.co.jp/quote/9983.T"]
-        ]
-      },
-      {
-        zh:"電機／電子機器", en:"電気機器", color:"#2563EB",
-        rows:[
-          ["285A","鎧俠控股 Kioxia HD","+17.18%","up","7/21（單日）","上週因鉅額求償訴訟判決跌停，本日超跌反彈"],
-          ["4062","揖斐電 Ibiden","+11.03%","up","7/21（單日）","半導體封裝基板廠受惠AI伺服器需求"],
-          ["6857","愛德萬測試 Advantest","+7.73%","up","7/21（單日）","半導體測試設備廠，日經225最大貢獻個股"],
-          ["6976","太陽誘電 Taiyo Yuden","+6.43%","up","7/21（單日）","電子零組件類股同步反彈"],
-          ["6981","村田製作所 Murata","+4.83%","up","7/21（單日）","電子零組件廠隨半導體類股反彈"],
-          ["6762","TDK","+3.54%","up","7/21（單日）","電子零組件廠隨半導體類股同步走高"],
-          ["6146","迪思科 Disco","+3.18%","up","7/21（單日）","半導體切割研磨設備廠同步反彈"],
-          ["6971","京瓷 Kyocera","+3.09%","up","7/21（單日）","電子零組件與陶瓷元件廠走高"],
-          ["7735","迪恩士 SCREEN Holdings","+2.85%","up","7/21（單日）","半導體清洗設備廠隨類股反彈"],
-          ["8035","東京威力科創 Tokyo Electron","+2.26%","up","7/21（單日）","半導體設備廠隨美股費半指數走高"]
-        ],
-        gap:"7/22當日：鎧俠控股、揖斐電、京瓷、太陽誘電、村田製作所續為日經225正貢獻前5名個股，東京威力科創則轉為負貢獻，但因株探等來源僅標示漲跌方向、未提供精確%數字，故本表暫維持7/21已確認的10檔數字，7/22最新精確漲跌幅可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gentosha GOLD ONLINE","https://gentosha-go.com/articles/-/80268"],
-          ["Gold Online（7/22概況）","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"化學", en:"化学", color:"#CA8A04",
-        rows:[
-          ["4025","多木化學 Taki Chemical","+9.46%","up","7/22（單日）","收¥5,380，英國AVI基金大量持股曝光，市場預期提出企業價值提升方案，東證主板漲幅第1名"],
-          ["4452","花王 Kao","-1.15%","down","7/21（單日）","家用品化學類股小幅回落"]
-        ],
-        gap:"目前已確認到2檔，資生堂（-5.38%）、信越化學工業（本日負貢獻個股之一）7/22當日雖有方向性消息，但缺乏精確%數字可對照，暫未收錄，可再補充搜尋。",
-        sources:[
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["Gold Online（頁2，個別漲幅トップ3）","https://gentosha-go.com/articles/-/80301?page=2"],
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"服務業", en:"サービス業", color:"#4338CA",
-        rows:[
-          ["6200","INSOURCE インソース","+9.35%","up","7/22（單日）","收¥690，第三季累計決算增收增益，上市10週年紀念增配及庫藏股買回計畫帶動，東證主板漲幅第2名"],
-          ["6532","貝克蘭特顧問 Baycurrent","-1.48%","down","7/21（單日）","顧問服務類股獲利了結"],
-          ["4324","電通集團 Dentsu Group","-1.17%","down","7/21（單日）","廣告服務類股小幅回落"]
-        ],
-        gap:"目前已確認到3檔，瑞可利控股（本日日經225負貢獻個股之一，服務業為本日下跌領先業種）雖有方向性消息，但缺乏精確%數字，暫未收錄，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["Gold Online（頁2）","https://gentosha-go.com/articles/-/80301?page=2"]
-        ]
-      },
-      {
-        zh:"其他製品", en:"その他製品", color:"#4B5563",
-        rows:[
-          ["7974","任天堂 Nintendo","-4.13%","down","7/21（單日）","娛樂股逆勢重挫"],
-          ["9766","科樂美集團 Konami Group","-1.99%","down","7/21（單日）","遊戲娛樂股同步走弱"],
-          ["7867","Takara Tomy タカラトミー","-6.37%","down","7/22（單日）","收¥3,455，當日無特定個股利多消息，東證主板跌幅第3名"]
-        ],
-        gap:"目前已確認到3檔，仍差7檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["Gold Online（頁3）","https://gentosha-go.com/articles/-/80301?page=3"]
-        ]
-      },
-      {
-        zh:"批發業", en:"卸売業", color:"#B45309",
-        rows:[
-          ["8015","豐田通商 Toyota Tsusho","+7.04%","up","7/21（單日）","綜合商社類股受惠原油價格走高"],
-          ["8058","三菱商事 Mitsubishi Corp","+4.88%","up","7/21（單日）","綜合商社類股隨資源價格走高"],
-          ["8031","三井物產 Mitsui &amp; Co","+3.48%","up","7/21（單日）","綜合商社類股同步走高"]
-        ],
-        gap:"目前已確認到3檔，7/22批發業為當日領漲業種之一，惟尚未查到當日精確個股%數字，仍差7檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"精密儀器", en:"精密機器", color:"#DC2626",
-        rows:[
-          ["7731","尼康 Nikon","-1.41%","down","7/21（單日）","精密儀器類股逆勢走弱"],
-          ["4543","泰爾茂 Terumo","-1.19%","down","7/21（單日）","醫療器材類股獲利了結"],
-          ["7733","奧林巴斯 Olympus","-0.93%","down","7/21（單日）","精密儀器類股小幅回落"],
-          ["7719","東京計器 Tokyo Keiki","+6.38%","up","7/23（單日）","計測儀器廠走高，帶動精密儀器類股表現"]
-        ],
-        gap:"目前已確認到4檔，仍差6檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["日本經濟新聞","https://www.nikkei.com/markets/stocks/"]
-        ]
-      },
-      {
-        zh:"食品", en:"食料品", color:"#0D9488",
-        rows:[
-          ["2801","龜甲萬 Kikkoman","-2.49%","down","7/21（單日）","食品類股獲利了結"],
-          ["2269","明治控股 Meiji Holdings","-1.60%","down","7/21（單日）","食品類股小幅回落"]
-        ],
-        gap:"目前已確認到2檔，且皆為下跌個股，仍差8檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"非鐵金屬", en:"非鉄金属", color:"#92400E",
-        rows:[
-          ["5803","藤倉 Fujikura","+4.47%","up","7/21（單日）","光纖電纜廠受惠資料中心需求題材"],
-          ["5802","住友電工 Sumitomo Electric","+3.89%","up","7/21（單日）","電線電纜類股同步走高"]
-        ],
-        gap:"目前已確認到2項，非鐵金屬連續2日（7/21、7/22）皆為領漲業種之一，惟7/22當日精確個股%數字尚未查到，仍差8檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"保險業", en:"保険業", color:"#059669",
-        rows:[
-          ["8766","東京海上控股 Tokio Marine","+4.62%","up","7/21（單日）","保險業為本日上漲領先業種之一，受惠景氣循環股買盤"]
-        ],
-        gap:"目前僅確認到1檔，可再補充SOMPO控股、MS&amp;AD保險集團、第一生命控股等個股數據，湊滿10檔。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"機械", en:"機械", color:"#6B21A8",
-        rows:[
-          ["6954","發那科 Fanuc","+2.09%","up","7/21（單日）","工具機／工業機器人廠隨大盤反彈"],
-          ["6315","TOWA","+5.77%","up","7/23（單日）","半導體封裝設備廠走高，隨AI/半導體類股動能延續"],
-          ["6104","芝浦機械 Shibaura Machine","+5.64%","up","7/23（單日）","工具機廠同步走高"]
-        ],
-        gap:"目前已確認到3檔，可再補充小松製作所、川崎重工等個股數據，湊滿10檔。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["日本經濟新聞","https://www.nikkei.com/markets/stocks/"]
-        ]
-      },
-      {
-        zh:"資訊通信業", en:"情報・通信業", color:"#7C3AED",
-        rows:[
-          ["9984","軟銀集團 SoftBank Group","+6.03%","up","7/21（單日）","AI相關題材帶動，日經225最大權值股之一"],
-          ["2413","M3（醫療資訊服務） M3","-0.60%","down","7/21（單日）","獲利了結賣壓，隨成長股評價回落"],
-          ["3659","Nexon","-1.07%","down","7/21（單日）","遊戲類股獲利了結"],
-          ["4385","Mercari（二手交易平台） Mercari","-1.06%","down","7/21（單日）","電商平台股獲利了結"],
-          ["4704","趨勢科技 Trend Micro","-1.79%","down","7/21（單日）","資安類股逆勢走弱"],
-          ["4751","賽博代理 CyberAgent","-2.36%","down","7/21（單日）","網路廣告類股獲利了結賣壓較重"]
-        ],
-        gap:"目前已確認到6檔，軟銀集團7/22轉為對日經225負貢獻個股（本日資訊通信業精確跌幅尚未查到），仍差4檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"銀行業", en:"銀行業", color:"#0EA5E9",
-        rows:[
-          ["8306","三菱UFJ金融集團 MUFG","約+2.7%","up","7/22（單日）","收約¥3,675（盤中價），銀行業為本日領漲業種之一，大型銀行股走強帶動"]
-        ],
-        gap:"新收錄業種。目前僅確認到1檔，且為盤中估算值（非正式收盤價），可再補充瑞穗金融集團、三井住友金融集團等個股精確收盤數據，湊滿10檔。",
-        sources:[
-          ["みんかぶ（MUFG株價圖表）","https://minkabu.jp/stock/8306/chart"],
-          ["Yahoo!ファイナンス（MUFG AI解說）","https://finance.yahoo.co.jp/quote/8306.T/ai-topics"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"纖維製品", en:"繊維製品", color:"#EC4899",
-        rows:[
-          ["3104","富士紡控股 Fujibo Holdings","+9.22%","up","7/22（單日）","收¥4,085，當日無特定個股利多消息，近5個交易日累計上漲4.48%，東證主板漲幅第3名"]
-        ],
-        gap:"新收錄業種。目前僅確認到1檔，可再補充東麗、帝人等個股數據，湊滿10檔。",
-        sources:[
-          ["Gold Online（頁2，個別漲幅トップ3）","https://gentosha-go.com/articles/-/80301?page=2"]
-        ]
-      },
-      {
-        zh:"倉儲‧運輸相關業", en:"倉庫・運輸関連業", color:"#65A30D",
-        rows:[
-          ["9304","澁澤倉庫 Shibusawa Warehouse","-13.95%","down","7/22（單日）","收¥1,838，籌碼面持續疲弱，近5個交易日累計下跌7.55%，東證主板跌幅第1名，本業種本日為下跌領先業種之一"]
-        ],
-        gap:"目前僅確認到1檔，可再補充三菱倉庫、日本通運等個股數據，湊滿10檔。",
-        sources:[
-          ["Gold Online（頁3，個別跌幅ワースト3）","https://gentosha-go.com/articles/-/80301?page=3"],
-          ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607221046"]
-        ]
-      },
-      {
-        zh:"礦業", en:"鉱業", color:"#78716C",
-        rows:[
-          ["1518","三井松島控股 Mitsui Matsushima HD","約+7.7%","up","7/23（單日）","收約¥1,673，22日盤後上修全年獲利預測並大幅增配（年配74円→130円），同時取得棉花棒製造商山洋子公司化，早盤一度觸及漲停買氣"]
-        ],
-        gap:"新收錄業種。目前僅確認到1檔，且為煤炭類股，可再補充INPEX、石油資源開發等石油／天然氣上游個股數據，湊滿10檔。",
-        sources:[
-          ["財經新聞（ざいけい）","https://www.zaikei.co.jp/article/20260723/862434.html"],
-          ["日本經濟新聞","https://www.nikkei.com/article/DGXZQOFL230R20T20C26A7000000/"],
-          ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607230314"]
-        ]
-      }
-    ],
-    missingIndustries:"水產‧農林業、建設業、紙漿‧紙、醫藥品、石油‧煤炭製品、橡膠製品、玻璃‧土石製品、鋼鐵、金屬製品、運輸用機器、電氣‧瓦斯業、陸運業、海運業、空運業、證券‧商品期貨交易業、其他金融業、不動產業（共17個，礦業已於本次新增收錄）"
-  },
-  "2026-07-22": {
-    label: "2026/07/22",
-    dow: "週四更新（台灣時間）／日股7/22收盤資料",
-    range: "資料範圍：2026/07/22東京股市收盤（台北時間18:00前）",
-    desc: "日股週三小幅反落：日經225指數收66,115.60點，下跌116.59點（-0.18%），從上週二大漲後略為降溫。早盤受惠前一日美股半導體類股走高、以及台積電傳出調漲代工報價帶動需求擴大期待，AI／半導體相關股買盤湧入，一度大漲逾1,300點、重返67,000點關卡；但進入午盤後，受美國那斯達克100指數期貨走勢遲滯、南韓股市走弱牽動，加上今晚稍後美國大型科技股即將公布財報前市場觀望氣氛濃厚，中東情勢疑慮也持續構成壓力，主力權值股獲利了結賣壓湧現，尾盤終於翻黑坐收。東證主板上漲家數占53.9%，下跌占43.0%；成交量22.07億股（較前一日減少），成交金額約10兆4,377億日圓（較前一日增加）。日經225指數成分股騰落為122檔上漲、102檔下跌、1檔持平。33業種中，非鐵金屬、銀行業、批發業、石油‧煤炭製品、玻璃‧土石製品等上漲；服務業、空運業、零售業、精密儀器、倉儲‧運輸相關業等下跌。指數負貢獻前五名為迅銷（優衣庫母公司）、瑞可利控股、東京威力科創、軟銀集團、信越化學工業；正貢獻前五名為鎧俠控股、揖斐電、京瓷、太陽誘電、村田製作所。個股方面，多木化學因英國資產管理公司AVI大量持股曝光、市場預期將提出提升企業價值方案，單日大漲9.46%居東證主板漲幅首位；INS Source（インソース）因第三季累計決算增收增益、上市十週年紀念增配及庫藏股買回計畫，大漲9.35%；澁澤倉庫則因近期籌碼面疲弱持續破底，重挫13.95%居跌幅首位，該股所屬的倉儲‧運輸相關業本日也是最弱業種之一。此外，零售業因迅銷等權值股走弱而拖累，松屋、Ｊ．Front零售等個股跟著重挫；銀行業則因三菱UFJ等大型銀行股走強而領漲。本頁除了原有12個業種持續追蹤外，這次新增銀行業、纖維製品、倉儲‧運輸相關業3個先前未收錄的業種，並將零售業、化學、服務業、其他製品等業種更新至7/22最新收盤資料。",
-    movers: [
-      ["4025","多木化學 Taki Chemical","¥4,915","¥5,380","+¥465","+9.46%","東證主板個股漲幅第1名","英國資產管理公司AVI（Asset Value Investors）21日盤後大量持股報告書曝光，持有該公司5.00%股權，市場預期將提出提升企業價值相關提案"],
-      ["6200","INSOURCE インソース","¥631","¥690","+¥59","+9.35%","東證主板個股漲幅第2名","21日公布第三季累計連結決算增收增益，調漲後銷售管理費用受生成式AI導入抑制；同時宣布上市10週年紀念增配（期末配息上修至35.0円）及上限300萬股庫藏股買回、消除計畫"],
-      ["3104","富士紡控股 Fujibo Holdings","¥3,740","¥4,085","+¥345","+9.22%","東證主板個股漲幅第3名","當日無特定個股利多消息，近5個交易日累計上漲4.48%，延續近期強勢表現"],
-      ["9304","澁澤倉庫 Shibusawa Warehouse","¥2,136","¥1,838","-¥298","-13.95%","東證主板個股跌幅第1名，倉儲‧運輸相關業本日最弱個股之一","當日無特定個股利多消息，近5個交易日累計下跌7.55%，籌碼面持續疲弱"],
-      ["8237","松屋 Matsuya","¥1,886","¥1,741","-¥145","-7.69%","東證主板個股跌幅第2名，零售業本日下跌領先業種之一","當日無特定個股利多消息，受迅銷等零售權值股走弱波及，零售業類股整體氣氛偏弱"],
-      ["7867","Takara Tomy タカラトミー","¥3,690","¥3,455","-¥235","-6.37%","東證主板個股跌幅第3名","當日無特定個股利多消息"],
-      ["9983","迅銷（優衣庫母公司） Fast Retailing","¥80,840","約¥78,580","約-¥2,260","約-2.80%","對日經225指數負貢獻最大個股，零售業權值股走弱拖累類股表現","週二大漲後獲利了結賣壓，同時對日經225指數負貢獻最大，拖累大盤尾盤翻黑"],
-      ["8306","三菱UFJ金融集團 MUFG","¥3,580","約¥3,675（盤中價）","約+¥95","約+2.7%","銀行業本日領漲個股之一","銀行業為本日領漲業種之一，MUFG等大型銀行股走強，帶動業種整體表現"]
-    ],
-    moversSources:[
-      ["Gold Online（幻冬舎ゴールドオンライン）","https://gentosha-go.com/articles/-/80301"],
-      ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607221046"],
-      ["Yahoo!ファイナンス（フィスコ配信）","https://finance.yahoo.co.jp/news/detail/8cc3779a66520d545e8aab3843170b54a84e068c"],
-      ["日本經濟新聞（日経電子版）","https://www.nikkei.com/article/DGXZQOFL225KH0S6A720C2000000/"],
-      ["みんかぶ（MUFG株価チャート）","https://minkabu.jp/stock/8306/chart"],
-      ["Yahoo!ファイナンス（ファーストリテイリング）","https://finance.yahoo.co.jp/quote/9983.T"]
-    ],
-    sectors: [
-      {
-        zh:"零售業", en:"小売業", color:"#DB2777",
-        rows:[
-          ["8237","松屋 Matsuya","-7.69%","down","7/22（單日）","收¥1,741，受迅銷等零售權值股走弱波及，本日零售業下跌領先業種之一"],
-          ["3086","Ｊ．Front零售控股 J.Front Retailing","-5.75%","down","7/22（單日）","大丸松坂屋百貨母公司，隨零售業整體疲弱同步走跌"],
-          ["9983","迅銷（優衣庫母公司） Fast Retailing","約-2.80%","down","7/22（單日）","收約¥78,580，週二大漲後獲利了結賣壓，對日經225指數負貢獻最大"],
-          ["7453","良品計畫（無印良品） Ryohin Keikaku","-0.35%","down","7/21（單日）","小幅回落"],
-          ["3099","三越伊勢丹控股 Isetan Mitsukoshi","-0.62%","down","7/21（單日）","百貨類股小幅走弱"],
-          ["8267","永旺 Aeon","-2.04%","down","7/21（單日）","綜合零售類股獲利了結"],
-          ["3092","ZOZO（服飾電商） ZOZO","-2.14%","down","7/21（單日）","服飾電商類股獲利了結"]
-        ],
-        gap:"目前已確認到7檔具體漲跌數字，本日零售業為東證33業種中下跌領先業種之一，仍差3檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["Gold Online（頁3，個別跌幅ワースト3）","https://gentosha-go.com/articles/-/80301?page=3"],
-          ["Yahoo!ファイナンス（ファーストリテイリング）","https://finance.yahoo.co.jp/quote/9983.T"]
-        ]
-      },
-      {
-        zh:"電機／電子機器", en:"電気機器", color:"#2563EB",
-        rows:[
-          ["285A","鎧俠控股 Kioxia HD","+17.18%","up","7/21（單日）","上週因鉅額求償訴訟判決跌停，本日超跌反彈"],
-          ["4062","揖斐電 Ibiden","+11.03%","up","7/21（單日）","半導體封裝基板廠受惠AI伺服器需求"],
-          ["6857","愛德萬測試 Advantest","+7.73%","up","7/21（單日）","半導體測試設備廠，日經225最大貢獻個股"],
-          ["6976","太陽誘電 Taiyo Yuden","+6.43%","up","7/21（單日）","電子零組件類股同步反彈"],
-          ["6981","村田製作所 Murata","+4.83%","up","7/21（單日）","電子零組件廠隨半導體類股反彈"],
-          ["6762","TDK","+3.54%","up","7/21（單日）","電子零組件廠隨半導體類股同步走高"],
-          ["6146","迪思科 Disco","+3.18%","up","7/21（單日）","半導體切割研磨設備廠同步反彈"],
-          ["6971","京瓷 Kyocera","+3.09%","up","7/21（單日）","電子零組件與陶瓷元件廠走高"],
-          ["7735","迪恩士 SCREEN Holdings","+2.85%","up","7/21（單日）","半導體清洗設備廠隨類股反彈"],
-          ["8035","東京威力科創 Tokyo Electron","+2.26%","up","7/21（單日）","半導體設備廠隨美股費半指數走高"]
-        ],
-        gap:"7/22當日：鎧俠控股、揖斐電、京瓷、太陽誘電、村田製作所續為日經225正貢獻前5名個股，東京威力科創則轉為負貢獻，但因株探等來源僅標示漲跌方向、未提供精確%數字，故本表暫維持7/21已確認的10檔數字，7/22最新精確漲跌幅可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gentosha GOLD ONLINE","https://gentosha-go.com/articles/-/80268"],
-          ["Gold Online（7/22概況）","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"化學", en:"化学", color:"#CA8A04",
-        rows:[
-          ["4025","多木化學 Taki Chemical","+9.46%","up","7/22（單日）","收¥5,380，英國AVI基金大量持股曝光，市場預期提出企業價值提升方案，東證主板漲幅第1名"],
-          ["4452","花王 Kao","-1.15%","down","7/21（單日）","家用品化學類股小幅回落"]
-        ],
-        gap:"目前已確認到2檔，資生堂（-5.38%）、信越化學工業（本日負貢獻個股之一）7/22當日雖有方向性消息，但缺乏精確%數字可對照，暫未收錄，可再補充搜尋。",
-        sources:[
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["Gold Online（頁2，個別漲幅トップ3）","https://gentosha-go.com/articles/-/80301?page=2"],
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"服務業", en:"サービス業", color:"#4338CA",
-        rows:[
-          ["6200","INSOURCE インソース","+9.35%","up","7/22（單日）","收¥690，第三季累計決算增收增益，上市10週年紀念增配及庫藏股買回計畫帶動，東證主板漲幅第2名"],
-          ["6532","貝克蘭特顧問 Baycurrent","-1.48%","down","7/21（單日）","顧問服務類股獲利了結"],
-          ["4324","電通集團 Dentsu Group","-1.17%","down","7/21（單日）","廣告服務類股小幅回落"]
-        ],
-        gap:"目前已確認到3檔，瑞可利控股（本日日經225負貢獻個股之一，服務業為本日下跌領先業種）雖有方向性消息，但缺乏精確%數字，暫未收錄，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["Gold Online（頁2）","https://gentosha-go.com/articles/-/80301?page=2"]
-        ]
-      },
-      {
-        zh:"其他製品", en:"その他製品", color:"#4B5563",
-        rows:[
-          ["7974","任天堂 Nintendo","-4.13%","down","7/21（單日）","娛樂股逆勢重挫"],
-          ["9766","科樂美集團 Konami Group","-1.99%","down","7/21（單日）","遊戲娛樂股同步走弱"],
-          ["7867","Takara Tomy タカラトミー","-6.37%","down","7/22（單日）","收¥3,455，當日無特定個股利多消息，東證主板跌幅第3名"]
-        ],
-        gap:"目前已確認到3檔，仍差7檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"],
-          ["Gold Online（頁3）","https://gentosha-go.com/articles/-/80301?page=3"]
-        ]
-      },
-      {
-        zh:"批發業", en:"卸売業", color:"#B45309",
-        rows:[
-          ["8015","豐田通商 Toyota Tsusho","+7.04%","up","7/21（單日）","綜合商社類股受惠原油價格走高"],
-          ["8058","三菱商事 Mitsubishi Corp","+4.88%","up","7/21（單日）","綜合商社類股隨資源價格走高"],
-          ["8031","三井物產 Mitsui &amp; Co","+3.48%","up","7/21（單日）","綜合商社類股同步走高"]
-        ],
-        gap:"目前已確認到3檔，7/22批發業為當日領漲業種之一，惟尚未查到當日精確個股%數字，仍差7檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"精密儀器", en:"精密機器", color:"#DC2626",
-        rows:[
-          ["7731","尼康 Nikon","-1.41%","down","7/21（單日）","精密儀器類股逆勢走弱"],
-          ["4543","泰爾茂 Terumo","-1.19%","down","7/21（單日）","醫療器材類股獲利了結"],
-          ["7733","奧林巴斯 Olympus","-0.93%","down","7/21（單日）","精密儀器類股小幅回落"]
-        ],
-        gap:"目前已確認到3檔，7/22精密儀器為當日下跌領先業種之一，惟尚未查到當日精確個股%數字，仍差7檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"食品", en:"食料品", color:"#0D9488",
-        rows:[
-          ["2801","龜甲萬 Kikkoman","-2.49%","down","7/21（單日）","食品類股獲利了結"],
-          ["2269","明治控股 Meiji Holdings","-1.60%","down","7/21（單日）","食品類股小幅回落"]
-        ],
-        gap:"目前已確認到2檔，且皆為下跌個股，仍差8檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"非鐵金屬", en:"非鉄金属", color:"#92400E",
-        rows:[
-          ["5803","藤倉 Fujikura","+4.47%","up","7/21（單日）","光纖電纜廠受惠資料中心需求題材"],
-          ["5802","住友電工 Sumitomo Electric","+3.89%","up","7/21（單日）","電線電纜類股同步走高"]
-        ],
-        gap:"目前已確認到2項，非鐵金屬連續2日（7/21、7/22）皆為領漲業種之一，惟7/22當日精確個股%數字尚未查到，仍差8檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"保險業", en:"保険業", color:"#059669",
-        rows:[
-          ["8766","東京海上控股 Tokio Marine","+4.62%","up","7/21（單日）","保險業為本日上漲領先業種之一，受惠景氣循環股買盤"]
-        ],
-        gap:"目前僅確認到1檔，可再補充SOMPO控股、MS&amp;AD保險集團、第一生命控股等個股數據，湊滿10檔。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"機械", en:"機械", color:"#6B21A8",
-        rows:[
-          ["6954","發那科 Fanuc","+2.09%","up","7/21（單日）","工具機／工業機器人廠隨大盤反彈"]
-        ],
-        gap:"目前僅確認到1檔，可再補充小松製作所、川崎重工等個股數據，湊滿10檔。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"資訊通信業", en:"情報・通信業", color:"#7C3AED",
-        rows:[
-          ["9984","軟銀集團 SoftBank Group","+6.03%","up","7/21（單日）","AI相關題材帶動，日經225最大權值股之一"],
-          ["2413","M3（醫療資訊服務） M3","-0.60%","down","7/21（單日）","獲利了結賣壓，隨成長股評價回落"],
-          ["3659","Nexon","-1.07%","down","7/21（單日）","遊戲類股獲利了結"],
-          ["4385","Mercari（二手交易平台） Mercari","-1.06%","down","7/21（單日）","電商平台股獲利了結"],
-          ["4704","趨勢科技 Trend Micro","-1.79%","down","7/21（單日）","資安類股逆勢走弱"],
-          ["4751","賽博代理 CyberAgent","-2.36%","down","7/21（單日）","網路廣告類股獲利了結賣壓較重"]
-        ],
-        gap:"目前已確認到6檔，軟銀集團7/22轉為對日經225負貢獻個股（本日資訊通信業精確跌幅尚未查到），仍差4檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"銀行業", en:"銀行業", color:"#0EA5E9",
-        rows:[
-          ["8306","三菱UFJ金融集團 MUFG","約+2.7%","up","7/22（單日）","收約¥3,675（盤中價），銀行業為本日領漲業種之一，大型銀行股走強帶動"]
-        ],
-        gap:"新收錄業種。目前僅確認到1檔，且為盤中估算值（非正式收盤價），可再補充瑞穗金融集團、三井住友金融集團等個股精確收盤數據，湊滿10檔。",
-        sources:[
-          ["みんかぶ（MUFG株價圖表）","https://minkabu.jp/stock/8306/chart"],
-          ["Yahoo!ファイナンス（MUFG AI解說）","https://finance.yahoo.co.jp/quote/8306.T/ai-topics"],
-          ["Gold Online","https://gentosha-go.com/articles/-/80301"]
-        ]
-      },
-      {
-        zh:"纖維製品", en:"繊維製品", color:"#EC4899",
-        rows:[
-          ["3104","富士紡控股 Fujibo Holdings","+9.22%","up","7/22（單日）","收¥4,085，當日無特定個股利多消息，近5個交易日累計上漲4.48%，東證主板漲幅第3名"]
-        ],
-        gap:"新收錄業種。目前僅確認到1檔，可再補充東麗、帝人等個股數據，湊滿10檔。",
-        sources:[
-          ["Gold Online（頁2，個別漲幅トップ3）","https://gentosha-go.com/articles/-/80301?page=2"]
-        ]
-      },
-      {
-        zh:"倉儲‧運輸相關業", en:"倉庫・運輸関連業", color:"#65A30D",
-        rows:[
-          ["9304","澁澤倉庫 Shibusawa Warehouse","-13.95%","down","7/22（單日）","收¥1,838，籌碼面持續疲弱，近5個交易日累計下跌7.55%，東證主板跌幅第1名，本業種本日為下跌領先業種之一"]
-        ],
-        gap:"新收錄業種。目前僅確認到1檔，可再補充三菱倉庫、日本通運等個股數據，湊滿10檔。",
-        sources:[
-          ["Gold Online（頁3，個別跌幅ワースト3）","https://gentosha-go.com/articles/-/80301?page=3"],
-          ["株探（Kabutan）ニュース","https://kabutan.jp/news/marketnews/?b=n202607221046"]
-        ]
-      }
-    ],
-    missingIndustries:"水產‧農林業、鑛業、建設業、紙漿‧紙、醫藥品、石油‧煤炭製品、橡膠製品、玻璃‧土石製品、鋼鐵、金屬製品、運輸用機器、電氣‧瓦斯業、陸運業、海運業、空運業、證券‧商品期貨交易業、其他金融業、不動產業"
-  },
-  "2026-07-21": {
-    label: "2026/07/21",
-    dow: "週三更新（台灣時間）／日股7/21收盤資料",
-    range: "資料範圍：2026/07/21東京股市收盤（台北時間16:00前）",
-    desc: "日股週二（連假後首個交易日）大幅反彈：日經225指數收66,232.19點，上漲2,091.07點（+3.26%），為近3個交易日以來最大單日漲幅。東京股市7/20（週一）因「海之日」國定假日休市、形成三連休，故本次比較基準為上週五（7/17）收盤的64,141.12點。東證主板（Prime市場）上漲家數占79.0%、下跌家數占18.8%，成交量約23.22億股、成交金額約9兆9,675億日圓。東證33業種中有31個業種上漲，僅「其他製品」與「水產‧農林業」2個業種下跌。半導體與電子零組件股全面重返買盤：上週因鉅額求償訴訟判決一度跌停的鎧俠控股（Kioxia HD）本日大幅反彈17.18%，是日經225指數最大貢獻個股之一；愛德萬測試（+7.73%）與軟銀集團（+6.03%）合計貢獻指數漲幅約775點。帶動因素包括美股半導體類股（費城半導體指數）週一（美東時間）大漲、南韓KOSPI指數同步大漲逾3%，以及中東情勢緊張（親伊朗武裝組織胡塞宣布封鎖沙烏地阿拉伯海運、川普總統警告可能加大報復攻擊）推升原油價格，帶動礦業、保險、石油煤炭等景氣循環股同步走高。任天堂（-4.13%）、科樂美集團（-1.99%）等娛樂股逆勢下跌，是唯二下跌業種之一；資訊通信業與零售業則呈現漲跌互見。本頁目前以東證33業種中資料確認較完整的12個業種為主，其餘21個業種尚待後續補充搜尋（詳見頁末說明）。",
-    movers: [
-      ["6857","愛德萬測試 Advantest","¥27,505","¥29,630","+¥2,125","+7.73%","對日經225指數貢獻約+512.89點，為本日最大貢獻個股","AI半導體測試設備需求持續強勁，隨美股費城半導體指數週一（美東）大漲同步走高"],
-      ["9984","軟銀集團 SoftBank Group","¥5,424","¥5,751","+¥327","+6.03%","對日經225指數貢獻約+263.08點","AI相關類股同步走高，本身亦為日經225最大權值股之一，貢獻度居次"],
-      ["285A","鎧俠控股 Kioxia HD","¥52,110","¥61,060","+¥8,950","+17.18%","對日經225指數貢獻約+210.02點","上週因鉅額求償訴訟判決一度跌停，本日超跌反彈，單日漲幅居東證主板前列"],
-      ["9983","迅銷（優衣庫母公司） Fast Retailing","¥78,840","¥80,840","+¥2,000","+2.54%","對日經225指數貢獻約+160.91點","日經225最大權值股之一，隨大盤反彈走高"],
-      ["8035","東京威力科創 Tokyo Electron","¥65,100","¥66,570","+¥1,470","+2.26%","對日經225指數貢獻約+147.83點","半導體設備廠同步反彈，隨美股費城半導體指數走高"],
-      ["4062","揖斐電 Ibiden","¥15,685","¥17,415","+¥1,730","+11.03%","對日經225指數貢獻約+115.99點","半導體封裝基板廠受惠AI伺服器需求，強勢反彈"],
-      ["6762","TDK","¥2,968","¥3,073","+¥105","+3.54%","對日經225指數貢獻約+52.80點","電子零組件廠隨半導體類股同步走高"],
-      ["8015","豐田通商 Toyota Tsusho","¥6,076","¥6,504","+¥428","+7.04%","對日經225指數貢獻約+43.04點","綜合商社類股受惠原油價格走高，資源相關業務展望改善"],
-      ["5803","藤倉 Fujikura","¥4,472","¥4,672","+¥200","+4.47%","對日經225指數貢獻約+40.23點","光纖電纜與非鐵金屬類股走高，資料中心需求題材延續"],
-      ["6981","村田製作所 Murata","¥7,632","¥8,001","+¥369","+4.83%","對日經225指數貢獻約+29.69點","電子零組件廠隨半導體類股反彈"]
-    ],
-    moversSources:[
-      ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-      ["日本經濟新聞（日経電子版）","https://www.nikkei.com/article/DGXZQOFL210HV0R20C26A7000000/"],
-      ["Gentosha GOLD ONLINE","https://gentosha-go.com/articles/-/80268"],
-      ["NHK News","https://news.web.nhk/newsweb/na/na-k10015181591000"],
-      ["Yahoo!ファイナンス","https://finance.yahoo.co.jp/"]
-    ],
-    sectors: [
-      {
-        zh:"電機／電子機器", en:"電気機器", color:"#2563EB",
-        rows:[
-          ["285A","鎧俠控股 Kioxia HD","+17.18%","up","7/21（單日）","上週因鉅額求償訴訟判決跌停，本日超跌反彈"],
-          ["4062","揖斐電 Ibiden","+11.03%","up","7/21（單日）","半導體封裝基板廠受惠AI伺服器需求"],
-          ["6857","愛德萬測試 Advantest","+7.73%","up","7/21（單日）","半導體測試設備廠，日經225最大貢獻個股"],
-          ["6976","太陽誘電 Taiyo Yuden","+6.43%","up","7/21（單日）","電子零組件類股同步反彈"],
-          ["6981","村田製作所 Murata","+4.83%","up","7/21（單日）","電子零組件廠隨半導體類股反彈"],
-          ["6762","TDK","+3.54%","up","7/21（單日）","電子零組件廠隨半導體類股同步走高"],
-          ["6146","迪思科 Disco","+3.18%","up","7/21（單日）","半導體切割研磨設備廠同步反彈"],
-          ["6971","京瓷 Kyocera","+3.09%","up","7/21（單日）","電子零組件與陶瓷元件廠走高"],
-          ["7735","迪恩士 SCREEN Holdings","+2.85%","up","7/21（單日）","半導體清洗設備廠隨類股反彈"],
-          ["8035","東京威力科創 Tokyo Electron","+2.26%","up","7/21（單日）","半導體設備廠隨美股費半指數走高"]
-        ],
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"],
-          ["Gentosha GOLD ONLINE","https://gentosha-go.com/articles/-/80268"]
-        ]
-      },
-      {
-        zh:"資訊通信業", en:"情報・通信業", color:"#7C3AED",
-        rows:[
-          ["9984","軟銀集團 SoftBank Group","+6.03%","up","7/21（單日）","AI相關題材帶動，日經225最大權值股之一"],
-          ["2413","M3（醫療資訊服務） M3","-0.60%","down","7/21（單日）","獲利了結賣壓，隨成長股評價回落"],
-          ["3659","Nexon","-1.07%","down","7/21（單日）","遊戲類股獲利了結"],
-          ["4385","Mercari（二手交易平台） Mercari","-1.06%","down","7/21（單日）","電商平台股獲利了結"],
-          ["4704","趨勢科技 Trend Micro","-1.79%","down","7/21（單日）","資安類股逆勢走弱"],
-          ["4751","賽博代理 CyberAgent","-2.36%","down","7/21（單日）","網路廣告類股獲利了結賣壓較重"]
-        ],
-        gap:"目前已確認到6檔具體漲跌數字，其中僅軟銀集團上漲、其餘5檔下跌，呈現漲跌互見；仍差4檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"零售業", en:"小売業", color:"#DB2777",
-        rows:[
-          ["9983","迅銷（優衣庫母公司） Fast Retailing","+2.54%","up","7/21（單日）","日經225最大權值股之一，隨大盤反彈走高"],
-          ["7453","良品計畫（無印良品） Ryohin Keikaku","-0.35%","down","7/21（單日）","小幅回落"],
-          ["3099","三越伊勢丹控股 Isetan Mitsukoshi","-0.62%","down","7/21（單日）","百貨類股小幅走弱"],
-          ["8267","永旺 Aeon","-2.04%","down","7/21（單日）","綜合零售類股獲利了結"],
-          ["3092","ZOZO（服飾電商） ZOZO","-2.14%","down","7/21（單日）","服飾電商類股獲利了結"]
-        ],
-        gap:"目前已確認到5檔具體漲跌數字，僅迅銷上漲、其餘4檔下跌；仍差5檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"批發業", en:"卸売業", color:"#B45309",
-        rows:[
-          ["8015","豐田通商 Toyota Tsusho","+7.04%","up","7/21（單日）","綜合商社類股受惠原油價格走高"],
-          ["8058","三菱商事 Mitsubishi Corp","+4.88%","up","7/21（單日）","綜合商社類股隨資源價格走高"],
-          ["8031","三井物產 Mitsui &amp; Co","+3.48%","up","7/21（單日）","綜合商社類股同步走高"]
-        ],
-        gap:"目前已確認到3檔，五大商社中的伊藤忠、住友商事尚未查到本日具體數字，仍差7檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"精密儀器", en:"精密機器", color:"#DC2626",
-        rows:[
-          ["7731","尼康 Nikon","-1.41%","down","7/21（單日）","精密儀器類股逆勢走弱"],
-          ["4543","泰爾茂 Terumo","-1.19%","down","7/21（單日）","醫療器材類股獲利了結"],
-          ["7733","奧林巴斯 Olympus","-0.93%","down","7/21（單日）","精密儀器類股小幅回落"]
-        ],
-        gap:"目前已確認到3檔，且皆為下跌個股，仍差7檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"其他製品", en:"その他製品", color:"#4B5563",
-        rows:[
-          ["7974","任天堂 Nintendo","-4.13%","down","7/21（單日）","娛樂股逆勢重挫，「其他製品」為本日唯二下跌業種之一"],
-          ["9766","科樂美集團 Konami Group","-1.99%","down","7/21（單日）","遊戲娛樂股同步走弱"]
-        ],
-        gap:"目前已確認到2檔，且皆為下跌個股（與本日「其他製品」業種整體下跌方向一致），仍差8檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"食品", en:"食料品", color:"#0D9488",
-        rows:[
-          ["2801","龜甲萬 Kikkoman","-2.49%","down","7/21（單日）","食品類股獲利了結"],
-          ["2269","明治控股 Meiji Holdings","-1.60%","down","7/21（單日）","食品類股小幅回落"]
-        ],
-        gap:"目前已確認到2檔，且皆為下跌個股，仍差8檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"服務業", en:"サービス業", color:"#4338CA",
-        rows:[
-          ["6532","貝克蘭特顧問 Baycurrent","-1.48%","down","7/21（單日）","顧問服務類股獲利了結"],
-          ["4324","電通集團 Dentsu Group","-1.17%","down","7/21（單日）","廣告服務類股小幅回落"]
-        ],
-        gap:"目前已確認到2檔，且皆為下跌個股，仍差8檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"非鐵金屬", en:"非鉄金属", color:"#92400E",
-        rows:[
-          ["5803","藤倉 Fujikura","+4.47%","up","7/21（單日）","光纖電纜廠受惠資料中心需求題材"],
-          ["5802","住友電工 Sumitomo Electric","+3.89%","up","7/21（單日）","電線電纜類股同步走高"]
-        ],
-        gap:"目前已確認到2檔，皆為上漲個股，仍差8檔湊滿10檔，可再補充搜尋。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"保險業", en:"保険業", color:"#059669",
-        rows:[
-          ["8766","東京海上控股 Tokio Marine","+4.62%","up","7/21（單日）","保險業為本日上漲領先業種之一，受惠景氣循環股買盤"]
-        ],
-        gap:"目前僅確認到1檔，可再補充SOMPO控股、MS&amp;AD保險集團、第一生命控股等個股數據，湊滿10檔。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"機械", en:"機械", color:"#6B21A8",
-        rows:[
-          ["6954","發那科 Fanuc","+2.09%","up","7/21（單日）","工具機／工業機器人廠隨大盤反彈"]
-        ],
-        gap:"目前僅確認到1檔，可再補充小松製作所、川崎重工等個股數據，湊滿10檔。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      },
-      {
-        zh:"化學", en:"化学", color:"#CA8A04",
-        rows:[
-          ["4452","花王 Kao","-1.15%","down","7/21（單日）","家用品化學類股小幅回落"]
-        ],
-        gap:"目前僅確認到1檔，可再補充信越化學、三菱化學等個股數據，湊滿10檔。",
-        sources:[
-          ["株探（Kabutan）","https://s.kabutan.jp/news/n202607211055/"]
-        ]
-      }
-    ],
-    missingIndustries:"水產‧農林業、鑛業、建設業、纖維製品、紙漿‧紙、醫藥品、石油‧煤炭製品、橡膠製品、玻璃‧土石製品、鋼鐵、金屬製品、運輸用機器、電氣‧瓦斯業、陸運業、海運業、空運業、倉儲‧運輸相關業、銀行業、證券‧商品期貨交易業、其他金融業、不動產業"
   }
 };
-
 
 const MARKETS = {
   us: {
@@ -2544,7 +1016,7 @@ const MARKETS = {
     moversTitle: "個股動態：收盤前大漲個股",
     moversEn: "Top Gainers at Close",
     moversCols: ["代號","公司","前一交易日收盤","最新收盤","漲跌點數","漲跌%","是否創新高"],
-    sectorCols: ["代號","公司","漲跌","期間","備註"],
+    sectorCols: ["代號","公司","前一交易日收盤","最新收盤","漲跌點數","漲跌%","期間","備註"],
     data: US_DATA
   },
   jp: {
@@ -2557,7 +1029,7 @@ const MARKETS = {
     moversTitle: "個股動態：日經225指數貢獻度最大個股",
     moversEn: "Top Nikkei 225 Point Contributors",
     moversCols: ["代號","公司","前一交易日收盤","最新收盤","漲跌點數","漲跌%","對指數貢獻度"],
-    sectorCols: ["代號","公司","漲跌","期間","備註"],
+    sectorCols: ["代號","公司","前一交易日收盤","最新收盤","漲跌點數","漲跌%","期間","備註"],
     data: JP_DATA
   }
 };
@@ -2624,6 +1096,19 @@ function renderDay(key){
   html += '<span class="day-range">' + d.range + '</span></div>';
   html += '<p class="day-desc">' + d.desc + '</p>';
 
+  if(d.indices && d.indices.length){
+    html += '<div class="indices-row">';
+    d.indices.forEach(idx=>{
+      const [name, en, value, change, pct, trend] = idx;
+      const cls = trend==="up" ? "chg-up" : (trend==="down" ? "chg-down" : "chg-flat");
+      html += '<div class="index-card"><div class="idx-name">' + name + '</div>';
+      html += '<div class="idx-en">' + en + '</div>';
+      html += '<div class="idx-value">' + value + '</div>';
+      html += '<div class="idx-change ' + cls + '">' + change + '（' + pct + '）</div></div>';
+    });
+    html += '</div>';
+  }
+
   if(d.movers && d.movers.length){
     html += '<section class="sector movers-block">';
     html += '<div class="sector-head"><span class="sector-swatch" style="background:#C0392B"></span>';
@@ -2660,9 +1145,12 @@ function renderDay(key){
     html += '<h3>' + s.zh + '</h3><span class="en">' + s.en + '</span></div>';
     html += '<table class="movers"><thead><tr>' + m.sectorCols.map(c=>'<th>'+c+'</th>').join('') + '</tr></thead><tbody>';
     s.rows.forEach(r=>{
-      const [ticker, company, change, trend, period, note] = r;
+      const [ticker, company, prevClose, lastClose, ptChange, change, trend, period, note] = r;
       html += '<tr><td class="ticker">' + ticker + '</td>';
       html += '<td>' + company + '</td>';
+      html += '<td class="period">' + prevClose + '</td>';
+      html += '<td class="period">' + lastClose + '</td>';
+      html += '<td class="change ' + trendClass(trend) + '">' + ptChange + '</td>';
       html += '<td class="change ' + trendClass(trend) + '">' + change + '</td>';
       html += '<td class="period">' + period + '</td>';
       html += '<td class="note">' + note + '</td></tr>';
