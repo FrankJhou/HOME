@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元3:比與比例式 | 國中數學 × 劍橋數學銜接 A-Level</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2430;
+    --paper:#f7f5ef;
+    --paper-raised:#ffffff;
+    --navy:#233a5e;
+    --navy-deep:#152641;
+    --teal:#0f6b72;
+    --amber:#b3792b;
+    --amber-soft:#f4e6d0;
+    --line:#dcd6c8;
+    --stage1:#3a6ea5;
+    --green:#3c8f7a;
+    --green-soft:#e1efe9;
+    --red:#a44a3f;
+    --red-soft:#f6e6e2;
+    --shadow: 0 1px 2px rgba(27,36,48,0.06), 0 8px 24px rgba(27,36,48,0.05);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans TC","Noto Sans",sans-serif;
+    line-height:1.8; -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background: var(--amber-soft); }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:
+      radial-gradient(1000px 460px at 10% -10%, rgba(58,110,165,0.16), transparent 60%),
+      var(--navy-deep);
+    color:#f2efe6; padding:56px 0 44px; position:relative;
+  }
+  .hero::after{ content:""; position:absolute; inset:auto 0 0 0; height:5px; background:var(--stage1); }
+  .breadcrumb{
+    font-family:"JetBrains Mono",monospace; font-size:12px; color:#9fb0c9;
+    letter-spacing:.05em; margin-bottom:16px;
+  }
+  .unit-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:"JetBrains Mono",monospace; font-size:12px;
+    color:var(--navy-deep); background:#cfe0f5;
+    padding:5px 12px; border-radius:999px; margin-bottom:16px;
+  }
+  .hero h1{
+    font-family:"Noto Serif TC",serif; font-weight:900;
+    font-size:clamp(26px,4.6vw,40px); margin:0 0 8px; line-height:1.3;
+  }
+  .hero .sub-en{
+    font-family:"JetBrains Mono",monospace; font-size:13.5px; color:#a9b8cc; margin:0 0 18px;
+  }
+  .hero .meta-row{ display:flex; flex-wrap:wrap; gap:10px 20px; font-size:13px; color:#cfd7e3; }
+  .hero .meta-row b{ color:#e7c281; font-weight:600; }
+
+  section{ padding:44px 0; }
+  section.tight{ padding-top:0; }
+  h2.section-title{
+    font-family:"Noto Serif TC",serif; font-weight:700;
+    font-size:clamp(20px,3vw,26px); color:var(--navy-deep); margin:0 0 4px;
+  }
+  .section-sub-en{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color:#8b8577; margin:0 0 20px; }
+
+  p{ font-size:15px; color:#2c3440; }
+  .en-note{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color:#8b8577; }
+
+  /* ---------- concept box ---------- */
+  .concept-box{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:22px 24px; box-shadow:var(--shadow); margin-bottom:18px;
+  }
+  .concept-box h3{
+    font-family:"Noto Serif TC",serif; font-size:17px; margin:0 0 10px; color:var(--navy-deep);
+    display:flex; align-items:center; gap:10px;
+  }
+  .concept-box h3 .icon-dot{ width:8px; height:8px; border-radius:50%; background:var(--stage1); flex-shrink:0; }
+
+  /* ---------- definition grid ---------- */
+  .def-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:6px; }
+  .def-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px; box-shadow:var(--shadow);
+  }
+  .def-card .dt{ font-family:"Noto Serif TC",serif; font-weight:700; color:var(--navy-deep); font-size:15.5px; display:block; margin-bottom:4px; }
+  .def-card .dt .en{ font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--teal); font-weight:400; display:block; margin-top:2px; }
+  .def-card p{ margin:0; font-size:13.5px; }
+
+  /* ---------- generic diagram wrapper ---------- */
+  .diagram-wrap{ text-align:center; padding:14px 4px 6px; overflow-x:auto; }
+  .diagram-wrap .cap{ font-family:"JetBrains Mono",monospace; font-size:13px; color:var(--teal); margin-top:8px; }
+
+  /* ---------- worked example ---------- */
+  .example{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    box-shadow:var(--shadow); margin-bottom:20px; overflow:hidden;
+  }
+  .example-head{
+    background:var(--navy-deep); color:#f0ede3; padding:14px 20px;
+    font-family:"JetBrains Mono",monospace; font-size:13px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .example-head .eq{ font-size:16px; font-weight:600; color:#e7c281; }
+  .example-body{ padding:18px 22px; }
+  .step{ display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #ece7d9; align-items:flex-start; }
+  .step:last-child{ border-bottom:none; }
+  .step .step-num{
+    flex-shrink:0; width:22px; height:22px; border-radius:50%; background:var(--stage1);
+    color:#fff; font-size:11px; font-family:"JetBrains Mono",monospace;
+    display:flex; align-items:center; justify-content:center; margin-top:2px;
+  }
+  .step .step-text{ font-size:14.5px; }
+  .step .step-math{ font-family:"JetBrains Mono",monospace; color:var(--navy-deep); font-weight:600; }
+  .step .step-note{ font-size:12.5px; color:#8b8577; display:block; margin-top:2px; }
+
+  /* ---------- word problem cards ---------- */
+  .wp-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
+  .wp-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; box-shadow:var(--shadow);
+  }
+  .wp-card .wp-tag{
+    font-family:"JetBrains Mono",monospace; font-size:11px; text-transform:uppercase;
+    color:var(--teal); letter-spacing:.06em; display:block; margin-bottom:6px;
+  }
+  .wp-card h4{ margin:0 0 8px; font-size:15px; font-family:"Noto Serif TC",serif; color:var(--navy-deep); }
+  .wp-card p{ margin:0 0 10px; font-size:14px; }
+  details.ans{ margin-top:8px; }
+  details.ans summary{
+    cursor:pointer; font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--amber);
+    list-style:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  details.ans summary::-webkit-details-marker{ display:none; }
+  details.ans summary::before{ content:"▸"; transition:transform .15s ease; }
+  details.ans[open] summary::before{ transform:rotate(90deg); }
+  details.ans .ans-body{
+    margin-top:10px; padding:12px 14px; background:var(--amber-soft); border-radius:8px;
+    font-size:13.5px; color:#5a4423;
+  }
+
+  /* ---------- practice grid ---------- */
+  .practice-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .practice-item{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:10px;
+    padding:14px 16px; box-shadow:var(--shadow);
+  }
+  .practice-item .q-num{ font-family:"JetBrains Mono",monospace; color:var(--stage1); font-size:12px; margin-right:4px; }
+  .practice-item .q-text{ font-size:14.5px; }
+  .practice-item details.ans{ margin-top:8px; }
+
+  /* ---------- exam-style questions ---------- */
+  .exam-source-note{
+    background:var(--green-soft); border-left:3px solid var(--green); border-radius:6px;
+    padding:12px 16px; font-size:13px; color:#294a3f; margin-bottom:18px;
+  }
+  .exam-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; box-shadow:var(--shadow); margin-bottom:14px;
+  }
+  .exam-card .exam-tag{
+    font-family:"JetBrains Mono",monospace; font-size:11px; padding:3px 10px; border-radius:999px;
+    display:inline-block; margin-bottom:10px;
+  }
+  .exam-tag.tw{ background:#dce8f5; color:var(--stage1); }
+  .exam-tag.uk{ background:#e4dcf2; color:#6a4c93; }
+  .exam-card p{ margin:0 0 10px; }
+  .choices{ display:grid; grid-template-columns:repeat(2,1fr); gap:6px 16px; margin:10px 0; }
+  .choices span{ font-size:13.5px; font-family:"JetBrains Mono",monospace; }
+
+  /* ---------- review card ---------- */
+  .review-card{
+    background:var(--navy-deep); color:#e9e5d8; border-radius:14px; padding:28px 26px;
+  }
+  .review-card h2{ font-family:"Noto Serif TC",serif; color:#f2efe6; margin:0 0 16px; font-size:20px; }
+  .review-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .review-item{
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+    border-radius:10px; padding:14px 16px;
+  }
+  .review-item .rt{ font-family:"JetBrains Mono",monospace; font-size:11px; color:#e7c281; margin-bottom:6px; display:block; }
+  .review-item p{ margin:0; font-size:13.5px; color:#cfd7e3; }
+  .review-item p.en{ margin-top:6px; font-size:12px; color:#93a1b5; font-family:"JetBrains Mono",monospace; font-style:italic; }
+
+  .nav-footer{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:26px 0 50px; font-family:"JetBrains Mono",monospace; font-size:13px; color:#8b8577;
+  }
+  .nav-footer a{ color:var(--teal); text-decoration:none; }
+
+  @media (max-width:640px){
+    .practice-grid{ grid-template-columns:1fr; }
+    .review-grid{ grid-template-columns:1fr; }
+    .choices{ grid-template-columns:1fr; }
+    .def-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <p class="breadcrumb">學習路徑 / 第一階段:7年級 / 單元 03</p>
+    <span class="unit-badge">UNIT 03 · STAGE 1</span>
+    <h1>比與比例式</h1>
+    <p class="sub-en">Ratio &amp; Proportion</p>
+    <div class="meta-row">
+      <span><b>台灣對應</b> 南一/翰林 1上</span>
+      <span><b>Cambridge</b> Stage 7 · Ratio &amp; Proportion</span>
+      <span><b>A-Level 種子概念</b> 比例推理 → 函數變化率</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ 1. 核心觀念 ============ -->
+  <section>
+    <h2 class="section-title">一、核心觀念</h2>
+    <p class="section-sub-en">Core Concepts</p>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>什麼是「比」?</h3>
+      <p>
+        「比」是用來<b>比較兩個(或以上)同類量</b>的大小關係,寫成 <b>a : b</b>,讀作「a比b」。
+        比值就是 <b>a ÷ b</b>(a/b),而且<b>順序很重要</b>——3:5 跟 5:3 代表完全不同的意思!
+      </p>
+      <p style="margin-top:6px;">
+        例如班上有 12 個男生、18 個女生,男生對女生的比是 <b>12:18</b>,化簡後是 <b>2:3</b>。
+      </p>
+      <p style="margin-top:6px;">
+        <span class="en-note">A ratio a : b compares two quantities of the same kind. Order matters — 3:5 is not the same as 5:3. The ratio value is a ÷ b.</span>
+      </p>
+    </div>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>化簡比:跟化簡分數一樣的道理</h3>
+      <p>
+        把比的前後項<b>同時除以它們的最大公因數(GCF)</b>,就能化簡成最簡整數比——這跟上一單元學的 GCF 完全可以直接套用!
+      </p>
+      <p style="margin-top:6px;">
+        例如 <b>24 : 36</b>,GCF(24,36) = 12,兩邊都除以12 → <b>2 : 3</b>。
+      </p>
+      <p style="margin-top:6px;">
+        <span class="en-note">Simplify a ratio the same way you simplify a fraction: divide both terms by their GCF. 24:36 → divide by 12 → 2:3.</span>
+      </p>
+    </div>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>比例式:兩個比「相等」的等式</h3>
+      <p>
+        當兩個比的比值相等時,可以寫成一個<b>比例式</b>:<b>a : b = c : d</b>(也可以寫成分數形式 a/b = c/d)。
+        其中 b 和 c 叫做<b>內項</b>,a 和 d 叫做<b>外項</b>。
+      </p>
+      <p style="margin-top:6px;">
+        比例式最重要的性質:<b>外項乘積 = 內項乘積</b>,也就是 <b>a × d = b × c</b>(交叉相乘)。這是解比例式未知數最主要的工具。
+      </p>
+      <p style="margin-top:6px;">
+        <span class="en-note">A proportion states that two ratios are equal: a : b = c : d. The key property is cross-multiplication: a × d = b × c. This is the main tool for solving for an unknown term.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 2. 連比與比例分配 ============ -->
+  <section class="tight">
+    <h2 class="section-title">二、連比與比例分配</h2>
+    <p class="section-sub-en">Compound Ratios &amp; Proportional Sharing</p>
+    <p style="margin-bottom:14px;">
+      當三個(或更多)數量要一起比較時,就是「連比」,寫成 <b>a : b : c</b>。
+      按比例分配的關鍵想法是:把總量切成「<b>總份數</b>」等份,再看每個對象各佔幾份。
+    </p>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>用「長條圖」理解比例分配</h3>
+      <p>
+        甲、乙、丙三人依 <b>2 : 3 : 5</b> 的比例分配 200 顆西瓜。總份數 = 2+3+5 = 10 份,每份 = 200 ÷ 10 = 20 顆。
+      </p>
+      <div class="diagram-wrap">
+        <svg width="320" height="100" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="15" width="60" height="40" fill="#f4e6d0" stroke="#b3792b" stroke-width="1.5"/>
+          <rect x="70" y="15" width="90" height="40" fill="#e1efe9" stroke="#3c8f7a" stroke-width="1.5"/>
+          <rect x="160" y="15" width="150" height="40" fill="#dce8f5" stroke="#3a6ea5" stroke-width="1.5"/>
+          <line x1="40" y1="15" x2="40" y2="55" stroke="#ffffff" stroke-width="1"/>
+          <line x1="100" y1="15" x2="100" y2="55" stroke="#ffffff" stroke-width="1"/>
+          <line x1="130" y1="15" x2="130" y2="55" stroke="#ffffff" stroke-width="1"/>
+          <line x1="190" y1="15" x2="190" y2="55" stroke="#ffffff" stroke-width="1"/>
+          <line x1="220" y1="15" x2="220" y2="55" stroke="#ffffff" stroke-width="1"/>
+          <line x1="250" y1="15" x2="250" y2="55" stroke="#ffffff" stroke-width="1"/>
+          <line x1="280" y1="15" x2="280" y2="55" stroke="#ffffff" stroke-width="1"/>
+          <text x="40" y="75" font-size="11" fill="#7a5420" text-anchor="middle" font-family="JetBrains Mono">甲 2份=40</text>
+          <text x="115" y="75" font-size="11" fill="#1d4a3d" text-anchor="middle" font-family="JetBrains Mono">乙 3份=60</text>
+          <text x="235" y="75" font-size="11" fill="#233a5e" text-anchor="middle" font-family="JetBrains Mono">丙 5份=100</text>
+          <text x="160" y="95" font-size="10" fill="#8b8577" text-anchor="middle" font-family="JetBrains Mono">總長度代表 200 顆(共10份,每份20顆)</text>
+        </svg>
+        <p class="cap">2 : 3 : 5 → 甲40、乙60、丙100(合計200)</p>
+      </div>
+      <p style="margin-top:10px;">
+        <span class="en-note">Split the total into equal "shares": 2+3+5 = 10 shares, each worth 200÷10 = 20. So 甲 (2 shares) = 40, 乙 (3 shares) = 60, 丙 (5 shares) = 100.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 3. 正比與反比 ============ -->
+  <section class="tight">
+    <h2 class="section-title">三、正比與反比</h2>
+    <p class="section-sub-en">Direct &amp; Inverse Proportion — The Seed of "Functions"</p>
+    <p style="margin-bottom:14px;">
+      這一節是這個單元最重要的觀念——它是你未來在 A-Level 學「函數」與「變化率」的起點。
+      當兩個變量之間有固定關係時,通常會是以下兩種情況之一:
+    </p>
+
+    <div class="def-grid" style="margin-bottom:16px;">
+      <div class="def-card">
+        <span class="dt">正比 <span class="en">Direct Proportion</span></span>
+        <p>y 隨 x「同方向」變化:x 變成幾倍,y 也跟著變成幾倍。關係式:<b>y = kx</b>(k是固定的常數)。</p>
+      </div>
+      <div class="def-card">
+        <span class="dt">反比 <span class="en">Inverse Proportion</span></span>
+        <p>y 隨 x「反方向」變化:x 變成幾倍,y 就變成幾分之一倍。關係式:<b>xy = k</b>,即 <b>y = k/x</b>。</p>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3><span class="icon-dot"></span>用圖形看出差異</h3>
+      <div class="diagram-wrap">
+        <svg width="320" height="170" viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="20" x2="30" y2="140" stroke="#8b8577" stroke-width="1.5"/>
+          <line x1="30" y1="140" x2="150" y2="140" stroke="#8b8577" stroke-width="1.5"/>
+          <line x1="30" y1="140" x2="140" y2="30" stroke="#3a6ea5" stroke-width="2.5"/>
+          <text x="85" y="160" font-size="12" fill="#233a5e" text-anchor="middle" font-family="JetBrains Mono">正比 y = kx</text>
+
+          <line x1="200" y1="20" x2="200" y2="140" stroke="#8b8577" stroke-width="1.5"/>
+          <line x1="200" y1="140" x2="320" y2="140" stroke="#8b8577" stroke-width="1.5"/>
+          <path d="M 210,25 C 230,60 260,100 310,130" fill="none" stroke="#3c8f7a" stroke-width="2.5"/>
+          <text x="260" y="160" font-size="12" fill="#1d4a3d" text-anchor="middle" font-family="JetBrains Mono">反比 y = k/x</text>
+        </svg>
+        <p class="cap">正比是一條通過原點的「直線」;反比是一條逐漸靠近但不碰到座標軸的「曲線」</p>
+      </div>
+      <p style="margin-top:10px;">
+        <b>生活例子:</b>買蘋果的「花費」與「數量」成<b>正比</b>(買越多花越多);固定距離下,「速度」與「所需時間」成<b>反比</b>(騎越快,花的時間越少)。
+      </p>
+      <p style="margin-top:4px;">
+        <span class="en-note">Real-life examples: the cost of buying apples is <b>directly</b> proportional to quantity. For a fixed distance, speed and time are <b>inversely</b> proportional — the faster you go, the less time it takes.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 4. 例題精解 ============ -->
+  <section class="tight">
+    <h2 class="section-title">四、例題精解</h2>
+    <p class="section-sub-en">Worked Examples — Step by Step</p>
+
+    <div class="example">
+      <div class="example-head"><span>例題 1 · 解比例式</span><span class="eq">x : 15 = 4 : 5</span></div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><span class="step-text"><span class="step-math">外項乘積 = 內項乘積:x × 5 = 15 × 4</span><span class="step-note">交叉相乘</span></span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text"><span class="step-math">5x = 60</span><span class="step-note">化簡</span></span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text"><span class="step-math">x = 12</span><span class="step-note">檢驗:12:15 化簡後為4:5 ✓</span></span></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-head"><span>例題 2 · 含括號的比例式</span><span class="eq">(x + 2) : 6 = 5 : 3</span></div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><span class="step-text"><span class="step-math">3(x + 2) = 6 × 5</span><span class="step-note">交叉相乘</span></span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text"><span class="step-math">3x + 6 = 30</span><span class="step-note">展開括號</span></span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text"><span class="step-math">3x = 24 → x = 8</span><span class="step-note">檢驗:(8+2):6 = 10:6 = 5:3 ✓</span></span></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-head"><span>例題 3 · 地圖比例尺</span><span class="eq">比例尺 1:50000,圖上距離3公分</span></div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><span class="step-text"><span class="step-math">實際距離 = 圖上距離 × 比例尺分母</span><span class="step-note">比例尺 1:50000 表示圖上1公分等於實際50000公分</span></span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text"><span class="step-math">3 × 50000 = 150000 公分</span><span class="step-note">先算出以公分為單位的實際距離</span></span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text"><span class="step-math">150000 公分 = 1500 公尺 = 1.5 公里</span><span class="step-note">單位換算:1公尺=100公分,1公里=1000公尺</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. 應用題常見類型 ============ -->
+  <section class="tight">
+    <h2 class="section-title">五、應用題常見類型</h2>
+    <p class="section-sub-en">Word Problem Types</p>
+    <div class="wp-grid">
+      <div class="wp-card">
+        <span class="wp-tag">類型 A · 比例分配</span>
+        <h4>甲、乙兩人依3:5分配200元獎金,乙可分得多少元?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">總份數=3+5=8,每份=200÷8=25。乙=5×25=<b>125元</b>。</div>
+        </details>
+      </div>
+      <div class="wp-card">
+        <span class="wp-tag">類型 B · 地圖比例尺</span>
+        <h4>一張地圖比例尺為1:25000,圖上量得兩地距離為6公分,求實際距離是多少公里?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">6×25000=150000公分=1500公尺=<b>1.5公里</b>。</div>
+        </details>
+      </div>
+      <div class="wp-card">
+        <span class="wp-tag">類型 C · 正比應用</span>
+        <h4>買5顆蘋果要100元,買8顆蘋果要多少錢?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">單價=100÷5=20元/顆。8顆=8×20=<b>160元</b>。</div>
+        </details>
+      </div>
+      <div class="wp-card">
+        <span class="wp-tag">類型 D · 反比應用</span>
+        <h4>甲車以60公里/時的速度行駛,需4小時到達目的地;若改用80公里/時的速度,需要幾小時?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">距離固定=60×4=240公里。時間=240÷80=<b>3小時</b>。</div>
+        </details>
+      </div>
+      <div class="wp-card">
+        <span class="wp-tag">類型 E · 連比混合問題</span>
+        <h4>三種顏色油漆依比例3:4:5混合,共需要480公升,求每種顏色各需要多少公升?</h4>
+        <details class="ans">
+          <summary>看解答過程</summary>
+          <div class="ans-body">總份數=3+4+5=12,每份=480÷12=40。<br>三色分別為 <b>120公升、160公升、200公升</b>。</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. 基礎練習 ============ -->
+  <section class="tight">
+    <h2 class="section-title">六、基礎練習題</h2>
+    <p class="section-sub-en">Basic Practice</p>
+    <div class="practice-grid">
+      <div class="practice-item"><span class="q-num">1.</span><span class="q-text">化簡比 18:24 為最簡整數比。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">3:4</div></details></div>
+      <div class="practice-item"><span class="q-num">2.</span><span class="q-text">化簡比 45:60:75 為最簡整數比。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">3:4:5</div></details></div>
+      <div class="practice-item"><span class="q-num">3.</span><span class="q-text">求比例式 x:6 = 3:2 中 x 的值。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 9</div></details></div>
+      <div class="practice-item"><span class="q-num">4.</span><span class="q-text">求比例式 3:x = 9:21 中 x 的值。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">x = 7</div></details></div>
+      <div class="practice-item"><span class="q-num">5.</span><span class="q-text">甲乙比為2:3,乙為45,求甲。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">甲 = 30</div></details></div>
+      <div class="practice-item"><span class="q-num">6.</span><span class="q-text">將150依3:2分成兩份,求較大的一份。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">90(每份30,3份=90)</div></details></div>
+      <div class="practice-item"><span class="q-num">7.</span><span class="q-text">y與x成正比,x=4時y=20,求x=7時y的值。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">k=5,y=35</div></details></div>
+      <div class="practice-item"><span class="q-num">8.</span><span class="q-text">y與x成反比,x=3時y=8,求x=6時y的值。</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">k=24,y=4</div></details></div>
+      <div class="practice-item"><span class="q-num">9.</span><span class="q-text">地圖比例尺1:10000,圖上2公分代表實際多少公尺?</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">200公尺</div></details></div>
+      <div class="practice-item"><span class="q-num">10.</span><span class="q-text">判斷:長方形面積固定時,長與寬成正比還是反比?</span>
+        <details class="ans"><summary>答案</summary><div class="ans-body">反比(長×寬=定值)</div></details></div>
+    </div>
+  </section>
+
+  <!-- ============ 7. 進階練習 ============ -->
+  <section class="tight">
+    <h2 class="section-title">七、進階練習題(含應用題)</h2>
+    <p class="section-sub-en">Advanced Practice — Including Word Problems</p>
+    <div class="wp-grid">
+      <div class="wp-card"><span class="wp-tag">含括號的比例式</span><h4>解比例式:(x+2):6 = 5:3</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">3(x+2)=30 → x+2=10 → <b>x=8</b></div></details></div>
+      <div class="wp-card"><span class="wp-tag">求比例尺</span><h4>一張地圖上兩地距離為4公分,實際距離為20公里,求這張地圖的比例尺。</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">20公里=2,000,000公分。比例尺=4:2000000=<b>1:500000</b></div></details></div>
+      <div class="wp-card"><span class="wp-tag">正比與反比綜合判斷</span><h4>判斷以下關係是正比、反比,還是都不是:(a)長方形面積固定,長與寬的關係;(b)固定速度行駛,距離與時間的關係。</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">(a)反比(長×寬=定值);(b)正比(距離=速度×時間,速度固定)</div></details></div>
+      <div class="wp-card"><span class="wp-tag">比例分配應用</span><h4>甲、乙、丙三人依出資比例4:5:6分配獲利。若丙分得的獲利比甲多400元,求總獲利是多少?</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">設每份為k:丙−甲=2k=400 → k=200。總獲利=4k+5k+6k=15k=<b>3000元</b></div></details></div>
+      <div class="wp-card"><span class="wp-tag">反比應用(工程問題)</span><h4>8個工人5天可以完成一項工程,若只有5個工人,需要幾天完成同樣工程?</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">總工作量=8×5=40(人天)。天數=40÷5=<b>8天</b></div></details></div>
+      <div class="wp-card"><span class="wp-tag">正比應用(單價問題)</span><h4>5公斤的米要價250元,求8公斤的米要多少錢?</h4>
+        <details class="ans"><summary>看解答過程</summary><div class="ans-body">單價=250÷5=50元/公斤。8公斤=8×50=<b>400元</b></div></details></div>
+    </div>
+  </section>
+
+  <!-- ============ 8. 仿真模擬題 ============ -->
+  <section class="tight">
+    <h2 class="section-title">八、仿真模擬題</h2>
+    <p class="section-sub-en">Exam-Style Mock Questions — TW &amp; Cambridge/IGCSE Format</p>
+    <div class="exam-source-note">
+      <b>說明:</b>以下題目是依照台灣國中教育會考與 Cambridge/IGCSE 的<b>題型風格</b>自行設計的模擬題,並非逐字複製任何一年的真實考題。
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag tw">仿會考 · 選擇題</span>
+      <p>化簡比 18:24 為最簡整數比,下列何者正確?</p>
+      <div class="choices"><span>(A) 2:3</span><span>(B) 3:4</span><span>(C) 6:8</span><span>(D) 9:12</span></div>
+      <details class="ans"><summary>看解答</summary><div class="ans-body">GCF(18,24)=6,18÷6=3,24÷6=4,選 (B)</div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag tw">仿會考 · 選擇題(應用)</span>
+      <p>甲、乙兩人依3:5分配200元獎金,乙可分得多少元?</p>
+      <div class="choices"><span>(A) 75</span><span>(B) 100</span><span>(C) 125</span><span>(D) 150</span></div>
+      <details class="ans"><summary>看解答</summary><div class="ans-body">總份數=8,每份=25,乙=5×25=125,選 (C)</div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag tw">仿會考 · 非選擇題</span>
+      <p>一張地圖比例尺為1:25000,圖上量得兩地距離為6公分,求實際距離是多少公里?</p>
+      <details class="ans"><summary>看解答</summary><div class="ans-body">6×25000=150000公分=1500公尺=<b>1.5公里</b></div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag uk">仿 IGCSE · Structured Question</span>
+      <p><i>Divide $360 in the ratio 2 : 3 : 4.</i> [3 marks]</p>
+      <details class="ans"><summary>Show Solution</summary><div class="ans-body">
+        Total parts = 9, each part = 40. Shares: <b>$80, $120, $160</b>
+      </div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag uk">仿 IGCSE · Inverse Proportion</span>
+      <p><i>It takes 6 workers 15 days to build a wall. How many days would it take 9 workers, working at the same rate?</i></p>
+      <details class="ans"><summary>Show Solution</summary><div class="ans-body">
+        6 × 15 = 90 worker-days. 90 ÷ 9 = <b>10 days</b>
+      </div></details>
+    </div>
+
+    <div class="exam-card">
+      <span class="exam-tag uk">仿 IGCSE · Direct Proportion</span>
+      <p><i>If 5 kg of rice costs $12.50, find the cost of 8 kg of rice.</i></p>
+      <details class="ans"><summary>Show Solution</summary><div class="ans-body">
+        Unit price = $12.50 ÷ 5 = $2.50/kg. 8 kg = 8 × $2.50 = <b>$20</b>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ============ 9. 重點整理 ============ -->
+  <section class="tight">
+    <div class="review-card">
+      <h2>重點整理小卡 <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#9fb0c9; font-weight:400;">Quick Review Card</span></h2>
+      <div class="review-grid">
+        <div class="review-item"><span class="rt">RATIO</span><p>a:b 比較兩個同類量,順序很重要。</p><p class="en">A ratio a:b compares two quantities of the same kind; order matters.</p></div>
+        <div class="review-item"><span class="rt">SIMPLIFYING</span><p>前後項同除以GCF,化簡成最簡整數比。</p><p class="en">Divide both terms by their GCF to simplify, just like a fraction.</p></div>
+        <div class="review-item"><span class="rt">PROPORTION</span><p>a:b=c:d → 外項乘積=內項乘積(交叉相乘)。</p><p class="en">In a proportion a:b=c:d, cross-multiply: a×d = b×c.</p></div>
+        <div class="review-item"><span class="rt">SHARING</span><p>連比分配:先求總份數,再求每份,最後乘以份數。</p><p class="en">To share by ratio: find total parts, then value per part, then multiply.</p></div>
+        <div class="review-item"><span class="rt">DIRECT PROPORTION</span><p>y=kx,x與y同方向變化,圖形是通過原點的直線。</p><p class="en">y = kx: as x increases, y increases proportionally — a straight line through the origin.</p></div>
+        <div class="review-item"><span class="rt">INVERSE PROPORTION</span><p>xy=k,x與y反方向變化,圖形是曲線。</p><p class="en">xy = k: as x increases, y decreases — the graph is a curve.</p></div>
+        <div class="review-item"><span class="rt">MAP SCALE</span><p>實際距離 = 圖上距離 × 比例尺分母,記得換算單位。</p><p class="en">Actual distance = map distance × scale denominator; remember to convert units.</p></div>
+        <div class="review-item"><span class="rt">A-LEVEL LINK</span><p>正比/反比是未來「函數」與「變化率」概念的起點。</p><p class="en">Direct/inverse proportion are the starting point for functions and rates of change in A-Level.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav-footer">
+    <span>← 單元02:數的性質</span>
+    <span>單元04:直角坐標與圖形 →</span>
+  </div>
+
+</div>
+</body>
+</html>
