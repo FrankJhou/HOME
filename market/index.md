@@ -18,4 +18,5 @@
 - [輕油原油關係](naphtha_crude_correlation_report.md) 
 - [20260720石化行情分析](petchem_daily_2026-07-20.md) 
 - [20260724石化行情分析](petchem_daily_2026-07-24.md) 
-- [20260727石化行情分析](petchem_daily_2026-07-27.md) 
+- [20260727石化行情分析](petchem_daily_2026-07-27.md)
+- [20260729石化行情分析](petchem_daily_2026-07-29.md) 
