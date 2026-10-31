@@ -29,3 +29,4 @@
 - [20260930石化行情分析](petchem_monthly_2026-09.md)
 - [20261006石化行情分析](petchem_daily_2026-10-06.md)
 - [20261015石化行情分析](petchem_daily_2026-10-15.md)
+- [20261031石化行情分析](petchem_monthly_2026-10.md)
